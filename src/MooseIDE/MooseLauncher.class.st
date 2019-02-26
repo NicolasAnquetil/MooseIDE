@@ -27,8 +27,8 @@ MooseLauncher class >> iconSize [
 { #category : #initialization }
 MooseLauncher class >> iconTheme [
 	^ ThemeIcons new
-		name: 'naapp';
-		loadIconsFromDirectory: '/home/anquetil/Documents/RMod/Rech/NAApps/icons64' asFileReference;
+		name: 'icons64';
+		loadIconsFromUrl ;
 		yourself
 ]
 
