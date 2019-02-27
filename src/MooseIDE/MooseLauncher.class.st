@@ -2,7 +2,6 @@ Class {
 	#name : #MooseLauncher,
 	#superclass : #AbstractSpec,
 	#instVars : [
-		'model',
 		'iconTheme',
 		'menu'
 	],
@@ -34,14 +33,17 @@ MooseLauncher class >> iconTheme [
 
 { #category : #'as yet unclassified' }
 MooseLauncher class >> openDefault [
-	self openOnModel: StubModel new
+	self openOnModel: MooseModel root allModels first
 ]
 
 { #category : #'as yet unclassified' }
-MooseLauncher class >> openOnModel: aModel [
-	self new
-		model: aModel ;
-		openWithSpec
+MooseLauncher class >> openOnModel: aMooseModel [
+	self new openOnModel: aMooseModel
+]
+
+{ #category : #accessing }
+MooseLauncher >> focus: anObject [
+	self context focus: anObject.
 ]
 
 { #category : #initialization }
@@ -49,7 +51,8 @@ MooseLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 	iconTheme := self class iconTheme.
 	super initialize.
-	context := LauncherContext new
+	self context: AppContextLauncher new.
+
 ]
 
 { #category : #initialization }
@@ -57,10 +60,10 @@ MooseLauncher >> initializeWidgets [
 	menu := MenuPresenter new
 		addGroup: [ :group | 
 			group
-				addItem: [ :item | self newMenuItem: item named: #models withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #metrics withAction: nil ] ;
+				addItem: [ :item | self newMenuItem: item named: #models withAction: [ self inform: 'Current model: '  , context mooseModel name ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboard ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launch: QueryTool on: nil ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryTool ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #code withAction: [   ApplicationWithToolbar new openWithSpec ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #views withAction: nil ] ;
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
@@ -71,30 +74,50 @@ MooseLauncher >> initializeWidgets [
 
 ]
 
+{ #category : #apps }
+MooseLauncher >> launchDashboard [
+	| board |
+	board := self instantiate: IDEDashboard.
+	board context: (context spawn: AppContextDashboard).
+	
+	board openWithSpec
+]
+
+{ #category : #apps }
+MooseLauncher >> launchQueryTool [
+
+]
+
 { #category : #accessing }
 MooseLauncher >> menu [
 	^menu
 ]
 
 { #category : #accessing }
-MooseLauncher >> model [
-	^ model
-]
-
-{ #category : #accessing }
 MooseLauncher >> model: aModel [
-	self context currentGroup: aModel.
+	self context focus: aModel.
 	self title: aModel name
 ]
 
 { #category : #initialization }
 MooseLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
-	| defaultAction |
-	defaultAction := [self inform: aSymbol].
+	| defaultActionBlock |
+	defaultActionBlock := [self inform: aSymbol].
 	^ menuItem
 			name: nil ;
 			description: aSymbol ;
 			icon: (iconTheme iconNamed: aSymbol) ;
-			action: (aBlock ifNil: [defaultAction]).
+			action: (aBlock ifNil: [ defaultActionBlock ]).
 
+]
+
+{ #category : #api }
+MooseLauncher >> openOnModel: aMooseModel [
+	self openWithSpec.
+	self context mooseModel: aMooseModel 
+]
+
+{ #category : #notifications }
+MooseLauncher >> update: uiModel [
+	self title: context mooseModel name.
 ]

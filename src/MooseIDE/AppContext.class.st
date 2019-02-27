@@ -7,33 +7,62 @@ Class {
 	#name : #AppContext,
 	#superclass : #Object,
 	#instVars : [
-		'currentGroup',
-		'parent'
+		'focus',
+		'parentContext',
+		'listeners'
 	],
 	#category : #'MooseIDE-apps'
 }
 
-{ #category : #accessing }
-AppContext >> currentGroup [
-	^ currentGroup ifNil: [ self model  ]
+{ #category : #notifications }
+AppContext >> addListener: aListener [
+	listeners add: aListener
 ]
 
 { #category : #accessing }
-AppContext >> currentGroup: aCollection [
-	currentGroup := aCollection
+AppContext >> focus [
+	^ focus
 ]
 
 { #category : #accessing }
-AppContext >> model [
-	^ parent model
+AppContext >> focus: anObject [
+	focus := anObject
+]
+
+{ #category : #initialization }
+AppContext >> initialize [
+	listeners := OrderedCollection new
+]
+
+{ #category : #accessing }
+AppContext >> mooseModel [
+	^ parentContext mooseModel
+]
+
+{ #category : #accessing }
+AppContext >> mooseModel: aMooseModel [
+	parentContext mooseModel: aMooseModel
+]
+
+{ #category : #notifications }
+AppContext >> notifyAll [
+	listeners do: [ :l | l update: self ]
 ]
 
 { #category : #accessing }
 AppContext >> parentContext [
-	^ parent
+	^ parentContext
 ]
 
 { #category : #accessing }
-AppContext >> parentContext: anObject [
-	parent := anObject
+AppContext >> parentContext: anAppContext [
+	parentContext := anAppContext
+]
+
+{ #category : #'as yet unclassified' }
+AppContext >> spawn: aContextClass [
+	| child |
+	child := aContextClass new.
+	child parentContext: self.
+	^ child
 ]
