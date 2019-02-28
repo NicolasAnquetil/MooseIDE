@@ -51,7 +51,7 @@ MooseLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 	iconTheme := self class iconTheme.
 	super initialize.
-	self context: AppContextLauncher new.
+	context := AppContextLauncher new.
 
 ]
 
@@ -64,7 +64,7 @@ MooseLauncher >> initializeWidgets [
 				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboard ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ] ;
 				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryTool ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #code withAction: [   ApplicationWithToolbar new openWithSpec ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #code withAction: [ self launchEditorTool ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #views withAction: nil ] ;
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
 				addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ] ;
@@ -81,6 +81,15 @@ MooseLauncher >> launchDashboard [
 	board context: (context spawn: AppContextDashboard).
 	
 	board openWithSpec
+]
+
+{ #category : #initialization }
+MooseLauncher >> launchEditorTool [
+	| editor |
+	editor := self instantiate: IDEEditor.
+	editor context: (context spawn: AppContextEditor).
+	
+	editor openWithSpec
 ]
 
 { #category : #apps }

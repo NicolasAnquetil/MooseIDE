@@ -31,5 +31,5 @@ AbstractSpec >> open [
 
 { #category : #notifications }
 AbstractSpec >> update: uiModel [
-	self subclassResponsibility 
+	
 ]
