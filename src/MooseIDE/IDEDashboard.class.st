@@ -16,8 +16,10 @@ IDEDashboard class >> defaultSpec [
 
 { #category : #accessing }
 IDEDashboard >> context: aContext [
+	"need to do this first because setting the context will try to update the view
+	 and dashboard needs guiModel to update itself"
+	dashboard guiModel: aContext.
 	super context: aContext.
-	dashboard guiModel: aContext
 
 ]
 
