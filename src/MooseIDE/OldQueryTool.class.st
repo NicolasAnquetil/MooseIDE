@@ -1,5 +1,5 @@
 Class {
-	#name : #QueryTool,
+	#name : #OldQueryTool,
 	#superclass : #AbstractSpec,
 	#instVars : [
 		'entityTypes',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #specs }
-QueryTool class >> defaultSpec [
+OldQueryTool class >> defaultSpec [
 
 	^ SpecLayout composed
 		newRow: [ :r |
@@ -35,22 +35,22 @@ QueryTool class >> defaultSpec [
 ]
 
 { #category : #accessing }
-QueryTool >> allEntityTypes: aCollection [
+OldQueryTool >> allEntityTypes: aCollection [
 	^ (aCollection collect: [ :e | e class ]) asSet
 ]
 
 { #category : #accessing }
-QueryTool >> entityTypes [
+OldQueryTool >> entityTypes [
 	^ entityTypes
 ]
 
 { #category : #initialization }
-QueryTool >> initialExtent [
+OldQueryTool >> initialExtent [
 	^ (520@300)
 ]
 
 { #category : #initialization }
-QueryTool >> initializeEntityTypes [
+OldQueryTool >> initializeEntityTypes [
 	entityTypes := self newList.
 	entityTypes displayBlock:
 		[ :aType | aType icon , ' ' , aType name , ' (' , aType allInstances size asString , ')' ].
@@ -62,13 +62,13 @@ QueryTool >> initializeEntityTypes [
 ]
 
 { #category : #initialization }
-QueryTool >> initializeResult [
+OldQueryTool >> initializeResult [
 		result := self newList.
 
 ]
 
 { #category : #initialization }
-QueryTool >> initializeUserScript [
+OldQueryTool >> initializeUserScript [
 	selectLabel := self newLabel: 'select: [:each|'.
 
 	userScript := self newTextInput.
@@ -86,14 +86,14 @@ QueryTool >> initializeUserScript [
 ]
 
 { #category : #initialization }
-QueryTool >> initializeWidgets [
+OldQueryTool >> initializeWidgets [
 	self initializeEntityTypes.
 	self initializeUserScript.
 	self initializeResult
 ]
 
 { #category : #display }
-QueryTool >> open [
+OldQueryTool >> open [
 	entityTypes items:
 		((self allEntityTypes: self currentEntity allChildren) sorted:
 			[:a :b | a icon <= b icon]).
@@ -101,17 +101,17 @@ QueryTool >> open [
 ]
 
 { #category : #accessing }
-QueryTool >> result [
+OldQueryTool >> result [
 	^ result
 ]
 
 { #category : #accessing }
-QueryTool >> runBtn [
+OldQueryTool >> runBtn [
 	^ runBtn
 ]
 
 { #category : #run }
-QueryTool >> runScript: aString [
+OldQueryTool >> runScript: aString [
 	result items:
 		((Smalltalk compiler
 			source: '[:c | c select: [:each | ' , aString , '] ]';
@@ -119,11 +119,11 @@ QueryTool >> runScript: aString [
 ]
 
 { #category : #accessing }
-QueryTool >> selectLabel [
+OldQueryTool >> selectLabel [
 	^ selectLabel
 ]
 
 { #category : #accessing }
-QueryTool >> userScript [
+OldQueryTool >> userScript [
 	^ userScript
 ]

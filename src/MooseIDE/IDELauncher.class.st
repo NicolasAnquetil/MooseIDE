@@ -1,5 +1,5 @@
 Class {
-	#name : #MooseLauncher,
+	#name : #IDELauncher,
 	#superclass : #AbstractSpec,
 	#instVars : [
 		'iconTheme',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #specs }
-MooseLauncher class >> defaultSpec [
+IDELauncher class >> defaultSpec [
 
 	^ SpecLayout composed
 		newColumn: [ :c | 
@@ -19,12 +19,12 @@ MooseLauncher class >> defaultSpec [
 ]
 
 { #category : #specs }
-MooseLauncher class >> iconSize [
+IDELauncher class >> iconSize [
 	^ 64 + 5
 ]
 
 { #category : #initialization }
-MooseLauncher class >> iconTheme [
+IDELauncher class >> iconTheme [
 	^ ThemeIcons new
 		name: 'icons64';
 		loadIconsFromUrl ;
@@ -32,22 +32,22 @@ MooseLauncher class >> iconTheme [
 ]
 
 { #category : #'as yet unclassified' }
-MooseLauncher class >> openDefault [
+IDELauncher class >> openDefault [
 	self openOnModel: MooseModel root allModels first
 ]
 
 { #category : #'as yet unclassified' }
-MooseLauncher class >> openOnModel: aMooseModel [
+IDELauncher class >> openOnModel: aMooseModel [
 	self new openOnModel: aMooseModel
 ]
 
 { #category : #accessing }
-MooseLauncher >> focus: anObject [
+IDELauncher >> focus: anObject [
 	self context focus: anObject.
 ]
 
 { #category : #initialization }
-MooseLauncher >> initialize [
+IDELauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 	iconTheme := self class iconTheme.
 	super initialize.
@@ -56,60 +56,73 @@ MooseLauncher >> initialize [
 ]
 
 { #category : #initialization }
-MooseLauncher >> initializeWidgets [
+IDELauncher >> initializeWidgets [
 	menu := MenuPresenter new
 		addGroup: [ :group | 
 			group
-				addItem: [ :item | self newMenuItem: item named: #models withAction: [ self inform: 'Current model: '  , context mooseModel name ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboard ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #models withAction: [ self launchModelsApp ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboardApp] ] ;
 				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryTool ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #code withAction: [ self launchEditorTool ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryApp ] ] ;
+				addItem: [ :item | self newMenuItem: item named: #code withAction: [ self launchEditorApp ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #views withAction: nil ] ;
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
 				addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ] ;
 				addItem: [ :item | self newMenuItem: item named: #tags withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #log withAction: [  ApplicationWithToolbar new openWithSpec ] ]
+				addItem: [ :item | self newMenuItem: item named: #log withAction: [  self launchLogApp ] ]
 		].
 
 ]
 
 { #category : #apps }
-MooseLauncher >> launchDashboard [
-	| board |
-	board := self instantiate: IDEDashboard.
-	board context: (context spawn: AppContextDashboard).
+IDELauncher >> launch: appPresenterClass withContext: contextClass [
+	| app |
+	app := self instantiate: appPresenterClass.
+	app context: (context spawn: contextClass).
 	
-	board openWithSpec
-]
-
-{ #category : #initialization }
-MooseLauncher >> launchEditorTool [
-	| editor |
-	editor := self instantiate: IDEEditor.
-	editor context: (context spawn: AppContextEditor).
-	
-	editor openWithSpec
+	app openWithSpec
 ]
 
 { #category : #apps }
-MooseLauncher >> launchQueryTool [
+IDELauncher >> launchDashboardApp [
+	self launch: IDEDashboard withContext: AppContextDashboard 
 
 ]
 
+{ #category : #apps }
+IDELauncher >> launchEditorApp [
+	self launch: IDEEditor withContext: AppContextEditor
+
+]
+
+{ #category : #apps }
+IDELauncher >> launchLogApp [
+	ApplicationWithToolbar new openWithSpec
+]
+
+{ #category : #apps }
+IDELauncher >> launchModelsApp [
+	self inform: 'Current model: '  , context mooseModel name
+]
+
+{ #category : #apps }
+IDELauncher >> launchQueryApp [
+	self launch: IDEQuery withContext: AppContextQuery
+]
+
 { #category : #accessing }
-MooseLauncher >> menu [
+IDELauncher >> menu [
 	^menu
 ]
 
 { #category : #accessing }
-MooseLauncher >> model: aModel [
+IDELauncher >> model: aModel [
 	self context focus: aModel.
 	self title: aModel name
 ]
 
 { #category : #initialization }
-MooseLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
+IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
 	| defaultActionBlock |
 	defaultActionBlock := [self inform: aSymbol].
 	^ menuItem
@@ -121,12 +134,12 @@ MooseLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 ]
 
 { #category : #api }
-MooseLauncher >> openOnModel: aMooseModel [
+IDELauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
 	self context mooseModel: aMooseModel 
 ]
 
 { #category : #notifications }
-MooseLauncher >> update: uiModel [
+IDELauncher >> update: uiModel [
 	self title: context mooseModel name.
 ]
