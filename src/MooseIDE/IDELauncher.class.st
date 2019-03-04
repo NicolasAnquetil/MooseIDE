@@ -62,7 +62,7 @@ IDELauncher >> initializeWidgets [
 			group
 				addItem: [ :item | self newMenuItem: item named: #models withAction: [ self launchModelsApp ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboardApp] ] ;
-				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ] ;
+				addItem: [ :item | self newMenuItem: item named: #tasks withAction: [ self launchTasksApp ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryApp ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #code withAction: [ self launchEditorApp ] ] ;
 				addItem: [ :item | self newMenuItem: item named: #views withAction: nil ] ;
@@ -109,6 +109,12 @@ IDELauncher >> launchModelsApp [
 { #category : #apps }
 IDELauncher >> launchQueryApp [
 	self launch: IDEQuery withContext: AppContextQuery
+]
+
+{ #category : #apps }
+IDELauncher >> launchTasksApp [
+	self inform: 'Tasks resetting context listeners'.
+	context resetListners
 ]
 
 { #category : #accessing }

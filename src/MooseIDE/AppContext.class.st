@@ -17,7 +17,7 @@ Class {
 
 { #category : #notifications }
 AppContext >> addListener: aListener [
-	listeners add: aListener
+	parentContext addListener: aListener
 ]
 
 { #category : #accessing }
@@ -31,7 +31,7 @@ AppContext >> focus [
 AppContext >> focus: anObject [
 	frozen
 		ifTrue: [ focus := anObject ]
-		ifFalse: [  parentContext  focus: anObject ]
+		ifFalse: [  parentContext  focus: anObject ].
 ]
 
 { #category : #accessing }
@@ -43,7 +43,6 @@ AppContext >> freeze [
 { #category : #initialization }
 AppContext >> initialize [
 	frozen := false.
-	listeners := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -58,7 +57,7 @@ AppContext >> mooseModel: aMooseModel [
 
 { #category : #notifications }
 AppContext >> notifyAll [
-	listeners do: [ :l | l update: self ]
+	parentContext notifyAll
 ]
 
 { #category : #accessing }

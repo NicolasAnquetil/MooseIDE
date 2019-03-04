@@ -14,17 +14,18 @@ AppContextDashboard >> addMetric: aMetric [
 
 { #category : #accessing }
 AppContextDashboard >> focusedEntities [
-	^self focus
-		ifNil: [ self mooseModel allModelClasses ]
+	| entities |
+	1halt.
+	entities := self focus.
+	^( entities isKindOf: MooseModel)
+		ifTrue: [  self mooseModel allModelClasses  ]
+		ifFalse: [ entities ]
 ]
 
 { #category : #'as yet unclassified' }
 AppContextDashboard >> focusedEntitiesCore [
-	^ (self mooseModel allModelClasses)
-		ifEmpty: [ #() ]
-		ifNotEmpty: [ :cls | 
-			(cls select: [ :each | each container mooseName asLowercase matchesRegex: '.*core.*' ])
-				asSet ]
+	^ (self mooseModel allModelClasses select: [ :each | each container mooseName asLowercase matchesRegex: '.*core.*' ])
+				asSet
 ]
 
 { #category : #initialization }
@@ -43,7 +44,7 @@ AppContextDashboard >> metrics [
 ]
 
 { #category : #'as yet unclassified' }
-AppContextDashboard >> percentOfBigClasses [
+AppContextDashboard >> percentBigClasses [
 	| classes |
 	classes := self mooseModel allModelClasses.
 	^ (classes asOrderedCollection

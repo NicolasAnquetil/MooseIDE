@@ -36,7 +36,6 @@ IDESubQuery >> initializePresenter [
 	super initializePresenter.
 	"changing doubleClick Behavior"
 	listView doubleClickAction: [ :item |
-		listView selectedItem mvsdoubleClick: self.
 		midas context focus: listView selectedItem ]
 ]
 
