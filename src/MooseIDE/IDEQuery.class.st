@@ -16,14 +16,19 @@ IDEQuery class >> defaultSpec [
 
 { #category : #initialization }
 IDEQuery >> initializeWidgets [
-	
-	query := self instantiate: MVSMainPresenter
+	query := self instantiate: IDESubQuery.
+	query parentApp: self.
 		
 ]
 
 { #category : #accessing }
 IDEQuery >> query [ 
 	^ query
+]
+
+{ #category : #api }
+IDEQuery >> title [
+	^'MIDAS Query' 
 ]
 
 { #category : #notifications }

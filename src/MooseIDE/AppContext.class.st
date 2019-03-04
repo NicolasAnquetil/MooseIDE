@@ -8,6 +8,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'focus',
+		'frozen',
 		'parentContext',
 		'listeners'
 	],
@@ -21,16 +22,27 @@ AppContext >> addListener: aListener [
 
 { #category : #accessing }
 AppContext >> focus [
-	^ focus
+	^frozen
+		ifTrue: [ focus ]
+		ifFalse: [  parentContext  focus ]
 ]
 
 { #category : #accessing }
 AppContext >> focus: anObject [
-	focus := anObject
+	frozen
+		ifTrue: [ focus := anObject ]
+		ifFalse: [  parentContext  focus: anObject ]
+]
+
+{ #category : #accessing }
+AppContext >> freeze [
+	focus := self focus.
+	frozen := true.
 ]
 
 { #category : #initialization }
 AppContext >> initialize [
+	frozen := false.
 	listeners := OrderedCollection new
 ]
 
@@ -59,10 +71,15 @@ AppContext >> parentContext: anAppContext [
 	parentContext := anAppContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 AppContext >> spawn: aContextClass [
 	| child |
 	child := aContextClass new.
 	child parentContext: self.
 	^ child
+]
+
+{ #category : #accessing }
+AppContext >> unfreeze [
+	frozen := false.
 ]

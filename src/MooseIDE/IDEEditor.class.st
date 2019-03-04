@@ -27,6 +27,11 @@ IDEEditor >> text [
 	^ text
 ]
 
+{ #category : #api }
+IDEEditor >> title [
+	^ 'MIDAS Source Code'
+]
+
 { #category : #notifications }
 IDEEditor >> update: uiModel [
 	text text: context focus sourceText

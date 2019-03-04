@@ -34,6 +34,11 @@ IDEDashboard >> initializeWidgets [
 
 ]
 
+{ #category : #api }
+IDEDashboard >> title [
+	^'MIDAS Dashboard' 
+]
+
 { #category : #notifications }
 IDEDashboard >> update: uiModel [
 	dashboard updateViewFor: context

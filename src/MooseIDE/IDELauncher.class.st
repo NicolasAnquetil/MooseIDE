@@ -80,7 +80,8 @@ IDELauncher >> launch: appPresenterClass withContext: contextClass [
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
 	
-	app openWithSpec
+	app openWithSpec.
+	^app
 ]
 
 { #category : #apps }
@@ -137,6 +138,11 @@ IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 IDELauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
 	self context mooseModel: aMooseModel 
+]
+
+{ #category : #api }
+IDELauncher >> title [
+	^ 'MIDAS Launcher'
 ]
 
 { #category : #notifications }
