@@ -15,7 +15,6 @@ AppContextDashboard >> addMetric: aMetric [
 { #category : #accessing }
 AppContextDashboard >> focusedEntities [
 	| entities |
-	1halt.
 	entities := self focus.
 	^( entities isKindOf: MooseModel)
 		ifTrue: [  self mooseModel allModelClasses  ]
@@ -33,7 +32,7 @@ AppContextDashboard >> initialize [
 	super initialize.
 	metrics := OrderedCollection new.
 	self addMetric: MDMetricLOC new.
-	self addMetric: MDMetricLCOM3 new.
+	self addMetric: MDMetricNumberOfEntities new.
 	self addMetric: MDMetricCyclomaticComplexity new.
 
 ]

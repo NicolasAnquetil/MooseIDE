@@ -70,3 +70,8 @@ IDESubQuery >> openResultNewWindowCheckBoxEvent [
 IDESubQuery >> parentApp: aQueryApp [
 	midas := aQueryApp  
 ]
+
+{ #category : #actions }
+IDESubQuery >> performQuery [
+	midas context focus: (queryWidget performFilterOn: listView listItems)
+]

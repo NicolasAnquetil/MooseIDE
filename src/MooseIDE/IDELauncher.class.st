@@ -14,13 +14,13 @@ IDELauncher class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :c | 
 			c 
-				add: #menu height: self iconSize ];
+				add: #menu "height: self iconSize" ];
 		yourself
 ]
 
 { #category : #specs }
 IDELauncher class >> iconSize [
-	^ 64 + 5
+	^ 74
 ]
 
 { #category : #initialization }
@@ -31,12 +31,12 @@ IDELauncher class >> iconTheme [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #specs }
 IDELauncher class >> openDefault [
 	self openOnModel: MooseModel root allModels first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #specs }
 IDELauncher class >> openOnModel: aMooseModel [
 	self new openOnModel: aMooseModel
 ]
@@ -142,6 +142,7 @@ IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 
 { #category : #api }
 IDELauncher >> openOnModel: aMooseModel [
+	self extent: (IDELauncher iconSize * 9) @ (IDELauncher iconSize + 30).
 	self openWithSpec.
 	self context mooseModel: aMooseModel 
 ]

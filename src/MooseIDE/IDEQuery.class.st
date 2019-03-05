@@ -34,7 +34,6 @@ IDEQuery >> title [
 { #category : #notifications }
 IDEQuery >> update: aContext [
 	| newList |
-	1halt.
 	newList := context focus.
 	(newList isKindOf: MooseModel)
 	ifTrue: [ newList := newList mvsGroupEntitycache ].
