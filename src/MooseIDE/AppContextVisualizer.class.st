@@ -1,8 +1,8 @@
 "
-Context for the query app
+Context for the visualizer app
 "
 Class {
-	#name : #AppContextQuery,
+	#name : #AppContextVisualizer,
 	#superclass : #AppContext,
 	#category : #'MooseIDE-apps'
 }

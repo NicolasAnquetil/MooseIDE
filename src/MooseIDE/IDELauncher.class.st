@@ -1,3 +1,6 @@
+"
+Moose IDE menu. Can launch a number of apps that will work on the same model
+"
 Class {
 	#name : #IDELauncher,
 	#superclass : #AbstractSpec,
@@ -10,11 +13,8 @@ Class {
 
 { #category : #specs }
 IDELauncher class >> defaultSpec [
-
 	^ SpecLayout composed
-		newColumn: [ :c | 
-			c 
-				add: #menu "height: self iconSize" ];
+		newColumn: [ :c | c add: #menu	];
 		yourself
 ]
 
@@ -41,6 +41,11 @@ IDELauncher class >> openOnModel: aMooseModel [
 	self new openOnModel: aMooseModel
 ]
 
+{ #category : #api }
+IDELauncher >> extent [
+	^ (self class iconSize * 9) @ (self class iconSize + 30)
+]
+
 { #category : #accessing }
 IDELauncher >> focus: anObject [
 	self context focus: anObject.
@@ -60,18 +65,37 @@ IDELauncher >> initializeWidgets [
 	menu := MenuPresenter new
 		addGroup: [ :group | 
 			group
-				addItem: [ :item | self newMenuItem: item named: #models withAction: [ self launchModelsApp ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #metrics withAction: [ self launchDashboardApp] ] ;
-				addItem: [ :item | self newMenuItem: item named: #tasks withAction: [ self launchTasksApp ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #query withAction: [ self launchQueryApp ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #code withAction: [ self launchEditorApp ] ] ;
-				addItem: [ :item | self newMenuItem: item named: #views withAction: nil ] ;
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #models
+						withAction: [ self launchModelsApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #metrics
+						withAction: [ self launchDashboardApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #tasks
+						withAction: [ self launchTasksApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #query
+						withAction: [ self launchQueryApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #code
+						withAction: [ self launchEditorApp ] ];
+				addItem: [ :item | self newMenuItem: item named: #views withAction: [ self launchVisualizerApp ] ];
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
-				addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #tags withAction: nil ] ;
-				addItem: [ :item | self newMenuItem: item named: #log withAction: [  self launchLogApp ] ]
-		].
-
+					addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ];
+				addItem: [ :item | self newMenuItem: item named: #tags withAction: nil ];
+				addItem:
+						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ] ]
 ]
 
 { #category : #apps }
@@ -117,6 +141,11 @@ IDELauncher >> launchTasksApp [
 	context resetListners
 ]
 
+{ #category : #apps }
+IDELauncher >> launchVisualizerApp [
+	self launch: IDEVisualizer withContext: AppContextVisualizer
+]
+
 { #category : #accessing }
 IDELauncher >> menu [
 	^menu
@@ -142,9 +171,8 @@ IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 
 { #category : #api }
 IDELauncher >> openOnModel: aMooseModel [
-	self extent: (IDELauncher iconSize * 9) @ (IDELauncher iconSize + 30).
 	self openWithSpec.
-	self context mooseModel: aMooseModel 
+	self context mooseModel: aMooseModel
 ]
 
 { #category : #api }

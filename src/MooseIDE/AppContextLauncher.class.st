@@ -1,3 +1,9 @@
+"
+Context for the launcher app. This is the root of the context hierarchy.
+Contains the mooseModel we are working on and the entity-ies currently under focus 
+
+Also implements an observer list: can register ""observers"" (called listeners) and will notify observers when it changes
+"
 Class {
 	#name : #AppContextLauncher,
 	#superclass : #AppContext,

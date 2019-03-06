@@ -1,3 +1,7 @@
+"
+An app showing some metric values on the current model 
+
+"
 Class {
 	#name : #IDEDashboard,
 	#superclass : #AbstractSpec,
@@ -9,8 +13,8 @@ Class {
 
 { #category : #specs }
 IDEDashboard class >> defaultSpec [
-	^ SpecTableLayout column
-		add: #dashboard
+	^ SpecLayout composed
+		newColumn: [ :c | c add: #dashboard ];
 		yourself
 ]
 
@@ -28,6 +32,11 @@ IDEDashboard >> dashboard [
 	^ dashboard
 ]
 
+{ #category : #api }
+IDEDashboard >> extent [
+	^630 @ 130
+]
+
 { #category : #initialization }
 IDEDashboard >> initializeWidgets [
 	dashboard := self instantiate: MDMetricDashBoard.
@@ -41,5 +50,5 @@ IDEDashboard >> title [
 
 { #category : #notifications }
 IDEDashboard >> update: uiModel [
-	dashboard updateViewFor: context
+	dashboard updateView
 ]

@@ -1,16 +1,15 @@
+"
+Context for the dashboard app. Contains the metrics displayed by the dashboard
+"
 Class {
 	#name : #AppContextDashboard,
 	#superclass : #AppContext,
 	#instVars : [
-		'metrics'
+		'metrics',
+		'subQueries'
 	],
 	#category : #'MooseIDE-apps'
 }
-
-{ #category : #accessing }
-AppContextDashboard >> addMetric: aMetric [
-	metrics add: aMetric
-]
 
 { #category : #accessing }
 AppContextDashboard >> focusedEntities [
@@ -21,52 +20,41 @@ AppContextDashboard >> focusedEntities [
 		ifFalse: [ entities ]
 ]
 
-{ #category : #'as yet unclassified' }
-AppContextDashboard >> focusedEntitiesCore [
-	^ (self mooseModel allModelClasses select: [ :each | each container mooseName asLowercase matchesRegex: '.*core.*' ])
-				asSet
+{ #category : #accessing }
+AppContextDashboard >> focusedEntities: anObject [
+	self focus: anObject
 ]
 
 { #category : #initialization }
 AppContextDashboard >> initialize [
 	super initialize.
-	metrics := OrderedCollection new.
-	self addMetric: MDMetricLOC new.
-	self addMetric: MDMetricNumberOfEntities new.
-	self addMetric: MDMetricCyclomaticComplexity new.
-
+	metrics := {MDMetricNumberOfEntities new.
+	MDMetricLOC new.
+	MDMetricCyclomaticComplexity new} asOrderedCollection.
+	subQueries := {(MDQueryCore new master: self).
+	(MDQueryBig new
+		master: self;
+		threshold: 20 percent).
+	(MDQueryComplex new
+		master: self;
+		threshold: 20 percent)} asOrderedCollection
 ]
 
 { #category : #accessing }
-AppContextDashboard >> metrics [
-	^metrics
-]
-
-{ #category : #'as yet unclassified' }
-AppContextDashboard >> percentBigClasses [
-	| classes |
-	classes := self mooseModel allModelClasses.
-	^ (classes asOrderedCollection
-		sort: [ :a :b | a numberOfLinesOfCode > b numberOfLinesOfCode ])
-		copyFrom: 1
-		to: (classes size * 0.2) asInteger
-]
-
-{ #category : #'as yet unclassified' }
-AppContextDashboard >> percentOfComplexeClasses [
-	| classes |
-	classes := self mooseModel allModelClasses.
-	^ (classes asOrderedCollection
-		sort: [ :a :b | a cyclomaticComplexity > b cyclomaticComplexity ])
-		copyFrom: 1
-		to: (classes size * 0.2) asInteger
+AppContextDashboard >> metric: id [
+	^ metrics at: id
 ]
 
 { #category : #accessing }
-AppContextDashboard >> percentage [
-	^ 0.2
+AppContextDashboard >> mooseModelSummary [
+	^ { self mooseModel allModelPackages.
+	self mooseModel allModelNamespaces.
+	self mooseModel allModelClasses.
+	self mooseModel allModelMethods.
+	self mooseModel allModelNamespaces first}
 ]
 
 { #category : #accessing }
-AppContextDashboard >> percentage: aNumber [
+AppContextDashboard >> subQuery: id [
+	^ subQueries at: id
 ]

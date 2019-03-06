@@ -1,3 +1,6 @@
+"
+An app showing source code of currently selected entity
+"
 Class {
 	#name : #IDEEditor,
 	#superclass : #AbstractSpec,

@@ -1,3 +1,6 @@
+"
+Adapter of MVSMainPresenter for Moose IDE
+"
 Class {
 	#name : #IDESubQuery,
 	#superclass : #MVSMainPresenter,

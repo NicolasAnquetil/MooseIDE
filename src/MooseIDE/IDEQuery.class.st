@@ -1,3 +1,6 @@
+"
+An app to select entities from the current model
+"
 Class {
 	#name : #IDEQuery,
 	#superclass : #AbstractSpec,
@@ -9,8 +12,8 @@ Class {
 
 { #category : #specs }
 IDEQuery class >> defaultSpec [
-	^ SpecTableLayout column
-		add: #query
+	^ SpecLayout composed
+		newColumn: [ :c | c add: #query ];
 		yourself
 ]
 

@@ -1,3 +1,7 @@
+"
+Context for the source code ""editor"".
+Does not really edit, just show the code
+"
 Class {
 	#name : #AppContextEditor,
 	#superclass : #AppContext,

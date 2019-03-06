@@ -1,3 +1,6 @@
+"
+Abstract app. Apps are specialized Spec visualization. All app have a context which is the model of the visualization
+"
 Class {
 	#name : #AbstractSpec,
 	#superclass : #ComposablePresenter,

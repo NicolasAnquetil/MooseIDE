@@ -1,7 +1,8 @@
 "
 The execution context of an App.
-Contains the entity on whih the app is executing, and the parent context of the calling app.
-
+Knows what i the MooseModel one is working on and the currently selected (focused) entity-ies.
+Context are organized in a hierarchy. The root is the context of the launcher, it has the actual mooseModel we are working on and the actual current focus.
+All context know their parent context
 "
 Class {
 	#name : #AppContext,
