@@ -2,17 +2,17 @@
 Context for the dashboard app. Contains the metrics displayed by the dashboard
 "
 Class {
-	#name : #AppContextDashboard,
-	#superclass : #AppContext,
+	#name : #MidasContextDashboard,
+	#superclass : #MidasContext,
 	#instVars : [
 		'metrics',
 		'subQueries'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-context'
 }
 
 { #category : #accessing }
-AppContextDashboard >> focusedEntities [
+MidasContextDashboard >> focusedEntities [
 	| entities |
 	entities := self focus.
 	^( entities isKindOf: MooseModel)
@@ -21,12 +21,12 @@ AppContextDashboard >> focusedEntities [
 ]
 
 { #category : #accessing }
-AppContextDashboard >> focusedEntities: anObject [
+MidasContextDashboard >> focusedEntities: anObject [
 	self focus: anObject
 ]
 
 { #category : #initialization }
-AppContextDashboard >> initialize [
+MidasContextDashboard >> initialize [
 	super initialize.
 	metrics := {MDMetricNumberOfEntities new.
 	MDMetricLOC new.
@@ -41,12 +41,12 @@ AppContextDashboard >> initialize [
 ]
 
 { #category : #accessing }
-AppContextDashboard >> metric: id [
+MidasContextDashboard >> metric: id [
 	^ metrics at: id
 ]
 
 { #category : #accessing }
-AppContextDashboard >> mooseModelSummary [
+MidasContextDashboard >> mooseModelSummary [
 	^ { self mooseModel allModelPackages.
 	self mooseModel allModelNamespaces.
 	self mooseModel allModelClasses.
@@ -55,6 +55,6 @@ AppContextDashboard >> mooseModelSummary [
 ]
 
 { #category : #accessing }
-AppContextDashboard >> subQuery: id [
+MidasContextDashboard >> subQuery: id [
 	^ subQueries at: id
 ]

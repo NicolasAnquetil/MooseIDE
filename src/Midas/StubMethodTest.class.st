@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'method'
 	],
-	#category : #'MooseIDE-test'
+	#category : #'Midas-test'
 }
 
 { #category : #data }

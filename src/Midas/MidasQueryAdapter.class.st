@@ -2,16 +2,16 @@
 Adapter of MVSMainPresenter for Moose IDE
 "
 Class {
-	#name : #IDESubQuery,
+	#name : #MidasQueryAdapter,
 	#superclass : #MVSMainPresenter,
 	#instVars : [
 		'midas'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-apps'
 }
 
 { #category : #specs }
-IDESubQuery class >> defaultSpec [
+MidasQueryAdapter class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :tcol | 
 			tcol
@@ -29,13 +29,13 @@ IDESubQuery class >> defaultSpec [
 ]
 
 { #category : #initialization }
-IDESubQuery >> createOpenResultNewWindowCheckBox [
+MidasQueryAdapter >> createOpenResultNewWindowCheckBox [
 	"removed"
 	newSelf := self class withElements: #()
 ]
 
 { #category : #initialization }
-IDESubQuery >> initializePresenter [
+MidasQueryAdapter >> initializePresenter [
 	super initializePresenter.
 	"changing doubleClick Behavior"
 	listView doubleClickAction: [ :item |
@@ -43,7 +43,7 @@ IDESubQuery >> initializePresenter [
 ]
 
 { #category : #initialization }
-IDESubQuery >> initializeWidgets [
+MidasQueryAdapter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
 	"removing from window
 	errorReporter := self instantiate: MVSErrorReportPresenter."
@@ -60,21 +60,21 @@ IDESubQuery >> initializeWidgets [
 ]
 
 { #category : #testing }
-IDESubQuery >> isOpenResultNewWindow [
+MidasQueryAdapter >> isOpenResultNewWindow [
 	^false
 ]
 
 { #category : #actions }
-IDESubQuery >> openResultNewWindowCheckBoxEvent [
+MidasQueryAdapter >> openResultNewWindowCheckBoxEvent [
 	"removed"
 ]
 
 { #category : #acccessing }
-IDESubQuery >> parentApp: aQueryApp [
+MidasQueryAdapter >> parentApp: aQueryApp [
 	midas := aQueryApp  
 ]
 
 { #category : #actions }
-IDESubQuery >> performQuery [
+MidasQueryAdapter >> performQuery [
 	midas context focus: (queryWidget performFilterOn: listView listItems)
 ]

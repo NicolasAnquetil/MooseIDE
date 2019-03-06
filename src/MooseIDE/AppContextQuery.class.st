@@ -1,8 +1,0 @@
-"
-Context for the query app
-"
-Class {
-	#name : #AppContextQuery,
-	#superclass : #AppContext,
-	#category : #'MooseIDE-apps'
-}

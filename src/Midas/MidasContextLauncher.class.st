@@ -5,52 +5,52 @@ Contains the mooseModel we are working on and the entity-ies currently under foc
 Also implements an observer list: can register ""observers"" (called listeners) and will notify observers when it changes
 "
 Class {
-	#name : #AppContextLauncher,
-	#superclass : #AppContext,
+	#name : #MidasContextLauncher,
+	#superclass : #MidasContext,
 	#instVars : [
 		'mooseModel'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-context'
 }
 
 { #category : #notifications }
-AppContextLauncher >> addListener: aListener [
+MidasContextLauncher >> addListener: aListener [
 	listeners add: aListener
 ]
 
 { #category : #accessing }
-AppContextLauncher >> focus [
+MidasContextLauncher >> focus [
 	^ focus ifNil: [ self mooseModel  ]
 ]
 
 { #category : #accessing }
-AppContextLauncher >> focus: anObject [
+MidasContextLauncher >> focus: anObject [
 	focus := anObject.
 	self notifyAll
 ]
 
 { #category : #initialization }
-AppContextLauncher >> initialize [
+MidasContextLauncher >> initialize [
 	super initialize.
 	self resetListners
 ]
 
 { #category : #accessing }
-AppContextLauncher >> mooseModel [
+MidasContextLauncher >> mooseModel [
 	^ mooseModel
 ]
 
 { #category : #accessing }
-AppContextLauncher >> mooseModel: anObject [
+MidasContextLauncher >> mooseModel: anObject [
 	mooseModel := anObject
 ]
 
 { #category : #notifications }
-AppContextLauncher >> notifyAll [
+MidasContextLauncher >> notifyAll [
 	listeners do: [ :l | l update: self ]
 ]
 
 { #category : #notifications }
-AppContextLauncher >> resetListners [
+MidasContextLauncher >> resetListners [
 	listeners := OrderedCollection new
 ]

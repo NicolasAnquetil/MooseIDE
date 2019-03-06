@@ -2,29 +2,29 @@
 Moose IDE menu. Can launch a number of apps that will work on the same model
 "
 Class {
-	#name : #IDELauncher,
-	#superclass : #AbstractSpec,
+	#name : #MidasLauncher,
+	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'iconTheme',
 		'menu'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-apps'
 }
 
 { #category : #specs }
-IDELauncher class >> defaultSpec [
+MidasLauncher class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :c | c add: #menu	];
 		yourself
 ]
 
 { #category : #specs }
-IDELauncher class >> iconSize [
+MidasLauncher class >> iconSize [
 	^ 74
 ]
 
 { #category : #initialization }
-IDELauncher class >> iconTheme [
+MidasLauncher class >> iconTheme [
 	^ ThemeIcons new
 		name: 'icons64';
 		loadIconsFromUrl ;
@@ -32,36 +32,36 @@ IDELauncher class >> iconTheme [
 ]
 
 { #category : #specs }
-IDELauncher class >> openDefault [
+MidasLauncher class >> openDefault [
 	self openOnModel: MooseModel root allModels first
 ]
 
 { #category : #specs }
-IDELauncher class >> openOnModel: aMooseModel [
+MidasLauncher class >> openOnModel: aMooseModel [
 	self new openOnModel: aMooseModel
 ]
 
 { #category : #api }
-IDELauncher >> extent [
+MidasLauncher >> extent [
 	^ (self class iconSize * 9) @ (self class iconSize + 30)
 ]
 
 { #category : #accessing }
-IDELauncher >> focus: anObject [
+MidasLauncher >> focus: anObject [
 	self context focus: anObject.
 ]
 
 { #category : #initialization }
-IDELauncher >> initialize [
+MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 	iconTheme := self class iconTheme.
 	super initialize.
-	context := AppContextLauncher new.
+	context := MidasContextLauncher new.
 
 ]
 
 { #category : #initialization }
-IDELauncher >> initializeWidgets [
+MidasLauncher >> initializeWidgets [
 	menu := MenuPresenter new
 		addGroup: [ :group | 
 			group
@@ -99,7 +99,7 @@ IDELauncher >> initializeWidgets [
 ]
 
 { #category : #apps }
-IDELauncher >> launch: appPresenterClass withContext: contextClass [
+MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	| app |
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
@@ -109,56 +109,56 @@ IDELauncher >> launch: appPresenterClass withContext: contextClass [
 ]
 
 { #category : #apps }
-IDELauncher >> launchDashboardApp [
-	self launch: IDEDashboard withContext: AppContextDashboard 
+MidasLauncher >> launchDashboardApp [
+	self launch: MidasAppDashboard withContext: MidasContextDashboard 
 
 ]
 
 { #category : #apps }
-IDELauncher >> launchEditorApp [
-	self launch: IDEEditor withContext: AppContextEditor
+MidasLauncher >> launchEditorApp [
+	self launch: MidasAppEditor withContext: MidasContextEditor
 
 ]
 
 { #category : #apps }
-IDELauncher >> launchLogApp [
+MidasLauncher >> launchLogApp [
 	ApplicationWithToolbar new openWithSpec
 ]
 
 { #category : #apps }
-IDELauncher >> launchModelsApp [
+MidasLauncher >> launchModelsApp [
 	self inform: 'Current model: '  , context mooseModel name
 ]
 
 { #category : #apps }
-IDELauncher >> launchQueryApp [
-	self launch: IDEQuery withContext: AppContextQuery
+MidasLauncher >> launchQueryApp [
+	self launch: MidasAppQuery withContext: MidasContext
 ]
 
 { #category : #apps }
-IDELauncher >> launchTasksApp [
+MidasLauncher >> launchTasksApp [
 	self inform: 'Tasks resetting context listeners'.
 	context resetListners
 ]
 
 { #category : #apps }
-IDELauncher >> launchVisualizerApp [
-	self launch: IDEVisualizer withContext: AppContextVisualizer
+MidasLauncher >> launchVisualizerApp [
+	self launch: MidasAppVisualizer withContext: MidasContext
 ]
 
 { #category : #accessing }
-IDELauncher >> menu [
+MidasLauncher >> menu [
 	^menu
 ]
 
 { #category : #accessing }
-IDELauncher >> model: aModel [
+MidasLauncher >> model: aModel [
 	self context focus: aModel.
 	self title: aModel name
 ]
 
 { #category : #initialization }
-IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
+MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
 	| defaultActionBlock |
 	defaultActionBlock := [self inform: aSymbol].
 	^ menuItem
@@ -170,17 +170,17 @@ IDELauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 ]
 
 { #category : #api }
-IDELauncher >> openOnModel: aMooseModel [
+MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
 	self context mooseModel: aMooseModel
 ]
 
 { #category : #api }
-IDELauncher >> title [
+MidasLauncher >> title [
 	^ 'MIDAS Launcher'
 ]
 
 { #category : #notifications }
-IDELauncher >> update: uiModel [
+MidasLauncher >> update: uiModel [
 	self title: context mooseModel name.
 ]

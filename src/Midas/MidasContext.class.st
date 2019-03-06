@@ -5,7 +5,7 @@ Context are organized in a hierarchy. The root is the context of the launcher, i
 All context know their parent context
 "
 Class {
-	#name : #AppContext,
+	#name : #MidasContext,
 	#superclass : #Object,
 	#instVars : [
 		'focus',
@@ -13,66 +13,66 @@ Class {
 		'parentContext',
 		'listeners'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-context'
 }
 
 { #category : #notifications }
-AppContext >> addListener: aListener [
+MidasContext >> addListener: aListener [
 	parentContext addListener: aListener
 ]
 
 { #category : #accessing }
-AppContext >> focus [
+MidasContext >> focus [
 	^frozen
 		ifTrue: [ focus ]
 		ifFalse: [  parentContext  focus ]
 ]
 
 { #category : #accessing }
-AppContext >> focus: anObject [
+MidasContext >> focus: anObject [
 	frozen
 		ifTrue: [ focus := anObject ]
 		ifFalse: [  parentContext  focus: anObject ].
 ]
 
 { #category : #accessing }
-AppContext >> freeze [
+MidasContext >> freeze [
 	focus := self focus.
 	frozen := true.
 ]
 
 { #category : #initialization }
-AppContext >> initialize [
+MidasContext >> initialize [
 	frozen := false.
 ]
 
 { #category : #accessing }
-AppContext >> mooseModel [
+MidasContext >> mooseModel [
 	^ parentContext mooseModel
 ]
 
 { #category : #accessing }
-AppContext >> mooseModel: aMooseModel [
+MidasContext >> mooseModel: aMooseModel [
 	parentContext mooseModel: aMooseModel
 ]
 
 { #category : #notifications }
-AppContext >> notifyAll [
+MidasContext >> notifyAll [
 	parentContext notifyAll
 ]
 
 { #category : #accessing }
-AppContext >> parentContext [
+MidasContext >> parentContext [
 	^ parentContext
 ]
 
 { #category : #accessing }
-AppContext >> parentContext: anAppContext [
+MidasContext >> parentContext: anAppContext [
 	parentContext := anAppContext
 ]
 
 { #category : #'instance creation' }
-AppContext >> spawn: aContextClass [
+MidasContext >> spawn: aContextClass [
 	| child |
 	child := aContextClass new.
 	child parentContext: self.
@@ -80,6 +80,6 @@ AppContext >> spawn: aContextClass [
 ]
 
 { #category : #accessing }
-AppContext >> unfreeze [
+MidasContext >> unfreeze [
 	frozen := false.
 ]

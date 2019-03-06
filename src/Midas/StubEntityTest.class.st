@@ -1,7 +1,7 @@
 Class {
 	#name : #StubEntityTest,
 	#superclass : #TestCase,
-	#category : #'MooseIDE-test'
+	#category : #'Midas-test'
 }
 
 { #category : #tests }

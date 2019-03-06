@@ -2,16 +2,16 @@
 An app showing source code of currently selected entity
 "
 Class {
-	#name : #IDEEditor,
-	#superclass : #AbstractSpec,
+	#name : #MidasAppEditor,
+	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'text'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-apps'
 }
 
 { #category : #specs }
-IDEEditor class >> defaultSpec [
+MidasAppEditor class >> defaultSpec [
 	<spec: #default>
 	
 	^ SpecLayout composed
@@ -21,21 +21,21 @@ IDEEditor class >> defaultSpec [
 ]
 
 { #category : #initialization }
-IDEEditor >> initializeWidgets [
+MidasAppEditor >> initializeWidgets [
 	text := self newText.
 ]
 
 { #category : #accessing }
-IDEEditor >> text [
+MidasAppEditor >> text [
 	^ text
 ]
 
 { #category : #api }
-IDEEditor >> title [
+MidasAppEditor >> title [
 	^ 'MIDAS Source Code'
 ]
 
 { #category : #notifications }
-IDEEditor >> update: uiModel [
+MidasAppEditor >> update: uiModel [
 	text text: context focus sourceText
 ]

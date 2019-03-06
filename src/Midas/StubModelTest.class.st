@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'MooseIDE-test'
+	#category : #'Midas-test'
 }
 
 { #category : #running }

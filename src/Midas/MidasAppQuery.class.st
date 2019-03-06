@@ -2,40 +2,40 @@
 An app to select entities from the current model
 "
 Class {
-	#name : #IDEQuery,
-	#superclass : #AbstractSpec,
+	#name : #MidasAppQuery,
+	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'query'
 	],
-	#category : #'MooseIDE-apps'
+	#category : #'Midas-apps'
 }
 
 { #category : #specs }
-IDEQuery class >> defaultSpec [
+MidasAppQuery class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :c | c add: #query ];
 		yourself
 ]
 
 { #category : #initialization }
-IDEQuery >> initializeWidgets [
-	query := self instantiate: IDESubQuery.
+MidasAppQuery >> initializeWidgets [
+	query := self instantiate: MidasQueryAdapter.
 	query parentApp: self.
 		
 ]
 
 { #category : #accessing }
-IDEQuery >> query [ 
+MidasAppQuery >> query [ 
 	^ query
 ]
 
 { #category : #api }
-IDEQuery >> title [
+MidasAppQuery >> title [
 	^'MIDAS Query' 
 ]
 
 { #category : #notifications }
-IDEQuery >> update: aContext [
+MidasAppQuery >> update: aContext [
 	| newList |
 	newList := context focus.
 	(newList isKindOf: MooseModel)
