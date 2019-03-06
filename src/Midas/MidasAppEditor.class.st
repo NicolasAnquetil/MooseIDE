@@ -5,7 +5,7 @@ Class {
 	#name : #MidasAppEditor,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'text'
+		'code'
 	],
 	#category : #'Midas-apps'
 }
@@ -16,18 +16,18 @@ MidasAppEditor class >> defaultSpec [
 	
 	^ SpecLayout composed
 		newColumn: [ :c | 
-			c add: #text ];
+			c add: #code ];
 		yourself
+]
+
+{ #category : #accessing }
+MidasAppEditor >> code [
+	^ code
 ]
 
 { #category : #initialization }
 MidasAppEditor >> initializeWidgets [
-	text := self newText.
-]
-
-{ #category : #accessing }
-MidasAppEditor >> text [
-	^ text
+	code := self newText
 ]
 
 { #category : #api }
@@ -37,5 +37,5 @@ MidasAppEditor >> title [
 
 { #category : #notifications }
 MidasAppEditor >> update: uiModel [
-	text text: context focus sourceText
+	code text: context focus sourceText
 ]
