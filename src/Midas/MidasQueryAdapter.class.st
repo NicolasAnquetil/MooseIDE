@@ -14,17 +14,9 @@ Class {
 MidasQueryAdapter class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :tcol | 
-			tcol
-				newRow: [ :trow | 
-					trow
-						newColumn: [ :left | 
-							left
-								add: #menu height: self toolbarHeight;
-								add: #labelNumberListElement height: 30;
+			tcol 
 								add: #queryWidget height: self toolbarHeight;
-								"add: #openResultNewWindowCheckBox height: 30;"
-								add: #listView ";
-								add: #errorReporter height: 30" ] ] ];
+									add: #listView ];
 		yourself
 ]
 
@@ -45,18 +37,9 @@ MidasQueryAdapter >> initializePresenter [
 { #category : #initialization }
 MidasQueryAdapter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
-	"removing from window
-	errorReporter := self instantiate: MVSErrorReportPresenter."
-	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
-	"removing from window
-	self createOpenResultNewWindowCheckBox."
-	menu := self menuBarFor: self.
-	labelNumberListElt := self newLabel.
-	self initListViewItems: #().	
-	self focusOrder
-		add: menu;
-		add: listView
+	menu := self menuBarFor: self.  "not used, but needed by some internal methods"
+	self initListViewItems: #()
 ]
 
 { #category : #testing }
@@ -77,4 +60,12 @@ MidasQueryAdapter >> parentApp: aQueryApp [
 { #category : #actions }
 MidasQueryAdapter >> performQuery [
 	midas context focus: (queryWidget performFilterOn: listView listItems)
+]
+
+{ #category : #'model - updating' }
+MidasQueryAdapter >> updateNavigationButtons [
+]
+
+{ #category : #'model - updating' }
+MidasQueryAdapter >> updateNumberOfModelElement [
 ]

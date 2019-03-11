@@ -13,13 +13,22 @@ Class {
 { #category : #specs }
 MidasAppVisualizer class >> defaultSpec [
 	^ SpecLayout composed
-		newColumn: [ :c | c add: #visualizer ];
+		newColumn: [ :c | 
+			c
+				add: #freeze height: 30;
+				add: #visualizer ];
 		yourself
 ]
 
 { #category : #initialization }
 MidasAppVisualizer >> initializeWidgets [
+	super initializeWidgets.
 	visualizer := self instantiate: MVSSystemComplexityPresenter
+]
+
+{ #category : #api }
+MidasAppVisualizer >> title [
+	^ 'MIDAS Visualizer'
 ]
 
 { #category : #notifications }

@@ -5,7 +5,8 @@ Class {
 	#name : #MidasAbstractApp,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'context'
+		'context',
+		'freeze'
 	],
 	#category : #'Midas-apps'
 }
@@ -20,6 +21,18 @@ MidasAbstractApp >> context: aContext [
 	context := aContext.
 	aContext addListener: self.
 	self update: aContext 
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> freeze [ 
+	^ freeze 
+]
+
+{ #category : #initialization }
+MidasAbstractApp >> initializeWidgets [
+	freeze := (self instantiate: CheckBoxPresenter)
+		label: 'Freeze content' ;
+		yourself
 ]
 
 { #category : #accessing }

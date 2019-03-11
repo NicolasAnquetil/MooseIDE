@@ -13,10 +13,11 @@ Class {
 { #category : #specs }
 MidasAppEditor class >> defaultSpec [
 	<spec: #default>
-	
 	^ SpecLayout composed
 		newColumn: [ :c | 
-			c add: #code ];
+			c
+				add: #freeze height: 30;
+				add: #code ];
 		yourself
 ]
 
@@ -27,6 +28,7 @@ MidasAppEditor >> code [
 
 { #category : #initialization }
 MidasAppEditor >> initializeWidgets [
+	super initializeWidgets.
 	code := self newText
 ]
 

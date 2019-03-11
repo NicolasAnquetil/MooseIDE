@@ -13,15 +13,18 @@ Class {
 { #category : #specs }
 MidasAppQuery class >> defaultSpec [
 	^ SpecLayout composed
-		newColumn: [ :c | c add: #query ];
+		newColumn: [ :c | 
+			c
+				add: #freeze height: 30;
+				add: #query ];
 		yourself
 ]
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgets [
+	super initializeWidgets.
 	query := self instantiate: MidasQueryAdapter.
-	query parentApp: self.
-		
+	query parentApp: self
 ]
 
 { #category : #accessing }

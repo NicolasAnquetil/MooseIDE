@@ -14,7 +14,10 @@ Class {
 { #category : #specs }
 MidasAppDashboard class >> defaultSpec [
 	^ SpecLayout composed
-		newColumn: [ :c | c add: #dashboard ];
+		newColumn: [ :c | 
+			c
+				add: #freeze height: 30;
+				add: #dashboard ];
 		yourself
 ]
 
@@ -34,13 +37,13 @@ MidasAppDashboard >> dashboard [
 
 { #category : #api }
 MidasAppDashboard >> extent [
-	^630 @ 130
+	^ 630 @ 170
 ]
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
-	dashboard := self instantiate: MDMetricDashBoard.
-
+	super initializeWidgets.
+	dashboard := self instantiate: MDMetricDashBoard
 ]
 
 { #category : #api }
