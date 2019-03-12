@@ -2,7 +2,7 @@
 An app showing a visualization on the current model or selected entity-ies
 "
 Class {
-	#name : #MidasAppVisualizer,
+	#name : #MidasAppSystemComplexity,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'visualizer'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #specs }
-MidasAppVisualizer class >> defaultSpec [
+MidasAppSystemComplexity class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :c | 
 			c
@@ -21,31 +21,31 @@ MidasAppVisualizer class >> defaultSpec [
 ]
 
 { #category : #initialization }
-MidasAppVisualizer >> initializeWidgets [
+MidasAppSystemComplexity >> initializeWidgets [
 	super initializeWidgets.
 	visualizer := self instantiate: MidasSystemComplexityAdapter	"MVSSystemComplexityPresenter".
 	visualizer parentApp: self
 ]
 
 { #category : #api }
-MidasAppVisualizer >> title [
+MidasAppSystemComplexity >> title [
 	^ 'MIDAS Visualizer'
 ]
 
 { #category : #notifications }
-MidasAppVisualizer >> updateStrong: focus [
+MidasAppSystemComplexity >> updateStrongFocus: newFocus [
 	visualizer highlight: nil.
-	visualizer selected: focus.
+	visualizer selected: newFocus.
 	visualizer refresh
 ]
 
 { #category : #notifications }
-MidasAppVisualizer >> updateWeak: focus [
-	visualizer highlight: focus.
+MidasAppSystemComplexity >> updateWeakFocus: newFocus [
+	visualizer highlight: newFocus.
 	visualizer refresh
 ]
 
 { #category : #accessing }
-MidasAppVisualizer >> visualizer [
+MidasAppSystemComplexity >> visualizer [
 	^ visualizer 
 ]

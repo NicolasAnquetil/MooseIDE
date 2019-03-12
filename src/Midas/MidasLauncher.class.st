@@ -54,10 +54,10 @@ MidasLauncher >> focus: anObject [
 { #category : #initialization }
 MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
-	iconTheme := self class iconTheme.
-	super initialize.
-	context := MidasContextLauncher new.
 
+	iconTheme := self class iconTheme.
+	context := MidasContextLauncher new.
+	 super initialize
 ]
 
 { #category : #initialization }
@@ -79,7 +79,7 @@ MidasLauncher >> initializeWidgets [
 					self
 						newMenuItem: item
 						named: #tasks
-						withAction: [ self launchTasksApp ] ];
+						withAction: nil ];
 				addItem: [ :item | 
 					self
 						newMenuItem: item
@@ -90,7 +90,11 @@ MidasLauncher >> initializeWidgets [
 						newMenuItem: item
 						named: #code
 						withAction: [ self launchEditorApp ] ];
-				addItem: [ :item | self newMenuItem: item named: #views withAction: [ self launchVisualizerApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #views
+						withAction: [ self launchSystemComplexityApp ] ];
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
 					addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ];
 				addItem:
@@ -133,23 +137,19 @@ MidasLauncher >> launchModelsApp [
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-	self launch: MidasAppQuery withContext: MidasContext
+	self launch: MidasAppQuery withContext: MidasChildContext
+]
+
+{ #category : #apps }
+MidasLauncher >> launchSystemComplexityApp [
+	self
+		launch: MidasAppSystemComplexity
+		withContext: MidasContextSystemComplexity 
 ]
 
 { #category : #apps }
 MidasLauncher >> launchTagsApp [
-	self launch: MidasAppTag withContext: MidasContext
-]
-
-{ #category : #apps }
-MidasLauncher >> launchTasksApp [
-	self inform: 'Tasks resetting context listeners'.
-	context resetListners
-]
-
-{ #category : #apps }
-MidasLauncher >> launchVisualizerApp [
-	self launch: MidasAppVisualizer withContext: MidasContext
+	self launch: MidasAppTag withContext: MidasContextTag
 ]
 
 { #category : #accessing }
@@ -187,11 +187,11 @@ MidasLauncher >> title [
 ]
 
 { #category : #notifications }
-MidasLauncher >> updateStrong: focus [
-	self title: self mooseModel name
+MidasLauncher >> updateStrongFocus: newFocus [
+	self shouldNotImplement 
 ]
 
 { #category : #notifications }
-MidasLauncher >> updateWeak: focus [
-	"nothing"
+MidasLauncher >> updateWeakFocus: newFocus [
+	self shouldNotImplement
 ]

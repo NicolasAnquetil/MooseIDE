@@ -6,22 +6,26 @@ Also implements an observer list: can register ""observers"" (called listeners) 
 "
 Class {
 	#name : #MidasContextLauncher,
-	#superclass : #MidasContext,
+	#superclass : #MidasAbstractContext,
 	#instVars : [
-		'mooseModel'
+		'mooseModel',
+		'children'
 	],
 	#category : #'Midas-context'
 }
 
-{ #category : #notifications }
-MidasContextLauncher >> addListener: aListener [
-	listeners add: aListener
+{ #category : #accessing }
+MidasContextLauncher >> addChild: aContext [
+	(children includes: aContext)
+		ifTrue: [ ^ self ].
+	children add: aContext.
+	aContext parentContext: self
 ]
 
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.
-	self resetListners
+	children := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -35,18 +39,20 @@ MidasContextLauncher >> mooseModel: anObject [
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyAllStrong [
-	listeners do: [ :l | l updateStrong: self strongFocus ]
+MidasContextLauncher >> notifyStrongFocus: newFocus [
+	children do: [ :child | child notifyStrongFocus: newFocus]
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyAllWeak [
-	listeners do: [ :l | l updateWeak: self weakFocus ]
+MidasContextLauncher >> notifyWeakFocus: newFocus [
+	children do: [ :child | child notifyWeakFocus: newFocus ]
 ]
 
-{ #category : #notifications }
-MidasContextLauncher >> resetListners [
-	listeners := OrderedCollection new
+{ #category : #'instance creation' }
+MidasContextLauncher >> spawn: aContextClass [
+	^aContextClass new
+		parentContext: self ;
+		yourself
 ]
 
 { #category : #accessing }
@@ -55,18 +61,22 @@ MidasContextLauncher >> strongFocus [
 ]
 
 { #category : #accessing }
-MidasContextLauncher >> strongFocus: anObject [
-	focusStrong := anObject.
-	self notifyAllStrong
+MidasContextLauncher >> strongFocus: newFocus [
+	focusStrong = newFocus
+		ifTrue: [ ^ self ].
+	focusStrong := newFocus.
+	self notifyStrongFocus: newFocus
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> weakFocus [
-	^ focusWeak
+	^focusWeak
 ]
 
 { #category : #accessing }
-MidasContextLauncher >> weakFocus: anObject [
-	focusWeak := anObject.
-	self notifyAllWeak
+MidasContextLauncher >> weakFocus: newFocus [
+	focusWeak = newFocus
+		ifTrue: [ ^self ].
+	focusWeak := newFocus.
+	self notifyWeakFocus: newFocus
 ]

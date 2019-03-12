@@ -18,9 +18,10 @@ MidasAbstractApp >> context [
 
 { #category : #accessing }
 MidasAbstractApp >> context: aContext [
+	context = aContext
+		ifTrue: [ ^ self ].
 	context := aContext.
-	aContext addListener: self.
-	self updateStrong: aContext strongFocus
+	aContext app: self
 ]
 
 { #category : #accessing }
@@ -40,23 +41,18 @@ MidasAbstractApp >> mooseModel [
 	^ context mooseModel
 ]
 
-{ #category : #display }
-MidasAbstractApp >> open [
-	self openWithSpec
-]
-
 { #category : #accessing }
 MidasAbstractApp >> strongFocus [
 	^ context strongFocus
 ]
 
 { #category : #notifications }
-MidasAbstractApp >> updateStrong: focus [
+MidasAbstractApp >> updateStrongFocus: focus [
 	self subclassResponsibility
 ]
 
 { #category : #notifications }
-MidasAbstractApp >> updateWeak: focus [
+MidasAbstractApp >> updateWeakFocus: focus [
 	self subclassResponsibility
 ]
 

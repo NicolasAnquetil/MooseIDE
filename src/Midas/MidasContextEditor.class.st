@@ -4,13 +4,16 @@ Does not really edit, just show the code
 "
 Class {
 	#name : #MidasContextEditor,
-	#superclass : #MidasContext,
+	#superclass : #MidasChildContext,
 	#category : #'Midas-context'
 }
 
-{ #category : #accessing }
-MidasContextEditor >> strongFocus [
-	^ focusStrong
-		ifNil:
-			[ "a default value to ensure that there is some focus" self mooseModel allModelClasses first ]
+{ #category : #notifications }
+MidasContextEditor >> acceptStrongFocus: newFocus [
+	^ newFocus isKindOf: FAMIXSourcedEntity 
+]
+
+{ #category : #notifications }
+MidasContextEditor >> acceptWeakFocus: newFocus [
+	^ self acceptStrongFocus: newFocus 
 ]

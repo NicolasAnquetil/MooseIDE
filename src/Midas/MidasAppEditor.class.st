@@ -38,13 +38,11 @@ MidasAppEditor >> title [
 ]
 
 { #category : #notifications }
-MidasAppEditor >> updateStrong: focus [
-	self updateWeak: focus
+MidasAppEditor >> updateStrongFocus: newFocus [
+	self updateWeakFocus: newFocus
 ]
 
 { #category : #notifications }
-MidasAppEditor >> updateWeak: focus [
-	(focus isKindOf: FAMIXSourcedEntity)
-	ifTrue: [code text: focus sourceText]
-	
+MidasAppEditor >> updateWeakFocus: newFocus [
+	code text: newFocus sourceText
 ]

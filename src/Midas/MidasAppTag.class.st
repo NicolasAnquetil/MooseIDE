@@ -86,11 +86,13 @@ MidasAppTag >> title [
 ]
 
 { #category : #notifications }
-MidasAppTag >> updateStrong: focus [
-	entities items: focus
+MidasAppTag >> updateStrongFocus: newFocus [
+	entities items: newFocus
 ]
 
 { #category : #notifications }
-MidasAppTag >> updateWeak: focus [
-	"nothing"
+MidasAppTag >> updateWeakFocus: newFocus [
+	self shouldNotImplement 
+
+	
 ]

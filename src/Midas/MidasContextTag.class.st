@@ -1,0 +1,10 @@
+Class {
+	#name : #MidasContextTag,
+	#superclass : #MidasChildContext,
+	#category : #'Midas-context'
+}
+
+{ #category : #notifications }
+MidasContextTag >> acceptWeakFocus: newFocus [
+	^false
+]

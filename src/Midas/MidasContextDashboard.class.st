@@ -3,7 +3,7 @@ Context for the dashboard app. Contains the metrics displayed by the dashboard
 "
 Class {
 	#name : #MidasContextDashboard,
-	#superclass : #MidasContext,
+	#superclass : #MidasChildContext,
 	#instVars : [
 		'metrics',
 		'subQueries'
@@ -11,8 +11,19 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #notifications }
+MidasContextDashboard >> acceptStrongFocus: newFocus [
+	^ newFocus isCollection
+]
+
+{ #category : #notifications }
+MidasContextDashboard >> acceptWeakFocus: newFocus [
+	^ false
+]
+
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities [
+	"for compatibility with MVSMainPresenter"
 	| entities |
 	entities := self strongFocus.
 	^ (entities isKindOf: MooseModel)
@@ -22,7 +33,8 @@ MidasContextDashboard >> focusedEntities [
 
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities: anObject [
-	self focus: anObject
+	"for compatibility with MVSMainPresenter"
+	self strongFocus: anObject
 ]
 
 { #category : #initialization }
@@ -47,11 +59,9 @@ MidasContextDashboard >> metric: id [
 
 { #category : #accessing }
 MidasContextDashboard >> mooseModelSummary [
-	^ { self mooseModel allModelPackages.
-	self mooseModel allModelNamespaces.
+	^ {self mooseModel allModelNamespaces.
 	self mooseModel allModelClasses.
-	self mooseModel allModelMethods.
-	self mooseModel allModelNamespaces first}
+	self mooseModel allModelMethods}
 ]
 
 { #category : #accessing }

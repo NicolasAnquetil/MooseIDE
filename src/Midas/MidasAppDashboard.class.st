@@ -52,11 +52,13 @@ MidasAppDashboard >> title [
 ]
 
 { #category : #notifications }
-MidasAppDashboard >> updateStrong: focus [
+MidasAppDashboard >> updateStrongFocus: newFocus [
 	dashboard updateView
 ]
 
 { #category : #notifications }
-MidasAppDashboard >> updateWeak: focus [
-	"nothing"
+MidasAppDashboard >> updateWeakFocus: newFocus [
+	self shouldNotImplement 
+
+	
 ]
