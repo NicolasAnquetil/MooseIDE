@@ -30,8 +30,9 @@ MidasQueryAdapter >> createOpenResultNewWindowCheckBox [
 MidasQueryAdapter >> initializePresenter [
 	super initializePresenter.
 	"changing doubleClick Behavior"
-	listView doubleClickAction: [ :item |
-		midas context focus: listView selectedItem ]
+	listView
+		whenSelectedItemChanged: [ :item | midas context weakFocus: listView selectedItem ] ;
+		doubleClickAction: [ :item | midas context strongFocus: listView selectedItem ]
 ]
 
 { #category : #initialization }
@@ -59,7 +60,8 @@ MidasQueryAdapter >> parentApp: aQueryApp [
 
 { #category : #actions }
 MidasQueryAdapter >> performQuery [
-	midas context focus: (queryWidget performFilterOn: listView listItems)
+	midas context
+		strongFocus: (queryWidget performFilterOn: listView listItems)
 ]
 
 { #category : #'model - updating' }

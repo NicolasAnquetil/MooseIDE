@@ -39,10 +39,12 @@ MidasAppEditor >> title [
 
 { #category : #notifications }
 MidasAppEditor >> updateStrong: focus [
-	code text: focus sourceText
+	self updateWeak: focus
 ]
 
 { #category : #notifications }
 MidasAppEditor >> updateWeak: focus [
-	code text: focus sourceText
+	(focus isKindOf: FAMIXSourcedEntity)
+	ifTrue: [code text: focus sourceText]
+	
 ]

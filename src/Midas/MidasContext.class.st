@@ -23,16 +23,6 @@ MidasContext >> addListener: aListener [
 ]
 
 { #category : #accessing }
-MidasContext >> focus [
-	^ self strongFocus
-]
-
-{ #category : #accessing }
-MidasContext >> focus: anObject [
-	self strongFocus: anObject
-]
-
-{ #category : #accessing }
 MidasContext >> freeze [
 	focusStrong := self strongFocus.
 	focusWeak := self weakFocus.
