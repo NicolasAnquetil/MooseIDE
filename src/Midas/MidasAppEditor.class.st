@@ -39,5 +39,5 @@ MidasAppEditor >> title [
 
 { #category : #notifications }
 MidasAppEditor >> update: uiModel [
-	code text: context focus sourceText
+	code text: self focus sourceText
 ]

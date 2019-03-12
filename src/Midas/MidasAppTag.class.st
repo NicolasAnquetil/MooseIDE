@@ -41,10 +41,19 @@ MidasAppTag >> entities [
 { #category : #initialization }
 MidasAppTag >> initializeWidgets [
 	super initializeWidgets.
-	entities := self instantiate: FastTablePresenter.
-	lblNew := self newLabel label: 'New tag named:' ; yourself.
+	entities := (self instantiate: FastTablePresenter)
+						displayBlock: [ :item | item name ] ;
+						icons: [ :item | item mooseIcon ];
+						sortingBlock: [ :a :b | a name < b name ] ;
+						yourself.
+
+	lblNew := self newLabel
+		label: 'New tag named:';
+		yourself.
 	newTag := self newTextInput.
-	lblTags := self newLabel label: 'Existing tags:' ; yourself.
+	lblTags := self newLabel
+		label: 'Existing tags:';
+		yourself.
 	tags := self instantiate: FastTablePresenter
 ]
 
@@ -71,4 +80,9 @@ MidasAppTag >> tags [
 { #category : #api }
 MidasAppTag >> title [
 	^ 'MIDAS Tag'
+]
+
+{ #category : #notifications }
+MidasAppTag >> update: uiModel [
+	entities items: self focus
 ]

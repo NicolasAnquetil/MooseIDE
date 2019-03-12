@@ -93,7 +93,8 @@ MidasLauncher >> initializeWidgets [
 				addItem: [ :item | self newMenuItem: item named: #views withAction: [ self launchVisualizerApp ] ];
 				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
 					addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ];
-				addItem: [ :item | self newMenuItem: item named: #tags withAction: nil ];
+				addItem:
+						[ :item | self newMenuItem: item named: #tags withAction: [ self launchTagsApp ] ];
 				addItem:
 						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ] ]
 ]
@@ -127,12 +128,17 @@ MidasLauncher >> launchLogApp [
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	self inform: 'Current model: '  , context mooseModel name
+	self inform: 'Current model: ' , self mooseModel name
 ]
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
 	self launch: MidasAppQuery withContext: MidasContext
+]
+
+{ #category : #apps }
+MidasLauncher >> launchTagsApp [
+	self launch: MidasAppTag withContext: MidasContext
 ]
 
 { #category : #apps }
@@ -182,5 +188,5 @@ MidasLauncher >> title [
 
 { #category : #notifications }
 MidasLauncher >> update: uiModel [
-	self title: context mooseModel name.
+	self title: self mooseModel name
 ]

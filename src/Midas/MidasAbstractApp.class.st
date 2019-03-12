@@ -24,6 +24,11 @@ MidasAbstractApp >> context: aContext [
 ]
 
 { #category : #accessing }
+MidasAbstractApp >> focus [
+	^ context focus
+]
+
+{ #category : #accessing }
 MidasAbstractApp >> freeze [ 
 	^ freeze 
 ]

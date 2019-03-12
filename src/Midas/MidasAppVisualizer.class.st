@@ -33,7 +33,7 @@ MidasAppVisualizer >> title [
 
 { #category : #notifications }
 MidasAppVisualizer >> update: uiModel [
-	visualizer selected: context focus.
+	visualizer selected: self focus.
 	visualizer refresh
 ]
 

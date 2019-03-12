@@ -40,9 +40,8 @@ MidasAppQuery >> title [
 { #category : #notifications }
 MidasAppQuery >> update: aContext [
 	| newList |
-	newList := context focus.
+	newList := self focus.
 	(newList isKindOf: MooseModel)
-	ifTrue: [ newList := newList mvsGroupEntitycache ].
-	query initListViewItems: newList 
-	
+		ifTrue: [ newList := newList mvsGroupEntitycache ].
+	query initListViewItems: newList
 ]
