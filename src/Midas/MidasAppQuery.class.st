@@ -48,5 +48,7 @@ MidasAppQuery >> updateStrong: focus [
 
 { #category : #notifications }
 MidasAppQuery >> updateWeak: focus [
-	"nothing"
+	query setSelectionTo: focus
+
+	
 ]

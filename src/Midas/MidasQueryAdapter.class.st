@@ -65,6 +65,13 @@ MidasQueryAdapter >> performQuery [
 ]
 
 { #category : #'model - updating' }
+MidasQueryAdapter >> setSelectionTo: anItem [
+	listView resetSelection.
+	listView setSelectedItem: anItem
+	
+]
+
+{ #category : #'model - updating' }
 MidasQueryAdapter >> updateNavigationButtons [
 ]
 

@@ -23,7 +23,8 @@ MidasAppVisualizer class >> defaultSpec [
 { #category : #initialization }
 MidasAppVisualizer >> initializeWidgets [
 	super initializeWidgets.
-	visualizer := self instantiate: MVSSystemComplexityPresenter
+	visualizer := self instantiate: MidasSystemComplexityAdapter	"MVSSystemComplexityPresenter".
+	visualizer parentApp: self
 ]
 
 { #category : #api }
@@ -33,13 +34,15 @@ MidasAppVisualizer >> title [
 
 { #category : #notifications }
 MidasAppVisualizer >> updateStrong: focus [
+	visualizer highlight: nil.
 	visualizer selected: focus.
 	visualizer refresh
 ]
 
 { #category : #notifications }
 MidasAppVisualizer >> updateWeak: focus [
-	self updateStrong: focus
+	visualizer highlight: focus.
+	visualizer refresh
 ]
 
 { #category : #accessing }
