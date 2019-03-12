@@ -18,17 +18,6 @@ MidasContextLauncher >> addListener: aListener [
 	listeners add: aListener
 ]
 
-{ #category : #accessing }
-MidasContextLauncher >> focus [
-	^ focus ifNil: [ self mooseModel  ]
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> focus: anObject [
-	focus := anObject.
-	self notifyAll
-]
-
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.
@@ -46,11 +35,38 @@ MidasContextLauncher >> mooseModel: anObject [
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyAll [
-	listeners do: [ :l | l update: self ]
+MidasContextLauncher >> notifyAllStrong [
+	listeners do: [ :l | l updateStrong: self strongFocus ]
+]
+
+{ #category : #notifications }
+MidasContextLauncher >> notifyAllWeak [
+	listeners do: [ :l | l updateWeak: self weakFocus ]
 ]
 
 { #category : #notifications }
 MidasContextLauncher >> resetListners [
 	listeners := OrderedCollection new
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> strongFocus [
+	^ focusStrong ifNil: [ self mooseModel ]
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> strongFocus: anObject [
+	focusStrong := anObject.
+	self notifyAllStrong
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> weakFocus [
+	^ focusWeak
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> weakFocus: anObject [
+	focusWeak := anObject.
+	self notifyAllWeak
 ]

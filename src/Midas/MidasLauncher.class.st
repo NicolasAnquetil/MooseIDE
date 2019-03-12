@@ -187,6 +187,11 @@ MidasLauncher >> title [
 ]
 
 { #category : #notifications }
-MidasLauncher >> update: uiModel [
+MidasLauncher >> updateStrong: focus [
 	self title: self mooseModel name
+]
+
+{ #category : #notifications }
+MidasLauncher >> updateWeak: focus [
+	"nothing"
 ]

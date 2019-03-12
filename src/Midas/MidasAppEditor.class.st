@@ -38,6 +38,11 @@ MidasAppEditor >> title [
 ]
 
 { #category : #notifications }
-MidasAppEditor >> update: uiModel [
-	code text: self focus sourceText
+MidasAppEditor >> updateStrong: focus [
+	code text: focus sourceText
+]
+
+{ #category : #notifications }
+MidasAppEditor >> updateWeak: focus [
+	code text: focus sourceText
 ]

@@ -9,8 +9,8 @@ Class {
 }
 
 { #category : #accessing }
-MidasContextEditor >> focus [
-	^ focus ifNil: [
-		"a default value to ensure that there is some focus"
-		self mooseModel allModelClasses first ]
+MidasContextEditor >> strongFocus [
+	^ focusStrong
+		ifNil:
+			[ "a default value to ensure that there is some focus" self mooseModel allModelClasses first ]
 ]

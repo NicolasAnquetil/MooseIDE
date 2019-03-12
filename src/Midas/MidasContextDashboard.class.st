@@ -14,9 +14,9 @@ Class {
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities [
 	| entities |
-	entities := self focus.
-	^( entities isKindOf: MooseModel)
-		ifTrue: [  self mooseModel allModelClasses  ]
+	entities := self strongFocus.
+	^ (entities isKindOf: MooseModel)
+		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ entities ]
 ]
 

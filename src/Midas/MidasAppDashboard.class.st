@@ -52,6 +52,11 @@ MidasAppDashboard >> title [
 ]
 
 { #category : #notifications }
-MidasAppDashboard >> update: uiModel [
+MidasAppDashboard >> updateStrong: focus [
 	dashboard updateView
+]
+
+{ #category : #notifications }
+MidasAppDashboard >> updateWeak: focus [
+	"nothing"
 ]

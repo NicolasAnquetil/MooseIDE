@@ -83,6 +83,11 @@ MidasAppTag >> title [
 ]
 
 { #category : #notifications }
-MidasAppTag >> update: uiModel [
-	entities items: self focus
+MidasAppTag >> updateStrong: focus [
+	entities items: focus
+]
+
+{ #category : #notifications }
+MidasAppTag >> updateWeak: focus [
+	"nothing"
 ]

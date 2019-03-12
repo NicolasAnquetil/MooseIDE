@@ -32,9 +32,14 @@ MidasAppVisualizer >> title [
 ]
 
 { #category : #notifications }
-MidasAppVisualizer >> update: uiModel [
-	visualizer selected: self focus.
+MidasAppVisualizer >> updateStrong: focus [
+	visualizer selected: focus.
 	visualizer refresh
+]
+
+{ #category : #notifications }
+MidasAppVisualizer >> updateWeak: focus [
+	self updateStrong: focus
 ]
 
 { #category : #accessing }

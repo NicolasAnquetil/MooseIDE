@@ -20,12 +20,7 @@ MidasAbstractApp >> context [
 MidasAbstractApp >> context: aContext [
 	context := aContext.
 	aContext addListener: self.
-	self update: aContext 
-]
-
-{ #category : #accessing }
-MidasAbstractApp >> focus [
-	^ context focus
+	self updateStrong: aContext strongFocus
 ]
 
 { #category : #accessing }
@@ -50,7 +45,22 @@ MidasAbstractApp >> open [
 	self openWithSpec
 ]
 
+{ #category : #accessing }
+MidasAbstractApp >> strongFocus [
+	^ context strongFocus
+]
+
 { #category : #notifications }
-MidasAbstractApp >> update: uiModel [
-	self subclassResponsibility 
+MidasAbstractApp >> updateStrong: focus [
+	self subclassResponsibility
+]
+
+{ #category : #notifications }
+MidasAbstractApp >> updateWeak: focus [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> weakFocus [
+	^ context weakFocus
 ]

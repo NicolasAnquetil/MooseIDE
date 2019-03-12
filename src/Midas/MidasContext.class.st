@@ -8,7 +8,8 @@ Class {
 	#name : #MidasContext,
 	#superclass : #Object,
 	#instVars : [
-		'focus',
+		'focusStrong',
+		'focusWeak',
 		'frozen',
 		'parentContext',
 		'listeners'
@@ -23,22 +24,19 @@ MidasContext >> addListener: aListener [
 
 { #category : #accessing }
 MidasContext >> focus [
-	^frozen
-		ifTrue: [ focus ]
-		ifFalse: [  parentContext  focus ]
+	^ self strongFocus
 ]
 
 { #category : #accessing }
 MidasContext >> focus: anObject [
-	frozen
-		ifTrue: [ focus := anObject ]
-		ifFalse: [  parentContext  focus: anObject ].
+	self strongFocus: anObject
 ]
 
 { #category : #accessing }
 MidasContext >> freeze [
-	focus := self focus.
-	frozen := true.
+	focusStrong := self strongFocus.
+	focusWeak := self weakFocus.
+	frozen := true
 ]
 
 { #category : #initialization }
@@ -57,8 +55,13 @@ MidasContext >> mooseModel: aMooseModel [
 ]
 
 { #category : #notifications }
-MidasContext >> notifyAll [
-	parentContext notifyAll
+MidasContext >> notifyAllStrong [
+	parentContext notifyAllStrong
+]
+
+{ #category : #notifications }
+MidasContext >> notifyAllWeak [
+	parentContext notifyAllWeak
 ]
 
 { #category : #accessing }
@@ -80,6 +83,30 @@ MidasContext >> spawn: aContextClass [
 ]
 
 { #category : #accessing }
+MidasContext >> strongFocus [
+	^ frozen
+		ifTrue: [ focusStrong ]
+		ifFalse: [ parentContext strongFocus ]
+]
+
+{ #category : #accessing }
+MidasContext >> strongFocus: anObject [
+	frozen
+		ifTrue: [ focusStrong := anObject ]
+		ifFalse: [ parentContext strongFocus: anObject ]
+]
+
+{ #category : #accessing }
 MidasContext >> unfreeze [
 	frozen := false.
+]
+
+{ #category : #accessing }
+MidasContext >> weakFocus [
+	^ parentContext weakFocus
+]
+
+{ #category : #accessing }
+MidasContext >> weakFocus: anObject [
+	parentContext weakFocus: anObject 
 ]
