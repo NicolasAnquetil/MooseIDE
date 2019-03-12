@@ -1,3 +1,6 @@
+"
+An app to set a tag on selected entities
+"
 Class {
 	#name : #MidasAppTag,
 	#superclass : #MidasAbstractApp,
