@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextTag >> acceptWeakFocus: newFocus [
+MidasContextTag >> acceptWeakFocusUpdate: newFocus [
 	^false
 ]

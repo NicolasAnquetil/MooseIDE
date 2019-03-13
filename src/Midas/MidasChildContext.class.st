@@ -9,12 +9,17 @@ Class {
 }
 
 { #category : #notifications }
-MidasChildContext >> acceptStrongFocus: newFocus [
+MidasChildContext >> acceptModelUpdate: newModel [
+	^ false
+]
+
+{ #category : #notifications }
+MidasChildContext >> acceptStrongFocusUpdate: newFocus [
 	^ true
 ]
 
 { #category : #notifications }
-MidasChildContext >> acceptWeakFocus: newFocus [
+MidasChildContext >> acceptWeakFocusUpdate: newFocus [
 	^ true
 ]
 
@@ -41,21 +46,21 @@ MidasChildContext >> mooseModel: aMooseModel [
 ]
 
 { #category : #notifications }
-MidasChildContext >> notifyModel: newMooseModel [
-	self notifyStrongFocus: self strongFocus
-
-	
+MidasChildContext >> notifyNewModel: newMooseModel [
+	(self acceptModelUpdate: newMooseModel)
+		ifTrue: [ app updateModel: newMooseModel ]
+		ifFalse: [	self notifyStrongFocus: self strongFocus]
 ]
 
 { #category : #notifications }
 MidasChildContext >> notifyStrongFocus: newFocus [
-	(self acceptStrongFocus: newFocus)
+	(self acceptStrongFocusUpdate: newFocus)
 		ifTrue: [ app updateStrongFocus: newFocus ]
 ]
 
 { #category : #notifications }
 MidasChildContext >> notifyWeakFocus: newFocus [
-	(self acceptWeakFocus: newFocus)
+	(self acceptWeakFocusUpdate: newFocus)
 		ifTrue: [ app updateWeakFocus: newFocus ]
 ]
 

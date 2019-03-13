@@ -5,12 +5,17 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextModels >> acceptStrongFocus: newFocus [
+MidasContextModels >> acceptModelUpdate: newModel [
+	^ true
+]
+
+{ #category : #notifications }
+MidasContextModels >> acceptStrongFocusUpdate: newFocus [
 	^ false
 ]
 
 { #category : #notifications }
-MidasContextModels >> acceptWeakFocus: newFocus [
+MidasContextModels >> acceptWeakFocusUpdate: newFocus [
 	^ false
 ]
 

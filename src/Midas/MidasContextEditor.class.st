@@ -9,11 +9,11 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextEditor >> acceptStrongFocus: newFocus [
+MidasContextEditor >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isKindOf: FAMIXSourcedEntity 
 ]
 
 { #category : #notifications }
-MidasContextEditor >> acceptWeakFocus: newFocus [
-	^ self acceptStrongFocus: newFocus 
+MidasContextEditor >> acceptWeakFocusUpdate: newFocus [
+	^ self acceptStrongFocusUpdate: newFocus 
 ]

@@ -12,12 +12,12 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextDashboard >> acceptStrongFocus: newFocus [
+MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]
 
 { #category : #notifications }
-MidasContextDashboard >> acceptWeakFocus: newFocus [
+MidasContextDashboard >> acceptWeakFocusUpdate: newFocus [
 	^ false
 ]
 

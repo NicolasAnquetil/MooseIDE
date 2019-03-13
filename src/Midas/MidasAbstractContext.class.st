@@ -30,7 +30,7 @@ MidasAbstractContext >> app: anApp [
 ]
 
 { #category : #notifications }
-MidasAbstractContext >> notifyModel: newMooseModel [
+MidasAbstractContext >> notifyNewModel: newMooseModel [
 	self subclassResponsibility 
 ]
 

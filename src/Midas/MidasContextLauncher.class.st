@@ -35,17 +35,18 @@ MidasContextLauncher >> mooseModel [
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel: newMooseModel [
+	newMooseModel ifNil: [ ^ self ].
 	mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
 	self resetFocuses.
 	mooseModel := newMooseModel.
-	self notifyModel: newMooseModel
+	self notifyNewModel: newMooseModel
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyModel: newMooseModel [
+MidasContextLauncher >> notifyNewModel: newMooseModel [
 	app updateModel: newMooseModel.
-	children do: [ :child | child notifyModel: newMooseModel ]
+	children do: [ :child | child notifyNewModel: newMooseModel ]
 ]
 
 { #category : #notifications }

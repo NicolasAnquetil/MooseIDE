@@ -2,7 +2,8 @@ Class {
 	#name : #MidasAppModels,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'lstModels'
+		'lstModels',
+		'mnuLoders'
 	],
 	#category : #'Midas-apps'
 }
@@ -11,7 +12,8 @@ Class {
 MidasAppModels class >> defaultSpec [
 	<spec: #default>
 	^ SpecLayout composed
-		newRow: [ :r | r add: #lstModels ];
+		newColumn: [ :c | c add: #mnuLoaders height: self toolbarHeight;
+								 add: #lstModels ];
 		yourself
 ]
 
@@ -24,6 +26,16 @@ MidasAppModels >> context: aContext [
 { #category : #api }
 MidasAppModels >> extent [
 	^ 100 @ 300
+]
+
+{ #category : #'as yet unclassified' }
+MidasAppModels >> importMSEModel [
+	context mooseModel: MVSMSELoader importModel
+]
+
+{ #category : #'as yet unclassified' }
+MidasAppModels >> importStModel [
+	context mooseModel: MPImportSTCommand new execute
 ]
 
 { #category : #initialization }
@@ -41,12 +53,39 @@ MidasAppModels >> initializeWidgets [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-
+	mnuLoders := MenuPresenter new
+		addGroup: [ :group | 
+			group
+				addItem: [ :item | 
+					item
+						name: nil;
+						description: 'Import model from MSE file';
+						icon: MooseIcons mooseImportMse;
+						action: [ self importMSEModel ] ].
+			group
+				addItem: [ :item | 
+					item
+						name: nil;
+						description: 'Import Smalltalk';
+						icon: MooseIcons mooseImportSmalltalk;
+						action: [ self importStModel ] ] ].
+	mnuLoders applyTo: self.
 ]
 
 { #category : #accessing }
 MidasAppModels >> lstModels [
 	^ lstModels
+]
+
+{ #category : #accessing }
+MidasAppModels >> mnuLoaders [
+	^mnuLoders 
+]
+
+{ #category : #initialization }
+MidasAppModels >> setSelectionTo: anItem [
+	lstModels resetSelection.
+	lstModels setSelectedItem: anItem
 ]
 
 { #category : #api }
@@ -55,7 +94,9 @@ MidasAppModels >> title [
 ]
 
 { #category : #notifications }
-MidasAppModels >> updateMooseModel: newModel [
+MidasAppModels >> updateModel: newModel [
+	lstModels items: context allModels.
+	self setSelectionTo: newModel
 	
 ]
 

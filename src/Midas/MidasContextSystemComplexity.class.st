@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextSystemComplexity >> acceptStrongFocus: newFocus [
+MidasContextSystemComplexity >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]
