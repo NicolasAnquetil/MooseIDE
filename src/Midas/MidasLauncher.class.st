@@ -6,7 +6,8 @@ Class {
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'iconTheme',
-		'menu'
+		'menu',
+		'lblModelName'
 	],
 	#category : #'Midas-apps'
 }
@@ -14,7 +15,10 @@ Class {
 { #category : #specs }
 MidasLauncher class >> defaultSpec [
 	^ SpecLayout composed
-		newColumn: [ :c | c add: #menu	];
+		newColumn: [ :c | 
+			c
+				add: #lblModelName height: 20;
+				add: #menu ];
 		yourself
 ]
 
@@ -43,7 +47,7 @@ MidasLauncher class >> openOnModel: aMooseModel [
 
 { #category : #api }
 MidasLauncher >> extent [
-	^ (self class iconSize * 9) @ (self class iconSize + 30)
+	^ (self class iconSize * 9) @ (self class iconSize + 50)
 ]
 
 { #category : #accessing }
@@ -56,12 +60,15 @@ MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 
 	iconTheme := self class iconTheme.
-	context := MidasContextLauncher new.
-	 super initialize
+	self context: MidasContextLauncher new.
+	super initialize
 ]
 
 { #category : #initialization }
 MidasLauncher >> initializeWidgets [
+	lblModelName := self newLabel
+						label: 'Current model: --' ;
+						yourself.
 	menu := MenuPresenter new
 		addGroup: [ :group | 
 			group
@@ -75,11 +82,7 @@ MidasLauncher >> initializeWidgets [
 						newMenuItem: item
 						named: #metrics
 						withAction: [ self launchDashboardApp ] ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #tasks
-						withAction: nil ];
+				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ];
 				addItem: [ :item | 
 					self
 						newMenuItem: item
@@ -132,7 +135,7 @@ MidasLauncher >> launchLogApp [
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	self inform: 'Current model: ' , self mooseModel name
+	self launch: MidasAppModels withContext: MidasContextModels
 ]
 
 { #category : #apps }
@@ -153,14 +156,13 @@ MidasLauncher >> launchTagsApp [
 ]
 
 { #category : #accessing }
-MidasLauncher >> menu [
-	^menu
+MidasLauncher >> lblModelName [
+	^lblModelName
 ]
 
 { #category : #accessing }
-MidasLauncher >> model: aModel [
-	self context focus: aModel.
-	self title: aModel name
+MidasLauncher >> menu [
+	^menu
 ]
 
 { #category : #initialization }
@@ -184,6 +186,12 @@ MidasLauncher >> openOnModel: aMooseModel [
 { #category : #api }
 MidasLauncher >> title [
 	^ 'MIDAS Launcher'
+]
+
+{ #category : #notifications }
+MidasLauncher >> updateModel: newMooseModel [
+	self title: newMooseModel name.
+	lblModelName label: 'Current model: ' , newMooseModel name
 ]
 
 { #category : #notifications }

@@ -41,6 +41,13 @@ MidasChildContext >> mooseModel: aMooseModel [
 ]
 
 { #category : #notifications }
+MidasChildContext >> notifyModel: newMooseModel [
+	self notifyStrongFocus: self strongFocus
+
+	
+]
+
+{ #category : #notifications }
 MidasChildContext >> notifyStrongFocus: newFocus [
 	(self acceptStrongFocus: newFocus)
 		ifTrue: [ app updateStrongFocus: newFocus ]

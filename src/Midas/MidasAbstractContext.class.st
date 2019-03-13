@@ -30,6 +30,11 @@ MidasAbstractContext >> app: anApp [
 ]
 
 { #category : #notifications }
+MidasAbstractContext >> notifyModel: newMooseModel [
+	self subclassResponsibility 
+]
+
+{ #category : #notifications }
 MidasAbstractContext >> notifyStrongFocus: newFocus [
 	self subclassResponsibility 
 ]

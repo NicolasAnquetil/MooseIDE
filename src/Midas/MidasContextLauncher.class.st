@@ -34,8 +34,18 @@ MidasContextLauncher >> mooseModel [
 ]
 
 { #category : #accessing }
-MidasContextLauncher >> mooseModel: anObject [
-	mooseModel := anObject
+MidasContextLauncher >> mooseModel: newMooseModel [
+	mooseModel = newMooseModel
+		ifTrue: [ ^ self ].
+	self resetFocuses.
+	mooseModel := newMooseModel.
+	self notifyModel: newMooseModel
+]
+
+{ #category : #notifications }
+MidasContextLauncher >> notifyModel: newMooseModel [
+	app updateModel: newMooseModel.
+	children do: [ :child | child notifyModel: newMooseModel ]
 ]
 
 { #category : #notifications }
@@ -46,6 +56,12 @@ MidasContextLauncher >> notifyStrongFocus: newFocus [
 { #category : #notifications }
 MidasContextLauncher >> notifyWeakFocus: newFocus [
 	children do: [ :child | child notifyWeakFocus: newFocus ]
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> resetFocuses [
+	self strongFocus: nil.
+	self weakFocus: nil
 ]
 
 { #category : #'instance creation' }
