@@ -9,7 +9,9 @@ Class {
 	#superclass : #MidasAbstractContext,
 	#instVars : [
 		'mooseModel',
-		'children'
+		'children',
+		'focusStrong',
+		'focusWeak'
 	],
 	#category : #'Midas-context'
 }

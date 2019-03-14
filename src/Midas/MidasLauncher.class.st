@@ -65,6 +65,11 @@ MidasLauncher >> initialize [
 ]
 
 { #category : #initialization }
+MidasLauncher >> initializePresenter [
+	"voiding MidasAbstractApp>>initializePresenter"
+]
+
+{ #category : #initialization }
 MidasLauncher >> initializeWidgets [
 	lblModelName := self newLabel
 						label: 'Current model: --' ;

@@ -1,3 +1,9 @@
+"
+Generic context for the children of MidasContextLauncher.
+
+It has a parentContext (typically MidasContextLauncher) and can be frozen.
+Frozen context do not answer to strong/weak selections
+"
 Class {
 	#name : #MidasChildContext,
 	#superclass : #MidasAbstractContext,
@@ -54,12 +60,14 @@ MidasChildContext >> notifyNewModel: newMooseModel [
 
 { #category : #notifications }
 MidasChildContext >> notifyStrongFocus: newFocus [
+	frozen ifTrue: [ ^self ].
 	(self acceptStrongFocusUpdate: newFocus)
 		ifTrue: [ app updateStrongFocus: newFocus ]
 ]
 
 { #category : #notifications }
 MidasChildContext >> notifyWeakFocus: newFocus [
+	frozen ifTrue: [ ^self ].
 	(self acceptWeakFocusUpdate: newFocus)
 		ifTrue: [ app updateWeakFocus: newFocus ]
 ]
@@ -79,16 +87,12 @@ MidasChildContext >> parentContext: aContext [
 
 { #category : #accessing }
 MidasChildContext >> strongFocus [
-	^ frozen
-		ifTrue: [ focusStrong ]
-		ifFalse: [ parentContext strongFocus ]
+	^ parentContext strongFocus
 ]
 
 { #category : #accessing }
 MidasChildContext >> strongFocus: anObject [
-	frozen
-		ifTrue: [  ]
-		ifFalse: [ parentContext strongFocus: anObject ]
+	parentContext strongFocus: anObject
 ]
 
 { #category : #accessing }
@@ -98,7 +102,7 @@ MidasChildContext >> unfreeze [
 
 { #category : #accessing }
 MidasChildContext >> weakFocus [
-	^ parentContext weakFocus
+	^parentContext weakFocus
 ]
 
 { #category : #accessing }

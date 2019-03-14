@@ -8,8 +8,6 @@ Class {
 	#name : #MidasAbstractContext,
 	#superclass : #Object,
 	#instVars : [
-		'focusStrong',
-		'focusWeak',
 		'app'
 	],
 	#category : #'Midas-context'
@@ -46,27 +44,20 @@ MidasAbstractContext >> notifyWeakFocus: newFocus [
 
 { #category : #accessing }
 MidasAbstractContext >> strongFocus [
-	"implementation depends on subclasses even if instance variable is defined in this class"
-
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
 MidasAbstractContext >> strongFocus: newFocus [
-	"implementation depends on subclasses even if instance variable is defined in this class"
-	self subclassResponsibility 
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
 MidasAbstractContext >> weakFocus [
-	"implementation depends on subclasses even if instance variable is defined in this class"
-
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
 MidasAbstractContext >> weakFocus: newFocus [
-	"implementation depends on subclasses even if instance variable is defined in this class"
-
 	self subclassResponsibility
 ]

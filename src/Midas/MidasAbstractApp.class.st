@@ -30,6 +30,14 @@ MidasAbstractApp >> freeze [
 ]
 
 { #category : #initialization }
+MidasAbstractApp >> initializePresenter [
+	super initializePresenter.
+	freeze
+		whenActivatedDo: [ context freeze ];
+		whenDeactivatedDo: [ context unfreeze ].
+]
+
+{ #category : #initialization }
 MidasAbstractApp >> initializeWidgets [
 	freeze := (self instantiate: CheckBoxPresenter)
 		label: 'Freeze content' ;
