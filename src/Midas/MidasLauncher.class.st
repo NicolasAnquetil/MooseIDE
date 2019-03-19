@@ -45,9 +45,14 @@ MidasLauncher class >> openOnModel: aMooseModel [
 	self new openOnModel: aMooseModel
 ]
 
+{ #category : #apps }
+MidasLauncher >> exit [
+	context exit.
+]
+
 { #category : #api }
 MidasLauncher >> extent [
-	^ (self class iconSize * 9) @ (self class iconSize + 50)
+	^ (self class iconSize * 10) @ (self class iconSize + 50)
 ]
 
 { #category : #accessing }
@@ -108,7 +113,12 @@ MidasLauncher >> initializeWidgets [
 				addItem:
 						[ :item | self newMenuItem: item named: #tags withAction: [ self launchTagsApp ] ];
 				addItem:
-						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ] ]
+						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ];
+				addItem: [ :item | 
+					self
+						newMenuItem: item
+						named: #exit
+						withAction: [ self exit ] ] ]
 ]
 
 { #category : #apps }
@@ -145,7 +155,7 @@ MidasLauncher >> launchModelsApp [
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-	self launch: MidasAppQuery withContext: MidasChildContext
+	self launch: MidasAppQuery withContext: MidasContextQuery
 ]
 
 { #category : #apps }

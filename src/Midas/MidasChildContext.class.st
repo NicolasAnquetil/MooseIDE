@@ -29,10 +29,15 @@ MidasChildContext >> acceptWeakFocusUpdate: newFocus [
 	^ true
 ]
 
+{ #category : #actions }
+MidasChildContext >> exit [
+	parentContext := nil.
+	app delete.
+	app := nil
+]
+
 { #category : #accessing }
 MidasChildContext >> freeze [
-	focusStrong := self strongFocus.
-	focusWeak := self weakFocus.
 	frozen := true
 ]
 

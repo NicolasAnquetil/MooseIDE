@@ -1,56 +1,18 @@
 "
-Adapter of MVSMainPresenter for Moose IDE
+An adapter between Honore's query window and Midas infrastructure
 "
 Class {
 	#name : #MidasQueryAdapter,
-	#superclass : #MVSMainPresenter,
+	#superclass : #MMCMainPresenter,
 	#instVars : [
 		'midas'
 	],
 	#category : #'Midas-apps'
 }
 
-{ #category : #specs }
-MidasQueryAdapter class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :tcol | 
-			tcol 
-								add: #queryWidget height: self toolbarHeight;
-									add: #listView ];
-		yourself
-]
-
 { #category : #initialization }
-MidasQueryAdapter >> createOpenResultNewWindowCheckBox [
-	"removed"
-	newSelf := self class withElements: #()
-]
+MidasQueryAdapter >> initializeContext [
 
-{ #category : #initialization }
-MidasQueryAdapter >> initializePresenter [
-	super initializePresenter.
-	"changing doubleClick Behavior"
-	listView
-		whenSelectedItemChanged: [ :item | midas context weakFocus: listView selectedItem ] ;
-		doubleClickAction: [ :item | midas context strongFocus: listView selectedItem ]
-]
-
-{ #category : #initialization }
-MidasQueryAdapter >> initializeWidgets [
-	listView := self instantiate: FastTablePresenter.
-	self createQueryWidget.
-	menu := self menuBarFor: self.  "not used, but needed by some internal methods"
-	self initListViewItems: #()
-]
-
-{ #category : #testing }
-MidasQueryAdapter >> isOpenResultNewWindow [
-	^false
-]
-
-{ #category : #actions }
-MidasQueryAdapter >> openResultNewWindowCheckBoxEvent [
-	"removed"
 ]
 
 { #category : #acccessing }
@@ -58,23 +20,13 @@ MidasQueryAdapter >> parentApp: aQueryApp [
 	midas := aQueryApp  
 ]
 
-{ #category : #actions }
-MidasQueryAdapter >> performQuery [
-	midas context
-		strongFocus: (queryWidget performFilterOn: listView listItems)
+{ #category : #updating }
+MidasQueryAdapter >> update [
+	mooseModelPresenter update.
+	mooseFormPresenter update
 ]
 
-{ #category : #'model - updating' }
-MidasQueryAdapter >> setSelectionTo: anItem [
-	listView resetSelection.
-	listView setSelectedItem: anItem
-	
-]
-
-{ #category : #'model - updating' }
-MidasQueryAdapter >> updateNavigationButtons [
-]
-
-{ #category : #'model - updating' }
-MidasQueryAdapter >> updateNumberOfModelElement [
+{ #category : #notifications }
+MidasQueryAdapter >> updateWeakFocus: newFocus [
+	mooseModelPresenter setSelectionTo: newFocus
 ]

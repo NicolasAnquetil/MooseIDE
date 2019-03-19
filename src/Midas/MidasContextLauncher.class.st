@@ -24,6 +24,14 @@ MidasContextLauncher >> addChild: aContext [
 	aContext parentContext: self
 ]
 
+{ #category : #actions }
+MidasContextLauncher >> exit [
+	children do: [ :child | child exit ].
+	children removeAll.
+	app delete.
+	app := nil
+]
+
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.

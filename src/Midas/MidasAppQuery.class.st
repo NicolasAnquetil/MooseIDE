@@ -20,6 +20,19 @@ MidasAppQuery class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #accessing }
+MidasAppQuery >> context: aContext [
+	super context: aContext.
+	query subscribeTo: aContext
+]
+
+{ #category : #private }
+MidasAppQuery >> delete [
+	query delete.
+	query := nil.
+	super delete
+]
+
 { #category : #initialization }
 MidasAppQuery >> initializeWidgets [
 	super initializeWidgets.
@@ -39,16 +52,12 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: newFocus [
-	| newList |
-	newList := (newFocus isKindOf: MooseModel)
-					ifTrue: [ newFocus mvsGroupEntitycache ]
-					ifFalse: [ newFocus ].
-	query initListViewItems: newList
+	query update
 ]
 
 { #category : #notifications }
 MidasAppQuery >> updateWeakFocus: focus [
-	query setSelectionTo: focus
+	query updateWeakFocus: focus
 
 	
 ]

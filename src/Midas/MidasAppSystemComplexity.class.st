@@ -20,6 +20,13 @@ MidasAppSystemComplexity class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #private }
+MidasAppSystemComplexity >> delete [
+	visualizer delete.
+	visualizer := nil.
+	super delete
+]
+
 { #category : #initialization }
 MidasAppSystemComplexity >> initializeWidgets [
 	super initializeWidgets.

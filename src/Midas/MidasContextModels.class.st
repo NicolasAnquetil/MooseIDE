@@ -1,3 +1,7 @@
+"
+Context for AppMetrics
+Overrides various methods
+"
 Class {
 	#name : #MidasContextModels,
 	#superclass : #MidasChildContext,

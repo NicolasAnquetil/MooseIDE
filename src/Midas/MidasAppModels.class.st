@@ -1,3 +1,6 @@
+"
+An app responsible for managing MooseModels: creating new one, loading or selecting them.
+"
 Class {
 	#name : #MidasAppModels,
 	#superclass : #MidasAbstractApp,
