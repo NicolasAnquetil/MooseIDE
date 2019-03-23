@@ -8,9 +8,8 @@ Class {
 	#name : #MidasContextLauncher,
 	#superclass : #MidasAbstractContext,
 	#instVars : [
-		'mooseModel',
 		'children',
-		'focusStrong',
+		'history',
 		'focusWeak'
 	],
 	#category : #'Midas-context'
@@ -24,6 +23,12 @@ MidasContextLauncher >> addChild: aContext [
 	aContext parentContext: self
 ]
 
+{ #category : #accessing }
+MidasContextLauncher >> clearHistory [
+	history := NavigationHistory new.
+	self weakFocus: nil
+]
+
 { #category : #actions }
 MidasContextLauncher >> exit [
 	children do: [ :child | child exit ].
@@ -35,21 +40,24 @@ MidasContextLauncher >> exit [
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.
-	children := OrderedCollection new
+	children := OrderedCollection new.
+	self clearHistory
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel [
-	^ mooseModel
+	^ history isEmpty
+		ifTrue: [ nil ]
+		ifFalse: [ history first key ]
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel: newMooseModel [
 	newMooseModel ifNil: [ ^ self ].
-	mooseModel = newMooseModel
+	self mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
-	self resetFocuses.
-	mooseModel := newMooseModel.
+	self clearHistory.
+	history addEntry: newMooseModel.
 	self notifyNewModel: newMooseModel
 ]
 
@@ -69,12 +77,6 @@ MidasContextLauncher >> notifyWeakFocus: newFocus [
 	children do: [ :child | child notifyWeakFocus: newFocus ]
 ]
 
-{ #category : #accessing }
-MidasContextLauncher >> resetFocuses [
-	self strongFocus: nil.
-	self weakFocus: nil
-]
-
 { #category : #'instance creation' }
 MidasContextLauncher >> spawn: aContextClass [
 	^aContextClass new
@@ -84,14 +86,14 @@ MidasContextLauncher >> spawn: aContextClass [
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus [
-	^ focusStrong ifNil: [ self mooseModel ]
+	^ history current key "NavigationHistory stores Object->Date and we don't care about the Date"
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus: newFocus [
-	focusStrong = newFocus
+	self strongFocus = newFocus
 		ifTrue: [ ^ self ].
-	focusStrong := newFocus.
+	history addEntry: newFocus.
 	self notifyStrongFocus: newFocus
 ]
 

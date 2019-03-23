@@ -5,7 +5,9 @@ Class {
 	#name : #MidasQueryAdapter,
 	#superclass : #MMCMainPresenter,
 	#instVars : [
-		'midas'
+		'lstLft',
+		'lstRight',
+		'tabs'
 	],
 	#category : #'Midas-apps'
 }
