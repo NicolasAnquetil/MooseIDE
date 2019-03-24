@@ -76,14 +76,8 @@ MidasAppQuery >> initializePresenter [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgets [
-	super initializeWidgets.
-
-	chkAssociation := (self instantiate: CheckBoxPresenter)
-		label: 'Track Parent' ;
-		yourself.
-
-	mnuHistory  := MenuPresenter new
+MidasAppQuery >> initializeWidgetHistoryMenu [
+	mnuHistory := MenuPresenter new
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -99,27 +93,56 @@ MidasAppQuery >> initializeWidgets [
 						description: 'Next';
 						icon: (self iconNamed: #smallRedoIcon);
 						action: [ context next ] ] ].
-	mnuHistory applyTo: self.
-	
-	mnuSelcol  := self newDropList.
-	mnuSelcol
-		items: #(filter navigate) ;
-		displayBlock: [ :i | i asString ].
+	mnuHistory applyTo: self
+]
 
-	lblEach := self newLabel.
-	lblEach label: 'each where:'.
-	
-	fldQuery := self newTextInput.
-	
-	btnQuery := self newButton.
-	btnQuery label: 'run'.
-	btnQuery action: self runQueryButtonAction.
-
+{ #category : #initialization }
+MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: FastTablePresenter.
 	lstEntities
+		displayBlock: [ :asso |
+			asso key = asso value
+				ifTrue: [ asso value asString ]
+				ifFalse: [ '- ' , asso value asString ]
+		];
 		icons: [ :item | item mooseIcon ];
-		sortingBlock: [ :a :b | a asString < b asString ]
+		sortingBlock: [ :assoA :assoB |
+			(assoA key = assoB key)
+				ifTrue: [ (assoA key = assoA value)
+								ifTrue: [ true ]
+								ifFalse: [
+									(assoB key = assoB value)
+										ifTrue: [  false ]
+										ifFalse: [ assoA value asString < assoB value asString]
+								]
+				]
+				ifFalse: [ assoA key asString < assoB key asString ]
+		]
+]
 
+{ #category : #initialization }
+MidasAppQuery >> initializeWidgets [
+	super initializeWidgets.
+	chkAssociation := (self instantiate: CheckBoxPresenter)
+		label: 'Track Parent';
+		yourself.
+	self initializeWidgetHistoryMenu.
+	self initializeWidgetsQueryRow.
+	self initializeWidgetListEntities
+]
+
+{ #category : #initialization }
+MidasAppQuery >> initializeWidgetsQueryRow [
+	mnuSelcol := self newDropList.
+	mnuSelcol
+		items: #(#filter #navigate);
+		displayBlock: [ :i | i asString ].
+	lblEach := self newLabel.
+	lblEach label: 'each where:'.
+	fldQuery := self newTextInput.
+	btnQuery := self newButton.
+	btnQuery label: 'run'.
+	btnQuery action: self runQueryButtonAction
 ]
 
 { #category : #accessing }
@@ -154,7 +177,7 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
-	lstEntities items: (focus ifNil: [ #() ])
+	lstEntities items: focus
 ]
 
 { #category : #notifications }

@@ -2,7 +2,8 @@ Class {
 	#name : #MidasContextQuery,
 	#superclass : #MidasChildContext,
 	#instVars : [
-		'resultsWithParents'
+		'resultsWithParents',
+		'listEntities'
 	],
 	#category : #'Midas-context'
 }
@@ -15,6 +16,35 @@ MidasContextQuery >> acceptModelUpdate: newFocus [
 { #category : #running }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
+	self notifyStrongFocus: self flattenedStrongFocus 
+]
+
+{ #category : #notifications }
+MidasContextQuery >> formatNewFocus: focus [
+	^self strongFocusIsModel 
+		ifTrue: [ 
+			resultsWithParents 
+				ifTrue: [ self formatNewFocusWithParents: { self mooseModel -> self mooseModelAsGroups } ]
+				ifFalse: [ self formatNewFocusFlat: self mooseModelAsGroups ] ]
+		ifFalse: [
+			resultsWithParents 
+				ifTrue: [ self formatNewFocusWithParents: self strongFocus ]
+				ifFalse: [ self formatNewFocusFlat: focus ] ]
+]
+
+{ #category : #notifications }
+MidasContextQuery >> formatNewFocusFlat: focus [
+	^focus collect: [ :each | each -> each ]
+]
+
+{ #category : #notifications }
+MidasContextQuery >> formatNewFocusWithParents: focus [
+	|entitiesToDisplay|
+	entitiesToDisplay := OrderedCollection new.
+	focus associationsDo: [:asso |
+		entitiesToDisplay add: asso key -> asso key.
+		entitiesToDisplay addAll: (asso value collect: [:each | asso key -> each])  ].
+	^entitiesToDisplay
 ]
 
 { #category : #initialization }
@@ -36,7 +66,7 @@ MidasContextQuery >> interpretQuery: aPredicateAsString withBody: aBlockAsString
 
 { #category : #notifications }
 MidasContextQuery >> notifyNewModel: newMooseModel [
-	app updateStrongFocus: (self mooseModelAsGroups)
+	app updateStrongFocus: (self formatNewFocus: (self mooseModelAsGroups))
 ]
 
 { #category : #running }
@@ -68,15 +98,16 @@ MidasContextQuery >> selectedStrongFocus: anEntity [
 		((self strongFocusIsModel 
 			ifTrue: [ self mooseModelAsGroups ]
 			ifFalse: [ self strongFocus ]
-			) associationsSelect: [ :a | a value = anEntity ])
+			) associationsSelect: [ :a | a value = anEntity value ])
 ]
 
 { #category : #running }
 MidasContextQuery >> selectedWeakFocus: anEntity [
-	self weakFocus: anEntity
+	self weakFocus: anEntity value
 ]
 
 { #category : #running }
 MidasContextQuery >> trackAssociation [
 	resultsWithParents := true.
+	self notifyStrongFocus: nil "not used in this situation"
 ]
