@@ -31,12 +31,12 @@ MidasAppModels >> extent [
 	^ 100 @ 300
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #import }
 MidasAppModels >> importMSEModel [
 	context mooseModel: MVSMSELoader importModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #import }
 MidasAppModels >> importStModel [
 	context mooseModel: MPImportSTCommand new execute
 ]
@@ -45,7 +45,7 @@ MidasAppModels >> importStModel [
 MidasAppModels >> initializePresenter [
 	super initializePresenter.
 	lstModels
-		doubleClickAction: [ :item | self context mooseModel: lstModels selectedItem ]
+		doubleClickAction: [ :item | self context selectedModel: lstModels selectedItem ]
 ]
 
 { #category : #initialization }

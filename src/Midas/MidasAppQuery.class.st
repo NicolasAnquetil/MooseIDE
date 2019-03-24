@@ -65,19 +65,14 @@ MidasAppQuery >> fldQuery [
 	^ fldQuery
 ]
 
-{ #category : #notifications }
-MidasAppQuery >> groupsForMooseModel: focus [
-	^focus cacheMooseGroups entityCache
-]
-
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
-		whenSelectedItemChanged: [ :item | context weakFocus: item ] ;
-		doubleClickAction: [ :item | context strongFocus: lstEntities selectedItem ]
+		whenSelectedItemChanged: [ :item | context selectedWeakFocus: item ] ;
+		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selectedItem ]
 ]
 
 { #category : #initialization }
@@ -149,7 +144,7 @@ MidasAppQuery >> mnuSelcol [
 
 { #category : #initialization }
 MidasAppQuery >> runQueryButtonAction [
-	^[ context runQuery: fldQuery getText predicate: mnuSelcol selectedItem ]
+	^[ context interpretQuery: mnuSelcol selectedItem withBody: fldQuery getText  ]
 ]
 
 { #category : #api }
@@ -159,15 +154,7 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
-	lstEntities
-		items: (focus 
-					ifNil: [ #() ]
-					ifNotNil: [
-						(focus isKindOf: MooseModel)
-							ifTrue: [ self groupsForMooseModel: focus ]
-							ifFalse: [ focus ]
-					]
-			)
+	lstEntities items: (focus ifNil: [ #() ])
 ]
 
 { #category : #notifications }

@@ -8,3 +8,10 @@ Class {
 MidasContextSystemComplexity >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]
+
+{ #category : #notifications }
+MidasContextSystemComplexity >> formatNewFocus: newFocus [
+	^self strongFocusIsModel
+		ifTrue: [ self mooseModel allModelClasses ]
+		ifFalse: [ newFocus ]
+]

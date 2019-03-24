@@ -37,6 +37,16 @@ MidasChildContext >> exit [
 ]
 
 { #category : #accessing }
+MidasChildContext >> flattenedStrongFocus [
+	^parentContext flattenedStrongFocus
+]
+
+{ #category : #notifications }
+MidasChildContext >> formatNewFocus: newFocus [
+	^newFocus 
+]
+
+{ #category : #accessing }
 MidasChildContext >> freeze [
 	frozen := true
 ]
@@ -56,6 +66,12 @@ MidasChildContext >> mooseModel: aMooseModel [
 	parentContext mooseModel: aMooseModel
 ]
 
+{ #category : #accessing }
+MidasChildContext >> mooseModelAsGroups [
+	^parentContext mooseModelAsGroups
+
+]
+
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
 	(self acceptModelUpdate: newMooseModel)
@@ -66,8 +82,8 @@ MidasChildContext >> notifyNewModel: newMooseModel [
 { #category : #notifications }
 MidasChildContext >> notifyStrongFocus: newFocus [
 	frozen ifTrue: [ ^self ].
-	(self acceptStrongFocusUpdate: newFocus)
-		ifTrue: [ app updateStrongFocus: newFocus ]
+	(self acceptStrongFocusUpdate: newFocus )
+		ifTrue: [ app updateStrongFocus: (self formatNewFocus: newFocus) ]
 ]
 
 { #category : #notifications }
@@ -98,6 +114,11 @@ MidasChildContext >> strongFocus [
 { #category : #accessing }
 MidasChildContext >> strongFocus: anObject [
 	parentContext strongFocus: anObject
+]
+
+{ #category : #accessing }
+MidasChildContext >> strongFocusIsModel [
+	^ parentContext strongFocusIsModel
 ]
 
 { #category : #accessing }

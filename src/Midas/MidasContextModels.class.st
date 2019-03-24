@@ -33,3 +33,9 @@ MidasContextModels >> mooseModel: newMooseModel [
 	parentContext mooseModel: newMooseModel
 
 ]
+
+{ #category : #accessing }
+MidasContextModels >> selectedModel: newMooseModel [
+	parentContext mooseModel: newMooseModel
+
+]

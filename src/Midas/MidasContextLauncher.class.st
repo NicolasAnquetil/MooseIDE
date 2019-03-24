@@ -25,7 +25,7 @@ MidasContextLauncher >> addChild: aContext [
 
 { #category : #accessing }
 MidasContextLauncher >> clearHistory [
-	history := NavigationHistory new.
+	history := MidasHistory new.
 	self weakFocus: nil
 ]
 
@@ -37,6 +37,22 @@ MidasContextLauncher >> exit [
 	app := nil
 ]
 
+{ #category : #accessing }
+MidasContextLauncher >> flattenedStrongFocus [
+	^ self strongFocusIsModel 
+		ifTrue: [ self mooseModelAsGroups ]
+		ifFalse: [ self strongFocus ifNotNil: [ :focus | focus values flatten asOrderedCollection removeDuplicates] ]
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> initHistoryWith: newMooseModel [
+	| firstEntry |
+	self clearHistory.
+	firstEntry := Dictionary new.
+	firstEntry add: #mooseModel -> newMooseModel.
+	history addEntry: firstEntry
+]
+
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.
@@ -46,9 +62,7 @@ MidasContextLauncher >> initialize [
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel [
-	^ history isEmpty
-		ifTrue: [ nil ]
-		ifFalse: [ history first key ]
+	^ history firstEntry ifNotNil: [:entry | entry at: #mooseModel]
 ]
 
 { #category : #accessing }
@@ -56,9 +70,13 @@ MidasContextLauncher >> mooseModel: newMooseModel [
 	newMooseModel ifNil: [ ^ self ].
 	self mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
-	self clearHistory.
-	history addEntry: newMooseModel.
+	self initHistoryWith: newMooseModel.
 	self notifyNewModel: newMooseModel
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> mooseModelAsGroups [
+	^ self mooseModel entityCache associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']]
 ]
 
 { #category : #notifications }
@@ -86,7 +104,7 @@ MidasContextLauncher >> spawn: aContextClass [
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus [
-	^ history current key "NavigationHistory stores Object->Date and we don't care about the Date"
+	^ history now
 ]
 
 { #category : #accessing }
@@ -94,7 +112,12 @@ MidasContextLauncher >> strongFocus: newFocus [
 	self strongFocus = newFocus
 		ifTrue: [ ^ self ].
 	history addEntry: newFocus.
-	self notifyStrongFocus: newFocus
+	self notifyStrongFocus: self flattenedStrongFocus
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> strongFocusIsModel [
+	^history entries size = 1
 ]
 
 { #category : #accessing }
