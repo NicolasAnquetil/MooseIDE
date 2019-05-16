@@ -51,6 +51,11 @@ MidasChildContext >> freeze [
 	frozen := true
 ]
 
+{ #category : #accessing }
+MidasChildContext >> frozen [
+	^frozen
+]
+
 { #category : #initialization }
 MidasChildContext >> initialize [
 	frozen := false.

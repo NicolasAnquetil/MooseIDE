@@ -31,6 +31,16 @@ MidasHistory >> lastEntry [
 ]
 
 { #category : #accessing }
+MidasHistory >> next [
+	^ super next key
+]
+
+{ #category : #accessing }
 MidasHistory >> now [
 	^super current key
+]
+
+{ #category : #accessing }
+MidasHistory >> previous [
+	super previous key
 ]

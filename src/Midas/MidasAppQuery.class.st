@@ -5,13 +5,14 @@ Class {
 	#name : #MidasAppQuery,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'mnuHistory',
 		'chkAssociation',
 		'mnuSelcol',
 		'lblEach',
 		'fldQuery',
 		'btnQuery',
-		'lstEntities'
+		'lstEntities',
+		'btnPrev',
+		'btnNext'
 	],
 	#category : #'Midas-apps'
 }
@@ -24,9 +25,10 @@ MidasAppQuery class >> defaultSpec [
 				newRow: [ :r |
 					r
 						add: #freeze ;
-						add: #chkAssociation
+						add: #chkAssociation ;
+						add: #btnPrev ;
+						add: #btnNext
 					]  height: 30 ;
-				add: #mnuHistory height: 30 ;
 				newRow: [ :r |
 					r
 						add: #mnuSelcol width: 80 ;
@@ -46,8 +48,25 @@ MidasAppQuery class >> runMe [
 ]
 
 { #category : #accessing }
+MidasAppQuery >> btnNext [
+	^ btnNext
+]
+
+{ #category : #accessing }
+MidasAppQuery >> btnPrev [
+	^ btnPrev
+]
+
+{ #category : #accessing }
 MidasAppQuery >> btnQuery [
 	^ btnQuery
+]
+
+{ #category : #notifications }
+MidasAppQuery >> checkPreviousNext [
+	btnPrev enabled: (context historyHasPrevious and: [context frozen not]).
+	btnNext enabled: (context historyHasNext and: [context frozen not]).
+	
 ]
 
 { #category : #accessing }
@@ -67,6 +86,9 @@ MidasAppQuery >> fldQuery [
 
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
+	freeze
+		whenActivatedDo: [ self checkPreviousNext. context freeze ];
+		whenDeactivatedDo: [ self checkPreviousNext. context unfreeze ].
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
@@ -77,23 +99,17 @@ MidasAppQuery >> initializePresenter [
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetHistoryMenu [
-	mnuHistory := MenuPresenter new
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Previous';
-						icon: (self iconNamed: #smallUndoIcon);
-						action: [ context prev ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Next';
-						icon: (self iconNamed: #smallRedoIcon);
-						action: [ context next ] ] ].
-	mnuHistory applyTo: self
+	btnPrev := self newButton.
+	btnPrev
+		disable ;
+		icon: (self iconNamed: #smallUndoIcon);
+		action: [ context prev ].
+	btnNext := self newButton.
+	btnNext
+		disable ;
+		icon: (self iconNamed: #smallRedoIcon);
+		action: [ context next ].
+
 ]
 
 { #category : #initialization }
@@ -124,7 +140,7 @@ MidasAppQuery >> initializeWidgetListEntities [
 MidasAppQuery >> initializeWidgets [
 	super initializeWidgets.
 	chkAssociation := (self instantiate: CheckBoxPresenter)
-		label: 'Track Parent';
+		label: 'Result as tree';
 		yourself.
 	self initializeWidgetHistoryMenu.
 	self initializeWidgetsQueryRow.
@@ -156,11 +172,6 @@ MidasAppQuery >> lstEntities [
 ]
 
 { #category : #accessing }
-MidasAppQuery >> mnuHistory [
-	^ mnuHistory
-]
-
-{ #category : #accessing }
 MidasAppQuery >> mnuSelcol [
 	^ mnuSelcol
 ]
@@ -177,7 +188,9 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
-	lstEntities items: focus
+	lstEntities items: focus.
+	self checkPreviousNext
+	
 ]
 
 { #category : #notifications }

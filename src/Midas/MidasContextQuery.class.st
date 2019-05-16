@@ -47,6 +47,16 @@ MidasContextQuery >> formatNewFocusWithParents: focus [
 	^entitiesToDisplay
 ]
 
+{ #category : #history }
+MidasContextQuery >> historyHasNext [
+	^parentContext historyHasNext
+]
+
+{ #category : #history }
+MidasContextQuery >> historyHasPrevious [
+	^parentContext historyHasPrevious
+]
+
 { #category : #initialization }
 MidasContextQuery >> initialize [
 	super initialize.
@@ -64,9 +74,19 @@ MidasContextQuery >> interpretQuery: aPredicateAsString withBody: aBlockAsString
 	
 ]
 
+{ #category : #running }
+MidasContextQuery >> next [
+	parentContext next
+]
+
 { #category : #notifications }
 MidasContextQuery >> notifyNewModel: newMooseModel [
 	app updateStrongFocus: (self formatNewFocus: (self mooseModelAsGroups))
+]
+
+{ #category : #running }
+MidasContextQuery >> prev [
+	parentContext previous
 ]
 
 { #category : #running }

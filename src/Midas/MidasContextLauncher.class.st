@@ -23,7 +23,7 @@ MidasContextLauncher >> addChild: aContext [
 	aContext parentContext: self
 ]
 
-{ #category : #accessing }
+{ #category : #history }
 MidasContextLauncher >> clearHistory [
 	history := MidasHistory new.
 	self weakFocus: nil
@@ -44,7 +44,17 @@ MidasContextLauncher >> flattenedStrongFocus [
 		ifFalse: [ self strongFocus ifNotNil: [ :focus | focus values flatten asOrderedCollection removeDuplicates] ]
 ]
 
-{ #category : #accessing }
+{ #category : #history }
+MidasContextLauncher >> historyHasNext [
+	^ history hasNext
+]
+
+{ #category : #history }
+MidasContextLauncher >> historyHasPrevious [
+	^ history hasPrevious 
+]
+
+{ #category : #history }
 MidasContextLauncher >> initHistoryWith: newMooseModel [
 	| firstEntry |
 	self clearHistory.
@@ -76,7 +86,12 @@ MidasContextLauncher >> mooseModel: newMooseModel [
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModelAsGroups [
-	^ self mooseModel entityCache associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']]
+	^ self mooseModel ifNotNil: [ :model | model entityCache associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']]]
+]
+
+{ #category : #history }
+MidasContextLauncher >> next [
+	history hasNext ifTrue: [ self strongFocusFromHistory: history next ]
 ]
 
 { #category : #notifications }
@@ -93,6 +108,11 @@ MidasContextLauncher >> notifyStrongFocus: newFocus [
 { #category : #notifications }
 MidasContextLauncher >> notifyWeakFocus: newFocus [
 	children do: [ :child | child notifyWeakFocus: newFocus ]
+]
+
+{ #category : #history }
+MidasContextLauncher >> previous [
+	history hasPrevious ifTrue: [ self strongFocusFromHistory: history previous ]
 ]
 
 { #category : #'instance creation' }
@@ -112,12 +132,17 @@ MidasContextLauncher >> strongFocus: newFocus [
 	self strongFocus = newFocus
 		ifTrue: [ ^ self ].
 	history addEntry: newFocus.
+	self strongFocusFromHistory: newFocus
+]
+
+{ #category : #actions }
+MidasContextLauncher >> strongFocusFromHistory: newFocus [
 	self notifyStrongFocus: self flattenedStrongFocus
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocusIsModel [
-	^history entries size = 1
+	^history hasPrevious not
 ]
 
 { #category : #accessing }
