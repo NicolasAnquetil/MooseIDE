@@ -10,9 +10,11 @@ Class {
 		'lblEach',
 		'fldQuery',
 		'btnQuery',
+		'mnuScope',
 		'lstEntities',
 		'btnPrev',
-		'btnNext'
+		'btnNext',
+		'filterQuery'
 	],
 	#category : #'Midas-apps'
 }
@@ -80,6 +82,11 @@ MidasAppQuery >> context: aContext [
 ]
 
 { #category : #accessing }
+MidasAppQuery >> filterQuery [
+	^ filterQuery
+]
+
+{ #category : #accessing }
 MidasAppQuery >> fldQuery [
 	^ fldQuery
 ]
@@ -116,24 +123,9 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: FastTablePresenter.
 	lstEntities
-		displayBlock: [ :asso |
-			asso key = asso value
-				ifTrue: [ asso value asString ]
-				ifFalse: [ '- ' , asso value asString ]
-		];
+		displayBlock: [ :entity | entity formatWithParent: context resultsWithParents ];
 		icons: [ :item | item mooseIcon ];
-		sortingBlock: [ :assoA :assoB |
-			(assoA key = assoB key)
-				ifTrue: [ (assoA key = assoA value)
-								ifTrue: [ true ]
-								ifFalse: [
-									(assoB key = assoB value)
-										ifTrue: [  false ]
-										ifFalse: [ assoA value asString < assoB value asString]
-								]
-				]
-				ifFalse: [ assoA key asString < assoB key asString ]
-		]
+		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]
 ]
 
 { #category : #initialization }
@@ -153,6 +145,7 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	mnuSelcol
 		items: #(#filter #navigate);
 		displayBlock: [ :i | i asString ].
+	filterQuery := true.  "by default will be on #filter"
 	lblEach := self newLabel.
 	lblEach label: 'each where:'.
 	fldQuery := self newTextInput.
@@ -176,14 +169,19 @@ MidasAppQuery >> mnuSelcol [
 	^ mnuSelcol
 ]
 
-{ #category : #initialization }
+{ #category : #running }
 MidasAppQuery >> runQueryButtonAction [
-	^[ context interpretQuery: mnuSelcol selectedItem withBody: fldQuery getText  ]
+	^[ context interpretQuery: fldQuery getText  ]
 ]
 
 { #category : #api }
 MidasAppQuery >> title [
 	^'MIDAS Query' 
+]
+
+{ #category : #notifications }
+MidasAppQuery >> updateModel: mooseModel [
+	self updateStrongFocus: mooseModel
 ]
 
 { #category : #notifications }

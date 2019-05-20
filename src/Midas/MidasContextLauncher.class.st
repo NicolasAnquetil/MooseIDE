@@ -37,13 +37,6 @@ MidasContextLauncher >> exit [
 	app := nil
 ]
 
-{ #category : #accessing }
-MidasContextLauncher >> flattenedStrongFocus [
-	^ self strongFocusIsModel 
-		ifTrue: [ self mooseModelAsGroups ]
-		ifFalse: [ self strongFocus ifNotNil: [ :focus | focus values flatten asOrderedCollection removeDuplicates] ]
-]
-
 { #category : #history }
 MidasContextLauncher >> historyHasNext [
 	^ history hasNext
@@ -56,11 +49,8 @@ MidasContextLauncher >> historyHasPrevious [
 
 { #category : #history }
 MidasContextLauncher >> initHistoryWith: newMooseModel [
-	| firstEntry |
 	self clearHistory.
-	firstEntry := Dictionary new.
-	firstEntry add: #mooseModel -> newMooseModel.
-	history addEntry: firstEntry
+	history addEntry: newMooseModel
 ]
 
 { #category : #initialization }
@@ -72,7 +62,7 @@ MidasContextLauncher >> initialize [
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel [
-	^ history firstEntry ifNotNil: [:entry | entry at: #mooseModel]
+	^ history firstEntry
 ]
 
 { #category : #accessing }
@@ -137,7 +127,7 @@ MidasContextLauncher >> strongFocus: newFocus [
 
 { #category : #actions }
 MidasContextLauncher >> strongFocusFromHistory: newFocus [
-	self notifyStrongFocus: self flattenedStrongFocus
+	self notifyStrongFocus: newFocus
 ]
 
 { #category : #accessing }

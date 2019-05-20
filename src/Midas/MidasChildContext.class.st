@@ -46,6 +46,11 @@ MidasChildContext >> formatNewFocus: newFocus [
 	^newFocus 
 ]
 
+{ #category : #notifications }
+MidasChildContext >> formatNewModel: newMooseModel [
+	^newMooseModel
+]
+
 { #category : #accessing }
 MidasChildContext >> freeze [
 	frozen := true
@@ -80,7 +85,7 @@ MidasChildContext >> mooseModelAsGroups [
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
 	(self acceptModelUpdate: newMooseModel)
-		ifTrue: [ app updateModel: newMooseModel ]
+		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
 		ifFalse: [	self notifyStrongFocus: self strongFocus]
 ]
 

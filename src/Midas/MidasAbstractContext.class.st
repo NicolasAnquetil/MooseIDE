@@ -24,12 +24,7 @@ MidasAbstractContext >> app: anApp [
 		ifTrue: [ ^ self ].
 	app := anApp.
 	anApp context: self.
-	self notifyStrongFocus: self flattenedStrongFocus
-]
-
-{ #category : #accessing }
-MidasAbstractContext >> flattenedStrongFocus [
-	^self subclassResponsibility 
+	self notifyStrongFocus: self strongFocus
 ]
 
 { #category : #notifications }

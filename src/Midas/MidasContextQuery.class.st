@@ -13,38 +13,32 @@ MidasContextQuery >> acceptModelUpdate: newFocus [
 	^ true
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
-	self notifyStrongFocus: self flattenedStrongFocus 
+	self notifyStrongFocus: nil
 ]
 
 { #category : #notifications }
 MidasContextQuery >> formatNewFocus: focus [
-	^self strongFocusIsModel 
-		ifTrue: [ 
-			resultsWithParents 
-				ifTrue: [ self formatNewFocusWithParents: { self mooseModel -> self mooseModelAsGroups } ]
-				ifFalse: [ self formatNewFocusFlat: self mooseModelAsGroups ] ]
-		ifFalse: [
-			resultsWithParents 
-				ifTrue: [ self formatNewFocusWithParents: self strongFocus ]
-				ifFalse: [ self formatNewFocusFlat: focus ] ]
+	^ self strongFocus collect: [ :e | MidasQueryResult with: e from: nil ]
 ]
 
 { #category : #notifications }
-MidasContextQuery >> formatNewFocusFlat: focus [
-	^focus collect: [ :each | each -> each ]
-]
-
-{ #category : #notifications }
-MidasContextQuery >> formatNewFocusWithParents: focus [
-	|entitiesToDisplay|
-	entitiesToDisplay := OrderedCollection new.
-	focus associationsDo: [:asso |
-		entitiesToDisplay add: asso key -> asso key.
-		entitiesToDisplay addAll: (asso value collect: [:each | asso key -> each])  ].
-	^entitiesToDisplay
+MidasContextQuery >> formatNewModel: mooseModel [
+	| formated |
+	formated := OrderedCollection new.
+	(self mooseModelAsGroups: mooseModel)
+		associationsDo: [ :assoc |
+			(assoc key asString beginsWith: 'All model')
+			ifTrue: [
+				formated add:
+					((MidasQueryResultUnnamed with: assoc value from: mooseModel)
+						name: assoc key ;
+						yourself)
+			]
+		].
+	^formated 
 ]
 
 { #category : #history }
@@ -64,70 +58,72 @@ MidasContextQuery >> initialize [
 ]
 
 { #category : #running }
-MidasContextQuery >> interpretQuery: aPredicateAsString withBody: aBlockAsString [
+MidasContextQuery >> interpretQuery: aBlockAsString [
 	| aBlock |
 	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
 	self strongFocus:
-		(aPredicateAsString = 'filter'
+		(app filterQuery
 					ifTrue: [ self runSelectQuery: aBlock ]
 					ifFalse: [ self runCollectQuery: aBlock])
 	
 ]
 
 { #category : #running }
+MidasContextQuery >> mooseModelAsGroups: mooseModel [
+	^ mooseModel entityCache
+]
+
+{ #category : #accessing }
 MidasContextQuery >> next [
 	parentContext next
 ]
 
-{ #category : #notifications }
-MidasContextQuery >> notifyNewModel: newMooseModel [
-	app updateStrongFocus: (self formatNewFocus: (self mooseModelAsGroups))
-]
-
-{ #category : #running }
+{ #category : #accessing }
 MidasContextQuery >> prev [
 	parentContext previous
 ]
 
+{ #category : #accessing }
+MidasContextQuery >> resultsWithParents [
+	^resultsWithParents
+]
+
 { #category : #running }
 MidasContextQuery >> runCollectQuery: aBloc [
-	| focus |
-	focus := Dictionary new.
-	self flattenedStrongFocus do: [ :key | focus at: key put: (aBloc value: key) ].
-	^focus
+	^self strongFocus flatCollect: aBloc.
 
 	
 ]
 
 { #category : #running }
 MidasContextQuery >> runSelectQuery: aBloc [
-	| focus |
-	focus := Dictionary new.
-	self strongFocus associationsDo: [:asso |
-		(asso value select: aBloc)
-			ifNotEmpty: [ :newValue | focus at: asso key put: newValue ]
-		].
-	^focus
+	^self strongFocus select: aBloc.
 
 	
 ]
 
 { #category : #running }
-MidasContextQuery >> selectedStrongFocus: anEntity [
-	self strongFocus:
-		((self strongFocusIsModel 
-			ifTrue: [ self mooseModelAsGroups ]
-			ifFalse: [ self strongFocus ]
-			) associationsSelect: [ :a | a value = anEntity value ])
+MidasContextQuery >> selectedStrongFocus: aMidasEntity [
+	self strongFocus: aMidasEntity entity
 ]
 
 { #category : #running }
-MidasContextQuery >> selectedWeakFocus: anEntity [
-	self weakFocus: anEntity value
+MidasContextQuery >> selectedWeakFocus: aMidasEntity [
+	aMidasEntity ifNil: [ ^ self ].
+	self weakFocus: aMidasEntity entity
 ]
 
-{ #category : #running }
+{ #category : #accessing }
+MidasContextQuery >> strongFocus [
+	| realFocus |
+	realFocus := super strongFocus.
+	^realFocus isCollection
+		ifTrue: [ realFocus ]
+		ifFalse: [ OrderedCollection with: realFocus ]
+]
+
+{ #category : #accessing }
 MidasContextQuery >> trackAssociation [
 	resultsWithParents := true.
-	self notifyStrongFocus: nil "not used in this situation"
+	self notifyStrongFocus: nil
 ]

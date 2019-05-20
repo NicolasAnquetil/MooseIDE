@@ -29,6 +29,13 @@ MidasAbstractApp >> freeze [
 	^ freeze 
 ]
 
+{ #category : #accessing }
+MidasAbstractApp >> iconNamed: aSymbol [
+	^(aSymbol asString beginsWith: 'famix')
+	ifTrue: [ MooseIcons perform: aSymbol  ]
+	ifFalse: [ Smalltalk ui icons iconNamed: aSymbol ]
+]
+
 { #category : #initialization }
 MidasAbstractApp >> initializePresenter [
 	super initializePresenter.
