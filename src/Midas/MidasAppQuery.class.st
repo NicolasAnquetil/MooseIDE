@@ -38,6 +38,7 @@ MidasAppQuery class >> defaultSpec [
 						add: #fldQuery ;
 						add: #btnQuery width: 30
 					] height: 30 ;
+				add: #mnuScope height: 30 ;
 				add: #lstEntities 
 			] ;
 		yourself
@@ -101,7 +102,9 @@ MidasAppQuery >> initializePresenter [
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectedItemChanged: [ :item | context selectedWeakFocus: item ] ;
-		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selectedItem ]
+		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selectedItem ].
+	mnuSelcol
+		whenSelectedItemChanged: [ :item | filterQuery := (item = #filter) ]
 ]
 
 { #category : #initialization }
@@ -136,6 +139,7 @@ MidasAppQuery >> initializeWidgets [
 		yourself.
 	self initializeWidgetHistoryMenu.
 	self initializeWidgetsQueryRow.
+	self initializeWidgetsScopeRow.
 	self initializeWidgetListEntities
 ]
 
@@ -154,6 +158,37 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	btnQuery action: self runQueryButtonAction
 ]
 
+{ #category : #initialization }
+MidasAppQuery >> initializeWidgetsScopeRow [
+	mnuScope := self instantiate: MenuPresenter.
+	mnuScope addGroup: [ :group | 
+			group
+				addItem: [ :item | 
+					item
+						name: 'Package';
+						description: 'Packages';
+						icon: (self iconNamed: #famixPackageGroup);
+						action: [ context packageScope ] ].
+			group
+				addItem: [ :item | 
+					item
+						name: 'Classes' ;
+						description: 'Classes';
+						icon: (self iconNamed: #famixClassGroup);
+						action: [ context classScope ] ].
+			group
+				addItem: [ :item | 
+					item
+						name: 'Methods' ;
+						description: 'Methods';
+						icon: (self iconNamed: #famixMethodGroup);
+						action: [ context methodScope ] ].
+
+	].
+	"mnuScope applyTo: self"
+
+]
+
 { #category : #accessing }
 MidasAppQuery >> lblEach [
 	^ lblEach
@@ -162,6 +197,11 @@ MidasAppQuery >> lblEach [
 { #category : #accessing }
 MidasAppQuery >> lstEntities [
 	^ lstEntities
+]
+
+{ #category : #Accessing }
+MidasAppQuery >> mnuScope [
+	^ mnuScope
 ]
 
 { #category : #accessing }

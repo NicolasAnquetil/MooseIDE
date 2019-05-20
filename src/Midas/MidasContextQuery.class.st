@@ -13,6 +13,25 @@ MidasContextQuery >> acceptModelUpdate: newFocus [
 	^ true
 ]
 
+{ #category : #running }
+MidasContextQuery >> atScope: aSymbol [
+	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
+			removeDuplicates.
+	
+]
+
+{ #category : #running }
+MidasContextQuery >> classScope [
+	| actuel |
+	actuel := self strongFocus.
+	actuel
+		ifEmpty: [ ^ nil ] .
+	actuel anyOne isMethod
+		ifTrue: [ self strongFocus: (self atScope: 'FAMIXClass') ]
+		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ]
+
+]
+
 { #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
@@ -69,6 +88,11 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 ]
 
 { #category : #running }
+MidasContextQuery >> methodScope [
+	self strongFocus: (self toScope: 'FAMIXMethod')
+]
+
+{ #category : #running }
 MidasContextQuery >> mooseModelAsGroups: mooseModel [
 	^ mooseModel entityCache
 ]
@@ -76,6 +100,11 @@ MidasContextQuery >> mooseModelAsGroups: mooseModel [
 { #category : #accessing }
 MidasContextQuery >> next [
 	parentContext next
+]
+
+{ #category : #running }
+MidasContextQuery >> packageScope [
+	self strongFocus: (self atScope: 'FAMIXNamespace')
 ]
 
 { #category : #accessing }
@@ -120,6 +149,12 @@ MidasContextQuery >> strongFocus [
 	^realFocus isCollection
 		ifTrue: [ realFocus ]
 		ifFalse: [ OrderedCollection with: realFocus ]
+]
+
+{ #category : #running }
+MidasContextQuery >> toScope: aSymbol [
+	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
+	
 ]
 
 { #category : #accessing }
