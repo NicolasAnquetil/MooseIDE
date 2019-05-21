@@ -155,6 +155,7 @@ MidasLauncher >> launchModelsApp [
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
+1halt.
 	self launch: MidasAppQuery withContext: MidasContextQuery
 ]
 

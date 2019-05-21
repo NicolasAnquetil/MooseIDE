@@ -42,13 +42,13 @@ MidasChildContext >> flattenedStrongFocus [
 ]
 
 { #category : #notifications }
-MidasChildContext >> formatNewFocus: newFocus [
-	^newFocus 
+MidasChildContext >> formatNewModel: newMooseModel [
+	^newMooseModel
 ]
 
 { #category : #notifications }
-MidasChildContext >> formatNewModel: newMooseModel [
-	^newMooseModel
+MidasChildContext >> formatNewStrongFocus: newFocus [
+	^newFocus 
 ]
 
 { #category : #accessing }
@@ -85,15 +85,15 @@ MidasChildContext >> mooseModelAsGroups [
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
 	(self acceptModelUpdate: newMooseModel)
-		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
-		ifFalse: [	self notifyStrongFocus: self strongFocus]
+		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ].
+
 ]
 
 { #category : #notifications }
 MidasChildContext >> notifyStrongFocus: newFocus [
 	frozen ifTrue: [ ^self ].
 	(self acceptStrongFocusUpdate: newFocus )
-		ifTrue: [ app updateStrongFocus: (self formatNewFocus: newFocus) ]
+		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
 ]
 
 { #category : #notifications }

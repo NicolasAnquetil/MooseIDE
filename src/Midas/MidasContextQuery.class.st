@@ -10,7 +10,7 @@ Class {
 
 { #category : #notifications }
 MidasContextQuery >> acceptModelUpdate: newFocus [
-	^ true
+	^ false
 ]
 
 { #category : #running }
@@ -39,25 +39,8 @@ MidasContextQuery >> flattenResult [
 ]
 
 { #category : #notifications }
-MidasContextQuery >> formatNewFocus: focus [
-	^ self strongFocus collect: [ :e | MidasQueryResult with: e from: nil ]
-]
-
-{ #category : #notifications }
-MidasContextQuery >> formatNewModel: mooseModel [
-	| formated |
-	formated := OrderedCollection new.
-	(self mooseModelAsGroups: mooseModel)
-		associationsDo: [ :assoc |
-			(assoc key asString beginsWith: 'All model')
-			ifTrue: [
-				formated add:
-					((MidasQueryResultUnnamed with: assoc value from: mooseModel)
-						name: assoc key ;
-						yourself)
-			]
-		].
-	^formated 
+MidasContextQuery >> formatNewStrongFocus: focus [
+	^MidasFocusFormater new format: focus
 ]
 
 { #category : #history }
@@ -90,11 +73,6 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 { #category : #running }
 MidasContextQuery >> methodScope [
 	self strongFocus: (self toScope: 'FAMIXMethod')
-]
-
-{ #category : #running }
-MidasContextQuery >> mooseModelAsGroups: mooseModel [
-	^ mooseModel entityCache
 ]
 
 { #category : #accessing }
@@ -131,15 +109,15 @@ MidasContextQuery >> runSelectQuery: aBloc [
 	
 ]
 
-{ #category : #running }
+{ #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
-	self strongFocus: aMidasEntity entity
+	self strongFocus: aMidasEntity selection
 ]
 
-{ #category : #running }
+{ #category : #notifications }
 MidasContextQuery >> selectedWeakFocus: aMidasEntity [
 	aMidasEntity ifNil: [ ^ self ].
-	self weakFocus: aMidasEntity entity
+	self weakFocus: aMidasEntity selection
 ]
 
 { #category : #accessing }

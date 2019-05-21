@@ -126,9 +126,9 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: FastTablePresenter.
 	lstEntities
-		displayBlock: [ :entity | entity formatWithParent: context resultsWithParents ];
-		icons: [ :item | item mooseIcon ];
-		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]
+		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
+		icons: [ :item | item mooseIcon ] ";
+		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]"
 ]
 
 { #category : #initialization }
@@ -199,7 +199,7 @@ MidasAppQuery >> lstEntities [
 	^ lstEntities
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 MidasAppQuery >> mnuScope [
 	^ mnuScope
 ]
