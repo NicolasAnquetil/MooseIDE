@@ -6,17 +6,17 @@ Class {
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'lstModels',
-		'mnuLoders'
+		'mnuLoaders'
 	],
 	#category : #'Midas-apps'
 }
 
 { #category : #specs }
 MidasAppModels class >> defaultSpec [
-	<spec: #default>
-	^ SpecLayout composed
-		newColumn: [ :c | c add: #mnuLoaders height: self toolbarHeight;
-								 add: #lstModels ];
+	^ SpecBoxLayout newVertical
+		add: #mnuLoaders
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #lstModels;
 		yourself
 ]
 
@@ -24,11 +24,6 @@ MidasAppModels class >> defaultSpec [
 MidasAppModels >> context: aContext [
 	super context: aContext.
 	lstModels items: aContext allModels
-]
-
-{ #category : #api }
-MidasAppModels >> extent [
-	^ 100 @ 300
 ]
 
 { #category : #import }
@@ -45,18 +40,18 @@ MidasAppModels >> importStModel [
 MidasAppModels >> initializePresenter [
 	super initializePresenter.
 	lstModels
-		doubleClickAction: [ :item | self context selectedModel: lstModels selectedItem ]
+		doubleClickAction: [ :item | self context selectedModel: lstModels selection selectedItem ]
 ]
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
 	super initializeWidgets.
-	lstModels := (self instantiate: FastTablePresenter)
+	lstModels := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-	mnuLoders := MenuPresenter new
+	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -72,7 +67,13 @@ MidasAppModels >> initializeWidgets [
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
 						action: [ self importStModel ] ] ].
-	mnuLoders applyTo: self.
+	mnuLoaders applyTo: self
+]
+
+{ #category : #initialization }
+MidasAppModels >> initializeWindow: aWindowPresenter [
+	"aWindowPresenter initialExtent: 100 @ 300."
+	aWindowPresenter title: self title
 ]
 
 { #category : #accessing }
@@ -82,7 +83,7 @@ MidasAppModels >> lstModels [
 
 { #category : #accessing }
 MidasAppModels >> mnuLoaders [
-	^mnuLoders 
+	^ mnuLoaders
 ]
 
 { #category : #initialization }

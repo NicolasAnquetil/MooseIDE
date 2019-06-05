@@ -13,11 +13,9 @@ Class {
 
 { #category : #specs }
 MidasAppDashboard class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				add: #freeze height: 30;
-				add: #dashboard ];
+	^ SpecBoxLayout newVertical
+				add: #freeze withConstraints: [ :constraints | constraints height: 30 ];
+				add: #dashboard ;
 		yourself
 ]
 

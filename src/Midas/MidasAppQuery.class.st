@@ -7,7 +7,6 @@ Class {
 	#instVars : [
 		'chkAssociation',
 		'mnuSelcol',
-		'lblEach',
 		'fldQuery',
 		'btnQuery',
 		'mnuScope',
@@ -21,26 +20,27 @@ Class {
 
 { #category : #specs }
 MidasAppQuery class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				newRow: [ :r |
-					r
-						add: #freeze ;
-						add: #chkAssociation ;
-						add: #btnPrev ;
-						add: #btnNext
-					]  height: 30 ;
-				newRow: [ :r |
-					r
-						add: #mnuSelcol width: 80 ;
-						add: #lblEach width: 70 ;
-						add: #fldQuery ;
-						add: #btnQuery width: 30
-					] height: 30 ;
-				add: #mnuScope height: 30 ;
-				add: #lstEntities 
-			] ;
+	^ SpecBoxLayout newVertical
+		add:
+			(SpecBoxLayout newHorizontal
+				add: #freeze;
+				add: #chkAssociation;
+				add: #btnPrev;
+				add: #btnNext)
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add:
+			(SpecBoxLayout newHorizontal
+				add: #mnuSelcol
+					withConstraints: [ :constraints | constraints width: 80 ];
+				add: ' each where:'
+					withConstraints: [ :constraints | constraints width: 75 ];
+				add: #fldQuery;
+				add: #btnQuery
+					withConstraints: [ :constraints | constraints width: 30 ])
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #mnuScope
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #lstEntities;
 		yourself
 ]
 
@@ -95,16 +95,20 @@ MidasAppQuery >> fldQuery [
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
 	freeze
-		whenActivatedDo: [ self checkPreviousNext. context freeze ];
-		whenDeactivatedDo: [ self checkPreviousNext. context unfreeze ].
+		whenActivatedDo: [ self checkPreviousNext.
+			context freeze ];
+		whenDeactivatedDo: [ self checkPreviousNext.
+			context unfreeze ].
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
-		whenSelectedItemChanged: [ :item | context selectedWeakFocus: item ] ;
-		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selectedItem ].
+		whenSelectionChangedDo: [ :selection | 
+			[ :item | context selectedWeakFocus: item ]
+				cull: selection selectedItem ];
+		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selection selectedItem ].
 	mnuSelcol
-		whenSelectedItemChanged: [ :item | filterQuery := (item = #filter) ]
+		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
 
 { #category : #initialization }
@@ -124,10 +128,10 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetListEntities [
-	lstEntities := self instantiate: FastTablePresenter.
+	lstEntities := self instantiate: ListPresenter.
 	lstEntities
 		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
-		icons: [ :item | item mooseIcon ] ";
+		icons: [ :item | item mooseIcon ]";
 		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]"
 ]
 
@@ -149,9 +153,7 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	mnuSelcol
 		items: #(#filter #navigate);
 		displayBlock: [ :i | i asString ].
-	filterQuery := true.  "by default will be on #filter"
-	lblEach := self newLabel.
-	lblEach label: 'each where:'.
+	filterQuery := true.	"by default will be on #filter"
 	fldQuery := self newTextInput.
 	btnQuery := self newButton.
 	btnQuery label: 'run'.
@@ -160,8 +162,9 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetsScopeRow [
-	mnuScope := self instantiate: MenuPresenter.
-	mnuScope addGroup: [ :group | 
+	mnuScope := self newMenuBar .
+	mnuScope
+		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
 					item
@@ -172,26 +175,18 @@ MidasAppQuery >> initializeWidgetsScopeRow [
 			group
 				addItem: [ :item | 
 					item
-						name: 'Classes' ;
+						name: 'Classes';
 						description: 'Classes';
 						icon: (self iconNamed: #famixClassGroup);
 						action: [ context classScope ] ].
 			group
 				addItem: [ :item | 
 					item
-						name: 'Methods' ;
+						name: 'Methods';
 						description: 'Methods';
 						icon: (self iconNamed: #famixMethodGroup);
-						action: [ context methodScope ] ].
-
-	].
+						action: [ context methodScope ] ] ]
 	"mnuScope applyTo: self"
-
-]
-
-{ #category : #accessing }
-MidasAppQuery >> lblEach [
-	^ lblEach
 ]
 
 { #category : #accessing }
@@ -233,6 +228,6 @@ MidasAppQuery >> updateStrongFocus: focus [
 
 { #category : #notifications }
 MidasAppQuery >> updateWeakFocus: focus [
-	lstEntities resetSelection.
-	lstEntities setSelectedItem: focus
+	lstEntities unselectAll.
+	lstEntities selectItem: focus
 ]

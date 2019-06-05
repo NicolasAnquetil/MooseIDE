@@ -44,12 +44,11 @@ MidasAppTag >> entities [
 { #category : #initialization }
 MidasAppTag >> initializeWidgets [
 	super initializeWidgets.
-	entities := (self instantiate: FastTablePresenter)
-						displayBlock: [ :item | item name ] ;
-						icons: [ :item | item mooseIcon ];
-						sortingBlock: [ :a :b | a name < b name ] ;
-						yourself.
-
+	entities := (self instantiate: ListPresenter)
+		displayBlock: [ :item | item name ];
+		icons: [ :item | item mooseIcon ];
+		sortingBlock: [ :a :b | a name < b name ];
+		yourself.
 	lblNew := self newLabel
 		label: 'New tag named:';
 		yourself.
@@ -57,7 +56,7 @@ MidasAppTag >> initializeWidgets [
 	lblTags := self newLabel
 		label: 'Existing tags:';
 		yourself.
-	tags := self instantiate: FastTablePresenter
+	tags := self instantiate: ListPresenter
 ]
 
 { #category : #accessing }
