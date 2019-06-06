@@ -33,7 +33,7 @@ MidasAppDashboard >> dashboard [
 	^ dashboard
 ]
 
-{ #category : #api }
+{ #category : #TOREMOVE }
 MidasAppDashboard >> extent [
 	^ 630 @ 170
 ]

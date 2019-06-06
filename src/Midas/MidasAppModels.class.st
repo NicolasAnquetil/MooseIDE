@@ -40,7 +40,8 @@ MidasAppModels >> importStModel [
 MidasAppModels >> initializePresenter [
 	super initializePresenter.
 	lstModels
-		doubleClickAction: [ :item | self context selectedModel: lstModels selection selectedItem ]
+		doubleClickAction:
+			[ :item | self context selectedModel: lstModels selection selectedItem ]
 ]
 
 { #category : #initialization }
@@ -72,7 +73,7 @@ MidasAppModels >> initializeWidgets [
 
 { #category : #initialization }
 MidasAppModels >> initializeWindow: aWindowPresenter [
-	"aWindowPresenter initialExtent: 100 @ 300."
+	aWindowPresenter initialExtent: 230 @ 300.
 	aWindowPresenter title: self title
 ]
 
@@ -88,8 +89,8 @@ MidasAppModels >> mnuLoaders [
 
 { #category : #initialization }
 MidasAppModels >> setSelectionTo: anItem [
-	lstModels resetSelection.
-	lstModels setSelectedItem: anItem
+	lstModels unselectAll.
+	lstModels selectItem: anItem
 ]
 
 { #category : #api }

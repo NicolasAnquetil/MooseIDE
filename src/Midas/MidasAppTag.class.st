@@ -6,9 +6,7 @@ Class {
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'entities',
-		'lblNew',
 		'newTag',
-		'lblTags',
 		'tags'
 	],
 	#category : #'Midas-apps'
@@ -16,17 +14,19 @@ Class {
 
 { #category : #specs }
 MidasAppTag class >> defaultSpec [
-	<spec: #default>
-	^ SpecLayout composed
-		newRow: [ :r | 
-			r
-				newColumn: [ :c1 | c1 add: #entities ];
-				newColumn: [ :c2 | 
-					c2
-						newRow: [ :r21 | r21 add: #lblNew ] height: 30;
-						newRow: [ :r22 | r22 add: #newTag ] height: 30;
-						newRow: [ :r23 | r23 add: #lblTags ] height: 30;
-						newRow: [ :r24 | r24 add: #tags ] ] ];
+	^ SpecPanedLayout newHorizontal
+		add: #entities;
+		add:
+			(SpecBoxLayout newVertical
+				add: 'New tag named: '
+					withConstraints: [ :constraints | constraints height: self defaultFont height ];
+				add: #newTag
+					withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+				add: ''
+					withConstraints: [ :constraints | constraints height: self defaultFont height ];
+				add: 'Existing tags: '
+					withConstraints: [ :constraints | constraints height: self defaultFont height ];
+				add: #tags);
 		yourself
 ]
 
@@ -49,24 +49,16 @@ MidasAppTag >> initializeWidgets [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-	lblNew := self newLabel
-		label: 'New tag named:';
-		yourself.
-	newTag := self newTextInput.
-	lblTags := self newLabel
-		label: 'Existing tags:';
-		yourself.
+		newTag := self newTextInput.
 	tags := self instantiate: ListPresenter
 ]
 
-{ #category : #accessing }
+{ #category : #TOREMOVE }
 MidasAppTag >> lblNew [
-	^ lblNew
 ]
 
-{ #category : #accessing }
+{ #category : #TOREMOVE }
 MidasAppTag >> lblTags [
-	^ lblTags
 ]
 
 { #category : #accessing }
