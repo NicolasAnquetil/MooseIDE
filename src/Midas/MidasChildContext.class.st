@@ -43,6 +43,7 @@ MidasChildContext >> flattenedStrongFocus [
 
 { #category : #notifications }
 MidasChildContext >> formatNewModel: newMooseModel [
+	self flag:'???'.
 	^newMooseModel
 ]
 

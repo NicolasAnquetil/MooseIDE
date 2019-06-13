@@ -202,7 +202,7 @@ MidasLauncher >> title [
 
 { #category : #notifications }
 MidasLauncher >> updateModel: newMooseModel [
-	self title: newMooseModel name.
+	self window title: newMooseModel name.
 	lblModelName label: 'Current model: ' , newMooseModel name
 ]
 

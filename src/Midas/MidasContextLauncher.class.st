@@ -50,6 +50,7 @@ MidasContextLauncher >> historyHasPrevious [
 { #category : #history }
 MidasContextLauncher >> initHistoryWith: newMooseModel [
 	self clearHistory.
+	self flag:'Why should we clear the history?'.
 	history addEntry: newMooseModel
 ]
 

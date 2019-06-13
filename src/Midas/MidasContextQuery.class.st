@@ -10,7 +10,9 @@ Class {
 
 { #category : #notifications }
 MidasContextQuery >> acceptModelUpdate: newFocus [
-	^ false
+	"^ false"
+	self flag:'Originally false'.
+	^true
 ]
 
 { #category : #running }
