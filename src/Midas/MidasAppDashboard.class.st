@@ -30,18 +30,19 @@ MidasAppDashboard >> context: aContext [
 
 { #category : #accessing }
 MidasAppDashboard >> dashboard [
-	^ dashboard
-]
-
-{ #category : #TOREMOVE }
-MidasAppDashboard >> extent [
-	^ 630 @ 170
+^dashboard
 ]
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
 	super initializeWidgets.
 	dashboard := self instantiate: MDMetricDashBoard
+]
+
+{ #category : #initialization }
+MidasAppDashboard >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 750 @ 180.
+	aWindowPresenter title: self title
 ]
 
 { #category : #api }

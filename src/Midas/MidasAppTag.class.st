@@ -53,17 +53,9 @@ MidasAppTag >> initializeWidgets [
 	tags := self instantiate: ListPresenter
 ]
 
-{ #category : #TOREMOVE }
-MidasAppTag >> lblNew [
-]
-
-{ #category : #TOREMOVE }
-MidasAppTag >> lblTags [
-]
-
 { #category : #accessing }
 MidasAppTag >> newTag [
-	^ newTag
+	^newTag
 ]
 
 { #category : #accessing }

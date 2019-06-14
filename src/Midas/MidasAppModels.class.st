@@ -38,7 +38,8 @@ MidasAppModels >> importStModel [
 
 { #category : #initialization }
 MidasAppModels >> initializePresenter [
-	super initializePresenter.
+	"super initializePresenter - remove"
+
 	lstModels
 		doubleClickAction:
 			[ :item | self context selectedModel: lstModels selection selectedItem ]
@@ -46,7 +47,7 @@ MidasAppModels >> initializePresenter [
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
-	super initializeWidgets.
+"super initializeWidgets - remove"
 	lstModels := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
@@ -57,14 +58,12 @@ MidasAppModels >> initializeWidgets [
 			group
 				addItem: [ :item | 
 					item
-						name: nil;
 						description: 'Import model from MSE file';
 						icon: MooseIcons mooseImportMse;
 						action: [ self importMSEModel ] ].
 			group
 				addItem: [ :item | 
 					item
-						name: nil;
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
 						action: [ self importStModel ] ] ].
@@ -79,7 +78,7 @@ MidasAppModels >> initializeWindow: aWindowPresenter [
 
 { #category : #accessing }
 MidasAppModels >> lstModels [
-	^ lstModels
+^lstModels
 ]
 
 { #category : #accessing }

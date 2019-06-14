@@ -170,7 +170,7 @@ MidasLauncher >> launchTagsApp [
 
 { #category : #accessing }
 MidasLauncher >> lblModelName [
-	^lblModelName
+^lblModelName
 ]
 
 { #category : #accessing }
@@ -192,6 +192,7 @@ MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 { #category : #api }
 MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
+	self inspect .
 	self context mooseModel: aMooseModel
 ]
 

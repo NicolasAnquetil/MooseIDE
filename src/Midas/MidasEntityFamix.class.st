@@ -26,27 +26,26 @@ MidasEntityFamix >> entity: anObject [
 ]
 
 { #category : #initialization }
-MidasEntityFamix >> initializeClass: aFamixClass [
-	famix := aFamixClass.
+MidasEntityFamix >> initializeClass: aFamixClass [.
+	self haltOnce
+"	famix := aFamixClass.
 	children := OrderedCollection new.
 	self addVirtualChild: aFamixClass attributes named: 'Attributes'.
-	self addVirtualChild: aFamixClass methods named: 'Methods'.
-
+	self addVirtualChild: aFamixClass methods named: 'Methods'"
 ]
 
 { #category : #initialization }
 MidasEntityFamix >> initializeModel: aMooseModel [
-	famix := aMooseModel.
+self haltOnce.
+"	famix := aMooseModel.
 	children := OrderedCollection new.
 	aMooseModel entityCache
-		associationsDo: [ :assoc || label |
+		associationsDo: [ :assoc | 
+			| label |
 			label := assoc key asString.
 			(label beginsWith: 'All model')
-			ifTrue: [
-				label := label , ' (' , assoc value size asString , ')'.
-				self addVirtualChild: assoc value named: label	]
-		]
-
+				ifTrue: [ label := label , ' (' , assoc value size asString , ')'.
+					self addVirtualChild: assoc value named: label ] ]"
 ]
 
 { #category : #accessing }

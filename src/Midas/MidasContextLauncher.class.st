@@ -31,7 +31,9 @@ MidasContextLauncher >> clearHistory [
 
 { #category : #actions }
 MidasContextLauncher >> exit [
-	children do: [ :child | child exit ].
+	children
+		do: [ :child | 
+			child exit ].
 	children removeAll.
 	app delete.
 	app := nil
@@ -50,7 +52,6 @@ MidasContextLauncher >> historyHasPrevious [
 { #category : #history }
 MidasContextLauncher >> initHistoryWith: newMooseModel [
 	self clearHistory.
-	self flag:'Why should we clear the history?'.
 	history addEntry: newMooseModel
 ]
 
@@ -115,7 +116,8 @@ MidasContextLauncher >> spawn: aContextClass [
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus [
-	^ history now
+	^ history now.
+
 ]
 
 { #category : #accessing }

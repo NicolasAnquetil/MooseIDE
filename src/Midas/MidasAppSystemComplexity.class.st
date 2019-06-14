@@ -52,5 +52,5 @@ MidasAppSystemComplexity >> updateWeakFocus: newFocus [
 
 { #category : #accessing }
 MidasAppSystemComplexity >> visualizer [
-	^ visualizer 
+^visualizer
 ]

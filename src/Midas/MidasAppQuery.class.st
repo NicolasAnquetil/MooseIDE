@@ -89,7 +89,7 @@ MidasAppQuery >> filterQuery [
 
 { #category : #accessing }
 MidasAppQuery >> fldQuery [
-	^ fldQuery
+^fldQuery
 ]
 
 { #category : #initialization }
