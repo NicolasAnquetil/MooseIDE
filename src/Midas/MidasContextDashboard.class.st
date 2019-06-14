@@ -12,11 +12,6 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextDashboard >> acceptModelUpdate: newFocus [
-	^ true
-]
-
-{ #category : #notifications }
 MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]

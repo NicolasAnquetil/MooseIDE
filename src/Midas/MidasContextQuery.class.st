@@ -8,13 +8,6 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #notifications }
-MidasContextQuery >> acceptModelUpdate: newFocus [
-	"^ false"
-	self flag:'Originally false'.
-	^true
-]
-
 { #category : #running }
 MidasContextQuery >> atScope: aSymbol [
 	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
@@ -38,6 +31,11 @@ MidasContextQuery >> classScope [
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
 	self notifyStrongFocus: nil
+]
+
+{ #category : #notifications }
+MidasContextQuery >> formatNewModel: mooseModel [
+	^ self formatNewStrongFocus: mooseModel
 ]
 
 { #category : #notifications }

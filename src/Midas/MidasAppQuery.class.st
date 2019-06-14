@@ -216,9 +216,7 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateModel: mooseModel [
-	"	self updateStrongFocus: mooseModel"
-
-	self updateStrongFocus: (context formatNewStrongFocus: mooseModel)
+self updateStrongFocus: mooseModel
 ]
 
 { #category : #notifications }

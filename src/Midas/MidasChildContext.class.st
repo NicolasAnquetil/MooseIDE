@@ -16,7 +16,7 @@ Class {
 
 { #category : #notifications }
 MidasChildContext >> acceptModelUpdate: newModel [
-	^ false
+	^ true
 ]
 
 { #category : #notifications }
@@ -43,8 +43,7 @@ MidasChildContext >> flattenedStrongFocus [
 
 { #category : #notifications }
 MidasChildContext >> formatNewModel: newMooseModel [
-	self flag:'???'.
-	^newMooseModel
+	^ newMooseModel
 ]
 
 { #category : #notifications }
