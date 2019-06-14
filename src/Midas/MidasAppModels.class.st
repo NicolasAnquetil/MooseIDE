@@ -28,12 +28,12 @@ MidasAppModels >> context: aContext [
 
 { #category : #import }
 MidasAppModels >> importMSEModel [
-	context mooseModel: MVSMSELoader importModel
+	context mooseModel: (MVSMSELoader importModel ifNil:[^self]).
 ]
 
 { #category : #import }
 MidasAppModels >> importStModel [
-	context mooseModel: MPImportSTCommand new execute
+	context mooseModel: (MPImportSTCommand new execute ifNil:[^self])
 ]
 
 { #category : #initialization }
