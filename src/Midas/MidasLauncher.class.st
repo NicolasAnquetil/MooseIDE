@@ -131,8 +131,7 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 
 { #category : #apps }
 MidasLauncher >> launchDashboardApp [
-	self launch: MidasAppDashboard withContext: MidasContextDashboard 
-
+	^self launch: MidasAppDashboard withContext: MidasContextDashboard
 ]
 
 { #category : #apps }
@@ -148,12 +147,12 @@ MidasLauncher >> launchLogApp [
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	self launch: MidasAppModels withContext: MidasContextModels
+	^self launch: MidasAppModels withContext: MidasContextModels
 ]
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-	self launch: MidasAppQuery withContext: MidasContextQuery
+	^self launch: MidasAppQuery withContext: MidasContextQuery
 ]
 
 { #category : #apps }
@@ -192,7 +191,6 @@ MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 { #category : #api }
 MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
-	self inspect .
 	self context mooseModel: aMooseModel
 ]
 

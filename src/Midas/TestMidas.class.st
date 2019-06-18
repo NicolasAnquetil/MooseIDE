@@ -1,15 +1,11 @@
 Class {
-	#name : #TestCtxts,
+	#name : #TestMidas,
 	#superclass : #TestCase,
-	#instVars : [
-		'mooseModel',
-		'ctxt'
-	],
 	#category : #'Midas-Tests'
 }
 
-{ #category : #source }
-TestCtxts class >> lanModel [
+{ #category : #models }
+TestMidas class >> lanModel [
 	^ '(
 	(FAMIX.Invocation (id: 1)
 		(sender (ref: 2))
@@ -3821,7 +3817,75 @@ TestCtxts class >> lanModel [
 		(signature ''nextNode()'')))'
 ]
 
+{ #category : #models }
+TestMidas class >> simpleModel [
+	^ '( (FAMIX.Namespace (id: 1)
+    (name ''aNamespace''))
+  (FAMIX.Package (id: 201)
+    (name ''aPackage''))
+  (FAMIX.Package (id: 202)
+    (name ''anotherPackage'')
+    (parentPackage (ref: 201)))
+  (FAMIX.Class (id: 2)
+    (name ''ClassA'')
+    (container (ref: 1))
+    (parentPackage (ref: 201)))
+  (FAMIX.Method
+    (name ''methodA1'')
+    (signature ''methodA1()'')
+    (parentType (ref: 2))
+    (LOC 2))
+  (FAMIX.Attribute 
+    (name ''attributeA1'')
+    (parentType (ref: 2)))
+  (FAMIX.Class (id: 3)
+    (name ''ClassB'')
+    (container (ref: 1))
+    (parentPackage (ref: 202)))
+  (FAMIX.Inheritance
+    (subclass (ref: 3))
+    (superclass (ref: 2))))'
+]
+
 { #category : #running }
-TestCtxts >> setUp [
-	mooseModel := MooseModel importFromMSEStream: (TestCtxts lanModel readStream)
+TestMidas >> createMooseModel [
+	models := OrderedCollection new.
+	models
+		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream).
+	models
+		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
+	models first name: 'lanModel'.
+	models second name: 'simpleModel'.
+
+]
+
+{ #category : #running }
+TestMidas >> setUp [
+	self createMooseModel.
+	
+	mockContext := Mock new.
+	mockContext stub allModels willReturn: models.
+
+]
+
+{ #category : #running }
+TestMidas >> tearDown [
+	launcher exit
+
+	
+]
+
+{ #category : #'model updates' }
+TestMidas >> testUpdateModel [
+		| displayDashboard displayQuery |
+	displayDashboard := dashboard context mooseModel.
+	displayQuery := query context strongFocus.
+	model lstModels doubleClickAtIndex: 2.
+	self deny: displayDashboard equals: dashboard context mooseModel.
+	self deny: displayQuery equals: query context strongFocus.
+	model lstModels doubleClickAtIndex: 1.
+	self assert: displayDashboard equals: dashboard context mooseModel.
+	self assert: displayQuery equals: query context strongFocus
+
+	
 ]
