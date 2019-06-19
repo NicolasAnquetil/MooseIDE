@@ -38,7 +38,7 @@ MidasContextDashboard >> focusedEntities: anObject [
 
 { #category : #accessing }
 MidasContextDashboard >> formatNewStrongFocus: newFocus [
-	^self strongFocusIsModel
+	^ self strongFocusIsModel
 		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ newFocus ]
 ]

@@ -1,6 +1,10 @@
 Class {
 	#name : #TestMidas,
 	#superclass : #TestCase,
+	#instVars : [
+		'launcherApp',
+		'models'
+	],
 	#category : #'Midas-Tests'
 }
 
@@ -3848,44 +3852,27 @@ TestMidas class >> simpleModel [
 ]
 
 { #category : #running }
-TestMidas >> createMooseModel [
+TestMidas >> mooseModels [
+	| models |
 	models := OrderedCollection new.
 	models
+		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream);
 		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream).
-	models
-		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
-	models first name: 'lanModel'.
-	models second name: 'simpleModel'.
-
+	models first name: 'First-simpleModel'.
+	models second name: 'Second-lanModel'.
+	^ models
 ]
 
 { #category : #running }
 TestMidas >> setUp [
-	self createMooseModel.
+	models := self mooseModels.
+	launcherApp := MidasLauncher new.
 	
-	mockContext := Mock new.
-	mockContext stub allModels willReturn: models.
 
+	launcherApp openOnModel: models first 
 ]
 
 { #category : #running }
 TestMidas >> tearDown [
-	launcher exit
-
-	
-]
-
-{ #category : #'model updates' }
-TestMidas >> testUpdateModel [
-		| displayDashboard displayQuery |
-	displayDashboard := dashboard context mooseModel.
-	displayQuery := query context strongFocus.
-	model lstModels doubleClickAtIndex: 2.
-	self deny: displayDashboard equals: dashboard context mooseModel.
-	self deny: displayQuery equals: query context strongFocus.
-	model lstModels doubleClickAtIndex: 1.
-	self assert: displayDashboard equals: dashboard context mooseModel.
-	self assert: displayQuery equals: query context strongFocus
-
-	
+	launcherApp exit
 ]

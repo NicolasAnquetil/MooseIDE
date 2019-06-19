@@ -23,9 +23,9 @@ MidasAppDashboard class >> defaultSpec [
 MidasAppDashboard >> context: aContext [
 	"need to do this first because setting the context will try to update the view
 	 and dashboard needs guiModel to update itself"
-	dashboard guiModel: aContext.
-	super context: aContext.
 
+	dashboard guiModel: aContext.
+	super context: aContext
 ]
 
 { #category : #accessing }
