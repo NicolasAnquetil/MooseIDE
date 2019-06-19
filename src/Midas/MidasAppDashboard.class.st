@@ -28,6 +28,11 @@ MidasAppDashboard >> context: aContext [
 	super context: aContext
 ]
 
+{ #category : #accessing }
+MidasAppDashboard >> dashboard [
+^dashboard
+]
+
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
 	super initializeWidgets.
