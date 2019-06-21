@@ -67,9 +67,9 @@ MidasAppQuery >> btnQuery [
 
 { #category : #notifications }
 MidasAppQuery >> checkPreviousNext [
-	btnPrev enabled: (context historyHasPrevious and: [context frozen not]).
-	btnNext enabled: (context historyHasNext and: [context frozen not]).
-	
+	btnPrev
+		enabled: (context historyHasPrevious).
+	btnNext enabled: (context historyHasNext)
 ]
 
 { #category : #accessing }
@@ -92,13 +92,18 @@ MidasAppQuery >> fldQuery [
 ^fldQuery
 ]
 
+{ #category : #accessing }
+MidasAppQuery >> freeze [
+^freeze
+]
+
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
 	freeze
-		whenActivatedDo: [ self checkPreviousNext.
-			context freeze ];
-		whenDeactivatedDo: [ self checkPreviousNext.
-			context unfreeze ].
+		whenActivatedDo: [ context freeze.
+			];
+		whenDeactivatedDo: [ context unfreeze.
+			].
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
@@ -106,7 +111,8 @@ MidasAppQuery >> initializePresenter [
 		whenSelectionChangedDo: [ :selection | 
 			[ :item | context selectedWeakFocus: item ]
 				cull: selection selectedItem ];
-		doubleClickAction: [ :item | context selectedStrongFocus: lstEntities selection selectedItem ].
+		doubleClickAction:
+				[ :item | context selectedStrongFocus: lstEntities selection selectedItem ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]

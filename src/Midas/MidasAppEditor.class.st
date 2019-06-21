@@ -36,6 +36,12 @@ MidasAppEditor >> title [
 ]
 
 { #category : #notifications }
+MidasAppEditor >> updateModel: aMooseModel [
+
+		self shouldNotImplement
+]
+
+{ #category : #notifications }
 MidasAppEditor >> updateStrongFocus: newFocus [
 	self updateWeakFocus: newFocus
 ]

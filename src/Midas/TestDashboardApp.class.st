@@ -14,52 +14,31 @@ TestDashboardApp >> setUp [
 ]
 
 { #category : #tests }
-TestDashboardApp >> testDisplayTheCorrectInformationOfTheCyclomaticComplexity [
-		| myMetric value sub subValue |
-	myMetric := dashboardApp context metric: 3.
-	value := myMetric
-		aggregateMetricFor: dashboardApp context focusedEntities.
-	self
-		assert: dashboardApp dashboard thirdMetric mainMetricValue label
-		equals: (value truncateTo: 0.001) asString.
-	1 to: 3 do: [ :i | 
-		sub := dashboardApp context subQuery: i.
-		subValue := myMetric aggregateMetricFor: sub entities.
-		self
-			assert: (dashboardApp dashboard thirdMetric subMetric: i) label
-			equals: sub displayName , String cr , (subValue truncateTo: 0.001) asString ]
+TestDashboardApp >> testDisplayCyclomaticComplexity [
+	| myMetric |
+	myMetric := dashboardApp dashboardMetric: 3.
+	self assert: myMetric first equals: '1.389'.
+	self assert: (myMetric second endsWith: '0.0').
+	self assert: (myMetric third endsWith: '2.736').
+	self assert: (myMetric fourth endsWith: '2.736')
 ]
 
 { #category : #tests }
-TestDashboardApp >> testDisplayTheCorrectInformationOfTheEntities [
-	| myMetric value sub subValue |
-	myMetric := dashboardApp context metric: 1.
-	value := myMetric
-		aggregateMetricFor: dashboardApp context focusedEntities.
-	self
-		assert: dashboardApp dashboard firstMetric mainMetricValue label
-		equals: (value truncateTo: 0.001) asString.
-	1 to: 3 do: [ :i | 
-		sub := dashboardApp context subQuery: i.
-		subValue := myMetric aggregateMetricFor: sub entities.
-		self
-			assert: (dashboardApp dashboard firstMetric subMetric: i) label
-			equals: sub displayName , String cr ,(subValue truncateTo: 0.001) asString ]
+TestDashboardApp >> testDisplayEntities [
+	| myMetric |
+	myMetric := dashboardApp dashboardMetric: 1.
+	self assert: myMetric first equals: '6.0'.
+	self assert: (myMetric second endsWith: '0.0').
+	self assert: (myMetric third endsWith: '1.0').
+	self assert: (myMetric fourth endsWith: '1.0')
 ]
 
 { #category : #tests }
-TestDashboardApp >> testDisplayTheCorrectInformationOfTheLinesOfCode [
-	| myMetric value sub subValue |
-	myMetric := dashboardApp context metric: 2.
-	value := myMetric
-		aggregateMetricFor: dashboardApp context focusedEntities.
-	self
-		assert: dashboardApp dashboard secondMetric mainMetricValue label
-		equals: (value truncateTo: 0.001) asString.
-	1 to: 3 do: [ :i | 
-		sub := dashboardApp context subQuery: i.
-		subValue := myMetric aggregateMetricFor: sub entities.
-		self
-			assert: (dashboardApp dashboard secondMetric subMetric: i) label
-			equals: sub displayName , String cr , (subValue truncateTo: 0.001) asString ]
+TestDashboardApp >> testDisplayLinesOfCode [
+		| myMetric |
+	myMetric := dashboardApp dashboardMetric: 2.
+	self assert: myMetric first equals: '538.0'.
+	self assert: (myMetric second endsWith: '0.0').
+	self assert: (myMetric third endsWith: '370.0').
+	self assert: (myMetric fourth endsWith: '370.0')
 ]

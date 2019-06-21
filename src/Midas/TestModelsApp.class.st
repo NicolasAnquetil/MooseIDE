@@ -18,6 +18,20 @@ TestModelsApp >> setUp [
 ]
 
 { #category : #tests }
+TestModelsApp >> testInitializeModelInDashboard [
+	| dashboardApp |
+	dashboardApp := launcherApp launchDashboardApp.
+	self assert: dashboardApp context strongFocus equals: models first
+]
+
+{ #category : #tests }
+TestModelsApp >> testInitializeModelInQuery [
+	| queryApp |
+	queryApp := launcherApp launchQueryApp.
+	self assert: queryApp context strongFocus equals: models first
+]
+
+{ #category : #tests }
 TestModelsApp >> testModelListSortedByName [
 	self
 		assert:
@@ -28,25 +42,30 @@ TestModelsApp >> testModelListSortedByName [
 { #category : #tests }
 TestModelsApp >> testUpdateModelInDashboard [
 	| dashboardApp cachedDashboard |
-	dashboardApp := launcherApp
-		launch: MidasAppDashboard
-		withContext: MidasContextDashboard.
+	dashboardApp := launcherApp launchDashboardApp.
 	cachedDashboard := dashboardApp context strongFocus.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self deny: dashboardApp context strongFocus equals: cachedDashboard
+	self deny: dashboardApp context strongFocus equals: cachedDashboard.
+	self assert: dashboardApp context strongFocus equals: models second
+]
+
+{ #category : #tests }
+TestModelsApp >> testUpdateModelInLauncher [
+	| cachedTitle |
+	cachedTitle := launcherApp window title.
+	modelsApp lstModels doubleClickAtIndex: 2.
+	self deny:  launcherApp window title equals: cachedTitle.
+	self assert:  launcherApp window title  equals: models second name
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInQuery [
 	| queryApp cachedModel |
-	queryApp := launcherApp
-		launch: MidasAppQuery
-		withContext: MidasContextQuery.
+	queryApp := launcherApp launchQueryApp.
 	cachedModel := queryApp context strongFocus.
 	modelsApp lstModels doubleClickAtIndex: 2.
 	self deny: queryApp context strongFocus equals: cachedModel.
-	modelsApp lstModels doubleClickAtIndex: 1.
-	self assert: queryApp context strongFocus equals: cachedModel
+	self assert: queryApp context strongFocus equals: models second
 ]
 
 { #category : #tests }

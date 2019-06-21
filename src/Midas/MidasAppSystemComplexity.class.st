@@ -38,6 +38,11 @@ MidasAppSystemComplexity >> title [
 ]
 
 { #category : #notifications }
+MidasAppSystemComplexity >> updateModel: aMooseModel [
+	self shouldNotImplement
+]
+
+{ #category : #notifications }
 MidasAppSystemComplexity >> updateStrongFocus: newFocus [
 	visualizer highlight: nil.
 	visualizer selected: newFocus.

@@ -3,7 +3,8 @@ Class {
 	#superclass : #MidasChildContext,
 	#instVars : [
 		'resultsWithParents',
-		'listEntities'
+		'listEntities',
+		'history'
 	],
 	#category : #'Midas-context'
 }
@@ -111,7 +112,8 @@ MidasContextQuery >> runSelectQuery: aBloc [
 
 { #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
-	self strongFocus: aMidasEntity selection
+	self strongFocus: aMidasEntity selection.
+	app updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection) 
 ]
 
 { #category : #notifications }

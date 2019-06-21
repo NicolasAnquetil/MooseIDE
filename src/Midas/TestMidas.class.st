@@ -3853,13 +3853,12 @@ TestMidas class >> simpleModel [
 
 { #category : #running }
 TestMidas >> mooseModels [
-	| models |
 	models := OrderedCollection new.
 	models
-		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream);
-		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream).
-	models first name: 'First-simpleModel'.
-	models second name: 'Second-lanModel'.
+	add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
+		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
+	models first name: 'First-lanModel'.
+	models second name: 'Second-simpleModel'.
 	^ models
 ]
 
@@ -3875,4 +3874,6 @@ TestMidas >> setUp [
 { #category : #running }
 TestMidas >> tearDown [
 	launcherApp exit
+
+	
 ]

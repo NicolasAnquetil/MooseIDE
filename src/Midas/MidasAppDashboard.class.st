@@ -33,6 +33,17 @@ MidasAppDashboard >> dashboard [
 ^dashboard
 ]
 
+{ #category : #accessing }
+MidasAppDashboard >> dashboardMetric: anInt [
+	^ anInt == 1
+		ifTrue: [ dashboard firstMetric allValues ]
+		ifFalse: [ anInt == 2
+				ifTrue: [ dashboard secondMetric allValues ]
+				ifFalse: [ anInt == 3
+						ifTrue: [ dashboard thirdMetric allValues ]
+						ifFalse: [ nil ] ] ]
+]
+
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
 	super initializeWidgets.
@@ -48,6 +59,12 @@ MidasAppDashboard >> initializeWindow: aWindowPresenter [
 { #category : #api }
 MidasAppDashboard >> title [
 	^'MIDAS Dashboard' 
+]
+
+{ #category : #notifications }
+MidasAppDashboard >> updateModel: aMooseModel [
+	self updateStrongFocus: aMooseModel allModelClasses.
+		
 ]
 
 { #category : #notifications }
