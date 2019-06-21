@@ -191,7 +191,7 @@ MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 { #category : #api }
 MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
-	self context mooseModel: aMooseModel
+	self context mooseModel: aMooseModel.
 ]
 
 { #category : #api }

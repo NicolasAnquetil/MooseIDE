@@ -9,8 +9,8 @@ Class {
 	#superclass : #MidasAbstractContext,
 	#instVars : [
 		'children',
-		'history',
-		'focusWeak'
+		'focusWeak',
+		'mooseModel'
 	],
 	#category : #'Midas-context'
 }
@@ -23,12 +23,6 @@ MidasContextLauncher >> addChild: aContext [
 	aContext parentContext: self
 ]
 
-{ #category : #history }
-MidasContextLauncher >> clearHistory [
-	history := MidasHistory new.
-	self weakFocus: nil
-]
-
 { #category : #actions }
 MidasContextLauncher >> exit [
 	children
@@ -39,51 +33,28 @@ MidasContextLauncher >> exit [
 	app := nil
 ]
 
-{ #category : #history }
-MidasContextLauncher >> historyHasNext [
-	^ history hasNext
-]
-
-{ #category : #history }
-MidasContextLauncher >> historyHasPrevious [
-	^ history hasPrevious 
-]
-
-{ #category : #history }
-MidasContextLauncher >> initHistoryWith: newMooseModel [
-	self clearHistory.
-	history addEntry: newMooseModel
-]
-
 { #category : #initialization }
 MidasContextLauncher >> initialize [
 	super initialize.
 	children := OrderedCollection new.
-	self clearHistory
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel [
-	^ history firstEntry
+	^ mooseModel
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModel: newMooseModel [
 	newMooseModel ifNil: [ ^ self ].
-	self mooseModel = newMooseModel
+	mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
-	self initHistoryWith: newMooseModel.
 	self notifyNewModel: newMooseModel
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModelAsGroups [
 	^ self mooseModel ifNotNil: [ :model | model entityCache associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']]]
-]
-
-{ #category : #history }
-MidasContextLauncher >> next [
-	history hasNext ifTrue: [ self strongFocusFromHistory: history next ]
 ]
 
 { #category : #notifications }
@@ -102,11 +73,6 @@ MidasContextLauncher >> notifyWeakFocus: newFocus [
 	children do: [ :child | child notifyWeakFocus: newFocus ]
 ]
 
-{ #category : #history }
-MidasContextLauncher >> previous [
-	history hasPrevious ifTrue: [ self strongFocusFromHistory: history previous ]
-]
-
 { #category : #'instance creation' }
 MidasContextLauncher >> spawn: aContextClass [
 	^aContextClass new
@@ -116,8 +82,7 @@ MidasContextLauncher >> spawn: aContextClass [
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus [
-	^ history now.
-
+	^ mooseModel
 ]
 
 { #category : #accessing }
@@ -131,11 +96,6 @@ MidasContextLauncher >> strongFocus: newFocus [
 { #category : #actions }
 MidasContextLauncher >> strongFocusFromHistory: newFocus [
 	self notifyStrongFocus: newFocus
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> strongFocusIsModel [
-	^history hasPrevious not
 ]
 
 { #category : #accessing }

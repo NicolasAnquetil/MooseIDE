@@ -28,6 +28,12 @@ MidasContextQuery >> classScope [
 
 ]
 
+{ #category : #history }
+MidasContextQuery >> clearHistory [
+	history := MidasHistory new.
+	self weakFocus: nil
+]
+
 { #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
@@ -46,18 +52,25 @@ MidasContextQuery >> formatNewStrongFocus: focus [
 
 { #category : #history }
 MidasContextQuery >> historyHasNext [
-	^parentContext historyHasNext
+	^ history hasNext
 ]
 
 { #category : #history }
 MidasContextQuery >> historyHasPrevious [
-	^parentContext historyHasPrevious
+	^ history hasPrevious
+]
+
+{ #category : #history }
+MidasContextQuery >> initHistoryWith: newMooseModel [
+	self clearHistory.
+	history addEntry: newMooseModel
 ]
 
 { #category : #initialization }
 MidasContextQuery >> initialize [
 	super initialize.
 	resultsWithParents := false.
+		self clearHistory
 ]
 
 { #category : #running }
@@ -78,7 +91,8 @@ MidasContextQuery >> methodScope [
 
 { #category : #accessing }
 MidasContextQuery >> next [
-	parentContext next
+	history hasNext
+		ifTrue: [ self strongFocusFromHistory: history next ]
 ]
 
 { #category : #running }
@@ -88,7 +102,8 @@ MidasContextQuery >> packageScope [
 
 { #category : #accessing }
 MidasContextQuery >> prev [
-	parentContext previous
+		history hasPrevious
+		ifTrue: [ self strongFocusFromHistory: history previous ]
 ]
 
 { #category : #accessing }
@@ -129,6 +144,11 @@ MidasContextQuery >> strongFocus [
 	^realFocus isCollection
 		ifTrue: [ realFocus ]
 		ifFalse: [ OrderedCollection with: realFocus ]
+]
+
+{ #category : #accessing }
+MidasContextQuery >> strongFocusIsModel [
+	^history hasPrevious not
 ]
 
 { #category : #running }
