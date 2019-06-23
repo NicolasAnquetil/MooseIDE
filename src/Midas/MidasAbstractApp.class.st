@@ -62,6 +62,11 @@ MidasAbstractApp >> strongFocus [
 ]
 
 { #category : #notifications }
+MidasAbstractApp >> updateModel: aMooseModel [
+	self subclassResponsibility
+]
+
+{ #category : #notifications }
 MidasAbstractApp >> updateStrongFocus: focus [
 	self subclassResponsibility
 ]

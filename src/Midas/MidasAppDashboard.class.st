@@ -13,11 +13,9 @@ Class {
 
 { #category : #specs }
 MidasAppDashboard class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				add: #freeze height: 30;
-				add: #dashboard ];
+	^ SpecBoxLayout newVertical
+				add: #freeze withConstraints: [ :constraints | constraints height: 30 ];
+				add: #dashboard ;
 		yourself
 ]
 
@@ -25,19 +23,25 @@ MidasAppDashboard class >> defaultSpec [
 MidasAppDashboard >> context: aContext [
 	"need to do this first because setting the context will try to update the view
 	 and dashboard needs guiModel to update itself"
-	dashboard guiModel: aContext.
-	super context: aContext.
 
+	dashboard guiModel: aContext.
+	super context: aContext
 ]
 
 { #category : #accessing }
 MidasAppDashboard >> dashboard [
-	^ dashboard
+^dashboard
 ]
 
-{ #category : #api }
-MidasAppDashboard >> extent [
-	^ 630 @ 170
+{ #category : #accessing }
+MidasAppDashboard >> dashboardMetric: anInt [
+	^ anInt == 1
+		ifTrue: [ dashboard firstMetric allValues ]
+		ifFalse: [ anInt == 2
+				ifTrue: [ dashboard secondMetric allValues ]
+				ifFalse: [ anInt == 3
+						ifTrue: [ dashboard thirdMetric allValues ]
+						ifFalse: [ nil ] ] ]
 ]
 
 { #category : #initialization }
@@ -46,9 +50,21 @@ MidasAppDashboard >> initializeWidgets [
 	dashboard := self instantiate: MDMetricDashBoard
 ]
 
+{ #category : #initialization }
+MidasAppDashboard >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 750 @ 180.
+	aWindowPresenter title: self title
+]
+
 { #category : #api }
 MidasAppDashboard >> title [
 	^'MIDAS Dashboard' 
+]
+
+{ #category : #notifications }
+MidasAppDashboard >> updateModel: aMooseModel [
+	self updateStrongFocus: aMooseModel allModelClasses.
+		
 ]
 
 { #category : #notifications }

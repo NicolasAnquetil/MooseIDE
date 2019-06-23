@@ -1,15 +1,15 @@
 Class {
-	#name : #TestCtxts,
+	#name : #TestMidas,
 	#superclass : #TestCase,
 	#instVars : [
-		'mooseModel',
-		'ctxt'
+		'launcherApp',
+		'models'
 	],
 	#category : #'Midas-Tests'
 }
 
-{ #category : #source }
-TestCtxts class >> lanModel [
+{ #category : #models }
+TestMidas class >> lanModel [
 	^ '(
 	(FAMIX.Invocation (id: 1)
 		(sender (ref: 2))
@@ -3821,7 +3821,59 @@ TestCtxts class >> lanModel [
 		(signature ''nextNode()'')))'
 ]
 
+{ #category : #models }
+TestMidas class >> simpleModel [
+	^ '( (FAMIX.Namespace (id: 1)
+    (name ''aNamespace''))
+  (FAMIX.Package (id: 201)
+    (name ''aPackage''))
+  (FAMIX.Package (id: 202)
+    (name ''anotherPackage'')
+    (parentPackage (ref: 201)))
+  (FAMIX.Class (id: 2)
+    (name ''ClassA'')
+    (container (ref: 1))
+    (parentPackage (ref: 201)))
+  (FAMIX.Method
+    (name ''methodA1'')
+    (signature ''methodA1()'')
+    (parentType (ref: 2))
+    (LOC 2))
+  (FAMIX.Attribute 
+    (name ''attributeA1'')
+    (parentType (ref: 2)))
+  (FAMIX.Class (id: 3)
+    (name ''ClassB'')
+    (container (ref: 1))
+    (parentPackage (ref: 202)))
+  (FAMIX.Inheritance
+    (subclass (ref: 3))
+    (superclass (ref: 2))))'
+]
+
 { #category : #running }
-TestCtxts >> setUp [
-	mooseModel := MooseModel importFromMSEStream: (TestCtxts lanModel readStream)
+TestMidas >> mooseModels [
+	models := OrderedCollection new.
+	models
+	add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
+		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
+	models first name: 'First-lanModel'.
+	models second name: 'Second-simpleModel'.
+	^ models
+]
+
+{ #category : #running }
+TestMidas >> setUp [
+	models := self mooseModels.
+	launcherApp := MidasLauncher new.
+	
+
+	launcherApp openOnModel: models first 
+]
+
+{ #category : #running }
+TestMidas >> tearDown [
+	launcherApp exit
+
+	
 ]

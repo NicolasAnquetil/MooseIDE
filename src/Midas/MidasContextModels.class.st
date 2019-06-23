@@ -9,11 +9,6 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextModels >> acceptModelUpdate: newModel [
-	^ true
-]
-
-{ #category : #notifications }
 MidasContextModels >> acceptStrongFocusUpdate: newFocus [
 	^ false
 ]

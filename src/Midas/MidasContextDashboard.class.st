@@ -12,11 +12,6 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextDashboard >> acceptModelUpdate: newFocus [
-	^ true
-]
-
-{ #category : #notifications }
 MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]
@@ -43,7 +38,7 @@ MidasContextDashboard >> focusedEntities: anObject [
 
 { #category : #accessing }
 MidasContextDashboard >> formatNewStrongFocus: newFocus [
-	^self strongFocusIsModel
+	^ self strongFocusIsModel
 		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ newFocus ]
 ]
@@ -73,11 +68,6 @@ MidasContextDashboard >> mooseModelSummary [
 	^ {self mooseModel allModelNamespaces.
 	self mooseModel allModelClasses.
 	self mooseModel allModelMethods}
-]
-
-{ #category : #notifications }
-MidasContextDashboard >> notifyNewModel: newMooseModel [
-	app updateStrongFocus: newMooseModel allModelClasses
 ]
 
 { #category : #accessing }
