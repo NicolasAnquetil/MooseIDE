@@ -42,5 +42,5 @@ MidasHistory >> now [
 
 { #category : #accessing }
 MidasHistory >> previous [
-	super previous key
+	^super previous key
 ]

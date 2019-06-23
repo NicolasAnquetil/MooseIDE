@@ -6,17 +6,17 @@ Class {
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'lstModels',
-		'mnuLoders'
+		'mnuLoaders'
 	],
 	#category : #'Midas-apps'
 }
 
 { #category : #specs }
 MidasAppModels class >> defaultSpec [
-	<spec: #default>
-	^ SpecLayout composed
-		newColumn: [ :c | c add: #mnuLoaders height: self toolbarHeight;
-								 add: #lstModels ];
+	^ SpecBoxLayout newVertical
+		add: #mnuLoaders
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #lstModels;
 		yourself
 ]
 
@@ -26,69 +26,70 @@ MidasAppModels >> context: aContext [
 	lstModels items: aContext allModels
 ]
 
-{ #category : #api }
-MidasAppModels >> extent [
-	^ 100 @ 300
-]
-
 { #category : #import }
 MidasAppModels >> importMSEModel [
-	context mooseModel: MVSMSELoader importModel
+	context mooseModel: (MVSMSELoader importModel ifNil:[^self]).
 ]
 
 { #category : #import }
 MidasAppModels >> importStModel [
-	context mooseModel: MPImportSTCommand new execute
+	context mooseModel: (MPImportSTCommand new execute ifNil:[^self])
 ]
 
 { #category : #initialization }
 MidasAppModels >> initializePresenter [
-	super initializePresenter.
+	"super initializePresenter - remove"
+
 	lstModels
-		doubleClickAction: [ :item | self context selectedModel: lstModels selectedItem ]
+		doubleClickAction:
+			[ :item | self context selectedModel: lstModels selection selectedItem ]
 ]
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
-	super initializeWidgets.
-	lstModels := (self instantiate: FastTablePresenter)
+"super initializeWidgets - remove"
+	lstModels := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-	mnuLoders := MenuPresenter new
+	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
 					item
-						name: nil;
 						description: 'Import model from MSE file';
 						icon: MooseIcons mooseImportMse;
 						action: [ self importMSEModel ] ].
 			group
 				addItem: [ :item | 
 					item
-						name: nil;
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
 						action: [ self importStModel ] ] ].
-	mnuLoders applyTo: self.
+	mnuLoaders applyTo: self
+]
+
+{ #category : #initialization }
+MidasAppModels >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 230 @ 300.
+	aWindowPresenter title: self title
 ]
 
 { #category : #accessing }
 MidasAppModels >> lstModels [
-	^ lstModels
+^lstModels
 ]
 
 { #category : #accessing }
 MidasAppModels >> mnuLoaders [
-	^mnuLoders 
+	^ mnuLoaders
 ]
 
 { #category : #initialization }
 MidasAppModels >> setSelectionTo: anItem [
-	lstModels resetSelection.
-	lstModels setSelectedItem: anItem
+	lstModels unselectAll.
+	lstModels selectItem: anItem
 ]
 
 { #category : #api }

@@ -12,11 +12,9 @@ Class {
 
 { #category : #specs }
 MidasAppSystemComplexity class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				add: #freeze height: 30;
-				add: #visualizer ];
+	^ SpecBoxLayout newVertical
+		add: #freeze withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #visualizer;
 		yourself
 ]
 
@@ -36,7 +34,12 @@ MidasAppSystemComplexity >> initializeWidgets [
 
 { #category : #api }
 MidasAppSystemComplexity >> title [
-	^ 'MIDAS Visualizer'
+	^ 'MIDAS Visualizer' 
+]
+
+{ #category : #notifications }
+MidasAppSystemComplexity >> updateModel: aMooseModel [
+	self shouldNotImplement
 ]
 
 { #category : #notifications }
@@ -54,5 +57,5 @@ MidasAppSystemComplexity >> updateWeakFocus: newFocus [
 
 { #category : #accessing }
 MidasAppSystemComplexity >> visualizer [
-	^ visualizer 
+^visualizer
 ]

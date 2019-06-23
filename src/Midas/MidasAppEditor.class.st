@@ -12,12 +12,10 @@ Class {
 
 { #category : #specs }
 MidasAppEditor class >> defaultSpec [
-	<spec: #default>
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				add: #freeze height: 30;
-				add: #code ];
+	^ SpecBoxLayout newVertical
+		add: #freeze
+			withConstraints: [ :constraints | constraints height: 30 ];
+		add: #code;
 		yourself
 ]
 
@@ -35,6 +33,12 @@ MidasAppEditor >> initializeWidgets [
 { #category : #api }
 MidasAppEditor >> title [
 	^ 'MIDAS Source Code'
+]
+
+{ #category : #notifications }
+MidasAppEditor >> updateModel: aMooseModel [
+
+		self shouldNotImplement
 ]
 
 { #category : #notifications }

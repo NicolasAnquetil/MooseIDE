@@ -14,11 +14,10 @@ Class {
 
 { #category : #specs }
 MidasLauncher class >> defaultSpec [
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c
-				add: #lblModelName height: 20;
-				add: #menu ];
+	^ SpecBoxLayout newVertical
+		add: #lblModelName
+			withConstraints: [ :constraints | constraints height: 20 ];
+		add: #menu;
 		yourself
 ]
 
@@ -37,6 +36,7 @@ MidasLauncher class >> iconTheme [
 
 { #category : #specs }
 MidasLauncher class >> openDefault [
+<example>
 	self openOnModel: MooseModel root allModels first
 ]
 
@@ -48,11 +48,6 @@ MidasLauncher class >> openOnModel: aMooseModel [
 { #category : #apps }
 MidasLauncher >> exit [
 	context exit.
-]
-
-{ #category : #api }
-MidasLauncher >> extent [
-	^ (self class iconSize * 10) @ (self class iconSize + 50)
 ]
 
 { #category : #accessing }
@@ -77,9 +72,9 @@ MidasLauncher >> initializePresenter [
 { #category : #initialization }
 MidasLauncher >> initializeWidgets [
 	lblModelName := self newLabel
-						label: 'Current model: --' ;
-						yourself.
-	menu := MenuPresenter new
+		label: 'Current model: --';
+		yourself.
+	menu := self newMenuBar
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -114,11 +109,14 @@ MidasLauncher >> initializeWidgets [
 						[ :item | self newMenuItem: item named: #tags withAction: [ self launchTagsApp ] ];
 				addItem:
 						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #exit
-						withAction: [ self exit ] ] ]
+				addItem:
+						[ :item | self newMenuItem: item named: #exit withAction: [ self exit ] ] ]
+]
+
+{ #category : #initialization }
+MidasLauncher >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 780 @ 120.
+	aWindowPresenter title: self title
 ]
 
 { #category : #apps }
@@ -133,8 +131,7 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 
 { #category : #apps }
 MidasLauncher >> launchDashboardApp [
-	self launch: MidasAppDashboard withContext: MidasContextDashboard 
-
+	^self launch: MidasAppDashboard withContext: MidasContextDashboard
 ]
 
 { #category : #apps }
@@ -150,13 +147,12 @@ MidasLauncher >> launchLogApp [
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	self launch: MidasAppModels withContext: MidasContextModels
+	^self launch: MidasAppModels withContext: MidasContextModels
 ]
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-1halt.
-	self launch: MidasAppQuery withContext: MidasContextQuery
+	^self launch: MidasAppQuery withContext: MidasContextQuery
 ]
 
 { #category : #apps }
@@ -173,7 +169,7 @@ MidasLauncher >> launchTagsApp [
 
 { #category : #accessing }
 MidasLauncher >> lblModelName [
-	^lblModelName
+^lblModelName
 ]
 
 { #category : #accessing }
@@ -182,21 +178,20 @@ MidasLauncher >> menu [
 ]
 
 { #category : #initialization }
-MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [	
+MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 	| defaultActionBlock |
-	defaultActionBlock := [self inform: aSymbol].
+	defaultActionBlock := [ self inform: aSymbol ].
 	^ menuItem
-			name: nil ;
-			description: aSymbol ;
-			icon: (iconTheme iconNamed: aSymbol) ;
-			action: (aBlock ifNil: [ defaultActionBlock ]).
+		description: aSymbol;
+		icon: (iconTheme iconNamed: aSymbol);
+		action: (aBlock ifNil: [ defaultActionBlock ])
 
 ]
 
 { #category : #api }
 MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
-	self context mooseModel: aMooseModel
+	self context mooseModel: aMooseModel.
 ]
 
 { #category : #api }
@@ -206,7 +201,7 @@ MidasLauncher >> title [
 
 { #category : #notifications }
 MidasLauncher >> updateModel: newMooseModel [
-	self title: newMooseModel name.
+	self window title: newMooseModel name.
 	lblModelName label: 'Current model: ' , newMooseModel name
 ]
 
