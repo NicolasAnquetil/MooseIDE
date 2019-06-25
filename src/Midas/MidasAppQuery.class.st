@@ -100,10 +100,8 @@ MidasAppQuery >> freeze [
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
 	freeze
-		whenActivatedDo: [ context freeze.
-			];
-		whenDeactivatedDo: [ context unfreeze.
-			].
+		whenActivatedDo: [ context freeze ];
+		whenDeactivatedDo: [ context unfreeze ].
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
@@ -222,14 +220,13 @@ MidasAppQuery >> title [
 
 { #category : #notifications }
 MidasAppQuery >> updateModel: mooseModel [
-self updateStrongFocus: mooseModel
+	self updateStrongFocus: mooseModel
 ]
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
 	lstEntities items: focus.
 	self checkPreviousNext
-	
 ]
 
 { #category : #notifications }

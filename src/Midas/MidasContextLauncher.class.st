@@ -9,8 +9,9 @@ Class {
 	#superclass : #MidasAbstractContext,
 	#instVars : [
 		'children',
-		'focusWeak',
-		'mooseModel'
+		'mooseModel',
+		'strongFocus',
+		'weakFocus'
 	],
 	#category : #'Midas-context'
 }
@@ -47,8 +48,10 @@ MidasContextLauncher >> mooseModel [
 { #category : #accessing }
 MidasContextLauncher >> mooseModel: newMooseModel [
 	newMooseModel ifNil: [ ^ self ].
-	mooseModel = newMooseModel
+	self mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
+	mooseModel := newMooseModel.
+	strongFocus := newMooseModel.
 	self notifyNewModel: newMooseModel
 ]
 
@@ -82,31 +85,31 @@ MidasContextLauncher >> spawn: aContextClass [
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus [
-	^ mooseModel
+	^ strongFocus
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> strongFocus: newFocus [
 	self strongFocus = newFocus
 		ifTrue: [ ^ self ].
-	history addEntry: newFocus.
-	self strongFocusFromHistory: newFocus
-]
-
-{ #category : #actions }
-MidasContextLauncher >> strongFocusFromHistory: newFocus [
+	strongFocus := newFocus.
 	self notifyStrongFocus: newFocus
 ]
 
 { #category : #accessing }
+MidasContextLauncher >> strongFocusIsModel [
+	^ mooseModel = strongFocus
+]
+
+{ #category : #accessing }
 MidasContextLauncher >> weakFocus [
-	^focusWeak
+	^weakFocus
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> weakFocus: newFocus [
-	focusWeak = newFocus
+	weakFocus = newFocus
 		ifTrue: [ ^self ].
-	focusWeak := newFocus.
+	weakFocus := newFocus.
 	self notifyWeakFocus: newFocus
 ]

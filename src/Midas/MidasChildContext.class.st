@@ -84,7 +84,7 @@ MidasChildContext >> mooseModelAsGroups [
 
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
-	frozen
+frozen
 		ifTrue: [ ^ self ].
 	(self acceptModelUpdate: newMooseModel)
 		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
@@ -112,8 +112,8 @@ MidasChildContext >> parentContext [
 
 { #category : #accessing }
 MidasChildContext >> parentContext: aContext [
-	parentContext = aContext 
-		ifTrue: [ ^ self].
+	parentContext = aContext
+		ifTrue: [ ^ self ].
 	parentContext := aContext.
 	aContext addChild: self
 ]

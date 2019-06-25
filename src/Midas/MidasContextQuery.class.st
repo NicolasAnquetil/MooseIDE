@@ -31,7 +31,6 @@ MidasContextQuery >> classScope [
 { #category : #history }
 MidasContextQuery >> clearHistory [
 	history := MidasHistory new.
-	self weakFocus: nil
 ]
 
 { #category : #accessing }
@@ -51,17 +50,17 @@ MidasContextQuery >> formatNewStrongFocus: focus [
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasNext [
+MidasContextQuery >> historyHasNext [ 
 	^ history hasNext
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasPrevious [
-	^ history hasPrevious
+MidasContextQuery >> historyHasPrevious [ 
+	^ history hasPrevious 
 ]
 
-{ #category : #history }
-MidasContextQuery >> initHistoryWith: newMooseModel [
+{ #category : #initialization }
+MidasContextQuery >> initHistoryWith:  newMooseModel [
 	self clearHistory.
 	history addEntry: newMooseModel
 ]
@@ -70,7 +69,7 @@ MidasContextQuery >> initHistoryWith: newMooseModel [
 MidasContextQuery >> initialize [
 	super initialize.
 	resultsWithParents := false.
-		self clearHistory
+	self initHistoryWith: self mooseModel
 ]
 
 { #category : #running }
@@ -89,10 +88,9 @@ MidasContextQuery >> methodScope [
 	self strongFocus: (self toScope: 'FAMIXMethod')
 ]
 
-{ #category : #accessing }
+{ #category : #history }
 MidasContextQuery >> next [
-	history hasNext
-		ifTrue: [ self strongFocusFromHistory: history next ]
+history hasNext ifTrue: [ self strongFocusFromHistory: history next ]
 ]
 
 { #category : #running }
@@ -102,7 +100,7 @@ MidasContextQuery >> packageScope [
 
 { #category : #accessing }
 MidasContextQuery >> prev [
-		history hasPrevious
+	history hasPrevious
 		ifTrue: [ self strongFocusFromHistory: history previous ]
 ]
 
@@ -128,7 +126,11 @@ MidasContextQuery >> runSelectQuery: aBloc [
 { #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
 	self strongFocus: aMidasEntity selection.
-	app updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection) 
+	history isEmpty
+		ifTrue: [ self initHistoryWith: self mooseModel ].
+	history addEntry: aMidasEntity selection.
+	app
+		updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection)
 ]
 
 { #category : #notifications }
@@ -146,9 +148,9 @@ MidasContextQuery >> strongFocus [
 		ifFalse: [ OrderedCollection with: realFocus ]
 ]
 
-{ #category : #accessing }
-MidasContextQuery >> strongFocusIsModel [
-	^history hasPrevious not
+{ #category : #history }
+MidasContextQuery >> strongFocusFromHistory: newFocus [
+	self notifyStrongFocus: newFocus
 ]
 
 { #category : #running }
