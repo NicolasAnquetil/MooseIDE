@@ -12,15 +12,14 @@ BaselineOfMidas >> baseline: spec [
 		do: [ spec preLoadDoIt: #verifyMooseInstalled.
 			"Packages"
 			spec
-				baseline: 'MetricDashboard'
+				package: 'MooseDashboard'
 				with: [ spec repository: 'github://570gina/MetricDashboard/src' ].
 			spec
 				baseline: 'MooseMetricCalculator'
 				with: [ spec repository: 'github://mahugnon/MooseMetricCalculator/src' ].
 			spec
-				baseline: 'VisuProject'
-				with: [ spec repository: 'github://mahugnon/VisuProject:bazader/src' ].
-			spec package: 'Midas' with: [ spec requires: #('MetricDashboard' 'MooseMetricCalculator' 'VisuProject') ] ]
+				package: 'Midas'
+				with: [ spec requires: #('MooseDashboard' 'MooseMetricCalculator') ] ]
 ]
 
 { #category : #accessing }
