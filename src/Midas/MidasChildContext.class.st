@@ -38,7 +38,8 @@ MidasChildContext >> exit [
 
 { #category : #accessing }
 MidasChildContext >> flattenedStrongFocus [
-	^parentContext flattenedStrongFocus
+self flag: 'remove?'.
+	^ parentContext flattenedStrongFocus
 ]
 
 { #category : #notifications }

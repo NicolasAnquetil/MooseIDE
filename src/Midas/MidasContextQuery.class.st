@@ -28,11 +28,6 @@ MidasContextQuery >> classScope [
 
 ]
 
-{ #category : #history }
-MidasContextQuery >> clearHistory [
-	history := MidasHistory new.
-]
-
 { #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
@@ -41,6 +36,7 @@ MidasContextQuery >> flattenResult [
 
 { #category : #notifications }
 MidasContextQuery >> formatNewModel: mooseModel [
+self initHistory.
 	^ self formatNewStrongFocus: mooseModel
 ]
 
@@ -60,16 +56,16 @@ MidasContextQuery >> historyHasPrevious [
 ]
 
 { #category : #initialization }
-MidasContextQuery >> initHistoryWith:  newMooseModel [
-	self clearHistory.
-	history addEntry: newMooseModel
+MidasContextQuery >> initHistory [ 
+	history := MidasHistory new.
+	history addEntry: self mooseModel
 ]
 
 { #category : #initialization }
 MidasContextQuery >> initialize [
 	super initialize.
 	resultsWithParents := false.
-	self initHistoryWith: self mooseModel
+	history := MidasHistory new
 ]
 
 { #category : #running }
@@ -126,8 +122,6 @@ MidasContextQuery >> runSelectQuery: aBloc [
 { #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
 	self strongFocus: aMidasEntity selection.
-	history isEmpty
-		ifTrue: [ self initHistoryWith: self mooseModel ].
 	history addEntry: aMidasEntity selection.
 	app
 		updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection)
