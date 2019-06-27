@@ -193,6 +193,14 @@ MidasAppQuery >> initializeWidgetsScopeRow [
 	"mnuScope applyTo: self"
 ]
 
+{ #category : #initialization }
+MidasAppQuery >> initializeWindow: aWindowPresenter [
+	aWindowPresenter title: self title.
+	self flag:#haveToUpdate.
+	aWindowPresenter
+		whenClosedDo: [ "context strongFocus: context mooseModel" context exit]
+]
+
 { #category : #accessing }
 MidasAppQuery >> lstEntities [
 	^ lstEntities

@@ -52,7 +52,8 @@ MidasLauncher >> exit [
 
 { #category : #accessing }
 MidasLauncher >> focus: anObject [
-	self context focus: anObject.
+	self flag: #remove.
+	self context focus: anObject
 ]
 
 { #category : #initialization }
@@ -124,14 +125,12 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	| app |
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
-	
 	app openWithSpec.
-	^app
 ]
 
 { #category : #apps }
 MidasLauncher >> launchDashboardApp [
-	^self launch: MidasAppDashboard withContext: MidasContextDashboard
+	self launch: MidasAppDashboard withContext: MidasContextDashboard
 ]
 
 { #category : #apps }
@@ -147,12 +146,14 @@ MidasLauncher >> launchLogApp [
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	^self launch: MidasAppModels withContext: MidasContextModels
+	self launch: MidasAppModels withContext: MidasContextModels
 ]
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-	^self launch: MidasAppQuery withContext: MidasContextQuery
+	context hasQuery
+		ifTrue: [ ^ self ]
+		ifFalse: [ self launch: MidasAppQuery withContext: MidasContextQuery ]
 ]
 
 { #category : #apps }
@@ -165,16 +166,6 @@ MidasLauncher >> launchSystemComplexityApp [
 { #category : #apps }
 MidasLauncher >> launchTagsApp [
 	self launch: MidasAppTag withContext: MidasContextTag
-]
-
-{ #category : #accessing }
-MidasLauncher >> lblModelName [
-^lblModelName
-]
-
-{ #category : #accessing }
-MidasLauncher >> menu [
-	^menu
 ]
 
 { #category : #initialization }

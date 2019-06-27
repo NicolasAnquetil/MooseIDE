@@ -31,7 +31,7 @@ MidasChildContext >> acceptWeakFocusUpdate: newFocus [
 
 { #category : #actions }
 MidasChildContext >> exit [
-	parentContext := nil.
+	parentContext removeChild: self.
 	app delete.
 	app := nil
 ]
@@ -78,6 +78,7 @@ MidasChildContext >> mooseModel: aMooseModel [
 
 { #category : #accessing }
 MidasChildContext >> mooseModelAsGroups [
+self flag:'remove??'.
 	^parentContext mooseModelAsGroups
 
 ]
@@ -124,8 +125,8 @@ MidasChildContext >> strongFocus [
 ]
 
 { #category : #accessing }
-MidasChildContext >> strongFocus: anObject [
-	parentContext strongFocus: anObject
+MidasChildContext >> strongFocus: focus [
+	parentContext strongFocus: focus
 ]
 
 { #category : #accessing }
@@ -144,6 +145,6 @@ MidasChildContext >> weakFocus [
 ]
 
 { #category : #accessing }
-MidasChildContext >> weakFocus: anObject [
-	parentContext weakFocus: anObject 
+MidasChildContext >> weakFocus: focus [
+	parentContext weakFocus: focus
 ]

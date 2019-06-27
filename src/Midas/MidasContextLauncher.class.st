@@ -16,7 +16,7 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #accessing }
+{ #category : #actions }
 MidasContextLauncher >> addChild: aContext [
 	(children includes: aContext)
 		ifTrue: [ ^ self ].
@@ -26,12 +26,14 @@ MidasContextLauncher >> addChild: aContext [
 
 { #category : #actions }
 MidasContextLauncher >> exit [
-	children
-		do: [ :child | 
-			child exit ].
-	children removeAll.
+	children do: [ :child | child exit ].
 	app delete.
 	app := nil
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> hasQuery [
+	^ children anySatisfy: [ :each | each class = MidasContextQuery ]
 ]
 
 { #category : #initialization }
@@ -74,6 +76,13 @@ MidasContextLauncher >> notifyStrongFocus: newFocus [
 { #category : #notifications }
 MidasContextLauncher >> notifyWeakFocus: newFocus [
 	children do: [ :child | child notifyWeakFocus: newFocus ]
+]
+
+{ #category : #actions }
+MidasContextLauncher >> removeChild: aContext [
+	(children includes: aContext)
+		ifFalse: [ ^ self ].
+	children remove: aContext.
 ]
 
 { #category : #'instance creation' }
