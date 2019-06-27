@@ -126,46 +126,46 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
 	app openWithSpec.
+	^app
 ]
 
 { #category : #apps }
 MidasLauncher >> launchDashboardApp [
-	self launch: MidasAppDashboard withContext: MidasContextDashboard
+	^self launch: MidasAppDashboard withContext: MidasContextDashboard
 ]
 
 { #category : #apps }
 MidasLauncher >> launchEditorApp [
-	self launch: MidasAppEditor withContext: MidasContextEditor
-
+	^self launch: MidasAppEditor withContext: MidasContextEditor
 ]
 
 { #category : #apps }
 MidasLauncher >> launchLogApp [
-	ApplicationWithToolbar new openWithSpec
+	^ApplicationWithToolbar new openWithSpec; yourself
 ]
 
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
-	self launch: MidasAppModels withContext: MidasContextModels
+	^self launch: MidasAppModels withContext: MidasContextModels
 ]
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
 	context hasQuery
 		ifTrue: [ ^ self ]
-		ifFalse: [ self launch: MidasAppQuery withContext: MidasContextQuery ]
+		ifFalse: [ ^self launch: MidasAppQuery withContext: MidasContextQuery ]
 ]
 
 { #category : #apps }
 MidasLauncher >> launchSystemComplexityApp [
-	self
+	^self
 		launch: MidasAppSystemComplexity
-		withContext: MidasContextSystemComplexity 
+		withContext: MidasContextSystemComplexity
 ]
 
 { #category : #apps }
 MidasLauncher >> launchTagsApp [
-	self launch: MidasAppTag withContext: MidasContextTag
+	^self launch: MidasAppTag withContext: MidasContextTag
 ]
 
 { #category : #initialization }

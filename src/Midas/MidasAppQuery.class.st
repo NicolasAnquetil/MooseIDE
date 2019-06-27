@@ -198,7 +198,7 @@ MidasAppQuery >> initializeWindow: aWindowPresenter [
 	aWindowPresenter title: self title.
 	self flag:#haveToUpdate.
 	aWindowPresenter
-		whenClosedDo: [ "context strongFocus: context mooseModel" context exit]
+		whenClosedDo: [ context strongFocus: context mooseModel. context exit]
 ]
 
 { #category : #accessing }

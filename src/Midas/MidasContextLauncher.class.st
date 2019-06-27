@@ -26,7 +26,10 @@ MidasContextLauncher >> addChild: aContext [
 
 { #category : #actions }
 MidasContextLauncher >> exit [
-	children do: [ :child | child exit ].
+|cachedChildren|
+cachedChildren := children copy.
+	cachedChildren do: [ :child | child exit ].
+	children removeAll.
 	app delete.
 	app := nil
 ]
