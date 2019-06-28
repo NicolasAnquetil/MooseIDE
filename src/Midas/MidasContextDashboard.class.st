@@ -13,7 +13,7 @@ Class {
 
 { #category : #notifications }
 MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
-	^ newFocus isCollection
+	^ self strongFocusIsModel
 ]
 
 { #category : #notifications }
@@ -25,9 +25,8 @@ MidasContextDashboard >> acceptWeakFocusUpdate: newFocus [
 MidasContextDashboard >> focusedEntities [
 	"for compatibility with MVSMainPresenter"
 
-	^ self strongFocusIsModel
-		ifTrue: [ self mooseModel allModelClasses ]
-		ifFalse: [ self ]
+	^  self mooseModel allModelClasses 
+
 ]
 
 { #category : #accessing }
