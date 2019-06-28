@@ -196,9 +196,9 @@ MidasAppQuery >> initializeWidgetsScopeRow [
 { #category : #initialization }
 MidasAppQuery >> initializeWindow: aWindowPresenter [
 	aWindowPresenter title: self title.
-	self flag:#haveToUpdate.
 	aWindowPresenter
-		whenClosedDo: [ context strongFocus: context mooseModel. context exit]
+		whenClosedDo: [ context strongFocus: context mooseModel.
+			context exit ]
 ]
 
 { #category : #accessing }
@@ -233,12 +233,12 @@ MidasAppQuery >> updateModel: mooseModel [
 
 { #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
+	
 	lstEntities items: focus.
 	self checkPreviousNext
 ]
 
 { #category : #notifications }
 MidasAppQuery >> updateWeakFocus: focus [
-	lstEntities unselectAll.
 	lstEntities selectItem: focus
 ]

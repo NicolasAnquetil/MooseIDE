@@ -50,12 +50,6 @@ MidasLauncher >> exit [
 	context exit.
 ]
 
-{ #category : #accessing }
-MidasLauncher >> focus: anObject [
-	self flag: #remove.
-	self context focus: anObject
-]
-
 { #category : #initialization }
 MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"

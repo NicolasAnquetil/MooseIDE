@@ -9,6 +9,12 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #history }
+MidasContextQuery >> addToHistory: anEntry [
+	history add: anEntry.
+	app checkPreviousNext 
+]
+
 { #category : #running }
 MidasContextQuery >> atScope: aSymbol [
 	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
@@ -20,12 +26,10 @@ MidasContextQuery >> atScope: aSymbol [
 MidasContextQuery >> classScope [
 	| actuel |
 	actuel := self strongFocus.
-	actuel
-		ifEmpty: [ ^ nil ] .
+	actuel ifEmpty: [ ^ nil ].
 	actuel anyOne isMethod
 		ifTrue: [ self strongFocus: (self atScope: 'FAMIXClass') ]
-		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ]
-
+		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ].
 ]
 
 { #category : #accessing }
@@ -36,7 +40,7 @@ MidasContextQuery >> flattenResult [
 
 { #category : #notifications }
 MidasContextQuery >> formatNewModel: mooseModel [
-self initHistory.
+	self initHistory.
 	^ self formatNewStrongFocus: mooseModel
 ]
 
@@ -86,7 +90,9 @@ MidasContextQuery >> methodScope [
 
 { #category : #history }
 MidasContextQuery >> next [
-history hasNext ifTrue: [ self strongFocusFromHistory: history next ]
+	history hasNext
+		ifTrue: [ self strongFocusFromHistory: history next.
+			app checkPreviousNext ]
 ]
 
 { #category : #running }
@@ -95,9 +101,16 @@ MidasContextQuery >> packageScope [
 ]
 
 { #category : #accessing }
+MidasContextQuery >> parentContext: aContext [
+	super parentContext:aContext.
+		self initHistory.
+]
+
+{ #category : #history }
 MidasContextQuery >> prev [
 	history hasPrevious
-		ifTrue: [ self strongFocusFromHistory: history previous ]
+		ifTrue: [ self strongFocusFromHistory: history previous.
+			app checkPreviousNext ]
 ]
 
 { #category : #accessing }
@@ -121,10 +134,12 @@ MidasContextQuery >> runSelectQuery: aBloc [
 
 { #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
+	| wasFrozen |
+	wasFrozen := frozen.
+	frozen := false.
 	self strongFocus: aMidasEntity selection.
-	history addEntry: aMidasEntity selection.
-	app
-		updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection)
+	self addToHistory: aMidasEntity selection.
+	frozen := wasFrozen
 ]
 
 { #category : #notifications }
@@ -144,7 +159,11 @@ MidasContextQuery >> strongFocus [
 
 { #category : #history }
 MidasContextQuery >> strongFocusFromHistory: newFocus [
-	self notifyStrongFocus: newFocus
+	| cachedFrozen |
+	cachedFrozen := frozen.
+	frozen := false.
+	self notifyStrongFocus: newFocus.
+	frozen := cachedFrozen
 ]
 
 { #category : #running }

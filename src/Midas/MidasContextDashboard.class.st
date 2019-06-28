@@ -25,14 +25,9 @@ MidasContextDashboard >> acceptWeakFocusUpdate: newFocus [
 MidasContextDashboard >> focusedEntities [
 	"for compatibility with MVSMainPresenter"
 
-	"	^ self strongFocusIsModel
-		ifNotNil: [ self mooseModel allModelClasses ]
-		ifNil: [ self flattenedStrongFocus ]"
-
-	self flag: #change.
 	^ self strongFocusIsModel
 		ifTrue: [ self mooseModel allModelClasses ]
-		ifFalse: [ self flattenedStrongFocus ]
+		ifFalse: [ self ]
 ]
 
 { #category : #accessing }

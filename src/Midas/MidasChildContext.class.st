@@ -36,12 +36,6 @@ MidasChildContext >> exit [
 	app := nil
 ]
 
-{ #category : #accessing }
-MidasChildContext >> flattenedStrongFocus [
-self flag: 'remove?'.
-	^ parentContext flattenedStrongFocus
-]
-
 { #category : #notifications }
 MidasChildContext >> formatNewModel: newMooseModel [
 	^ newMooseModel
@@ -75,13 +69,6 @@ MidasChildContext >> mooseModel [
 { #category : #accessing }
 MidasChildContext >> mooseModel: aMooseModel [
 	parentContext mooseModel: aMooseModel
-]
-
-{ #category : #accessing }
-MidasChildContext >> mooseModelAsGroups [
-self flag:'remove??'.
-	^parentContext mooseModelAsGroups
-
 ]
 
 { #category : #notifications }
