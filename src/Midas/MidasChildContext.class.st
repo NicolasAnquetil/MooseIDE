@@ -31,14 +31,9 @@ MidasChildContext >> acceptWeakFocusUpdate: newFocus [
 
 { #category : #actions }
 MidasChildContext >> exit [
-	parentContext := nil.
+	parentContext removeChild: self.
 	app delete.
 	app := nil
-]
-
-{ #category : #accessing }
-MidasChildContext >> flattenedStrongFocus [
-	^parentContext flattenedStrongFocus
 ]
 
 { #category : #notifications }
@@ -76,15 +71,9 @@ MidasChildContext >> mooseModel: aMooseModel [
 	parentContext mooseModel: aMooseModel
 ]
 
-{ #category : #accessing }
-MidasChildContext >> mooseModelAsGroups [
-	^parentContext mooseModelAsGroups
-
-]
-
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
-	frozen
+frozen
 		ifTrue: [ ^ self ].
 	(self acceptModelUpdate: newMooseModel)
 		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
@@ -112,8 +101,8 @@ MidasChildContext >> parentContext [
 
 { #category : #accessing }
 MidasChildContext >> parentContext: aContext [
-	parentContext = aContext 
-		ifTrue: [ ^ self].
+	parentContext = aContext
+		ifTrue: [ ^ self ].
 	parentContext := aContext.
 	aContext addChild: self
 ]
@@ -124,8 +113,8 @@ MidasChildContext >> strongFocus [
 ]
 
 { #category : #accessing }
-MidasChildContext >> strongFocus: anObject [
-	parentContext strongFocus: anObject
+MidasChildContext >> strongFocus: focus [
+	parentContext strongFocus: focus
 ]
 
 { #category : #accessing }
@@ -144,6 +133,6 @@ MidasChildContext >> weakFocus [
 ]
 
 { #category : #accessing }
-MidasChildContext >> weakFocus: anObject [
-	parentContext weakFocus: anObject 
+MidasChildContext >> weakFocus: focus [
+	parentContext weakFocus: focus
 ]

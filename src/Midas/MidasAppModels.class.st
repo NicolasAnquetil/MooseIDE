@@ -38,16 +38,15 @@ MidasAppModels >> importStModel [
 
 { #category : #initialization }
 MidasAppModels >> initializePresenter [
-	"super initializePresenter - remove"
 
 	lstModels
 		doubleClickAction:
-			[ :item | self context selectedModel: lstModels selection selectedItem ]
+			[ :item | self context mooseModel: lstModels selection selectedItem ]
 ]
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
-"super initializeWidgets - remove"
+
 	lstModels := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
@@ -86,12 +85,6 @@ MidasAppModels >> mnuLoaders [
 	^ mnuLoaders
 ]
 
-{ #category : #initialization }
-MidasAppModels >> setSelectionTo: anItem [
-	lstModels unselectAll.
-	lstModels selectItem: anItem
-]
-
 { #category : #api }
 MidasAppModels >> title [
 	^'Moose models'
@@ -100,7 +93,7 @@ MidasAppModels >> title [
 { #category : #notifications }
 MidasAppModels >> updateModel: newModel [
 	lstModels items: context allModels.
-	self setSelectionTo: newModel
+	lstModels selectItem: newModel
 	
 ]
 

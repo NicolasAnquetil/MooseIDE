@@ -50,11 +50,6 @@ MidasLauncher >> exit [
 	context exit.
 ]
 
-{ #category : #accessing }
-MidasLauncher >> focus: anObject [
-	self context focus: anObject.
-]
-
 { #category : #initialization }
 MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
@@ -124,7 +119,6 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	| app |
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
-	
 	app openWithSpec.
 	^app
 ]
@@ -136,13 +130,12 @@ MidasLauncher >> launchDashboardApp [
 
 { #category : #apps }
 MidasLauncher >> launchEditorApp [
-	self launch: MidasAppEditor withContext: MidasContextEditor
-
+	^self launch: MidasAppEditor withContext: MidasContextEditor
 ]
 
 { #category : #apps }
 MidasLauncher >> launchLogApp [
-	ApplicationWithToolbar new openWithSpec
+	^ApplicationWithToolbar new openWithSpec; yourself
 ]
 
 { #category : #apps }
@@ -152,29 +145,21 @@ MidasLauncher >> launchModelsApp [
 
 { #category : #apps }
 MidasLauncher >> launchQueryApp [
-	^self launch: MidasAppQuery withContext: MidasContextQuery
+	context hasQuery
+		ifTrue: [ ^ self ]
+		ifFalse: [ ^self launch: MidasAppQuery withContext: MidasContextQuery ]
 ]
 
 { #category : #apps }
 MidasLauncher >> launchSystemComplexityApp [
-	self
+	^self
 		launch: MidasAppSystemComplexity
-		withContext: MidasContextSystemComplexity 
+		withContext: MidasContextSystemComplexity
 ]
 
 { #category : #apps }
 MidasLauncher >> launchTagsApp [
-	self launch: MidasAppTag withContext: MidasContextTag
-]
-
-{ #category : #accessing }
-MidasLauncher >> lblModelName [
-^lblModelName
-]
-
-{ #category : #accessing }
-MidasLauncher >> menu [
-	^menu
+	^self launch: MidasAppTag withContext: MidasContextTag
 ]
 
 { #category : #initialization }

@@ -9,6 +9,12 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #history }
+MidasContextQuery >> addToHistory: anEntry [
+	history add: anEntry.
+	app checkPreviousNext 
+]
+
 { #category : #running }
 MidasContextQuery >> atScope: aSymbol [
 	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
@@ -20,18 +26,10 @@ MidasContextQuery >> atScope: aSymbol [
 MidasContextQuery >> classScope [
 	| actuel |
 	actuel := self strongFocus.
-	actuel
-		ifEmpty: [ ^ nil ] .
+	actuel ifEmpty: [ ^ nil ].
 	actuel anyOne isMethod
 		ifTrue: [ self strongFocus: (self atScope: 'FAMIXClass') ]
-		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ]
-
-]
-
-{ #category : #history }
-MidasContextQuery >> clearHistory [
-	history := MidasHistory new.
-	self weakFocus: nil
+		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ].
 ]
 
 { #category : #accessing }
@@ -42,6 +40,7 @@ MidasContextQuery >> flattenResult [
 
 { #category : #notifications }
 MidasContextQuery >> formatNewModel: mooseModel [
+	self initHistory.
 	^ self formatNewStrongFocus: mooseModel
 ]
 
@@ -51,26 +50,26 @@ MidasContextQuery >> formatNewStrongFocus: focus [
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasNext [
+MidasContextQuery >> historyHasNext [ 
 	^ history hasNext
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasPrevious [
-	^ history hasPrevious
+MidasContextQuery >> historyHasPrevious [ 
+	^ history hasPrevious 
 ]
 
-{ #category : #history }
-MidasContextQuery >> initHistoryWith: newMooseModel [
-	self clearHistory.
-	history addEntry: newMooseModel
+{ #category : #initialization }
+MidasContextQuery >> initHistory [ 
+	history := MidasHistory new.
+	history addEntry: self mooseModel
 ]
 
 { #category : #initialization }
 MidasContextQuery >> initialize [
 	super initialize.
 	resultsWithParents := false.
-		self clearHistory
+	history := MidasHistory new
 ]
 
 { #category : #running }
@@ -89,10 +88,11 @@ MidasContextQuery >> methodScope [
 	self strongFocus: (self toScope: 'FAMIXMethod')
 ]
 
-{ #category : #accessing }
+{ #category : #history }
 MidasContextQuery >> next [
 	history hasNext
-		ifTrue: [ self strongFocusFromHistory: history next ]
+		ifTrue: [ self strongFocusFromHistory: history next.
+			app checkPreviousNext ]
 ]
 
 { #category : #running }
@@ -101,9 +101,16 @@ MidasContextQuery >> packageScope [
 ]
 
 { #category : #accessing }
+MidasContextQuery >> parentContext: aContext [
+	super parentContext:aContext.
+		self initHistory.
+]
+
+{ #category : #history }
 MidasContextQuery >> prev [
-		history hasPrevious
-		ifTrue: [ self strongFocusFromHistory: history previous ]
+	history hasPrevious
+		ifTrue: [ self strongFocusFromHistory: history previous.
+			app checkPreviousNext ]
 ]
 
 { #category : #accessing }
@@ -127,8 +134,12 @@ MidasContextQuery >> runSelectQuery: aBloc [
 
 { #category : #notifications }
 MidasContextQuery >> selectedStrongFocus: aMidasEntity [
+	| wasFrozen |
+	wasFrozen := frozen.
+	frozen := false.
 	self strongFocus: aMidasEntity selection.
-	app updateStrongFocus: (self formatNewStrongFocus: aMidasEntity selection) 
+	self addToHistory: aMidasEntity selection.
+	frozen := wasFrozen
 ]
 
 { #category : #notifications }
@@ -146,9 +157,13 @@ MidasContextQuery >> strongFocus [
 		ifFalse: [ OrderedCollection with: realFocus ]
 ]
 
-{ #category : #accessing }
-MidasContextQuery >> strongFocusIsModel [
-	^history hasPrevious not
+{ #category : #history }
+MidasContextQuery >> strongFocusFromHistory: newFocus [
+	| cachedFrozen |
+	cachedFrozen := frozen.
+	frozen := false.
+	self notifyStrongFocus: newFocus.
+	frozen := cachedFrozen
 ]
 
 { #category : #running }
