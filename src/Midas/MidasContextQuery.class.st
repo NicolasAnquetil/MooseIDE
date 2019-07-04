@@ -75,12 +75,15 @@ MidasContextQuery >> initialize [
 { #category : #running }
 MidasContextQuery >> interpretQuery: aBlockAsString [
 	| aBlock |
-	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
-	self strongFocus:
-		(app filterQuery
-					ifTrue: [ self runSelectQuery: aBlock ]
-					ifFalse: [ self runCollectQuery: aBlock])
-	
+	aBlockAsString
+		ifEmpty: [
+			self notifyStrongFocus: history now ]
+		ifNotEmpty: [ aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
+			self
+				strongFocus:
+					(app filterQuery
+						ifTrue: [ self runSelectQuery: aBlock ]
+						ifFalse: [ self runCollectQuery: aBlock ]) ]
 ]
 
 { #category : #running }
@@ -162,6 +165,7 @@ MidasContextQuery >> strongFocusFromHistory: newFocus [
 	| cachedFrozen |
 	cachedFrozen := frozen.
 	frozen := false.
+	self strongFocus: newFocus.
 	self notifyStrongFocus: newFocus.
 	frozen := cachedFrozen
 ]
