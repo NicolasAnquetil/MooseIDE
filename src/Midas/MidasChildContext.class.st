@@ -89,7 +89,8 @@ MidasChildContext >> notifyStrongFocus: newFocus [
 
 { #category : #notifications }
 MidasChildContext >> notifyWeakFocus: newFocus [
-	frozen ifTrue: [ ^self ].
+	frozen
+		ifTrue: [ ^ self ].
 	(self acceptWeakFocusUpdate: newFocus)
 		ifTrue: [ app updateWeakFocus: newFocus ]
 ]

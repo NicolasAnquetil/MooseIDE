@@ -3866,9 +3866,8 @@ TestMidas >> mooseModels [
 TestMidas >> setUp [
 	models := self mooseModels.
 	launcherApp := MidasLauncher new.
-	
+	launcherApp openOnModel: models first.
 
-	launcherApp openOnModel: models first 
 ]
 
 { #category : #running }

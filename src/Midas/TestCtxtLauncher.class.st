@@ -19,6 +19,5 @@ TestCtxtLauncher >> testMooseModel [
 	self assert: ctxt mooseModel isNil.
 	ctxt mooseModel: mooseModel.
 	self assert: ctxt mooseModel equals: mooseModel.
-	ctxt clearHistory.
-	self assert: ctxt mooseModel isNil.
+
 ]

@@ -21,23 +21,19 @@ TestQueryApp >> setUp [
 ]
 
 { #category : #tests }
-TestQueryApp >> testFreezeContentCheckbox [
-	| cachedStrongFocus |
-	cachedStrongFocus := queryApp context strongFocus.
-	"freeze"
-	queryApp freeze state: true.
-	self assert: queryApp context frozen.
-	queryApp lstEntities doubleClickAtIndex: 1.
-	self assert: queryApp context strongFocus equals: cachedStrongFocus.
-	
-	"unfreeze"
+TestQueryApp >> testFreezeContentIsNotSelected [
+	| cachedItems |
+	cachedItems := queryApp lstEntities items.
 	queryApp freeze state: false.
-	self deny: queryApp context frozen.
-	queryApp lstEntities doubleClickAtIndex: 1.
-	self deny: queryApp context strongFocus equals: cachedStrongFocus.
-	self assert: queryApp btnPrev isEnabled.
-	
-	"freeze"
+	queryApp context mooseModel: models second.
+	self deny: queryApp lstEntities items equals: cachedItems
+]
+
+{ #category : #tests }
+TestQueryApp >> testFreezeContentIsSelected [
+	| cachedItems |
+	cachedItems := queryApp lstEntities items.
 	queryApp freeze state: true.
-	self deny: queryApp btnPrev isEnabled
+	queryApp context mooseModel: models second.
+	self assert: queryApp lstEntities items equals: cachedItems
 ]
