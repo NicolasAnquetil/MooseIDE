@@ -130,9 +130,7 @@ MidasContextQuery >> runCollectQuery: aBloc [
 
 { #category : #running }
 MidasContextQuery >> runSelectQuery: aBloc [
-	^self strongFocus select: aBloc.
-
-	
+	^ self strongFocus select: aBloc
 ]
 
 { #category : #notifications }
