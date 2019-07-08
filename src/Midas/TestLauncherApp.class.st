@@ -8,5 +8,5 @@ Class {
 TestLauncherApp >> testWindowTitle [
 	self
 		assert: launcherApp window title
-		equals: self mooseModels first name.
+		equals: models first name
 ]

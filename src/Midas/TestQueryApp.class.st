@@ -73,3 +73,32 @@ TestQueryApp >> testPreviousAndNextButtonsDisplay [
 	self deny: queryApp btnPrev isEnabled.
 	self assert: queryApp btnNext isEnabled.
 ]
+
+{ #category : #tests }
+TestQueryApp >> testSelectClasses [
+	| classesItem |
+	queryApp lstEntities doubleClickAtIndex: 1.
+	classesItem := queryApp mnuScope menuGroups first menuItems second.
+	classesItem performMenuActionWith: self.
+	queryApp lstEntities items
+		do: [ :each | self assert: each selection isClass ]
+]
+
+{ #category : #tests }
+TestQueryApp >> testSelectMethods [
+	| methodsItem |
+	queryApp lstEntities doubleClickAtIndex: 1.
+	methodsItem := queryApp mnuScope menuGroups first menuItems third.
+	methodsItem performMenuActionWith: self.
+	queryApp lstEntities items do:[:each|self assert: each selection isMethod]
+]
+
+{ #category : #tests }
+TestQueryApp >> testSelectPackage [
+	| packageItem |
+	queryApp lstEntities doubleClickAtIndex: 1.
+	packageItem := queryApp mnuScope menuGroups first menuItems first.
+	packageItem performMenuActionWith: self.
+	queryApp lstEntities items
+		do: [ :each | self assert: each selection isPackage ]
+]

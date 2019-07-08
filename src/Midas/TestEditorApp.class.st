@@ -11,4 +11,11 @@ Class {
 TestEditorApp >> setUp [
 	super setUp.
 	editorApp := launcherApp launchEditorApp.
+	self halt.
+	editorApp mooseModel allMethods second sourceText
+]
+
+{ #category : #tests }
+TestEditorApp >> testTest [
+	
 ]

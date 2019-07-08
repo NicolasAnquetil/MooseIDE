@@ -3855,19 +3855,22 @@ TestMidas class >> simpleModel [
 TestMidas >> mooseModels [
 	models := OrderedCollection new.
 	models
-	add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
+		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
 		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
 	models first name: 'First-lanModel'.
 	models second name: 'Second-simpleModel'.
-	^ models
 ]
 
 { #category : #running }
 TestMidas >> setUp [
-	models := self mooseModels.
+	self mooseModels.
 	launcherApp := MidasLauncher new.
 	launcherApp openOnModel: models first.
-
+	models first allMethods first
+		sourceAnchor:
+			(FamixStSourceTextAnchor new
+				source: 'blah blah some text';
+				yourself)
 ]
 
 { #category : #running }

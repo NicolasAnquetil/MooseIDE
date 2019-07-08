@@ -100,7 +100,7 @@ MidasContextQuery >> next [
 
 { #category : #running }
 MidasContextQuery >> packageScope [
-	self strongFocus: (self atScope: 'FAMIXNamespace')
+	self strongFocus: (self atScope: 'FAMIXPackage')
 ]
 
 { #category : #accessing }
