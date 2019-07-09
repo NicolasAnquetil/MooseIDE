@@ -166,9 +166,10 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetsScopeRow [
-	mnuScope := self newMenuBar .
+	mnuScope := self newMenuBar.
 	mnuScope
 		addGroup: [ :group | 
+			"mnuScope applyTo: self"
 			group
 				addItem: [ :item | 
 					item
@@ -189,8 +190,8 @@ MidasAppQuery >> initializeWidgetsScopeRow [
 						name: 'Methods';
 						description: 'Methods';
 						icon: (self iconNamed: #famixMethodGroup);
-						action: [ context methodScope ] ] ]
-	"mnuScope applyTo: self"
+						action: [ 
+							context methodScope ] ] ]
 ]
 
 { #category : #initialization }

@@ -48,5 +48,6 @@ MidasAppEditor >> updateStrongFocus: newFocus [
 
 { #category : #notifications }
 MidasAppEditor >> updateWeakFocus: newFocus [
-	code text: newFocus sourceText
+newFocus sourceText ifNotNil:[
+	code text: newFocus sourceText ]
 ]

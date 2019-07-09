@@ -42,3 +42,21 @@ TestDashboardApp >> testDisplayLinesOfCode [
 	self assert: (myMetric third endsWith: '370.0').
 	self assert: (myMetric fourth endsWith: '370.0')
 ]
+
+{ #category : #tests }
+TestDashboardApp >> testFreezeContentIsNotSelected [
+	| cachedMetric |
+	cachedMetric := dashboardApp dashboardMetric: 1.
+	dashboardApp freeze state: false.
+	dashboardApp context mooseModel: models second.
+	self deny: (dashboardApp dashboardMetric: 1) equals: cachedMetric
+]
+
+{ #category : #tests }
+TestDashboardApp >> testFreezeContentIsSelected [
+	| cachedMetric |
+	cachedMetric := dashboardApp dashboardMetric: 1.
+	dashboardApp freeze state: true.
+	dashboardApp context mooseModel: models second.
+	self assert: (dashboardApp dashboardMetric: 1) equals: cachedMetric
+]

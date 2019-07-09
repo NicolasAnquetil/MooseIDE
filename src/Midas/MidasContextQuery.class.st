@@ -75,12 +75,15 @@ MidasContextQuery >> initialize [
 { #category : #running }
 MidasContextQuery >> interpretQuery: aBlockAsString [
 	| aBlock |
-	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
-	self strongFocus:
-		(app filterQuery
-					ifTrue: [ self runSelectQuery: aBlock ]
-					ifFalse: [ self runCollectQuery: aBlock])
-	
+	aBlockAsString
+		ifEmpty: [
+			self notifyStrongFocus: history now ]
+		ifNotEmpty: [ aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
+			self
+				strongFocus:
+					(app filterQuery
+						ifTrue: [ self runSelectQuery: aBlock ]
+						ifFalse: [ self runCollectQuery: aBlock ]) ]
 ]
 
 { #category : #running }
@@ -97,7 +100,7 @@ MidasContextQuery >> next [
 
 { #category : #running }
 MidasContextQuery >> packageScope [
-	self strongFocus: (self atScope: 'FAMIXNamespace')
+	self strongFocus: (self atScope: 'FAMIXPackage')
 ]
 
 { #category : #accessing }
@@ -127,9 +130,7 @@ MidasContextQuery >> runCollectQuery: aBloc [
 
 { #category : #running }
 MidasContextQuery >> runSelectQuery: aBloc [
-	^self strongFocus select: aBloc.
-
-	
+	^ self strongFocus select: aBloc
 ]
 
 { #category : #notifications }
@@ -162,6 +163,7 @@ MidasContextQuery >> strongFocusFromHistory: newFocus [
 	| cachedFrozen |
 	cachedFrozen := frozen.
 	frozen := false.
+	self strongFocus: newFocus.
 	self notifyStrongFocus: newFocus.
 	frozen := cachedFrozen
 ]

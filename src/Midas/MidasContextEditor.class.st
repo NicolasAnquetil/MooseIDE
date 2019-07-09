@@ -18,7 +18,9 @@ MidasContextEditor >> acceptStrongFocusUpdate: newFocus [
 	self
 		flag:
 			'should test that the class or superclasses use FamixTWithSourceAnchor'.
-	^ newFocus isKindOf: FamixStSourcedEntity 
+			
+	^ newFocus  hasSourceAnchor
+
 ]
 
 { #category : #notifications }
