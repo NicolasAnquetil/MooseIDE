@@ -71,6 +71,5 @@ MidasFocusFormater >> visitModel: aMooseModel [
 { #category : #visiting }
 MidasFocusFormater >> visitNamespace: aNamespace [
 	"using visitor infrastrcture as a generic double dispatch mechanism"
-	^MidasEntityFamix new
-		initializeNamespace: aNamespace 
+	self shouldBeImplemented 
 ]

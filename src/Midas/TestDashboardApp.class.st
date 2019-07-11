@@ -60,3 +60,15 @@ TestDashboardApp >> testFreezeContentIsSelected [
 	dashboardApp context mooseModel: models second.
 	self assert: (dashboardApp dashboardMetric: 1) equals: cachedMetric
 ]
+
+{ #category : #tests }
+TestDashboardApp >> testWindowTitle [
+	self
+		assert: dashboardApp window title
+		equals: 'MIDAS Dashboard: First-lanModel'.
+	launcherApp context mooseModel: models second.
+	self
+		assert: dashboardApp window title
+		equals: 'MIDAS Dashboard: Second-simpleModel'.
+
+]

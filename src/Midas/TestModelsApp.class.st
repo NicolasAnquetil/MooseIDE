@@ -55,7 +55,7 @@ TestModelsApp >> testUpdateModelInLauncher [
 	cachedTitle := launcherApp window title.
 	modelsApp lstModels doubleClickAtIndex: 2.
 	self deny:  launcherApp window title equals: cachedTitle.
-	self assert:  launcherApp window title  equals: models second name
+	self assert:  launcherApp window title  equals: 'MIDAS Launcher: Second-simpleModel'.
 ]
 
 { #category : #tests }
