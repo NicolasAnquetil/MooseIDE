@@ -3866,11 +3866,6 @@ TestMidas >> setUp [
 	self mooseModels.
 	launcherApp := MidasLauncher new.
 	launcherApp openOnModel: models first.
-	models first allMethods first
-		sourceAnchor:
-			(FamixStSourceTextAnchor new
-				source: 'blah blah some text';
-				yourself)
 ]
 
 { #category : #running }
