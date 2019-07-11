@@ -224,11 +224,12 @@ MidasAppQuery >> runQueryButtonAction [
 
 { #category : #api }
 MidasAppQuery >> title [
-	^'MIDAS Query' 
+	^'MIDAS Query: ' , context modelName
 ]
 
 { #category : #notifications }
 MidasAppQuery >> updateModel: mooseModel [
+	self updateTitle.
 	self updateStrongFocus: mooseModel
 ]
 

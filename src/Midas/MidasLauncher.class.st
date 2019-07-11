@@ -181,13 +181,13 @@ MidasLauncher >> openOnModel: aMooseModel [
 
 { #category : #api }
 MidasLauncher >> title [
-	^ 'MIDAS Launcher'
+	^ 'MIDAS Launcher: ' , context modelName
 ]
 
 { #category : #notifications }
 MidasLauncher >> updateModel: newMooseModel [
-	self window title: newMooseModel name.
-	lblModelName label: 'Current model: ' , newMooseModel name
+	self updateTitle.
+	lblModelName label: 'Current model: ' , context modelName
 ]
 
 { #category : #notifications }

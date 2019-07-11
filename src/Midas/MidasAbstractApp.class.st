@@ -71,6 +71,11 @@ MidasAbstractApp >> updateStrongFocus: focus [
 	self subclassResponsibility
 ]
 
+{ #category : #api }
+MidasAbstractApp >> updateTitle [.
+	self window title: self title.
+]
+
 { #category : #notifications }
 MidasAbstractApp >> updateWeakFocus: focus [
 	self subclassResponsibility

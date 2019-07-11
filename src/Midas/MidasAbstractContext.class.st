@@ -27,6 +27,16 @@ MidasAbstractContext >> app: anApp [
 	self notifyStrongFocus: self strongFocus
 ]
 
+{ #category : #accessing }
+MidasAbstractContext >> modelName [
+	^self mooseModel ifNil: [ '--' ] ifNotNil: [ :model | model name ]
+]
+
+{ #category : #accessing }
+MidasAbstractContext >> mooseModel [
+	self subclassResponsibility 
+]
+
 { #category : #notifications }
 MidasAbstractContext >> notifyNewModel: newMooseModel [
 	self subclassResponsibility 

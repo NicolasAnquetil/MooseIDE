@@ -58,11 +58,12 @@ MidasAppDashboard >> initializeWindow: aWindowPresenter [
 
 { #category : #api }
 MidasAppDashboard >> title [
-	^'MIDAS Dashboard' 
+	^'MIDAS Dashboard: ' , context modelName 
 ]
 
 { #category : #notifications }
 MidasAppDashboard >> updateModel: aMooseModel [
+	self updateTitle.
 	self updateStrongFocus: aMooseModel allModelClasses.
 		
 ]

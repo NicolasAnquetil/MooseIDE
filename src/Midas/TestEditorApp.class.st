@@ -11,11 +11,18 @@ Class {
 TestEditorApp >> setUp [
 	super setUp.
 	editorApp := launcherApp launchEditorApp.
-	self halt.
-	editorApp mooseModel allMethods second sourceText
+	
+	models first allMethods first
+		sourceAnchor:
+			(FamixStSourceTextAnchor new
+				source: 'blah blah some text';
+				yourself)
+				
+	"self halt.
+	editorApp mooseModel allMethods second sourceText"
 ]
 
 { #category : #tests }
 TestEditorApp >> testTest [
-	
+	self fail
 ]
