@@ -3818,7 +3818,8 @@ TestMidas class >> lanModel [
 		(candidates (ref: 326))
 		(receiver (ref: 366))
 		(sender (ref: 137))
-		(signature ''nextNode()'')))'
+		(signature ''nextNode()''))
+  (FAMIX.UnknownSourceLanguage (id: 9999)) )'
 ]
 
 { #category : #models }
@@ -3834,21 +3835,23 @@ TestMidas class >> simpleModel [
     (name ''ClassA'')
     (container (ref: 1))
     (parentPackage (ref: 201)))
-  (FAMIX.Method
+  (FAMIX.Method (id: 21)
     (name ''methodA1'')
     (signature ''methodA1()'')
     (parentType (ref: 2))
-    (LOC 2))
-  (FAMIX.Attribute 
+    (cyclomaticComplexity 10)
+    (numberOfLinesOfCode 2))
+  (FAMIX.Attribute (id: 22)
     (name ''attributeA1'')
     (parentType (ref: 2)))
   (FAMIX.Class (id: 3)
     (name ''ClassB'')
     (container (ref: 1))
     (parentPackage (ref: 202)))
-  (FAMIX.Inheritance
+  (FAMIX.Inheritance (id: 4)
     (subclass (ref: 3))
-    (superclass (ref: 2))))'
+    (superclass (ref: 2)))
+  (FAMIX.UnknownSourceLanguage (id: 9999)) )'
 ]
 
 { #category : #running }
