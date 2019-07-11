@@ -69,6 +69,5 @@ TestDashboardApp >> testWindowTitle [
 	launcherApp context mooseModel: models second.
 	self
 		assert: dashboardApp window title
-		equals: 'MIDAS Dashboard: Second-simpleModel'.
-
+		equals: 'MIDAS Dashboard: Second-simpleModel'
 ]

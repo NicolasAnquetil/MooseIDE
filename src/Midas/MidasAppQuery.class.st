@@ -133,6 +133,7 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
+	lstEntities contextMenu:self listMenu.
 	lstEntities
 		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
 		icons: [ :item | item mooseIcon ]";
@@ -200,6 +201,16 @@ MidasAppQuery >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		whenClosedDo: [ context strongFocus: context mooseModel.
 			context exit ]
+]
+
+{ #category : #menu }
+MidasAppQuery >> listMenu [
+	^ self newMenu
+		addItem: [ :anItem | 
+			anItem
+				name: 'Inspect';
+				icon: (self iconNamed: #smallInspectIt);
+				action: [ lstEntities selection selectedItem inspect ] ]
 ]
 
 { #category : #accessing }
