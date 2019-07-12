@@ -102,3 +102,32 @@ TestQueryApp >> testSelectPackage [
 	queryApp lstEntities items
 		do: [ :each | self assert: each selection isPackage ]
 ]
+
+{ #category : #tests }
+TestQueryApp >> testUpdateStrongFocuslWhenTheItemIsDoubleClicked [
+	| item |
+	item := queryApp lstEntities items first selection.
+	self deny: queryApp strongFocus equals: item.
+	queryApp lstEntities doubleClickAtIndex: 1.
+	self assert: queryApp strongFocus equals: item
+]
+
+{ #category : #tests }
+TestQueryApp >> testUpdateWeakFocuslWhenTheItemIsSingleClicked [
+	| item |
+	item := queryApp lstEntities items first selection.
+	self deny: queryApp weakFocus equals: item.
+	queryApp lstEntities clickAtIndex: 1.
+	self assert: queryApp weakFocus equals: item
+]
+
+{ #category : #tests }
+TestQueryApp >> testWindowTitle [
+	self
+		assert: queryApp window title
+		equals: 'MIDAS Query: First-lanModel'.
+	launcherApp context mooseModel: models second.
+	self
+		assert: queryApp window title
+		equals: 'MIDAS Query: Second-simpleModel'
+]
