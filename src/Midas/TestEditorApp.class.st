@@ -14,19 +14,69 @@ TestEditorApp >> setUp [
 	models first allMethods first
 		sourceAnchor:
 			(FamixStSourceTextAnchor new
-				source: 'The source code of first method';
+				source: 'The source code of this method';
 				yourself).
-	models first allMethods second
-		sourceAnchor:
-			(FamixStSourceTextAnchor new
-				source: 'The source code of second method';
-				yourself)
 
-	"self halt.
-	editorApp mooseModel allMethods second sourceText"
 ]
 
 { #category : #tests }
-TestEditorApp >> testTest [
-	self fail
+TestEditorApp >> testModelUpdate [
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''First-lanModel'''.
+	launcherApp context mooseModel: models second.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''Second-simpleModel'''.
+	self
+		assert: editorApp code text
+		equals: editorApp modelHasNoSource
+]
+
+{ #category : #tests }
+TestEditorApp >> testStrongFocusUpdateNoSource [
+	editorApp context strongFocus: models first allModelClasses.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''All model classes'''.
+	self
+		assert: editorApp code text
+		equals: editorApp entityHasNoSource.
+]
+
+{ #category : #tests }
+TestEditorApp >> testStrongFocusUpdateWithSource [
+	| method |
+	method := models first allMethods detect: [:m | m sourceText isNotNil ].
+	editorApp context strongFocus: method.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''', method name , ''''.
+	self
+		assert: editorApp code text
+		equals: 'The source code of this method'.
+]
+
+{ #category : #tests }
+TestEditorApp >> testWeakFocusUpdateNoSource [
+	editorApp context weakFocus: models first allModelClasses.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''All model classes'''.
+	self
+		assert: editorApp code text
+		equals: editorApp entityHasNoSource.
+]
+
+{ #category : #tests }
+TestEditorApp >> testWeakFocusUpdateWithSource [
+	| method |
+	method := models first allMethods detect: [:m | m sourceText isNotNil ].
+	editorApp context weakFocus: method.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''', method name , ''''.
+	self
+		assert: editorApp code text
+		equals: 'The source code of this method'.
 ]

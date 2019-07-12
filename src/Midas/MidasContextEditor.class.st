@@ -7,23 +7,3 @@ Class {
 	#superclass : #MidasChildContext,
 	#category : #'Midas-context'
 }
-
-{ #category : #notifications }
-MidasContextEditor >> acceptModelUpdate: newModel [
-	^ false
-]
-
-{ #category : #notifications }
-MidasContextEditor >> acceptStrongFocusUpdate: newFocus [
-	self
-		flag:
-			'should test that the class or superclasses use FamixTWithSourceAnchor'.
-			
-	^ newFocus  hasSourceAnchor
-
-]
-
-{ #category : #notifications }
-MidasContextEditor >> acceptWeakFocusUpdate: newFocus [
-	^ self acceptStrongFocusUpdate: newFocus 
-]
