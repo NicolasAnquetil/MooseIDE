@@ -3860,8 +3860,8 @@ TestMidas >> mooseModels [
 	models
 		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
 		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
-	models first name: 'First-lanModel'.
-	models second name: 'Second-simpleModel'.
+	models first  cacheMooseGroups ; name: 'First-lanModel'.
+	models second cacheMooseGroups ; name: 'Second-simpleModel'.
 ]
 
 { #category : #running }

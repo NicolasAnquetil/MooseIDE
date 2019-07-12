@@ -16,7 +16,6 @@ TestQueryApp >> loadDashboard [
 { #category : #running }
 TestQueryApp >> setUp [
 	super setUp.
-	self loadDashboard.
 	queryApp := launcherApp launchQueryApp
 ]
 
@@ -25,8 +24,8 @@ TestQueryApp >> testFilterQuery [
 	queryApp mnuSelcol selectedIndex: 1.	"select #filter"
 	queryApp fldQuery text: 'each name = ''Node'''.
 	queryApp btnQuery performAction.
-	queryApp lstEntities items
-		do: [ :item | self assert: item selection name equals: 'Node' ]
+	self assert: queryApp lstEntities items size equals: 1.
+	queryApp lstEntities items first selection name = 'Node'. "use '=' because name is a ByteString, not a String ?!?!"
 ]
 
 { #category : #tests }
@@ -52,7 +51,7 @@ TestQueryApp >> testPreviousAndNextButtons [
 	| cachedModelContent cachedAllClasses |
 	cachedModelContent := queryApp lstEntities items
 		collect: [ :item | item selection ].
-	queryApp lstEntities doubleClickAtIndex: 1.
+	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
 	cachedAllClasses := queryApp lstEntities items
 		collect: [ :item | item selection ].
 	self deny: cachedAllClasses equals: cachedModelContent.
@@ -66,7 +65,7 @@ TestQueryApp >> testPreviousAndNextButtons [
 TestQueryApp >> testPreviousAndNextButtonsDisplay [
 	self deny: queryApp btnPrev isEnabled.
 	self deny: queryApp btnNext isEnabled.
-	queryApp lstEntities doubleClickAtIndex: 1.
+	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
 	self assert: queryApp btnPrev isEnabled.
 	self deny: queryApp btnNext isEnabled.
 	queryApp btnPrev performAction.
@@ -76,31 +75,27 @@ TestQueryApp >> testPreviousAndNextButtonsDisplay [
 
 { #category : #tests }
 TestQueryApp >> testSelectClasses [
-	| classesItem |
-	queryApp lstEntities doubleClickAtIndex: 1.
-	classesItem := queryApp mnuScope menuGroups first menuItems second.
-	classesItem performMenuActionWith: self.
+	queryApp lstEntities doubleClickAtIndex: 3.   "All model packages"
+	queryApp btnClassScope performMenuActionWith: self.
+	self assert: queryApp lstEntities items size equals: 6.
 	queryApp lstEntities items
 		do: [ :each | self assert: each selection isClass ]
 ]
 
 { #category : #tests }
 TestQueryApp >> testSelectMethods [
-	| methodsItem |
-	queryApp lstEntities doubleClickAtIndex: 1.
-	methodsItem := queryApp mnuScope menuGroups first menuItems third.
-	methodsItem performMenuActionWith: self.
+	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
+	queryApp btnMethodScope performMenuActionWith: self.
+	self assert: queryApp lstEntities items size equals: 58.
 	queryApp lstEntities items do:[:each|self assert: each selection isMethod]
 ]
 
 { #category : #tests }
 TestQueryApp >> testSelectPackage [
-	| packageItem |
-	queryApp lstEntities doubleClickAtIndex: 1.
-	packageItem := queryApp mnuScope menuGroups first menuItems first.
-	packageItem performMenuActionWith: self.
-	queryApp lstEntities items
-		do: [ :each | self assert: each selection isPackage ]
+	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
+	queryApp btnPackageScope performMenuActionWith: self.
+	self assert: queryApp lstEntities items size equals: 1.
+	self assert: queryApp lstEntities items first selection name equals: 'LANSimulation'
 ]
 
 { #category : #tests }

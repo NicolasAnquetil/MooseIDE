@@ -51,8 +51,23 @@ MidasAppQuery class >> runMe [
 ]
 
 { #category : #accessing }
+MidasAppQuery >> btnClassScope [
+	^mnuScope menuGroups first menuItems second
+]
+
+{ #category : #accessing }
+MidasAppQuery >> btnMethodScope [
+	^mnuScope menuGroups first menuItems third
+]
+
+{ #category : #accessing }
 MidasAppQuery >> btnNext [
 	^ btnNext
+]
+
+{ #category : #accessing }
+MidasAppQuery >> btnPackageScope [
+	^mnuScope menuGroups first menuItems first
 ]
 
 { #category : #accessing }
@@ -133,7 +148,7 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
-	lstEntities contextMenu:self listMenu.
+	lstEntities contextMenu: self listMenu.
 	lstEntities
 		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
 		icons: [ :item | item mooseIcon ]";

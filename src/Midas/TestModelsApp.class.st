@@ -41,30 +41,23 @@ TestModelsApp >> testModelListSortedByName [
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInDashboard [
-	| dashboardApp cachedDashboard |
+	| dashboardApp |
 	dashboardApp := launcherApp launchDashboardApp.
-	cachedDashboard := dashboardApp context strongFocus.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self deny: dashboardApp context strongFocus equals: cachedDashboard.
 	self assert: dashboardApp context strongFocus equals: models second
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
-	| cachedTitle |
-	cachedTitle := launcherApp window title.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self deny:  launcherApp window title equals: cachedTitle.
-	self assert:  launcherApp window title  equals: 'MIDAS Launcher: Second-simpleModel'.
+	self assert: launcherApp window title  equals: 'MIDAS Launcher: Second-simpleModel'.
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInQuery [
-	| queryApp cachedModel |
+	| queryApp |
 	queryApp := launcherApp launchQueryApp.
-	cachedModel := queryApp context strongFocus.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self deny: queryApp context strongFocus equals: cachedModel.
 	self assert: queryApp context strongFocus equals: models second
 ]
 
