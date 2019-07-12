@@ -1,6 +1,6 @@
 Class {
 	#name : #TestEditorApp,
-	#superclass : #TestQueryApp,
+	#superclass : #TestMidas,
 	#instVars : [
 		'editorApp'
 	],

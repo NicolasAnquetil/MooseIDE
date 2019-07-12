@@ -80,13 +80,6 @@ MidasAppQuery >> btnQuery [
 	^ btnQuery
 ]
 
-{ #category : #notifications }
-MidasAppQuery >> checkPreviousNext [
-	btnPrev
-		enabled: (context historyHasPrevious).
-	btnNext enabled: (context historyHasNext)
-]
-
 { #category : #accessing }
 MidasAppQuery >> chkAssociation [
 	^ chkAssociation
@@ -260,10 +253,17 @@ MidasAppQuery >> updateModel: mooseModel [
 ]
 
 { #category : #notifications }
+MidasAppQuery >> updatePreviousNext [
+	btnPrev
+		enabled: (context historyHasPrevious).
+	btnNext enabled: (context historyHasNext)
+]
+
+{ #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
 	
 	lstEntities items: focus.
-	self checkPreviousNext
+	self updatePreviousNext
 ]
 
 { #category : #notifications }
