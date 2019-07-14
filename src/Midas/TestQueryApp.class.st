@@ -47,6 +47,20 @@ TestQueryApp >> testFreezeContentIsSelected [
 ]
 
 { #category : #tests }
+TestQueryApp >> testNavigateQuery [
+	queryApp lstEntities doubleClickAtIndex: 1.	"All allClasses"
+	queryApp mnuSelcol selectedIndex: 2.	"select #navigate"
+	queryApp fldQuery text: 'each queryIncoming: FAMIXInheritance'.
+	queryApp btnQuery performAction.
+	self assert: queryApp lstEntities items size equals: 2.
+	queryApp lstEntities items
+		do: [ :item | 
+			self assert: item selection superclass name = 'Node'.
+			self
+				assert: ({'Printer' . 'Workstation'} includes: item selection subclass name) ]
+]
+
+{ #category : #tests }
 TestQueryApp >> testPreviousAndNextButtons [
 	| cachedModelContent cachedAllClasses |
 	cachedModelContent := queryApp lstEntities items
@@ -75,7 +89,8 @@ TestQueryApp >> testPreviousAndNextButtonsDisplay [
 
 { #category : #tests }
 TestQueryApp >> testSelectClasses [
-	queryApp lstEntities doubleClickAtIndex: 3.   "All model packages"
+	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
+
 	queryApp btnClassScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 6.
 	queryApp lstEntities items
@@ -84,18 +99,21 @@ TestQueryApp >> testSelectClasses [
 
 { #category : #tests }
 TestQueryApp >> testSelectMethods [
-	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
+	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
 	queryApp btnMethodScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 58.
-	queryApp lstEntities items do:[:each|self assert: each selection isMethod]
+	queryApp lstEntities items
+		do: [ :each | self assert: each selection isMethod ]
 ]
 
 { #category : #tests }
 TestQueryApp >> testSelectPackage [
-	queryApp lstEntities doubleClickAtIndex: 3.   "All model classes"
+	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
 	queryApp btnPackageScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 1.
-	self assert: queryApp lstEntities items first selection name equals: 'LANSimulation'
+	self
+		assert: queryApp lstEntities items first selection name
+		equals: 'LANSimulation'
 ]
 
 { #category : #tests }

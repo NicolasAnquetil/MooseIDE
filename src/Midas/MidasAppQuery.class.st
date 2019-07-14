@@ -118,7 +118,7 @@ MidasAppQuery >> initializePresenter [
 			[ :item | context selectedWeakFocus: item ]
 				cull: selection selectedItem ];
 		doubleClickAction:
-				[ :item | context selectedStrongFocus: lstEntities selection selectedItem ].
+				[ :item | context selectedStrongFocus: lstEntities selection selectedItem.self resetSelection ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
@@ -234,6 +234,11 @@ MidasAppQuery >> mnuScope [
 { #category : #accessing }
 MidasAppQuery >> mnuSelcol [
 	^ mnuSelcol
+]
+
+{ #category : #reset }
+MidasAppQuery >> resetSelection [
+	lstEntities unselectAll
 ]
 
 { #category : #running }
