@@ -51,6 +51,16 @@ MidasAbstractApp >> initializeWidgets [
 		yourself
 ]
 
+{ #category : #initialization }
+MidasAbstractApp >> initializeWindow: aWindowPresenter [
+	aWindowPresenter title: self title.
+	aWindowPresenter
+		whenClosedDo: [
+			context exit.
+			context := nil
+		]
+]
+
 { #category : #accessing }
 MidasAbstractApp >> mooseModel [
 	^ context mooseModel

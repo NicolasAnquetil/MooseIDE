@@ -92,7 +92,8 @@ TestQueryApp >> testSelectMethods [
 
 { #category : #tests }
 TestQueryApp >> testSelectPackage [
-	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
+1halt.
+	queryApp lstEntities doubleClickAtIndex: 3.   "All model classes"
 	queryApp btnPackageScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 1.
 	self assert: queryApp lstEntities items first selection name equals: 'LANSimulation'

@@ -71,8 +71,8 @@ MidasAppModels >> initializeWidgets [
 
 { #category : #initialization }
 MidasAppModels >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 230 @ 300.
-	aWindowPresenter title: self title
 ]
 
 { #category : #accessing }
