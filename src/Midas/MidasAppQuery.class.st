@@ -51,8 +51,23 @@ MidasAppQuery class >> runMe [
 ]
 
 { #category : #accessing }
+MidasAppQuery >> btnClassScope [
+	^mnuScope menuGroups first menuItems second
+]
+
+{ #category : #accessing }
+MidasAppQuery >> btnMethodScope [
+	^mnuScope menuGroups first menuItems third
+]
+
+{ #category : #accessing }
 MidasAppQuery >> btnNext [
 	^ btnNext
+]
+
+{ #category : #accessing }
+MidasAppQuery >> btnPackageScope [
+	^mnuScope menuGroups first menuItems first
 ]
 
 { #category : #accessing }
@@ -63,13 +78,6 @@ MidasAppQuery >> btnPrev [
 { #category : #accessing }
 MidasAppQuery >> btnQuery [
 	^ btnQuery
-]
-
-{ #category : #notifications }
-MidasAppQuery >> checkPreviousNext [
-	btnPrev
-		enabled: (context historyHasPrevious).
-	btnNext enabled: (context historyHasNext)
 ]
 
 { #category : #accessing }
@@ -133,7 +141,7 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 { #category : #initialization }
 MidasAppQuery >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
-	lstEntities contextMenu:self listMenu.
+	lstEntities contextMenu: self listMenu.
 	lstEntities
 		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
 		icons: [ :item | item mooseIcon ]";
@@ -245,10 +253,17 @@ MidasAppQuery >> updateModel: mooseModel [
 ]
 
 { #category : #notifications }
+MidasAppQuery >> updatePreviousNext [
+	btnPrev
+		enabled: (context historyHasPrevious).
+	btnNext enabled: (context historyHasNext)
+]
+
+{ #category : #notifications }
 MidasAppQuery >> updateStrongFocus: focus [
 	
 	lstEntities items: focus.
-	self checkPreviousNext
+	self updatePreviousNext
 ]
 
 { #category : #notifications }

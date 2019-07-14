@@ -36,13 +36,13 @@ MidasLauncher class >> iconTheme [
 
 { #category : #specs }
 MidasLauncher class >> openDefault [
-<example>
-	self openOnModel: MooseModel root allModels first
+	<example>
+	^self openOnModel: MooseModel root allModels first
 ]
 
 { #category : #specs }
 MidasLauncher class >> openOnModel: aMooseModel [
-	self new openOnModel: aMooseModel
+	^self new openOnModel: aMooseModel
 ]
 
 { #category : #apps }
@@ -110,8 +110,8 @@ MidasLauncher >> initializeWidgets [
 
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 780 @ 120.
-	aWindowPresenter title: self title
 ]
 
 { #category : #apps }

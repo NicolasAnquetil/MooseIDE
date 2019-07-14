@@ -52,8 +52,8 @@ MidasAppDashboard >> initializeWidgets [
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 750 @ 180.
-	aWindowPresenter title: self title
 ]
 
 { #category : #api }

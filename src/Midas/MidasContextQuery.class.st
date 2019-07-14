@@ -12,7 +12,7 @@ Class {
 { #category : #history }
 MidasContextQuery >> addToHistory: anEntry [
 	history add: anEntry.
-	app checkPreviousNext 
+	app updatePreviousNext 
 ]
 
 { #category : #running }
@@ -95,7 +95,7 @@ MidasContextQuery >> methodScope [
 MidasContextQuery >> next [
 	history hasNext
 		ifTrue: [ self strongFocusFromHistory: history next.
-			app checkPreviousNext ]
+			app updatePreviousNext ]
 ]
 
 { #category : #running }
@@ -113,7 +113,7 @@ MidasContextQuery >> parentContext: aContext [
 MidasContextQuery >> prev [
 	history hasPrevious
 		ifTrue: [ self strongFocusFromHistory: history previous.
-			app checkPreviousNext ]
+			app updatePreviousNext ]
 ]
 
 { #category : #accessing }

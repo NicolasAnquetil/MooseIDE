@@ -25,11 +25,15 @@ MidasContextLauncher >> addChild: aContext [
 ]
 
 { #category : #actions }
+MidasContextLauncher >> children [
+	^children
+]
+
+{ #category : #actions }
 MidasContextLauncher >> exit [
-|cachedChildren|
-cachedChildren := children copy.
+	|cachedChildren|
+	cachedChildren := children copy.
 	cachedChildren do: [ :child | child exit ].
-	children removeAll.
 	app delete.
 	app := nil
 ]
@@ -56,7 +60,9 @@ MidasContextLauncher >> mooseModel: newMooseModel [
 	self mooseModel = newMooseModel
 		ifTrue: [ ^ self ].
 	mooseModel := newMooseModel.
+	"note: setting model _sets_ strong and weak focuses but does not _notify_ strong and weak focuses"
 	strongFocus := newMooseModel.
+	weakFocus := newMooseModel.
 	self notifyNewModel: newMooseModel
 ]
 
@@ -105,7 +111,9 @@ MidasContextLauncher >> strongFocus: newFocus [
 	self strongFocus = newFocus
 		ifTrue: [ ^ self ].
 	strongFocus := newFocus.
-	self notifyStrongFocus: newFocus
+	"note: setting strongFocus _sets_ weakFocus but does not _notify_ weakFocus"
+	weakFocus := newFocus.
+	self notifyStrongFocus: newFocus.
 ]
 
 { #category : #accessing }
