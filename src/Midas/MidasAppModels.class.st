@@ -46,12 +46,11 @@ MidasAppModels >> initializePresenter [
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
-
 	lstModels := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
-		yourself.
+		contextMenu: self listMenu;		yourself.
 	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
@@ -73,6 +72,16 @@ MidasAppModels >> initializeWidgets [
 MidasAppModels >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 230 @ 300.
+]
+
+{ #category : #menu }
+MidasAppModels >> listMenu [
+	^ self newMenu
+		addItem: [ :anItem | 
+			anItem
+				name: 'Inspect';
+				icon: (self iconNamed: #smallInspectIt);
+				action: [ lstModels selection selectedItem inspect ] ]
 ]
 
 { #category : #accessing }

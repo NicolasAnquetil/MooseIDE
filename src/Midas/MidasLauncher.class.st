@@ -162,6 +162,11 @@ MidasLauncher >> launchTagsApp [
 	^self launch: MidasAppTag withContext: MidasContextTag
 ]
 
+{ #category : #accessing }
+MidasLauncher >> lblModelName [
+^lblModelName
+]
+
 { #category : #initialization }
 MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 	| defaultActionBlock |
