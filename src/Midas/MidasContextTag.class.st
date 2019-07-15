@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #notifications }
+MidasContextTag >> acceptModelUpdate: newModel [
+	^ false
+]
+
+{ #category : #notifications }
 MidasContextTag >> acceptWeakFocusUpdate: newFocus [
 	^false
 ]

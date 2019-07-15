@@ -15,6 +15,11 @@ Class {
 }
 
 { #category : #notifications }
+MidasChildContext >> acceptHistoryUpdate: newFocus [
+	^ false
+]
+
+{ #category : #notifications }
 MidasChildContext >> acceptModelUpdate: newModel [
 	^ true
 ]
@@ -27,6 +32,11 @@ MidasChildContext >> acceptStrongFocusUpdate: newFocus [
 { #category : #notifications }
 MidasChildContext >> acceptWeakFocusUpdate: newFocus [
 	^ true
+]
+
+{ #category : #history }
+MidasChildContext >> addToHistory: newFocus [
+		self shouldNotImplement
 ]
 
 { #category : #actions }
@@ -84,7 +94,9 @@ MidasChildContext >> notifyStrongFocus: newFocus [
 	frozen
 		ifTrue: [ ^ self ].
 	(self acceptStrongFocusUpdate: newFocus)
-		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
+		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ].
+	(self acceptHistoryUpdate: newFocus)
+		ifTrue: [ self addToHistory: newFocus ]
 ]
 
 { #category : #notifications }

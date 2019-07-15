@@ -79,7 +79,7 @@ MidasContextLauncher >> notifyNewModel: newMooseModel [
 
 { #category : #notifications }
 MidasContextLauncher >> notifyStrongFocus: newFocus [
-	children do: [ :child | child notifyStrongFocus: newFocus]
+	children do: [ :child | child notifyStrongFocus: newFocus ]
 ]
 
 { #category : #notifications }

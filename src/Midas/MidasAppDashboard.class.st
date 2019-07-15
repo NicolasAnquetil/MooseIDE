@@ -45,6 +45,12 @@ MidasAppDashboard >> dashboardMetric: anInt [
 ]
 
 { #category : #initialization }
+MidasAppDashboard >> initializePresenter [
+	dashboard whenMainMetricIsClick: [ self selectMainMetricValue ].
+	dashboard whenSubMetricsIsClick: [:value| self selectSubMetricValue: value]
+]
+
+{ #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
 	super initializeWidgets.
 	dashboard := self instantiate: MDMetricDashBoard
@@ -54,6 +60,16 @@ MidasAppDashboard >> initializeWidgets [
 MidasAppDashboard >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 750 @ 180.
+]
+
+{ #category : #action }
+MidasAppDashboard >> selectMainMetricValue [
+	context selectedStrongFocus: context focusedEntities
+]
+
+{ #category : #action }
+MidasAppDashboard >> selectSubMetricValue: aNumber [
+	context selectedStrongFocus: (context  subQuery: aNumber) entities
 ]
 
 { #category : #api }

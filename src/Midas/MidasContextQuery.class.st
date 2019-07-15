@@ -9,6 +9,11 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #notifications }
+MidasContextQuery >> acceptHistoryUpdate: newFocus [
+	^ true
+]
+
 { #category : #history }
 MidasContextQuery >> addToHistory: anEntry [
 	history add: anEntry.
@@ -139,7 +144,6 @@ MidasContextQuery >> selectedStrongFocus: aMidasEntity [
 	wasFrozen := frozen.
 	frozen := false.
 	self strongFocus: aMidasEntity selection.
-	self addToHistory: aMidasEntity selection.
 	frozen := wasFrozen
 ]
 
