@@ -46,8 +46,10 @@ MidasAppDashboard >> dashboardMetric: anInt [
 
 { #category : #initialization }
 MidasAppDashboard >> initializePresenter [
+super initializePresenter.
 	dashboard whenMainMetricIsClick: [ self selectMainMetricValue ].
-	dashboard whenSubMetricsIsClick: [:value| self selectSubMetricValue: value]
+	dashboard
+		whenSubMetricsIsClick: [ :value | self selectSubMetricValue: value ]
 ]
 
 { #category : #initialization }

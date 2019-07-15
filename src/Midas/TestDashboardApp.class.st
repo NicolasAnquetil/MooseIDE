@@ -62,6 +62,40 @@ TestDashboardApp >> testFreezeContentIsSelected [
 ]
 
 { #category : #tests }
+TestDashboardApp >> testUpdateStrongFocusWhenAMainMetricIsClick [
+	dashboardApp dashboard firstMetric mainMetricValue performAction.
+	self
+		assert: dashboardApp strongFocus
+		equals: dashboardApp context focusedEntities.
+	self assert: dashboardApp strongFocus size equals: 6
+]
+
+{ #category : #tests }
+TestDashboardApp >> testUpdateStrongFocusWhenSubMetricsIsClick [
+	"Core"
+
+	(dashboardApp dashboard firstMetric subMetric: 1) performAction.
+	self assert: dashboardApp strongFocus size equals: 0.
+
+		self assert: dashboardApp strongFocus
+		equals: (dashboardApp context subQuery: 1) entities.
+
+	"Big Classes"
+	(dashboardApp dashboard firstMetric subMetric: 2) performAction.
+	self assert: dashboardApp strongFocus size equals: 1.
+	self
+		assert: dashboardApp strongFocus first
+		equals: (dashboardApp context subQuery: 2) entities first.
+
+	"Complex Classes"
+	(dashboardApp dashboard firstMetric subMetric: 3) performAction.
+	self assert: dashboardApp strongFocus size equals: 1.
+	self
+		assert: dashboardApp strongFocus first
+		equals: (dashboardApp context subQuery: 3) entities first
+]
+
+{ #category : #tests }
 TestDashboardApp >> testWindowTitle [
 	self
 		assert: dashboardApp window title

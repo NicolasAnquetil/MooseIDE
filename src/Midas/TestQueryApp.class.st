@@ -20,6 +20,14 @@ TestQueryApp >> setUp [
 ]
 
 { #category : #tests }
+TestQueryApp >> testDisplayListEntities [
+	self
+		assert: (queryApp lstEntities items collect: [ :each | each selection ])
+		equals:
+			((queryApp context formatNewStrongFocus: queryApp strongFocus) collect: [ :each | each selection ])
+]
+
+{ #category : #tests }
 TestQueryApp >> testFilterQuery [
 	queryApp mnuSelcol selectedIndex: 1.	"select #filter"
 	queryApp fldQuery text: 'each name = ''Node'''.

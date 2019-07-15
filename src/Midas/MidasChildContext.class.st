@@ -83,7 +83,7 @@ MidasChildContext >> mooseModel: aMooseModel [
 
 { #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
-frozen
+	frozen
 		ifTrue: [ ^ self ].
 	(self acceptModelUpdate: newMooseModel)
 		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
