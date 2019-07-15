@@ -120,17 +120,17 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
 	app openWithSpec.
-	^app
+	^ app
 ]
 
 { #category : #apps }
 MidasLauncher >> launchDashboardApp [
-	^self launch: MidasAppDashboard withContext: MidasContextDashboard
+	^ self launch: MidasAppDashboard withContext: MidasContextDashboard
 ]
 
 { #category : #apps }
 MidasLauncher >> launchEditorApp [
-	^self launch: MidasAppEditor withContext: MidasContextEditor
+	^ self launch: MidasAppEditor withContext: MidasContextEditor
 ]
 
 { #category : #apps }
@@ -147,7 +147,7 @@ MidasLauncher >> launchModelsApp [
 MidasLauncher >> launchQueryApp [
 	context hasQuery
 		ifTrue: [ ^ self ]
-		ifFalse: [ ^self launch: MidasAppQuery withContext: MidasContextQuery ]
+		ifFalse: [ ^ self launch: MidasAppQuery withContext: MidasContextQuery ]
 ]
 
 { #category : #apps }
@@ -186,7 +186,7 @@ MidasLauncher >> openOnModel: aMooseModel [
 
 { #category : #api }
 MidasLauncher >> title [
-	^ 'MIDAS Launcher: ' , context modelName
+	^ 'MIDAS Launcher: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

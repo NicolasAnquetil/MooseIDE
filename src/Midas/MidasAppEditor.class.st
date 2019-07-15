@@ -40,6 +40,17 @@ MidasAppEditor >> initializeWidgets [
 	code := self newText
 ]
 
+{ #category : #initialization }
+MidasAppEditor >> initializeWindow [
+	super initializeWindow
+]
+
+{ #category : #initialization }
+MidasAppEditor >> initializeWindow: arg [
+"	1 halt."
+	super initializeWindow: arg
+]
+
 { #category : #constants }
 MidasAppEditor >> modelHasNoSource [
 	^ ' ** no source on models **'
@@ -48,6 +59,20 @@ MidasAppEditor >> modelHasNoSource [
 { #category : #api }
 MidasAppEditor >> title [
 	^ 'MIDAS Source: ''' , context weakFocus name , ''''
+]
+
+{ #category : #notifications }
+MidasAppEditor >> updateContent: newFocus [
+	self
+		flag:
+			'should test that the class or superclasses use FamixTWithSourceAnchor'.
+	code
+		text:
+			(newFocus hasSourceAnchor
+				ifFalse: [ self entityHasNoSource ]
+				ifTrue: [ newFocus sourceText
+						ifNil: [ self entityHasEmptySource ]
+						ifNotNil: #yourself ])
 ]
 
 { #category : #notifications }
@@ -64,12 +89,5 @@ MidasAppEditor >> updateStrongFocus: newFocus [
 { #category : #notifications }
 MidasAppEditor >> updateWeakFocus: newFocus [
 	self updateTitle.
-	self flag: 'should test that the class or superclasses use FamixTWithSourceAnchor'.
-	code text:
-		(newFocus hasSourceAnchor
-			ifFalse: [ self entityHasNoSource ]
-			ifTrue: [
-				newFocus sourceText
-					ifNil: [ self entityHasEmptySource ]
-					ifNotNil: #yourself])
+	self updateContent: newFocus
 ]

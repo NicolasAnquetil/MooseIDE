@@ -24,7 +24,12 @@ MidasAbstractContext >> app: anApp [
 		ifTrue: [ ^ self ].
 	app := anApp.
 	anApp context: self.
-	self notifyStrongFocus: self strongFocus
+	self initiateStrongFocus: self strongFocus
+]
+
+{ #category : #notifications }
+MidasAbstractContext >> initiateStrongFocus: focus [
+	self notifyStrongFocus: focus
 ]
 
 { #category : #accessing }

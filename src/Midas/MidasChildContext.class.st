@@ -93,6 +93,7 @@ MidasChildContext >> notifyNewModel: newMooseModel [
 MidasChildContext >> notifyStrongFocus: newFocus [
 	frozen
 		ifTrue: [ ^ self ].
+
 	(self acceptStrongFocusUpdate: newFocus)
 		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ].
 	(self acceptHistoryUpdate: newFocus)

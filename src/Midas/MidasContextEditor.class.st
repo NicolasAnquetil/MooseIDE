@@ -7,3 +7,8 @@ Class {
 	#superclass : #MidasChildContext,
 	#category : #'Midas-context'
 }
+
+{ #category : #notifications }
+MidasContextEditor >> initiateStrongFocus: newFocus [
+	app updateContent: newFocus
+]

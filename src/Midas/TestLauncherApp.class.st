@@ -95,10 +95,24 @@ TestLauncherApp >> testUpdateModel [
 TestLauncherApp >> testWindowTitle [
 	self
 		assert: launcherApp window title
-		equals: 'MIDAS Launcher: First-lanModel'.
+		equals: 'MIDAS Launcher: ''First-lanModel'''.
 	launcherApp context mooseModel: models second.
 	self
 		assert: launcherApp window title
-		equals: 'MIDAS Launcher: Second-simpleModel'.
+		equals: 'MIDAS Launcher: ''Second-simpleModel'''
+]
 
+{ #category : #tests }
+TestLauncherApp >> testWindowTitleWithEditor [
+	self
+		assert: launcherApp window title
+		equals: 'MIDAS Launcher: ''First-lanModel'''.
+	launcherApp launchDashboardApp.
+	self
+		assert: launcherApp window title
+		equals: 'MIDAS Launcher: ''First-lanModel'''.
+	launcherApp launchEditorApp.
+	self
+		assert: launcherApp window title
+		equals: 'MIDAS Launcher: ''First-lanModel'''
 ]

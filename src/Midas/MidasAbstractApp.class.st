@@ -82,8 +82,8 @@ MidasAbstractApp >> updateStrongFocus: focus [
 ]
 
 { #category : #api }
-MidasAbstractApp >> updateTitle [.
-	self window title: self title.
+MidasAbstractApp >> updateTitle [
+	self window title: self title
 ]
 
 { #category : #notifications }

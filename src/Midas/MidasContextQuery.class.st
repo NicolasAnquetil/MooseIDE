@@ -40,7 +40,7 @@ MidasContextQuery >> classScope [
 { #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
-	self notifyStrongFocus: nil
+	"self notifyStrongFocus: nil"
 ]
 
 { #category : #notifications }
@@ -181,5 +181,5 @@ MidasContextQuery >> toScope: aSymbol [
 { #category : #accessing }
 MidasContextQuery >> trackAssociation [
 	resultsWithParents := true.
-	self notifyStrongFocus: nil
+"	self notifyStrongFocus: nil"
 ]
