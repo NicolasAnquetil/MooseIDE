@@ -8,7 +8,7 @@ Also returns nil to first/last/current when empty
 Class {
 	#name : #MidasHistory,
 	#superclass : #NavigationHistory,
-	#category : #'Midas-context'
+	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }

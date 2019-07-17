@@ -9,6 +9,9 @@ Class {
 		'menu',
 		'lblModelName'
 	],
+	#classInstVars : [
+		'iconTheme'
+	],
 	#category : #'Midas-apps'
 }
 
@@ -28,10 +31,12 @@ MidasLauncher class >> iconSize [
 
 { #category : #initialization }
 MidasLauncher class >> iconTheme [
-	^ ThemeIcons new
-		name: 'icons64';
-		loadIconsFromUrl ;
-		yourself
+	^ iconTheme ifNil: [
+			iconTheme := ThemeIcons new
+								name: 'icons64';
+								loadIconsFromUrl ;
+								yourself
+			]
 ]
 
 { #category : #specs }
@@ -43,6 +48,11 @@ MidasLauncher class >> openDefault [
 { #category : #specs }
 MidasLauncher class >> openOnModel: aMooseModel [
 	^self new openOnModel: aMooseModel
+]
+
+{ #category : #initialization }
+MidasLauncher class >> resetIconTheme [
+	iconTheme := nil
 ]
 
 { #category : #apps }
@@ -70,48 +80,36 @@ MidasLauncher >> initializeWidgets [
 		label: 'Current model: --';
 		yourself.
 	menu := self newMenuBar
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
+		addGroup: [ :group |
+			{ #models -> #launchModelsApp .
+			  #metrics -> #launchDashboardApp .
+			  #tasks -> #nullLaunchApp .
+			  #query -> #launchQueryApp .
+			  #navigate -> #launchNavigateApp .
+			  #code -> #launchEditorApp .
+			  #views -> #launchSystemComplexityApp .
+			  #archi -> #nullLaunchApp .
+			  #critic -> #nullLaunchApp .
+			  #tags -> #nullLaunchApp .
+			  #log -> #nullLaunchApp .
+			  #exit -> #exit 
+			 }
+			do: [ :appDesc |
+				group addItem: [ :item | 
 					self
 						newMenuItem: item
-						named: #models
-						withAction: [ self launchModelsApp ] ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #metrics
-						withAction: [ self launchDashboardApp ] ];
-				addItem: [ :item | self newMenuItem: item named: #tasks withAction: nil ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #query
-						withAction: [ self launchQueryApp ] ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #code
-						withAction: [ self launchEditorApp ] ];
-				addItem: [ :item | 
-					self
-						newMenuItem: item
-						named: #views
-						withAction: [ self launchSystemComplexityApp ] ];
-				"addItem: [ :item | self newMenuItem: item named: #archi withAction: nil ] ;"
-					addItem: [ :item | self newMenuItem: item named: #critic withAction: nil ];
-				addItem:
-						[ :item | self newMenuItem: item named: #tags withAction: [ self launchTagsApp ] ];
-				addItem:
-						[ :item | self newMenuItem: item named: #log withAction: [ self launchLogApp ] ];
-				addItem:
-						[ :item | self newMenuItem: item named: #exit withAction: [ self exit ] ] ]
+						named: appDesc key
+						withAction: [ self perform: appDesc value ]
+				]
+			]
+		]
+
 ]
 
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 780 @ 120.
+	aWindowPresenter initialExtent: 936 @ 120.
 ]
 
 { #category : #apps }
@@ -144,6 +142,13 @@ MidasLauncher >> launchModelsApp [
 ]
 
 { #category : #apps }
+MidasLauncher >> launchNavigateApp [
+	^self
+		launch: MidasAppNavigate
+		withContext: MidasContextNavigate
+]
+
+{ #category : #apps }
 MidasLauncher >> launchQueryApp [
 	context hasQuery
 		ifTrue: [ ^ self ]
@@ -171,6 +176,10 @@ MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 		icon: (iconTheme iconNamed: aSymbol);
 		action: (aBlock ifNil: [ defaultActionBlock ])
 
+]
+
+{ #category : #apps }
+MidasLauncher >> nullLaunchApp [
 ]
 
 { #category : #api }

@@ -3,7 +3,7 @@ An app showing a visualization on the current model or selected entity-ies
 "
 Class {
 	#name : #MidasAppSystemComplexity,
-	#superclass : #MidasAbstractApp,
+	#superclass : #MidasAbstractAppWithRoassal,
 	#instVars : [
 		'visualizer'
 	],

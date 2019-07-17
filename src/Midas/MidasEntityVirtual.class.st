@@ -29,6 +29,11 @@ MidasEntityVirtual >> displayWithParent: aBoolean [
 ]
 
 { #category : #initialization }
+MidasEntityVirtual >> name [
+	^ name
+]
+
+{ #category : #initialization }
 MidasEntityVirtual >> name: aString [
 	name := aString
 ]
