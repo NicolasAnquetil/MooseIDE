@@ -13,7 +13,7 @@ Class {
 { #category : #specs }
 MidasAppSystemComplexity class >> defaultSpec [
 	^ SpecBoxLayout newVertical
-		add: #freeze withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #chkFreeze withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #visualizer;
 		yourself
 ]

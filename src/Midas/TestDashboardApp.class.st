@@ -47,7 +47,7 @@ TestDashboardApp >> testDisplayLinesOfCode [
 TestDashboardApp >> testFreezeContentIsNotSelected [
 	| cachedMetric |
 	cachedMetric := dashboardApp dashboardMetric: 1.
-	dashboardApp freeze state: false.
+	dashboardApp chkFreeze state: false.
 	dashboardApp context mooseModel: models second.
 	self deny: (dashboardApp dashboardMetric: 1) equals: cachedMetric
 ]
@@ -56,7 +56,7 @@ TestDashboardApp >> testFreezeContentIsNotSelected [
 TestDashboardApp >> testFreezeContentIsSelected [
 	| cachedMetric |
 	cachedMetric := dashboardApp dashboardMetric: 1.
-	dashboardApp freeze state: true.
+	dashboardApp chkFreeze state: true.
 	dashboardApp context mooseModel: models second.
 	self assert: (dashboardApp dashboardMetric: 1) equals: cachedMetric
 ]

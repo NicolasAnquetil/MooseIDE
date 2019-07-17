@@ -6,10 +6,15 @@ Class {
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'context',
-		'freeze'
+		'chkFreeze'
 	],
 	#category : #'Midas-apps'
 }
+
+{ #category : #accessing }
+MidasAbstractApp >> chkFreeze [ 
+	^ chkFreeze 
+]
 
 { #category : #accessing }
 MidasAbstractApp >> context [
@@ -25,11 +30,6 @@ MidasAbstractApp >> context: aContext [
 ]
 
 { #category : #accessing }
-MidasAbstractApp >> freeze [ 
-	^ freeze 
-]
-
-{ #category : #accessing }
 MidasAbstractApp >> iconNamed: aSymbol [
 	^(aSymbol asString beginsWith: 'famix')
 	ifTrue: [ MooseIcons perform: aSymbol  ]
@@ -39,14 +39,14 @@ MidasAbstractApp >> iconNamed: aSymbol [
 { #category : #initialization }
 MidasAbstractApp >> initializePresenter [
 	super initializePresenter.
-	freeze
+	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
 ]
 
 { #category : #initialization }
 MidasAbstractApp >> initializeWidgets [
-	freeze := (self instantiate: CheckBoxPresenter)
+	chkFreeze := (self instantiate: CheckBoxPresenter)
 		label: 'Freeze content' ;
 		yourself
 ]

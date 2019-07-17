@@ -32,7 +32,7 @@ TestQueryApp >> testFilterQuery [
 TestQueryApp >> testFreezeContentIsNotSelected [
 	| cachedItems |
 	cachedItems := queryApp lstEntities items.
-	queryApp freeze state: false.
+	queryApp chkFreeze state: false.
 	queryApp context mooseModel: models second.
 	self deny: queryApp lstEntities items equals: cachedItems
 ]
@@ -41,7 +41,7 @@ TestQueryApp >> testFreezeContentIsNotSelected [
 TestQueryApp >> testFreezeContentIsSelected [
 	| cachedItems |
 	cachedItems := queryApp lstEntities items.
-	queryApp freeze state: true.
+	queryApp chkFreeze state: true.
 	queryApp context mooseModel: models second.
 	self assert: queryApp lstEntities items equals: cachedItems
 ]

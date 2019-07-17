@@ -23,7 +23,7 @@ MidasAppQuery class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add:
 			(SpecBoxLayout newHorizontal
-				add: #freeze;
+				add: #chkFreeze;
 				add: #chkAssociation;
 				add: #btnPrev;
 				add: #btnNext)
@@ -86,6 +86,11 @@ MidasAppQuery >> chkAssociation [
 ]
 
 { #category : #accessing }
+MidasAppQuery >> chkFreeze [
+^chkFreeze
+]
+
+{ #category : #accessing }
 MidasAppQuery >> context: aContext [
 	super context: aContext.
 ]
@@ -100,14 +105,9 @@ MidasAppQuery >> fldQuery [
 ^fldQuery
 ]
 
-{ #category : #accessing }
-MidasAppQuery >> freeze [
-^freeze
-]
-
 { #category : #initialization }
 MidasAppQuery >> initializePresenter [
-	freeze
+	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
 	chkAssociation
