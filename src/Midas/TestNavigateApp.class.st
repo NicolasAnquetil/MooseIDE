@@ -14,6 +14,11 @@ TestNavigateApp >> setUp [
 ]
 
 { #category : #tests }
+TestNavigateApp >> testNavigateFromClass [
+	self fail
+]
+
+{ #category : #tests }
 TestNavigateApp >> testWindowTitle [
 	self
 		assert: navigateApp window title
