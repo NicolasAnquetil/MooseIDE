@@ -1,6 +1,6 @@
 Class {
 	#name : #TestLauncherApp,
-	#superclass : #TestMidas,
+	#superclass : #TestMidasApp,
 	#category : #'Midas-Tests'
 }
 

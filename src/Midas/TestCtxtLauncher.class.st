@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtLauncher,
-	#superclass : #TestCtxts,
+	#superclass : #TestMidasCtxt,
 	#category : #'Midas-Tests'
 }
 
@@ -17,7 +17,7 @@ TestCtxtLauncher >> setUp [
 { #category : #tests }
 TestCtxtLauncher >> testMooseModel [
 	self assert: ctxt mooseModel isNil.
-	ctxt mooseModel: mooseModel.
-	self assert: ctxt mooseModel equals: mooseModel.
+	ctxt mooseModel: models first.
+	self assert: ctxt mooseModel equals: models first.
 
 ]

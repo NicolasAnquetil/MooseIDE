@@ -1,6 +1,6 @@
 Class {
 	#name : #TestQueryApp,
-	#superclass : #TestMidas,
+	#superclass : #TestMidasApp,
 	#instVars : [
 		'queryApp'
 	],
@@ -8,9 +8,11 @@ Class {
 }
 
 { #category : #running }
-TestQueryApp >> loadDashboard [
-	"Need to load the Dashboard to get entities information"
-	launcherApp launchDashboardApp
+TestQueryApp >> indexFor: aString [
+	^ 	queryApp lstEntities items
+			detectIndex: [ :item | item name beginsWith: aString ]
+			 ifNone: [ 0 ].
+
 ]
 
 { #category : #running }
@@ -75,7 +77,7 @@ TestQueryApp >> testPreviousAndNextButtonsDisplay [
 
 { #category : #tests }
 TestQueryApp >> testSelectClasses [
-	queryApp lstEntities doubleClickAtIndex: 3.   "All model packages"
+	queryApp lstEntities doubleClickAtIndex: (self indexFor: 'All model packages').
 	queryApp btnClassScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 6.
 	queryApp lstEntities items
@@ -84,7 +86,7 @@ TestQueryApp >> testSelectClasses [
 
 { #category : #tests }
 TestQueryApp >> testSelectMethods [
-	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
+	queryApp lstEntities doubleClickAtIndex: (self indexFor: 'All model classes').
 	queryApp btnMethodScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 58.
 	queryApp lstEntities items do:[:each|self assert: each selection isMethod]
@@ -92,7 +94,7 @@ TestQueryApp >> testSelectMethods [
 
 { #category : #tests }
 TestQueryApp >> testSelectPackage [
-	queryApp lstEntities doubleClickAtIndex: 3.   "All model classes"
+	queryApp lstEntities doubleClickAtIndex: (self indexFor: 'All model classes').
 	queryApp btnPackageScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 1.
 	self assert: queryApp lstEntities items first selection name equals: 'LANSimulation'

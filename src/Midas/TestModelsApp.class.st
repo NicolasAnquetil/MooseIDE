@@ -1,6 +1,6 @@
 Class {
 	#name : #TestModelsApp,
-	#superclass : #TestMidas,
+	#superclass : #TestMidasApp,
 	#instVars : [
 		'modelsApp'
 	],
