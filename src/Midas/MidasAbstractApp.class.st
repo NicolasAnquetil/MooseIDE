@@ -73,7 +73,7 @@ MidasAbstractApp >> strongFocus [
 
 { #category : #notifications }
 MidasAbstractApp >> updateModel: aMooseModel [
-	self subclassResponsibility
+	self updateTitle.
 ]
 
 { #category : #notifications }

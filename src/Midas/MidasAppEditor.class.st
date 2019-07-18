@@ -52,7 +52,7 @@ MidasAppEditor >> title [
 
 { #category : #notifications }
 MidasAppEditor >> updateModel: aMooseModel [
-	self updateTitle.
+	super updateModel: aMooseModel.
 	code text: self modelHasNoSource
 ]
 

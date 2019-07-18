@@ -194,9 +194,9 @@ MidasLauncher >> title [
 ]
 
 { #category : #notifications }
-MidasLauncher >> updateModel: newMooseModel [
-	self updateTitle.
-	lblModelName label: 'Current model: ' , context modelName
+MidasLauncher >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
+	lblModelName label: 'Current model: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

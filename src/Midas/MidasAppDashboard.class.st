@@ -63,7 +63,7 @@ MidasAppDashboard >> title [
 
 { #category : #notifications }
 MidasAppDashboard >> updateModel: aMooseModel [
-	self updateTitle.
+	super updateModel: aMooseModel.
 	self updateStrongFocus: aMooseModel allModelClasses.
 		
 ]

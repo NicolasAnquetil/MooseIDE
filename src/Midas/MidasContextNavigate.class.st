@@ -13,12 +13,12 @@ MidasContextNavigate >> centralEntity [
 MidasContextNavigate >> navigationProperties [
 	^ (self weakFocus = self mooseModel)
 			ifTrue: [ MidasFocusFormater new format: self mooseModel ]
-			ifFalse: [(self mooseModel metamodel descriptionOf: self centralEntity) attributes
+			ifFalse: [(self mooseModel metamodel descriptionOf: self centralEntity) allAttributes
 								select: [:p | p opposite isNotNil]]
 ]
 
 { #category : #accessing }
 MidasContextNavigate >> selected: anObject [
 	(anObject = self centralEntity)
-		ifFalse: [ self strongFocus: (self weakFocus perform: anObject) ]
+		ifFalse: [ self strongFocus: (self weakFocus perform: anObject methodSelector) ]
 ]

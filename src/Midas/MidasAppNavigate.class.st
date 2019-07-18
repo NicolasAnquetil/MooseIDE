@@ -6,9 +6,6 @@ Class {
 	#superclass : #MidasAbstractAppWithRoassal,
 	#instVars : [
 		'view',
-		'btnZoomIn',
-		'btnZoomOut',
-		'btns',
 		'diagram'
 	],
 	#category : #'Midas-apps'
@@ -17,30 +14,13 @@ Class {
 { #category : #specs }
 MidasAppNavigate class >> defaultSpec [
 	^ SpecBoxLayout newVertical
-		add: #chkFreeze
-			withConstraints: [ :constraints | constraints height: 30 ];
-		add: #btns withConstraints: [:const | const height: self buttonHeight ];
 		add: #diagram ;
 		yourself
 ]
 
-{ #category : #accessing }
-MidasAppNavigate >> btnZoomIn [
-	^ btnZoomIn
-]
-
-{ #category : #accessing }
-MidasAppNavigate >> btnZoomOut [
-	^ btnZoomOut
-]
-
-{ #category : #accessing }
-MidasAppNavigate >> btns [
-	^ btns
-]
-
 { #category : #initialization }
 MidasAppNavigate >> drawRoassalView [
+	"graphical display, no longer used, now done with a list"
 	| center petals viewElts |
 	center := context centralEntity.
 	petals := context navigationProperties.
@@ -61,27 +41,47 @@ MidasAppNavigate >> drawRoassalView [
 ]
 
 { #category : #initialization }
+MidasAppNavigate >> initializePresenter [ 
+	"-- Not using the 'freeze' checkbox --
+	 super initializePresenter."
+	diagram whenSelectionChangedDo: [ :selection |
+		selection selectedItem ifNotNil: [ :item | context selected: item ]
+	]
+	
+
+]
+
+{ #category : #initialization }
 MidasAppNavigate >> initializeWidgets [
-	super initializeWidgets.
-	btnZoomIn := self newButton label: '+' ; action: [ RTZoomInMove on: view ].
-	btnZoomOut := self newButton label: '-' ; action: [ RTZoomOutMove on: view ].
-	btns := self newButtonBar.
-	btns add: btnZoomIn ; add: btnZoomOut.
+	"-- Not using the 'freeze' checkbox --
+	 super initializeWidgets."
+	
+	"graphical display, no longer used, now done with a list
 	diagram := self instantiate: RoassalModel.	
 	diagram script: [ :aView :canvas |
 		self view: aView.
 		self drawRoassalView
-	].
+	]."
+	diagram := self newList.
+	diagram
+		displayBlock: #name ;
+		sortingBlock: #name ascending.
 
 ]
 
 { #category : #refreshing }
 MidasAppNavigate >> refresh [
-	diagram refresh
+	diagram items: context navigationProperties 
+]
+
+{ #category : #TOREMOVE }
+MidasAppNavigate >> title [
+	^'MIDAS Navigate: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }
 MidasAppNavigate >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
 	self refresh
 ]
 
