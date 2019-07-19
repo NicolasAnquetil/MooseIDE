@@ -19,7 +19,7 @@ TestCtxtNavigate >> testAttributeProperties [
 	launcherCtxt strongFocus: models anyOne allAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 11
+		equals: 10
 ]
 
 { #category : #tests }
@@ -27,7 +27,7 @@ TestCtxtNavigate >> testClassProperties [
 	launcherCtxt strongFocus: models anyOne allClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 21
+		equals: 20
 ]
 
 { #category : #tests }
@@ -35,7 +35,7 @@ TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt strongFocus: models anyOne allMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 23
+		equals: 22
 ]
 
 { #category : #tests }
@@ -51,5 +51,5 @@ TestCtxtNavigate >> testNamespaceProperties [
 	launcherCtxt strongFocus: models anyOne allNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 15
+		equals: 14
 ]

@@ -3,9 +3,8 @@ An app showing navigation links from the current focus
 "
 Class {
 	#name : #MidasAppNavigate,
-	#superclass : #MidasAbstractAppWithRoassal,
+	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'view',
 		'diagram'
 	],
 	#category : #'Midas-apps'
@@ -18,26 +17,9 @@ MidasAppNavigate class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #initialization }
-MidasAppNavigate >> drawRoassalView [
-	"graphical display, no longer used, now done with a list"
-	| center petals viewElts |
-	center := context centralEntity.
-	petals := context navigationProperties.
-	"composite node: ellipse+text"
-	viewElts := ((RTEllipse new extent: 70@30) + (RTLabel new height: 6 ; text: #name)) elementsOn: ({center} , petals).
-	viewElts when: TRMouseClick do: [ :event | context selected: event element model ].
-	view addAll: viewElts.
-	RTEdgeBuilder new
-		view: view;
-		elements: viewElts;
-		connectToAll: [ :e | (e = center) ifTrue: [ petals ] ifFalse: [ #() ]  ].
-	RTRadialTreeLayout new
-		horizontalGap: 100 ;
-		verticalGap: 100 ;
-		on: viewElts.
-	view canvas focusOnCenterScaled.
-
+{ #category : #accessing }
+MidasAppNavigate >> diagram [
+	^ diagram
 ]
 
 { #category : #initialization }
@@ -93,14 +75,4 @@ MidasAppNavigate >> updateStrongFocus: focus [
 { #category : #notifications }
 MidasAppNavigate >> updateWeakFocus: focus [
 	self refresh
-]
-
-{ #category : #accessing }
-MidasAppNavigate >> view [
-	^ view
-]
-
-{ #category : #accessing }
-MidasAppNavigate >> view: anObject [
-	view := anObject
 ]

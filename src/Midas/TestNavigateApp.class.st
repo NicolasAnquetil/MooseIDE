@@ -15,7 +15,13 @@ TestNavigateApp >> setUp [
 
 { #category : #tests }
 TestNavigateApp >> testNavigateFromClass [
-	self fail
+	| i |
+	navigateApp context strongFocus: (models first allModelClasses detect: [:c | c name = 'Node']).
+	i := navigateApp diagram items detectIndex: [ :item | item name = 'methods' ].
+	navigateApp diagram doubleClickAtIndex: i.
+	self
+		assert: launcherApp strongFocus size
+		equals: 14
 ]
 
 { #category : #tests }
