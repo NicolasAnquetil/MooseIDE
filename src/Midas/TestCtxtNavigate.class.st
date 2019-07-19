@@ -31,6 +31,14 @@ TestCtxtNavigate >> testClassProperties [
 ]
 
 { #category : #tests }
+TestCtxtNavigate >> testHomogeneousProperties [
+	launcherCtxt strongFocus: models anyOne allModelMethods.
+	self
+		assert: navigateCtxt navigationProperties size
+		equals: 22 "same as for a single method: #testMethodProperties"
+]
+
+{ #category : #tests }
 TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt strongFocus: models anyOne allMethods anyOne.
 	self
