@@ -52,7 +52,7 @@ MidasContextEntities >> formatNewStrongFocus: focus [
 	(focus = self mooseModel)
 		ifTrue: [ ^ {MidasEntityTransparent with: focus} ].
 	focus isCollection 
-		ifTrue: [focus collect: [ :each | MidasEntityTransparent with: each] ].
+		ifTrue: [ ^ focus collect: [ :each | MidasEntityTransparent with: each] ].
 	^ {MidasEntityTransparent with: focus}
 ]
 

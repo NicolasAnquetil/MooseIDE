@@ -76,8 +76,8 @@ TestEntitiesApp >> testPreviousAndNextButtonsDisplay [
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testSelectClasses [
-	entitiesApp lstEntities doubleClickAtIndex: (self indexFor: 'All model packages').
+TestEntitiesApp >> testScopeClasses [
+	entitiesApp context strongFocus: (models first allModelPackages).
 	entitiesApp btnClassScope performMenuActionWith: self.
 	self assert: entitiesApp lstEntities items size equals: 6.
 	entitiesApp lstEntities items
@@ -85,16 +85,16 @@ TestEntitiesApp >> testSelectClasses [
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testSelectMethods [
-	entitiesApp lstEntities doubleClickAtIndex: (self indexFor: 'All model classes').
+TestEntitiesApp >> testScopeMethods [
+	entitiesApp context strongFocus: (models first allModelClasses).
 	entitiesApp btnMethodScope performMenuActionWith: self.
 	self assert: entitiesApp lstEntities items size equals: 58.
 	entitiesApp lstEntities items do:[:each|self assert: each selection isMethod]
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testSelectPackage [
-	entitiesApp lstEntities doubleClickAtIndex: (self indexFor: 'All model classes').
+TestEntitiesApp >> testScopePackage [
+	entitiesApp context strongFocus: (models first allModelClasses).
 	entitiesApp btnPackageScope performMenuActionWith: self.
 	self assert: entitiesApp lstEntities items size equals: 1.
 	self assert: entitiesApp lstEntities items first selection name equals: 'LANSimulation'

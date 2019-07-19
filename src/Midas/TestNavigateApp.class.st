@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #running }
+TestNavigateApp >> indexFor: aString [
+	^ 	navigateApp diagram items
+			detectIndex: [ :item | item name beginsWith: aString ]
+			 ifNone: [ 0 ].
+
+]
+
+{ #category : #running }
 TestNavigateApp >> setUp [
 	super setUp.
 	navigateApp := launcherApp launchNavigateApp
@@ -22,6 +30,12 @@ TestNavigateApp >> testNavigateFromClass [
 	self
 		assert: launcherApp strongFocus size
 		equals: 14
+]
+
+{ #category : #tests }
+TestNavigateApp >> testSelectAllModelPackages [
+	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelPackages).
+	self assert: navigateApp diagram items size equals: 1
 ]
 
 { #category : #tests }
