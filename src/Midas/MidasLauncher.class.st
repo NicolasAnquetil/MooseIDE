@@ -83,7 +83,7 @@ MidasLauncher >> initializeWidgets [
 		addGroup: [ :group |
 			{ #models -> #launchModelsApp .
 			  #metrics -> #launchDashboardApp .
-			  #query -> #launchQueryApp .
+			  #query -> #launchEntitiesApp .
 			  #navigate -> #launchNavigateApp .
 			  #code -> #launchEditorApp .
 			  #views -> #nullLaunchApp .
@@ -133,6 +133,13 @@ MidasLauncher >> launchEditorApp [
 ]
 
 { #category : #apps }
+MidasLauncher >> launchEntitiesApp [
+	context hasEntities
+		ifTrue: [ ^ self ]
+		ifFalse: [ ^self launch: MidasAppEntities withContext: MidasContextEntities ]
+]
+
+{ #category : #apps }
 MidasLauncher >> launchLogApp [
 	^ApplicationWithToolbar new openWithSpec; yourself
 ]
@@ -147,13 +154,6 @@ MidasLauncher >> launchNavigateApp [
 	^self
 		launch: MidasAppNavigate
 		withContext: MidasContextNavigate
-]
-
-{ #category : #apps }
-MidasLauncher >> launchQueryApp [
-	context hasQuery
-		ifTrue: [ ^ self ]
-		ifFalse: [ ^self launch: MidasAppQuery withContext: MidasContextQuery ]
 ]
 
 { #category : #apps }

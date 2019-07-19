@@ -19,7 +19,7 @@ TestCtxtNavigate >> testAttributeProperties [
 	launcherCtxt strongFocus: models anyOne allAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 10
+		equals: 11
 ]
 
 { #category : #tests }
@@ -27,7 +27,7 @@ TestCtxtNavigate >> testClassProperties [
 	launcherCtxt strongFocus: models anyOne allClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 20
+		equals: 21
 ]
 
 { #category : #tests }
@@ -35,7 +35,7 @@ TestCtxtNavigate >> testHeterogeneousProperties [
 	launcherCtxt strongFocus: {models anyOne allModelMethods anyOne . models anyOne allModelClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 9 "properties for FAMIXContainerEntity"
+		equals: 10 "properties for FAMIXContainerEntity"
 ]
 
 { #category : #tests }
@@ -43,7 +43,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 	launcherCtxt strongFocus: models anyOne allModelMethods.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 22 "same as for a single method: #testMethodProperties"
+		equals: 23 "same as for a single method: #testMethodProperties"
 ]
 
 { #category : #tests }
@@ -51,15 +51,14 @@ TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt strongFocus: models anyOne allMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 22
+		equals: 23
 ]
 
 { #category : #tests }
 TestCtxtNavigate >> testModelProperties [
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 5.
-	self assert: (navigateCtxt navigationProperties allSatisfy: [:prop | prop name beginsWith: 'All model'])
+		equals: 41
 ]
 
 { #category : #tests }
@@ -67,5 +66,5 @@ TestCtxtNavigate >> testNamespaceProperties [
 	launcherCtxt strongFocus: models anyOne allNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 14
+		equals: 15
 ]

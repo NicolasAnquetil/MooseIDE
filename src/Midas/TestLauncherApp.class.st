@@ -61,7 +61,7 @@ TestLauncherApp >> testCloseQuery [
 	self
 		assert: launcherApp context children size
 		equals: 0.
-	app := launcherApp launchQueryApp.
+	app := launcherApp launchEntitiesApp.
 	self
 		assert: launcherApp context children size
 		equals: 1.

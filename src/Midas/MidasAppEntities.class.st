@@ -2,7 +2,7 @@
 An app to select entities from the current model
 "
 Class {
-	#name : #MidasAppQuery,
+	#name : #MidasAppEntities,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'chkAssociation',
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #specs }
-MidasAppQuery class >> defaultSpec [
+MidasAppEntities class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add:
 			(SpecBoxLayout newHorizontal
@@ -44,69 +44,63 @@ MidasAppQuery class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #specs }
-MidasAppQuery class >> runMe [
-	<script>
-	self new openWithSpec
-]
-
 { #category : #accessing }
-MidasAppQuery >> btnClassScope [
+MidasAppEntities >> btnClassScope [
 	^mnuScope menuGroups first menuItems second
 ]
 
 { #category : #accessing }
-MidasAppQuery >> btnMethodScope [
+MidasAppEntities >> btnMethodScope [
 	^mnuScope menuGroups first menuItems third
 ]
 
 { #category : #accessing }
-MidasAppQuery >> btnNext [
+MidasAppEntities >> btnNext [
 	^ btnNext
 ]
 
 { #category : #accessing }
-MidasAppQuery >> btnPackageScope [
+MidasAppEntities >> btnPackageScope [
 	^mnuScope menuGroups first menuItems first
 ]
 
 { #category : #accessing }
-MidasAppQuery >> btnPrev [
+MidasAppEntities >> btnPrev [
 	^ btnPrev
 ]
 
 { #category : #accessing }
-MidasAppQuery >> btnQuery [
+MidasAppEntities >> btnQuery [
 	^ btnQuery
 ]
 
 { #category : #accessing }
-MidasAppQuery >> chkAssociation [
+MidasAppEntities >> chkAssociation [
 	^ chkAssociation
 ]
 
 { #category : #accessing }
-MidasAppQuery >> chkFreeze [
+MidasAppEntities >> chkFreeze [
 ^chkFreeze
 ]
 
 { #category : #accessing }
-MidasAppQuery >> context: aContext [
+MidasAppEntities >> context: aContext [
 	super context: aContext.
 ]
 
 { #category : #accessing }
-MidasAppQuery >> filterQuery [
+MidasAppEntities >> filterQuery [
 	^ filterQuery
 ]
 
 { #category : #accessing }
-MidasAppQuery >> fldQuery [
+MidasAppEntities >> fldQuery [
 ^fldQuery
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializePresenter [
+MidasAppEntities >> initializePresenter [
 	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
@@ -124,7 +118,7 @@ MidasAppQuery >> initializePresenter [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgetHistoryMenu [
+MidasAppEntities >> initializeWidgetHistoryMenu [
 	btnPrev := self newButton.
 	btnPrev
 		disable ;
@@ -139,7 +133,7 @@ MidasAppQuery >> initializeWidgetHistoryMenu [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgetListEntities [
+MidasAppEntities >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
 	lstEntities contextMenu: self listMenu.
 	lstEntities
@@ -149,7 +143,7 @@ MidasAppQuery >> initializeWidgetListEntities [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgets [
+MidasAppEntities >> initializeWidgets [
 	super initializeWidgets.
 	chkAssociation := (self instantiate: CheckBoxPresenter)
 		label: 'Result as tree';
@@ -161,7 +155,7 @@ MidasAppQuery >> initializeWidgets [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgetsQueryRow [
+MidasAppEntities >> initializeWidgetsQueryRow [
 	mnuSelcol := self newDropList.
 	mnuSelcol
 		items: #(#filter #navigate);
@@ -174,7 +168,7 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWidgetsScopeRow [
+MidasAppEntities >> initializeWidgetsScopeRow [
 	mnuScope := self newMenuBar.
 	mnuScope
 		addGroup: [ :group | 
@@ -204,7 +198,7 @@ MidasAppQuery >> initializeWidgetsScopeRow [
 ]
 
 { #category : #initialization }
-MidasAppQuery >> initializeWindow: aWindowPresenter [
+MidasAppEntities >> initializeWindow: aWindowPresenter [
 	aWindowPresenter title: self title.
 	aWindowPresenter
 		whenClosedDo: [ context strongFocus: context mooseModel.
@@ -212,7 +206,7 @@ MidasAppQuery >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #menu }
-MidasAppQuery >> listMenu [
+MidasAppEntities >> listMenu [
 	^ self newMenu
 		addItem: [ :anItem | 
 			anItem
@@ -222,51 +216,51 @@ MidasAppQuery >> listMenu [
 ]
 
 { #category : #accessing }
-MidasAppQuery >> lstEntities [
+MidasAppEntities >> lstEntities [
 	^ lstEntities
 ]
 
 { #category : #accessing }
-MidasAppQuery >> mnuScope [
+MidasAppEntities >> mnuScope [
 	^ mnuScope
 ]
 
 { #category : #accessing }
-MidasAppQuery >> mnuSelcol [
+MidasAppEntities >> mnuSelcol [
 	^ mnuSelcol
 ]
 
 { #category : #running }
-MidasAppQuery >> runQueryButtonAction [
+MidasAppEntities >> runQueryButtonAction [
 	^[ context interpretQuery: fldQuery getText  ]
 ]
 
 { #category : #api }
-MidasAppQuery >> title [
+MidasAppEntities >> title [
 	^'MIDAS Query: ' , context modelName
 ]
 
 { #category : #notifications }
-MidasAppQuery >> updateModel: aMooseModel [
+MidasAppEntities >> updateModel: aMooseModel [
 	super updateModel: aMooseModel.
 	self updateStrongFocus: aMooseModel
 ]
 
 { #category : #notifications }
-MidasAppQuery >> updatePreviousNext [
+MidasAppEntities >> updatePreviousNext [
 	btnPrev
 		enabled: (context historyHasPrevious).
 	btnNext enabled: (context historyHasNext)
 ]
 
 { #category : #notifications }
-MidasAppQuery >> updateStrongFocus: focus [
+MidasAppEntities >> updateStrongFocus: focus [
 	
 	lstEntities items: focus.
 	self updatePreviousNext
 ]
 
 { #category : #notifications }
-MidasAppQuery >> updateWeakFocus: focus [
+MidasAppEntities >> updateWeakFocus: focus [
 	lstEntities selectItem: focus
 ]

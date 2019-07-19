@@ -27,7 +27,7 @@ TestModelsApp >> testInitializeModelInDashboard [
 { #category : #tests }
 TestModelsApp >> testInitializeModelInQuery [
 	| queryApp |
-	queryApp := launcherApp launchQueryApp.
+	queryApp := launcherApp launchEntitiesApp.
 	self assert: queryApp context strongFocus equals: models first
 ]
 
@@ -56,7 +56,7 @@ TestModelsApp >> testUpdateModelInLauncher [
 { #category : #tests }
 TestModelsApp >> testUpdateModelInQuery [
 	| queryApp |
-	queryApp := launcherApp launchQueryApp.
+	queryApp := launcherApp launchEntitiesApp.
 	modelsApp lstModels doubleClickAtIndex: 2.
 	self assert: queryApp context strongFocus equals: models second
 ]

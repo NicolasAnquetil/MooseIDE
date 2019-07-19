@@ -39,8 +39,8 @@ MidasContextLauncher >> exit [
 ]
 
 { #category : #accessing }
-MidasContextLauncher >> hasQuery [
-	^ children anySatisfy: [ :each | each class = MidasContextQuery ]
+MidasContextLauncher >> hasEntities [
+	^ children anySatisfy: [ :each | each class = MidasContextEntities ]
 ]
 
 { #category : #initialization }

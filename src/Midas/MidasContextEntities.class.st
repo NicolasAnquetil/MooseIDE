@@ -1,5 +1,8 @@
+"
+Context for EntitiesApp
+"
 Class {
-	#name : #MidasContextQuery,
+	#name : #MidasContextEntities,
 	#superclass : #MidasChildContext,
 	#instVars : [
 		'resultsWithParents',
@@ -10,20 +13,20 @@ Class {
 }
 
 { #category : #history }
-MidasContextQuery >> addToHistory: anEntry [
+MidasContextEntities >> addToHistory: anEntry [
 	history add: anEntry.
 	app updatePreviousNext 
 ]
 
 { #category : #running }
-MidasContextQuery >> atScope: aSymbol [
+MidasContextEntities >> atScope: aSymbol [
 	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
 			removeDuplicates.
 	
 ]
 
 { #category : #running }
-MidasContextQuery >> classScope [
+MidasContextEntities >> classScope [
 	| actuel |
 	actuel := self strongFocus.
 	actuel ifEmpty: [ ^ nil ].
@@ -33,47 +36,51 @@ MidasContextQuery >> classScope [
 ]
 
 { #category : #accessing }
-MidasContextQuery >> flattenResult [
+MidasContextEntities >> flattenResult [
 	resultsWithParents := false.
 	self notifyStrongFocus: nil
 ]
 
 { #category : #notifications }
-MidasContextQuery >> formatNewModel: mooseModel [
+MidasContextEntities >> formatNewModel: mooseModel [
 	self initHistory.
-	^ self formatNewStrongFocus: mooseModel
+	^ 	{MidasEntityTransparent with: mooseModel}
 ]
 
 { #category : #notifications }
-MidasContextQuery >> formatNewStrongFocus: focus [
-	^MidasFocusFormater new format: focus
+MidasContextEntities >> formatNewStrongFocus: focus [
+	(focus = self mooseModel)
+		ifTrue: [ ^ {MidasEntityTransparent with: focus} ].
+	focus isCollection 
+		ifTrue: [focus collect: [ :each | MidasEntityTransparent with: each] ].
+	^ {MidasEntityTransparent with: focus}
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasNext [ 
+MidasContextEntities >> historyHasNext [ 
 	^ history hasNext
 ]
 
 { #category : #history }
-MidasContextQuery >> historyHasPrevious [ 
+MidasContextEntities >> historyHasPrevious [ 
 	^ history hasPrevious 
 ]
 
 { #category : #initialization }
-MidasContextQuery >> initHistory [ 
+MidasContextEntities >> initHistory [ 
 	history := MidasHistory new.
 	history addEntry: self mooseModel
 ]
 
 { #category : #initialization }
-MidasContextQuery >> initialize [
+MidasContextEntities >> initialize [
 	super initialize.
 	resultsWithParents := false.
 	history := MidasHistory new
 ]
 
 { #category : #running }
-MidasContextQuery >> interpretQuery: aBlockAsString [
+MidasContextEntities >> interpretQuery: aBlockAsString [
 	| aBlock |
 	aBlockAsString
 		ifEmpty: [
@@ -87,54 +94,54 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 ]
 
 { #category : #running }
-MidasContextQuery >> methodScope [
+MidasContextEntities >> methodScope [
 	self strongFocus: (self toScope: 'FAMIXMethod')
 ]
 
 { #category : #history }
-MidasContextQuery >> next [
+MidasContextEntities >> next [
 	history hasNext
 		ifTrue: [ self strongFocusFromHistory: history next.
 			app updatePreviousNext ]
 ]
 
 { #category : #running }
-MidasContextQuery >> packageScope [
+MidasContextEntities >> packageScope [
 	self strongFocus: (self atScope: 'FAMIXPackage')
 ]
 
 { #category : #accessing }
-MidasContextQuery >> parentContext: aContext [
+MidasContextEntities >> parentContext: aContext [
 	super parentContext:aContext.
 		self initHistory.
 ]
 
 { #category : #history }
-MidasContextQuery >> prev [
+MidasContextEntities >> prev [
 	history hasPrevious
 		ifTrue: [ self strongFocusFromHistory: history previous.
 			app updatePreviousNext ]
 ]
 
 { #category : #accessing }
-MidasContextQuery >> resultsWithParents [
+MidasContextEntities >> resultsWithParents [
 	^resultsWithParents
 ]
 
 { #category : #running }
-MidasContextQuery >> runCollectQuery: aBloc [
+MidasContextEntities >> runCollectQuery: aBloc [
 	^self strongFocus flatCollect: aBloc.
 
 	
 ]
 
 { #category : #running }
-MidasContextQuery >> runSelectQuery: aBloc [
+MidasContextEntities >> runSelectQuery: aBloc [
 	^ self strongFocus select: aBloc
 ]
 
 { #category : #notifications }
-MidasContextQuery >> selectedStrongFocus: aMidasEntity [
+MidasContextEntities >> selectedStrongFocus: aMidasEntity [
 	| wasFrozen |
 	wasFrozen := frozen.
 	frozen := false.
@@ -144,13 +151,13 @@ MidasContextQuery >> selectedStrongFocus: aMidasEntity [
 ]
 
 { #category : #notifications }
-MidasContextQuery >> selectedWeakFocus: aMidasEntity [
+MidasContextEntities >> selectedWeakFocus: aMidasEntity [
 	aMidasEntity ifNil: [ ^ self ].
 	self weakFocus: aMidasEntity selection
 ]
 
 { #category : #accessing }
-MidasContextQuery >> strongFocus [
+MidasContextEntities >> strongFocus [
 	| realFocus |
 	realFocus := super strongFocus.
 	^realFocus isCollection
@@ -159,7 +166,7 @@ MidasContextQuery >> strongFocus [
 ]
 
 { #category : #history }
-MidasContextQuery >> strongFocusFromHistory: newFocus [
+MidasContextEntities >> strongFocusFromHistory: newFocus [
 	| cachedFrozen |
 	cachedFrozen := frozen.
 	frozen := false.
@@ -169,13 +176,13 @@ MidasContextQuery >> strongFocusFromHistory: newFocus [
 ]
 
 { #category : #running }
-MidasContextQuery >> toScope: aSymbol [
+MidasContextEntities >> toScope: aSymbol [
 	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
 	
 ]
 
 { #category : #accessing }
-MidasContextQuery >> trackAssociation [
+MidasContextEntities >> trackAssociation [
 	resultsWithParents := true.
 	self notifyStrongFocus: nil
 ]

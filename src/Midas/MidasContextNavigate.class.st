@@ -9,12 +9,7 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #'as yet unclassified' }
-MidasContextNavigate >> centralEntity [
-	^ self weakFocus class
-]
-
-{ #category : #visiting }
+{ #category : #accessing }
 MidasContextNavigate >> doesNotUnderstand: message [
 	((message selector asString beginsWith: 'visit') and: [message arguments size = 1])
 		ifFalse: [ "does not seem to be a visitFAMIXClass: message so really does not understand"
@@ -23,7 +18,7 @@ MidasContextNavigate >> doesNotUnderstand: message [
 	^self navigationPropertiesForClass: message argument class
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MidasContextNavigate >> navigationProperties [
 	(self weakFocus = self mooseModel)
 		ifTrue: [ ^ self navigationPropertiesForModel: self weakFocus ].
@@ -32,13 +27,13 @@ MidasContextNavigate >> navigationProperties [
 	^ self navigationPropertiesForClass: self weakFocus class
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MidasContextNavigate >> navigationPropertiesForClass: aClass [
 	^ (self mooseModel metamodel descriptionOf: aClass) allAttributes
 			select: [:p | p opposite isNotNil]
 ]
 
-{ #category : #visiting }
+{ #category : #accessing }
 MidasContextNavigate >> navigationPropertiesForCollection: aCollectionOfEntities [
 	| classes props |
 	classes := (aCollectionOfEntities groupedBy: #class) keys.
@@ -48,13 +43,17 @@ MidasContextNavigate >> navigationPropertiesForCollection: aCollectionOfEntities
 	^ props
 ]
 
-{ #category : #visiting }
+{ #category : #accessing }
 MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
-	^ MidasFocusFormater new format: aMooseModel
+	^ aMooseModel navigationSelectors collect: [ :sel |
+			MidasEntityNavigateModel new
+				selector: sel ;
+				name: sel ;
+				yourself
+		]
 ]
 
 { #category : #accessing }
 MidasContextNavigate >> selected: anObject [
-	(anObject = self centralEntity)
-		ifFalse: [ self strongFocus: (self weakFocus perform: anObject methodSelector) ]
+	self strongFocus: (self weakFocus perform: anObject methodSelector)
 ]
