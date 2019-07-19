@@ -31,6 +31,14 @@ TestCtxtNavigate >> testClassProperties [
 ]
 
 { #category : #tests }
+TestCtxtNavigate >> testHeterogeneousProperties [
+	launcherCtxt strongFocus: {models anyOne allModelMethods anyOne . models anyOne allModelClasses anyOne}.
+	self
+		assert: navigateCtxt navigationProperties size
+		equals: 9 "properties for FAMIXContainerEntity"
+]
+
+{ #category : #tests }
 TestCtxtNavigate >> testHomogeneousProperties [
 	launcherCtxt strongFocus: models anyOne allModelMethods.
 	self

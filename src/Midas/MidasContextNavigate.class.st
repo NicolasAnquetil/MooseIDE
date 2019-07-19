@@ -16,55 +16,30 @@ MidasContextNavigate >> centralEntity [
 
 { #category : #visiting }
 MidasContextNavigate >> doesNotUnderstand: message [
-	| selector |
-	selector := message selector asString.
-	((selector beginsWith: 'visit') and: [ (selector count: [ :c | c = $: ]) = 1 ])
-		ifFalse: [ "does not seem to be a visitFAMIXClass: message"
+	((message selector asString beginsWith: 'visit') and: [message arguments size = 1])
+		ifFalse: [ "does not seem to be a visitFAMIXClass: message so really does not understand"
 			^ super doesNotUnderstand: message ].
-	
+
+	^self navigationPropertiesForClass: message argument class
 ]
 
 { #category : #'as yet unclassified' }
 MidasContextNavigate >> navigationProperties [
-	^ self weakFocus accept: self
+	(self weakFocus = self mooseModel)
+		ifTrue: [ ^ self navigationPropertiesForModel: self weakFocus ].
+	self weakFocus isCollection
+		ifTrue: [ ^ self navigationPropertiesForCollection: self weakFocus ].
+	^ self navigationPropertiesForClass: self weakFocus class
 ]
 
 { #category : #'as yet unclassified' }
 MidasContextNavigate >> navigationPropertiesForClass: aClass [
-	^ (aClass = MooseModel)
-			ifTrue: [ self navigationPropertiesForMooseModel ]
-			ifFalse: [(self mooseModel metamodel descriptionOf: aClass) allAttributes
-								select: [:p | p opposite isNotNil]]
-]
-
-{ #category : #'as yet unclassified' }
-MidasContextNavigate >> navigationPropertiesForCollection [
-	| classes props |
-	classes := (self weakFocus groupedBy: #class) keys.
-	props := self navigationPropertiesForClass: classes first.
-	classes allButFirstDo: [ :cl |
-		props := props intersection: (self navigationPropertiesForClass: cl) ].
-	^ props
-]
-
-{ #category : #'as yet unclassified' }
-MidasContextNavigate >> navigationPropertiesForMooseModel [
-	^ self mooseModel entityCache
-		associationsDo: [ :assoc || label |
-			label := assoc key asString.
-			(label beginsWith: 'All model')
-			ifTrue: [	self virtualEntity: label from: assoc value]
-		]
-]
-
-{ #category : #accessing }
-MidasContextNavigate >> selected: anObject [
-	(anObject = self centralEntity)
-		ifFalse: [ self strongFocus: (self weakFocus perform: anObject methodSelector) ]
+	^ (self mooseModel metamodel descriptionOf: aClass) allAttributes
+			select: [:p | p opposite isNotNil]
 ]
 
 { #category : #visiting }
-MidasContextNavigate >> visitCollection: aCollectionOfEntities [
+MidasContextNavigate >> navigationPropertiesForCollection: aCollectionOfEntities [
 	| classes props |
 	classes := (aCollectionOfEntities groupedBy: #class) keys.
 	props := self navigationPropertiesForClass: classes first.
@@ -74,6 +49,12 @@ MidasContextNavigate >> visitCollection: aCollectionOfEntities [
 ]
 
 { #category : #visiting }
-MidasContextNavigate >> visitModel: aMooseModel [
+MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 	^ MidasFocusFormater new format: aMooseModel
+]
+
+{ #category : #accessing }
+MidasContextNavigate >> selected: anObject [
+	(anObject = self centralEntity)
+		ifFalse: [ self strongFocus: (self weakFocus perform: anObject methodSelector) ]
 ]
