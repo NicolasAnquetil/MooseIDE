@@ -83,22 +83,23 @@ MidasLauncher >> initializeWidgets [
 		addGroup: [ :group |
 			{ #models -> #launchModelsApp .
 			  #metrics -> #launchDashboardApp .
-			  #tasks -> #nullLaunchApp .
 			  #query -> #launchQueryApp .
 			  #navigate -> #launchNavigateApp .
 			  #code -> #launchEditorApp .
-			  #views -> #launchSystemComplexityApp .
+			  #views -> #nullLaunchApp .
 			  #archi -> #nullLaunchApp .
 			  #critic -> #nullLaunchApp .
 			  #tags -> #nullLaunchApp .
+			  #tasks -> #nullLaunchApp .
 			  #log -> #nullLaunchApp .
 			  #exit -> #exit 
 			 }
 			do: [ :appDesc |
-				group addItem: [ :item | 
+				group addItem: [ :item || icon |
+					icon := (appDesc value = #nullLaunchApp) ifTrue: [ appDesc key asString , '-off' ] ifFalse: [ appDesc key ].
 					self
 						newMenuItem: item
-						named: appDesc key
+						named: icon
 						withAction: [ self perform: appDesc value ]
 				]
 			]
@@ -180,6 +181,7 @@ MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 
 { #category : #apps }
 MidasLauncher >> nullLaunchApp [
+	UIManager default inform: 'This app was not implemented yet'
 ]
 
 { #category : #api }
