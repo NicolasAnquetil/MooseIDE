@@ -55,5 +55,12 @@ MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 
 { #category : #accessing }
 MidasContextNavigate >> selected: anObject [
-	self strongFocus: (self weakFocus perform: anObject methodSelector)
+	| focus |
+	focus := self weakFocus.
+	(focus = self mooseModel)
+		ifTrue: [ ^ self strongFocus: (focus perform: anObject methodSelector) ].
+	focus isCollection
+		ifTrue: [ ^ self strongFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].
+	self strongFocus: (focus perform: anObject methodSelector)
+	
 ]

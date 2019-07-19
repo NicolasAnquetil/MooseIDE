@@ -24,9 +24,7 @@ MidasAppEntities class >> defaultSpec [
 		add:
 			(SpecBoxLayout newHorizontal
 				add: #chkFreeze;
-				add: #chkAssociation;
-				add: #btnPrev;
-				add: #btnNext)
+				add: #chkAssociation)
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add:
 			(SpecBoxLayout newHorizontal
@@ -55,18 +53,8 @@ MidasAppEntities >> btnMethodScope [
 ]
 
 { #category : #accessing }
-MidasAppEntities >> btnNext [
-	^ btnNext
-]
-
-{ #category : #accessing }
 MidasAppEntities >> btnPackageScope [
 	^mnuScope menuGroups first menuItems first
-]
-
-{ #category : #accessing }
-MidasAppEntities >> btnPrev [
-	^ btnPrev
 ]
 
 { #category : #accessing }
@@ -96,7 +84,7 @@ MidasAppEntities >> filterQuery [
 
 { #category : #accessing }
 MidasAppEntities >> fldQuery [
-^fldQuery
+	^fldQuery
 ]
 
 { #category : #initialization }

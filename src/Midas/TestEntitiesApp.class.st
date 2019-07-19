@@ -49,33 +49,6 @@ TestEntitiesApp >> testFreezeContentIsSelected [
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testPreviousAndNextButtons [
-	| cachedModelContent cachedAllClasses |
-	cachedModelContent := entitiesApp lstEntities items
-		collect: [ :item | item selection ].
-	entitiesApp lstEntities doubleClickAtIndex: 1.   "All model classes"
-	cachedAllClasses := entitiesApp lstEntities items
-		collect: [ :item | item selection ].
-	self deny: cachedAllClasses equals: cachedModelContent.
-	entitiesApp btnPrev performAction.
-	self assert: (entitiesApp lstEntities items 	collect: [ :item | item selection ])equals: cachedModelContent.
-	entitiesApp btnNext performAction.
-	self assert: (entitiesApp lstEntities items 	collect: [ :item | item selection ])equals: cachedAllClasses
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testPreviousAndNextButtonsDisplay [
-	self deny: entitiesApp btnPrev isEnabled.
-	self deny: entitiesApp btnNext isEnabled.
-	entitiesApp lstEntities doubleClickAtIndex: 1.   "All model classes"
-	self assert: entitiesApp btnPrev isEnabled.
-	self deny: entitiesApp btnNext isEnabled.
-	entitiesApp btnPrev performAction.
-	self deny: entitiesApp btnPrev isEnabled.
-	self assert: entitiesApp btnNext isEnabled.
-]
-
-{ #category : #tests }
 TestEntitiesApp >> testScopeClasses [
 	entitiesApp context strongFocus: (models first allModelPackages).
 	entitiesApp btnClassScope performMenuActionWith: self.
@@ -98,24 +71,6 @@ TestEntitiesApp >> testScopePackage [
 	entitiesApp btnPackageScope performMenuActionWith: self.
 	self assert: entitiesApp lstEntities items size equals: 1.
 	self assert: entitiesApp lstEntities items first selection name equals: 'LANSimulation'
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testUpdateStrongFocuslWhenTheItemIsDoubleClicked [
-	| item |
-	item := entitiesApp lstEntities items first selection.
-	self deny: entitiesApp strongFocus equals: item.
-	entitiesApp lstEntities doubleClickAtIndex: 1.
-	self assert: entitiesApp strongFocus equals: item
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testUpdateWeakFocuslWhenTheItemIsSingleClicked [
-	| item |
-	item := entitiesApp lstEntities items first selection.
-	self deny: entitiesApp weakFocus equals: item.
-	entitiesApp lstEntities clickAtIndex: 1.
-	self assert: entitiesApp weakFocus equals: item
 ]
 
 { #category : #tests }

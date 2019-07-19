@@ -33,9 +33,15 @@ TestNavigateApp >> testNavigateFromClass [
 ]
 
 { #category : #tests }
+TestNavigateApp >> testSelectAllModelClasses [
+	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelClasses).
+	self assert: navigateApp context strongFocus size equals: 6
+]
+
+{ #category : #tests }
 TestNavigateApp >> testSelectAllModelPackages [
 	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelPackages).
-	self assert: navigateApp diagram items size equals: 1
+	self assert: navigateApp context strongFocus size equals: 1
 ]
 
 { #category : #tests }

@@ -68,3 +68,16 @@ TestCtxtNavigate >> testNamespaceProperties [
 		assert: navigateCtxt navigationProperties size
 		equals: 15
 ]
+
+{ #category : #tests }
+TestCtxtNavigate >> testSelectionOnCollectionFocus [
+	| selector |
+	selector := Mock new.
+	selector stub methodSelector willReturn: #attributes.
+
+	launcherCtxt strongFocus: models anyOne allModelClasses.
+	navigateCtxt selected: selector.
+	self
+		assert: navigateCtxt navigationProperties size
+		equals: 11
+]
