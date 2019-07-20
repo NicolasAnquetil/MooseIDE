@@ -43,7 +43,7 @@ MidasAppTag >> entities [
 
 { #category : #initialization }
 MidasAppTag >> initializeWidgets [
-	super initializeWidgets.
+	self canBeFrozen.
 	entities := (self instantiate: ListPresenter)
 		displayBlock: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];

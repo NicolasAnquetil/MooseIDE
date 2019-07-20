@@ -19,16 +19,16 @@ TestModelsApp >> setUp [
 
 { #category : #tests }
 TestModelsApp >> testInitializeModelInDashboard [
-	| dashboardApp |
-	dashboardApp := launcherApp launchDashboardApp.
-	self assert: dashboardApp context strongFocus equals: models first
+	self
+		assert: launcherApp launchDashboardApp context strongFocus
+		equals: models first
 ]
 
 { #category : #tests }
-TestModelsApp >> testInitializeModelInQuery [
-	| queryApp |
-	queryApp := launcherApp launchEntitiesApp.
-	self assert: queryApp context strongFocus equals: models first
+TestModelsApp >> testInitializeModelInListEntities [
+	self
+		assert: launcherApp launchEntitiesApp context strongFocus
+		equals: models first
 ]
 
 { #category : #tests }
@@ -50,7 +50,7 @@ TestModelsApp >> testUpdateModelInDashboard [
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self assert: launcherApp window title  equals: 'MIDAS Launcher: Second-simpleModel'.
+	self assert: launcherApp context strongFocus equals: models second
 ]
 
 { #category : #tests }
@@ -62,7 +62,7 @@ TestModelsApp >> testUpdateModelInQuery [
 ]
 
 { #category : #tests }
-TestModelsApp >> testUpdateModelWhenTheItemIsDoubleClicked [
+TestModelsApp >> testUpdateModelOnDoubleClick [
 	modelsApp lstModels doubleClickAtIndex: 1.
 	self
 		assert: modelsApp mooseModel

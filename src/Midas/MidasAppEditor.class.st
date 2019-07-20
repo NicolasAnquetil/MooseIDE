@@ -36,7 +36,7 @@ MidasAppEditor >> entityHasNoSource [
 
 { #category : #initialization }
 MidasAppEditor >> initializeWidgets [
-	super initializeWidgets.
+	self canBeFrozen.
 	code := self newText
 ]
 

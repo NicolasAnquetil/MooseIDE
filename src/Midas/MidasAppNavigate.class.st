@@ -35,15 +35,6 @@ MidasAppNavigate >> initializePresenter [
 
 { #category : #initialization }
 MidasAppNavigate >> initializeWidgets [
-	"-- Not using the 'freeze' checkbox --
-	 super initializeWidgets."
-	
-	"graphical display, no longer used, now done with a list
-	diagram := self instantiate: RoassalModel.	
-	diagram script: [ :aView :canvas |
-		self view: aView.
-		self drawRoassalView
-	]."
 	diagram := self newList.
 	diagram
 		displayBlock: #name ;

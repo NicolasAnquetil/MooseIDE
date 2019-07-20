@@ -3862,7 +3862,7 @@ TestMidasApp >> setUp [
 
 { #category : #running }
 TestMidasApp >> tearDown [
-	launcherApp exit
+	launcherApp ifNotNil: [launcherApp exit]
 
 	
 ]

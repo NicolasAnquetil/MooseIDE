@@ -13,29 +13,14 @@ MidasAppHistory class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add:
 			(SpecBoxLayout newHorizontal
-				add: #chkFreeze;
-				add: #chkAssociation;
 				add: #btnPrev;
 				add: #btnNext)
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add:
-			(SpecBoxLayout newHorizontal
-				add: #mnuSelcol
-					withConstraints: [ :constraints | constraints width: 80 ];
-				add: ' each where:'
-					withConstraints: [ :constraints | constraints width: 75 ];
-				add: #fldQuery;
-				add: #btnQuery
-					withConstraints: [ :constraints | constraints width: 30 ])
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #mnuScope
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #lstEntities;
 		yourself
 ]
 
 { #category : #initialization }
-MidasAppHistory >> initializeWidgetHistoryMenu [
+MidasAppHistory >> initializeWidgets [
 	btnPrev := self newButton.
 	btnPrev
 		disable ;
@@ -54,4 +39,14 @@ MidasAppHistory >> updatePreviousNext [
 	btnPrev
 		enabled: (context historyHasPrevious).
 	btnNext enabled: (context historyHasNext)
+]
+
+{ #category : #notifications }
+MidasAppHistory >> updateStrongFocus: focus [
+	self updatePreviousNext
+]
+
+{ #category : #notifications }
+MidasAppHistory >> updateWeakFocus: focus [
+	self subclassResponsibility 
 ]

@@ -11,6 +11,13 @@ Class {
 	#category : #'Midas-apps'
 }
 
+{ #category : #initialization }
+MidasAbstractApp >> canBeFrozen [
+	chkFreeze := (self instantiate: CheckBoxPresenter)
+		label: 'Freeze content' ;
+		yourself
+]
+
 { #category : #accessing }
 MidasAbstractApp >> chkFreeze [ 
 	^ chkFreeze 
@@ -42,13 +49,6 @@ MidasAbstractApp >> initializePresenter [
 	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
-]
-
-{ #category : #initialization }
-MidasAbstractApp >> initializeWidgets [
-	chkFreeze := (self instantiate: CheckBoxPresenter)
-		label: 'Freeze content' ;
-		yourself
 ]
 
 { #category : #initialization }

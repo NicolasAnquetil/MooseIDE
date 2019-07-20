@@ -91,7 +91,7 @@ MidasLauncher >> initializeWidgets [
 			  #critic -> #nullLaunchApp .
 			  #tags -> #nullLaunchApp .
 			  #tasks -> #nullLaunchApp .
-			  #log -> #nullLaunchApp .
+			  #log -> #launchHistoryApp .
 			  #exit -> #exit 
 			 }
 			do: [ :appDesc |
@@ -137,6 +137,13 @@ MidasLauncher >> launchEntitiesApp [
 	context hasEntities
 		ifTrue: [ ^ self ]
 		ifFalse: [ ^self launch: MidasAppEntities withContext: MidasContextEntities ]
+]
+
+{ #category : #apps }
+MidasLauncher >> launchHistoryApp [
+	^self
+		launch: MidasAppHistory
+		withContext: MidasContextHistory
 ]
 
 { #category : #apps }
@@ -192,7 +199,7 @@ MidasLauncher >> openOnModel: aMooseModel [
 
 { #category : #api }
 MidasLauncher >> title [
-	^ 'MIDAS Launcher: ' , context modelName
+	^ 'MIDAS Launcher: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

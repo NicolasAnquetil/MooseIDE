@@ -46,7 +46,7 @@ MidasAppDashboard >> dashboardMetric: anInt [
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
-	super initializeWidgets.
+	self canBeFrozen.
 	dashboard := self instantiate: MDMetricDashBoard
 ]
 
@@ -58,7 +58,7 @@ MidasAppDashboard >> initializeWindow: aWindowPresenter [
 
 { #category : #api }
 MidasAppDashboard >> title [
-	^'MIDAS Dashboard: ' , context modelName 
+	^'MIDAS Dashboard: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

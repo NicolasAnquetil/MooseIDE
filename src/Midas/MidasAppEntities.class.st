@@ -106,21 +106,6 @@ MidasAppEntities >> initializePresenter [
 ]
 
 { #category : #initialization }
-MidasAppEntities >> initializeWidgetHistoryMenu [
-	btnPrev := self newButton.
-	btnPrev
-		disable ;
-		icon: (self iconNamed: #smallUndoIcon);
-		action: [ context prev ].
-	btnNext := self newButton.
-	btnNext
-		disable ;
-		icon: (self iconNamed: #smallRedoIcon);
-		action: [ context next ].
-
-]
-
-{ #category : #initialization }
 MidasAppEntities >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
 	lstEntities contextMenu: self listMenu.
@@ -132,11 +117,10 @@ MidasAppEntities >> initializeWidgetListEntities [
 
 { #category : #initialization }
 MidasAppEntities >> initializeWidgets [
-	super initializeWidgets.
+	self canBeFrozen.
 	chkAssociation := (self instantiate: CheckBoxPresenter)
 		label: 'Result as tree';
 		yourself.
-	self initializeWidgetHistoryMenu.
 	self initializeWidgetsQueryRow.
 	self initializeWidgetsScopeRow.
 	self initializeWidgetListEntities
@@ -225,27 +209,13 @@ MidasAppEntities >> runQueryButtonAction [
 
 { #category : #api }
 MidasAppEntities >> title [
-	^'MIDAS Query: ' , context modelName
-]
-
-{ #category : #notifications }
-MidasAppEntities >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	self updateStrongFocus: aMooseModel
-]
-
-{ #category : #notifications }
-MidasAppEntities >> updatePreviousNext [
-	btnPrev
-		enabled: (context historyHasPrevious).
-	btnNext enabled: (context historyHasNext)
+	^'MIDAS Query: ''' , context modelName , ''''
 ]
 
 { #category : #notifications }
 MidasAppEntities >> updateStrongFocus: focus [
 	
 	lstEntities items: focus.
-	self updatePreviousNext
 ]
 
 { #category : #notifications }

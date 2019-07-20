@@ -34,7 +34,7 @@ MidasContextLauncher >> exit [
 	|cachedChildren|
 	cachedChildren := children copy.
 	cachedChildren do: [ :child | child exit ].
-	app delete.
+	app ifNotNil: [ app delete].
 	app := nil
 ]
 

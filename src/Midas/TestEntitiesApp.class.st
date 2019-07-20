@@ -16,6 +16,11 @@ TestEntitiesApp >> indexFor: aString [
 ]
 
 { #category : #running }
+TestEntitiesApp >> listedEntities [
+	^ entitiesApp lstEntities items collect: #selection
+]
+
+{ #category : #running }
 TestEntitiesApp >> setUp [
 	super setUp.
 	entitiesApp := launcherApp launchEntitiesApp
@@ -26,60 +31,57 @@ TestEntitiesApp >> testFilterQuery [
 	entitiesApp mnuSelcol selectedIndex: 1.	"select #filter"
 	entitiesApp fldQuery text: 'each name = ''Node'''.
 	entitiesApp btnQuery performAction.
-	self assert: entitiesApp lstEntities items size equals: 1.
-	entitiesApp lstEntities items first selection name = 'Node'. "use '=' because name is a ByteString, not a String ?!?!"
+	self assert: self listedEntities size equals: 1.
+	self assert: self listedEntities first name equals: 'Node'	
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testFreezeContentIsNotSelected [
-	| cachedItems |
-	cachedItems := entitiesApp lstEntities items.
+TestEntitiesApp >> testFrozen [
+	entitiesApp context strongFocus: self someNamespaces.
 	entitiesApp chkFreeze state: false.
-	entitiesApp context mooseModel: models second.
-	self deny: entitiesApp lstEntities items equals: cachedItems
+	entitiesApp context strongFocus: self someClasses.
+	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection 
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testFreezeContentIsSelected [
-	| cachedItems |
-	cachedItems := entitiesApp lstEntities items.
-	entitiesApp chkFreeze state: true.
-	entitiesApp context mooseModel: models second.
-	self assert: entitiesApp lstEntities items equals: cachedItems
+TestEntitiesApp >> testNotFrozen [
+	entitiesApp context strongFocus: self someNamespaces.
+	entitiesApp chkFreeze state: false.
+	entitiesApp context strongFocus: self someClasses.
+	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testScopeClasses [
-	entitiesApp context strongFocus: (models first allModelPackages).
+	entitiesApp context strongFocus: self somePackages.
 	entitiesApp btnClassScope performMenuActionWith: self.
-	self assert: entitiesApp lstEntities items size equals: 6.
-	entitiesApp lstEntities items
-		do: [ :each | self assert: each selection isClass ]
+	self assert: self listedEntities size equals: 6.
+	self listedEntities do: [ :each | self assert: each isClass ]
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testScopeMethods [
-	entitiesApp context strongFocus: (models first allModelClasses).
+	entitiesApp context strongFocus: self someClasses.
 	entitiesApp btnMethodScope performMenuActionWith: self.
-	self assert: entitiesApp lstEntities items size equals: 58.
-	entitiesApp lstEntities items do:[:each|self assert: each selection isMethod]
+	self assert: self listedEntities size equals: 58.
+	self listedEntities do:[:each|self assert: each isMethod]
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testScopePackage [
-	entitiesApp context strongFocus: (models first allModelClasses).
+	entitiesApp context strongFocus: self someClasses.
 	entitiesApp btnPackageScope performMenuActionWith: self.
-	self assert: entitiesApp lstEntities items size equals: 1.
-	self assert: entitiesApp lstEntities items first selection name equals: 'LANSimulation'
+	self assert: self listedEntities size equals: 1.
+	self assert: self listedEntities first name equals: 'LANSimulation'
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testWindowTitle [
 	self
 		assert: entitiesApp window title
-		equals: 'MIDAS Query: First-lanModel'.
+		equals: 'MIDAS Query: ''First-lanModel'''.
 	launcherApp context mooseModel: models second.
 	self
 		assert: entitiesApp window title
-		equals: 'MIDAS Query: Second-simpleModel'
+		equals: 'MIDAS Query: ''Second-simpleModel'''
 ]

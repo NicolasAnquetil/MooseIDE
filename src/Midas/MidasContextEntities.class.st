@@ -12,12 +12,6 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #history }
-MidasContextEntities >> addToHistory: anEntry [
-	history add: anEntry.
-	app updatePreviousNext 
-]
-
 { #category : #running }
 MidasContextEntities >> atScope: aSymbol [
 	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
@@ -43,7 +37,6 @@ MidasContextEntities >> flattenResult [
 
 { #category : #notifications }
 MidasContextEntities >> formatNewModel: mooseModel [
-	self initHistory.
 	^ 	{MidasEntityTransparent with: mooseModel}
 ]
 
@@ -56,27 +49,10 @@ MidasContextEntities >> formatNewStrongFocus: focus [
 	^ {MidasEntityTransparent with: focus}
 ]
 
-{ #category : #history }
-MidasContextEntities >> historyHasNext [ 
-	^ history hasNext
-]
-
-{ #category : #history }
-MidasContextEntities >> historyHasPrevious [ 
-	^ history hasPrevious 
-]
-
-{ #category : #initialization }
-MidasContextEntities >> initHistory [ 
-	history := MidasHistory new.
-	history addEntry: self mooseModel
-]
-
 { #category : #initialization }
 MidasContextEntities >> initialize [
 	super initialize.
 	resultsWithParents := false.
-	history := MidasHistory new
 ]
 
 { #category : #running }
@@ -98,29 +74,9 @@ MidasContextEntities >> methodScope [
 	self strongFocus: (self toScope: 'FAMIXMethod')
 ]
 
-{ #category : #history }
-MidasContextEntities >> next [
-	history hasNext
-		ifTrue: [ self strongFocusFromHistory: history next.
-			app updatePreviousNext ]
-]
-
 { #category : #running }
 MidasContextEntities >> packageScope [
 	self strongFocus: (self atScope: 'FAMIXPackage')
-]
-
-{ #category : #accessing }
-MidasContextEntities >> parentContext: aContext [
-	super parentContext:aContext.
-		self initHistory.
-]
-
-{ #category : #history }
-MidasContextEntities >> prev [
-	history hasPrevious
-		ifTrue: [ self strongFocusFromHistory: history previous.
-			app updatePreviousNext ]
 ]
 
 { #category : #accessing }
@@ -163,16 +119,6 @@ MidasContextEntities >> strongFocus [
 	^realFocus isCollection
 		ifTrue: [ realFocus ]
 		ifFalse: [ OrderedCollection with: realFocus ]
-]
-
-{ #category : #history }
-MidasContextEntities >> strongFocusFromHistory: newFocus [
-	| cachedFrozen |
-	cachedFrozen := frozen.
-	frozen := false.
-	self strongFocus: newFocus.
-	self notifyStrongFocus: newFocus.
-	frozen := cachedFrozen
 ]
 
 { #category : #running }

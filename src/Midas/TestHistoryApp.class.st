@@ -10,26 +10,24 @@ Class {
 { #category : #tests }
 TestHistoryApp >> testPreviousAndNext [
 	| cachedModelContent cachedAllClasses |
-	cachedModelContent := entitiesApp lstEntities items
-		collect: [ :item | item selection ].
-	entitiesApp lstEntities doubleClickAtIndex: 1.   "All model classes"
-	cachedAllClasses := entitiesApp lstEntities items
-		collect: [ :item | item selection ].
+	cachedModelContent := historyApp context strongFocus.
+	historyApp context strongFocus: self someClasses.
+	cachedAllClasses := historyApp context strongFocus.
 	self deny: cachedAllClasses equals: cachedModelContent.
-	entitiesApp btnPrev performAction.
-	self assert: (entitiesApp lstEntities items 	collect: [ :item | item selection ])equals: cachedModelContent.
-	entitiesApp btnNext performAction.
-	self assert: (entitiesApp lstEntities items 	collect: [ :item | item selection ])equals: cachedAllClasses
+	historyApp btnPrev performAction.
+	self assert: historyApp context strongFocus equals: cachedModelContent.
+	historyApp btnNext performAction.
+	self assert: historyApp context strongFocus equals: cachedAllClasses
 ]
 
 { #category : #tests }
 TestHistoryApp >> testPreviousAndNextButtonsStatus [
-	self deny: entitiesApp btnPrev isEnabled.
-	self deny: entitiesApp btnNext isEnabled.
-	entitiesApp lstEntities doubleClickAtIndex: 1.   "All model classes"
-	self assert: entitiesApp btnPrev isEnabled.
-	self deny: entitiesApp btnNext isEnabled.
-	entitiesApp btnPrev performAction.
-	self deny: entitiesApp btnPrev isEnabled.
-	self assert: entitiesApp btnNext isEnabled.
+	self deny: historyApp btnPrev isEnabled.
+	self deny: historyApp btnNext isEnabled.
+	historyApp context strongFocus: self someClasses.
+	self assert: historyApp btnPrev isEnabled.
+	self deny: historyApp btnNext isEnabled.
+	historyApp btnPrev performAction.
+	self deny: historyApp btnPrev isEnabled.
+	self assert: historyApp btnNext isEnabled.
 ]

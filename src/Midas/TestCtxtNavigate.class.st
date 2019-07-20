@@ -16,7 +16,7 @@ TestCtxtNavigate >> setUp [
 
 { #category : #tests }
 TestCtxtNavigate >> testAttributeProperties [
-	launcherCtxt strongFocus: models anyOne allAttributes anyOne.
+	launcherCtxt strongFocus: self someAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 11
@@ -24,7 +24,7 @@ TestCtxtNavigate >> testAttributeProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testClassProperties [
-	launcherCtxt strongFocus: models anyOne allClasses anyOne.
+	launcherCtxt strongFocus: self someClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 21
@@ -32,7 +32,7 @@ TestCtxtNavigate >> testClassProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testHeterogeneousProperties [
-	launcherCtxt strongFocus: {models anyOne allModelMethods anyOne . models anyOne allModelClasses anyOne}.
+	launcherCtxt strongFocus: {self someMethods anyOne . self someClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 10 "properties for FAMIXContainerEntity"
@@ -40,7 +40,7 @@ TestCtxtNavigate >> testHeterogeneousProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testHomogeneousProperties [
-	launcherCtxt strongFocus: models anyOne allModelMethods.
+	launcherCtxt strongFocus: self someMethods.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 23 "same as for a single method: #testMethodProperties"
@@ -48,7 +48,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testMethodProperties [
-	launcherCtxt strongFocus: models anyOne allMethods anyOne.
+	launcherCtxt strongFocus: self someMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 23
@@ -63,7 +63,7 @@ TestCtxtNavigate >> testModelProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testNamespaceProperties [
-	launcherCtxt strongFocus: models anyOne allNamespaces anyOne.
+	launcherCtxt strongFocus: self someNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 15
@@ -75,7 +75,7 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	selector := Mock new.
 	selector stub methodSelector willReturn: #attributes.
 
-	launcherCtxt strongFocus: models anyOne allModelClasses.
+	launcherCtxt strongFocus: self someClasses.
 	navigateCtxt selected: selector.
 	self
 		assert: navigateCtxt navigationProperties size
