@@ -19,6 +19,16 @@ MidasAppHistory class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #accessing }
+MidasAppHistory >> btnNext [
+	^ btnNext
+]
+
+{ #category : #accessing }
+MidasAppHistory >> btnPrev [
+	^ btnPrev
+]
+
 { #category : #initialization }
 MidasAppHistory >> initializeWidgets [
 	btnPrev := self newButton.
@@ -36,8 +46,7 @@ MidasAppHistory >> initializeWidgets [
 
 { #category : #notifications }
 MidasAppHistory >> updatePreviousNext [
-	btnPrev
-		enabled: (context historyHasPrevious).
+	btnPrev enabled: (context historyHasPrevious).
 	btnNext enabled: (context historyHasNext)
 ]
 

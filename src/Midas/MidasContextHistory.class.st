@@ -31,7 +31,8 @@ MidasContextHistory >> initHistory [
 
 { #category : #initialization }
 MidasContextHistory >> initialize [
-	history := MidasHistory new
+	super initialize.
+	history := MidasHistory new.
 ]
 
 { #category : #history }
@@ -39,6 +40,12 @@ MidasContextHistory >> next [
 	history hasNext
 		ifTrue: [ self strongFocusFromHistory: history next.
 			app updatePreviousNext ]
+]
+
+{ #category : #notifications }
+MidasContextHistory >> notifyStrongFocus: newFocus [
+	self addToHistory: newFocus.
+	app updatePreviousNext 
 ]
 
 { #category : #history }

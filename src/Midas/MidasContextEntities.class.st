@@ -112,15 +112,6 @@ MidasContextEntities >> selectedWeakFocus: aMidasEntity [
 	self weakFocus: aMidasEntity selection
 ]
 
-{ #category : #accessing }
-MidasContextEntities >> strongFocus [
-	| realFocus |
-	realFocus := super strongFocus.
-	^realFocus isCollection
-		ifTrue: [ realFocus ]
-		ifFalse: [ OrderedCollection with: realFocus ]
-]
-
 { #category : #running }
 MidasContextEntities >> toScope: aSymbol [
 	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).

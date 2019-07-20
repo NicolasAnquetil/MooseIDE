@@ -7,6 +7,12 @@ Class {
 	#category : #'Midas-Tests'
 }
 
+{ #category : #running }
+TestHistoryApp >> setUp [
+	super setUp.
+	historyApp := launcherApp launchHistoryApp
+]
+
 { #category : #tests }
 TestHistoryApp >> testPreviousAndNext [
 	| cachedModelContent cachedAllClasses |

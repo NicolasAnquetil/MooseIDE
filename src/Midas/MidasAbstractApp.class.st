@@ -46,9 +46,11 @@ MidasAbstractApp >> iconNamed: aSymbol [
 { #category : #initialization }
 MidasAbstractApp >> initializePresenter [
 	super initializePresenter.
-	chkFreeze
-		whenActivatedDo: [ context freeze ];
-		whenDeactivatedDo: [ context unfreeze ].
+	chkFreeze ifNotNil: [
+		chkFreeze
+			whenActivatedDo: [ context freeze ];
+			whenDeactivatedDo: [ context unfreeze ]
+	]
 ]
 
 { #category : #initialization }
