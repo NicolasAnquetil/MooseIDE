@@ -7,6 +7,11 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #notifications }
+MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
+	^ false
+]
+
 { #category : #history }
 MidasContextHistory >> addToHistory: anEntry [
 	history add: anEntry.
@@ -42,6 +47,12 @@ MidasContextHistory >> next [
 			app updatePreviousNext ]
 ]
 
+{ #category : #history }
+MidasContextHistory >> nextInHistory: entry [
+	^history nextInHistory: entry
+
+]
+
 { #category : #notifications }
 MidasContextHistory >> notifyStrongFocus: newFocus [
 	self addToHistory: newFocus.
@@ -63,4 +74,16 @@ MidasContextHistory >> strongFocusFromHistory: newFocus [
 	self strongFocus: newFocus.
 	self notifyStrongFocus: newFocus.
 	frozen := cachedFrozen
+]
+
+{ #category : #history }
+MidasContextHistory >> summaryDescriptionFor: entry [
+	| stream |
+	stream := WriteStream on: String new.
+	entry key
+		do: [ :entity | 
+			stream nextPutAll: entity name.
+			stream cr
+		 ].
+	^stream contractTo: 100	
 ]

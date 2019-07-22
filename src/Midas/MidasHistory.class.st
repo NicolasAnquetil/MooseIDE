@@ -35,6 +35,20 @@ MidasHistory >> next [
 	^ super next key
 ]
 
+{ #category : #history }
+MidasHistory >> nextInHistory: entry [
+	1 to: storage size do: [ :i |
+		(storage at: i key == entry)
+		ifTrue: [
+			(i < storage size)
+			ifTrue: [ ^storage at: (i+1) ]
+			ifFalse: [ ^nil ]
+		]
+	].
+	^nil
+	
+]
+
 { #category : #accessing }
 MidasHistory >> now [
 	^super current key
