@@ -14,8 +14,17 @@ MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
 
 { #category : #history }
 MidasContextHistory >> addToHistory: anEntry [
-	history add: anEntry.
-	app updatePreviousNext 
+	history add: anEntry
+]
+
+{ #category : #history }
+MidasContextHistory >> current [
+	^history now
+]
+
+{ #category : #history }
+MidasContextHistory >> history [
+	^ history entries
 ]
 
 { #category : #history }
@@ -42,9 +51,9 @@ MidasContextHistory >> initialize [
 
 { #category : #history }
 MidasContextHistory >> next [
-	history hasNext
-		ifTrue: [ self strongFocusFromHistory: history next.
-			app updatePreviousNext ]
+	history hasNext ifFalse: [ ^ self ].
+	self strongFocusFromHistory: history next.
+	app updatePreviousNext
 ]
 
 { #category : #history }
@@ -56,14 +65,19 @@ MidasContextHistory >> nextInHistory: entry [
 { #category : #notifications }
 MidasContextHistory >> notifyStrongFocus: newFocus [
 	self addToHistory: newFocus.
-	app updatePreviousNext 
+	app refresh
 ]
 
 { #category : #history }
 MidasContextHistory >> prev [
-	history hasPrevious
-		ifTrue: [ self strongFocusFromHistory: history previous.
-			app updatePreviousNext ]
+	history hasPrevious ifFalse: [ ^ self ].
+	self strongFocusFromHistory: history previous.
+	app updatePreviousNext
+]
+
+{ #category : #notifications }
+MidasContextHistory >> selected: anHistoryentry [
+	self strongFocus: anHistoryentry key
 ]
 
 { #category : #history }
@@ -78,12 +92,21 @@ MidasContextHistory >> strongFocusFromHistory: newFocus [
 
 { #category : #history }
 MidasContextHistory >> summaryDescriptionFor: entry [
-	| stream |
+	| stream size |
 	stream := WriteStream on: String new.
+	size := 0.
 	entry key
 		do: [ :entity | 
-			stream nextPutAll: entity name.
-			stream cr
+			size := size + entity name size.
+			(size < 100)
+				ifTrue: [
+					stream nextPutAll: entity name.
+					stream cr
+				]
+			ifFalse: [
+				stream nextPutAll: '...'.
+				^ stream contents
+			]
 		 ].
-	^stream contractTo: 100	
+	^stream contents
 ]

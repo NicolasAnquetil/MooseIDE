@@ -14,16 +14,28 @@ TestHistoryApp >> setUp [
 ]
 
 { #category : #tests }
-TestHistoryApp >> testPreviousAndNext [
-	| cachedModelContent cachedAllClasses |
-	cachedModelContent := historyApp context strongFocus.
+TestHistoryApp >> testCurrentHighlighted [
+	self assert: historyApp view elements first color equals: Color red.
 	historyApp context strongFocus: self someClasses.
-	cachedAllClasses := historyApp context strongFocus.
-	self deny: cachedAllClasses equals: cachedModelContent.
+	self assert: historyApp view elements first color equals: Color veryLightGray.
+	self assert: historyApp view elements second color equals: Color red.
 	historyApp btnPrev performAction.
-	self assert: historyApp context strongFocus equals: cachedModelContent.
+	self assert: historyApp view elements first color equals: Color red.
+	self assert: historyApp view elements second color equals: Color veryLightGray.
+
+]
+
+{ #category : #tests }
+TestHistoryApp >> testPreviousAndNext [
+	| focusBefore focusAfter |
+	focusBefore := historyApp context strongFocus.
+	historyApp context strongFocus: self someClasses.
+	focusAfter := historyApp context strongFocus.
+	self deny: focusAfter equals: focusBefore.
+	historyApp btnPrev performAction.
+	self assert: historyApp context strongFocus equals: focusBefore.
 	historyApp btnNext performAction.
-	self assert: historyApp context strongFocus equals: cachedAllClasses
+	self assert: historyApp context strongFocus equals: focusAfter
 ]
 
 { #category : #tests }

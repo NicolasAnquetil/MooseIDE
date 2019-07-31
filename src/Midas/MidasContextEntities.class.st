@@ -102,7 +102,6 @@ MidasContextEntities >> selectedStrongFocus: aMidasEntity [
 	wasFrozen := frozen.
 	frozen := false.
 	self strongFocus: aMidasEntity selection.
-	self addToHistory: aMidasEntity selection.
 	frozen := wasFrozen
 ]
 

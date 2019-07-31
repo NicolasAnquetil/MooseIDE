@@ -38,7 +38,7 @@ MidasHistory >> next [
 { #category : #history }
 MidasHistory >> nextInHistory: entry [
 	1 to: storage size do: [ :i |
-		(storage at: i key == entry)
+		((storage at: i) key == entry)
 		ifTrue: [
 			(i < storage size)
 			ifTrue: [ ^storage at: (i+1) ]
