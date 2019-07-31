@@ -19,7 +19,7 @@ TestCtxtNavigate >> testAttributeProperties [
 	launcherCtxt strongFocus: self someAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 11
+		equals: 10
 ]
 
 { #category : #tests }
@@ -27,7 +27,7 @@ TestCtxtNavigate >> testClassProperties [
 	launcherCtxt strongFocus: self someClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 21
+		equals: 20
 ]
 
 { #category : #tests }
@@ -35,7 +35,7 @@ TestCtxtNavigate >> testHeterogeneousProperties [
 	launcherCtxt strongFocus: {self someMethods anyOne . self someClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 10 "properties for FAMIXContainerEntity"
+		equals: 9 "properties for FAMIXContainerEntity"
 ]
 
 { #category : #tests }
@@ -43,7 +43,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 	launcherCtxt strongFocus: self someMethods.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 23 "same as for a single method: #testMethodProperties"
+		equals: 22 "same as for a single method: #testMethodProperties"
 ]
 
 { #category : #tests }
@@ -51,7 +51,7 @@ TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt strongFocus: self someMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 23
+		equals: 22
 ]
 
 { #category : #tests }
@@ -66,7 +66,7 @@ TestCtxtNavigate >> testNamespaceProperties [
 	launcherCtxt strongFocus: self someNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 15
+		equals: 14
 ]
 
 { #category : #tests }
@@ -79,5 +79,5 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	navigateCtxt selected: selector.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 11
+		equals: 10
 ]

@@ -53,7 +53,7 @@ MidasContextHistory >> initialize [
 MidasContextHistory >> next [
 	history hasNext ifFalse: [ ^ self ].
 	self strongFocusFromHistory: history next.
-	app updatePreviousNext
+	app refresh
 ]
 
 { #category : #history }
@@ -72,7 +72,7 @@ MidasContextHistory >> notifyStrongFocus: newFocus [
 MidasContextHistory >> prev [
 	history hasPrevious ifFalse: [ ^ self ].
 	self strongFocusFromHistory: history previous.
-	app updatePreviousNext
+	app refresh
 ]
 
 { #category : #notifications }
@@ -84,9 +84,8 @@ MidasContextHistory >> selected: anHistoryentry [
 MidasContextHistory >> strongFocusFromHistory: newFocus [
 	| cachedFrozen |
 	cachedFrozen := frozen.
-	frozen := false.
+	frozen := true.
 	self strongFocus: newFocus.
-	self notifyStrongFocus: newFocus.
 	frozen := cachedFrozen
 ]
 

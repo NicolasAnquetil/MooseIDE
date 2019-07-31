@@ -14,6 +14,16 @@ TestHistoryApp >> setUp [
 ]
 
 { #category : #tests }
+TestHistoryApp >> testBack [
+	self assert: historyApp context history size equals: 1.
+	historyApp context strongFocus: self someClasses.
+	self assert: historyApp context history size equals: 2.
+	historyApp btnPrev performAction.
+	self assert: historyApp context history size equals: 2.
+
+]
+
+{ #category : #tests }
 TestHistoryApp >> testCurrentHighlighted [
 	self assert: historyApp view elements first color equals: Color red.
 	historyApp context strongFocus: self someClasses.
