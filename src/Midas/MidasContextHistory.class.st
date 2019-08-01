@@ -1,11 +1,22 @@
+"
+Context for AppHistory
+Stores all the entites resulting from user actionsHolder
+Allows to navigate the history
+"
 Class {
 	#name : #MidasContextHistory,
 	#superclass : #MidasChildContext,
 	#instVars : [
-		'history'
+		'history',
+		'paused'
 	],
 	#category : #'Midas-context'
 }
+
+{ #category : #notifications }
+MidasContextHistory >> acceptStrongFocusUpdate: newFocus [
+	^ paused
+]
 
 { #category : #notifications }
 MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
@@ -13,18 +24,37 @@ MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
 ]
 
 { #category : #history }
-MidasContextHistory >> addToHistory: anEntry [
-	history add: anEntry
+MidasContextHistory >> addToHistory: entities [
+	history addEntry: entities
 ]
 
 { #category : #history }
 MidasContextHistory >> current [
-	^history now
+	^history currentEntry
+]
+
+{ #category : #history }
+MidasContextHistory >> gotoEntry [
+	paused := true.
+	self strongFocus: history currentEntry value.
+	paused := false.
+	app refresh
+]
+
+{ #category : #history }
+MidasContextHistory >> gotoEntry: anHistoryEntry [
+	history currentEntry: anHistoryEntry.
+	paused := true.
+	self strongFocus: anHistoryEntry value.
+	paused := false.
+	app refresh
 ]
 
 { #category : #history }
 MidasContextHistory >> history [
-	^ history entries
+	history
+		ifNil: [ self initHistory ].
+	^history
 ]
 
 { #category : #history }
@@ -40,44 +70,39 @@ MidasContextHistory >> historyHasPrevious [
 { #category : #initialization }
 MidasContextHistory >> initHistory [ 
 	history := MidasHistory new.
-	history addEntry: self mooseModel
+	history addEntry: self strongFocus
 ]
 
 { #category : #initialization }
 MidasContextHistory >> initialize [
 	super initialize.
+	paused := false.
 	history := MidasHistory new.
 ]
 
 { #category : #history }
 MidasContextHistory >> next [
 	history hasNext ifFalse: [ ^ self ].
-	self strongFocusFromHistory: history next.
-	app refresh
-]
-
-{ #category : #history }
-MidasContextHistory >> nextInHistory: entry [
-	^history nextInHistory: entry
-
+	self gotoEntry: history nextEntry.
 ]
 
 { #category : #notifications }
 MidasContextHistory >> notifyStrongFocus: newFocus [
+	paused ifTrue: [ ^ self ].
 	self addToHistory: newFocus.
 	app refresh
 ]
 
 { #category : #history }
 MidasContextHistory >> prev [
-	history hasPrevious ifFalse: [ ^ self ].
-	self strongFocusFromHistory: history previous.
-	app refresh
+	history hasPrevious
+		ifFalse: [ ^ self ].
+	self gotoEntry: history previousEntry.
 ]
 
 { #category : #notifications }
-MidasContextHistory >> selected: anHistoryentry [
-	self strongFocus: anHistoryentry key
+MidasContextHistory >> selected: anHistoryEntry [
+	self gotoEntry: anHistoryEntry
 ]
 
 { #category : #history }
@@ -87,25 +112,4 @@ MidasContextHistory >> strongFocusFromHistory: newFocus [
 	frozen := true.
 	self strongFocus: newFocus.
 	frozen := cachedFrozen
-]
-
-{ #category : #history }
-MidasContextHistory >> summaryDescriptionFor: entry [
-	| stream size |
-	stream := WriteStream on: String new.
-	size := 0.
-	entry key
-		do: [ :entity | 
-			size := size + entity name size.
-			(size < 100)
-				ifTrue: [
-					stream nextPutAll: entity name.
-					stream cr
-				]
-			ifFalse: [
-				stream nextPutAll: '...'.
-				^ stream contents
-			]
-		 ].
-	^stream contents
 ]

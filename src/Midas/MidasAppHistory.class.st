@@ -36,26 +36,26 @@ MidasAppHistory >> btnPrev [
 { #category : #'as yet unclassified' }
 MidasAppHistory >> drawChainOfEvent [
 	| viewElts |
-	view canvas extent: self viewSize.
+	view canvas extent: self viewExtent.
 	view @ RTDraggableView.
 	view @ RTZoomableView.
 	viewElts := (RTEllipse new
-						extent: self entrySize ;
-						color: [ :el | (context current = el key) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ])
+						extent: self entryExtent ;
+						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ])
 						elementsOn: context history.
 	viewElts when: TRMouseClick do: [ :event | context selected: event element model ].
-	viewElts @ (RTPopup new text: [:e | context summaryDescriptionFor: e]) .
+	viewElts @ (RTPopup new text: [:e | e summaryDescription ]) .
 	view addAll: viewElts.
 	RTEdgeBuilder new
 		view: view;
 		elements: viewElts;
-		connectTo: [ :e | context nextInHistory: e ].
+		connectToAll: [ :e | e nextEntries ].
 	RTHorizontalTreeLayout new
 		on: viewElts.
 ]
 
 { #category : #accessing }
-MidasAppHistory >> entrySize [
+MidasAppHistory >> entryExtent [
 	^ 15 @ 15
 ]
 
@@ -102,6 +102,6 @@ MidasAppHistory >> view [
 ]
 
 { #category : #accessing }
-MidasAppHistory >> viewSize [
+MidasAppHistory >> viewExtent [
 	^ 150 @ 200
 ]
