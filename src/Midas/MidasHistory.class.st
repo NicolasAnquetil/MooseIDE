@@ -22,6 +22,22 @@ MidasHistory >> addEntry: entities [
 					ifFalse: [ current append: entities]
 ]
 
+{ #category : #'access options' }
+MidasHistory >> allEntries [
+	| list todo entry |
+	list := OrderedCollection new.
+	todo := OrderedCollection new.
+	todo add: self firstEntry.
+	[ todo isEmpty ]
+		whileFalse: [
+			entry := todo first.
+			todo remove: entry.
+			list add: entry.
+			todo addAll: entry nextEntries.
+		].
+	^list
+]
+
 { #category : #accessing }
 MidasHistory >> currentEntry [
 	^current
@@ -34,18 +50,7 @@ MidasHistory >> currentEntry: anHistoryEntry [
 
 { #category : #enumerating }
 MidasHistory >> do: aBlock [
-	| entry |
-	entry := self firstEntry.
-	[ entry isNil ]
-		whileFalse: [
-			aBlock value: entry.
-			entry := entry next
-		]
-]
-
-{ #category : #accessing }
-MidasHistory >> entries [
-	^entries
+	self allEntries do: aBlock
 ]
 
 { #category : #accessing }
@@ -99,8 +104,5 @@ MidasHistory >> previousEntry [
 
 { #category : #accessing }
 MidasHistory >> size [
-	| tally |
-	tally := 0.
-	self do: [:each | tally := tally + 1].
-	^ tally
+	^self allEntries size
 ]

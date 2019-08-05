@@ -28,6 +28,11 @@ MidasContextHistory >> addToHistory: entities [
 	history addEntry: entities
 ]
 
+{ #category : #accessing }
+MidasContextHistory >> allEntries [
+	^ history allEntries
+]
+
 { #category : #history }
 MidasContextHistory >> current [
 	^history currentEntry

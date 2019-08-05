@@ -33,7 +33,7 @@ MidasAppHistory >> btnPrev [
 	^ btnPrev
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #displaying }
 MidasAppHistory >> drawChainOfEvent [
 	| viewElts |
 	view canvas extent: self viewExtent.
@@ -84,7 +84,7 @@ MidasAppHistory >> initializeWidgets [
 			self drawChainOfEvent ]
 ]
 
-{ #category : #refreshing }
+{ #category : #displaying }
 MidasAppHistory >> refresh [
 	self updatePreviousNext.
 	roassal refresh
