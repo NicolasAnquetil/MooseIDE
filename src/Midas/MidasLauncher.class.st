@@ -41,7 +41,7 @@ MidasLauncher class >> iconTheme [
 
 { #category : #specs }
 MidasLauncher class >> openDefault [
-	<example>
+	<script>
 	^self openOnModel: MooseModel root allModels first
 ]
 
@@ -52,6 +52,7 @@ MidasLauncher class >> openOnModel: aMooseModel [
 
 { #category : #initialization }
 MidasLauncher class >> resetIconTheme [
+	<script>
 	iconTheme := nil
 ]
 

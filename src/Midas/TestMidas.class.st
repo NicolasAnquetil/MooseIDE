@@ -3821,6 +3821,11 @@ TestMidas class >> lanModel [
   (FAMIX.UnknownSourceLanguage (id: 9999)) )'
 ]
 
+{ #category : #accessing }
+TestMidas class >> resources [
+	^Array with: MidasTearDownTestsResource.
+]
+
 { #category : #models }
 TestMidas class >> simpleModel [
 	^ '( (FAMIX.Namespace (id: 1)
