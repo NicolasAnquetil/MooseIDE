@@ -68,20 +68,20 @@ HistoryEntry >> prev [
 { #category : #accessing }
 HistoryEntry >> summaryDescription [
 	| stream size |
+	value isCollection ifFalse: [ ^ value name ].
 	stream := WriteStream on: String new.
 	size := 0.
-	value
-		do: [ :entity | 
+	value do: [ :entity |
+			"all entries except the first start a new line"
+			size = 0 ifFalse: [ stream cr ].
+			"if summary too long, put elipsis, otherwise add the entity name"
 			size := size + entity name size.
 			(size < 100)
-				ifTrue: [
-					stream nextPutAll: entity name.
-					stream cr
+				ifTrue: [ stream nextPutAll: entity name ]
+				ifFalse: [
+					stream nextPutAll: '...'.
+					^ stream contents
 				]
-			ifFalse: [
-				stream nextPutAll: '...'.
-				^ stream contents
-			]
 		 ].
 	^stream contents
 ]

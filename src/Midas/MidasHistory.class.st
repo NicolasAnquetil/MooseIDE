@@ -22,7 +22,7 @@ MidasHistory >> addEntry: entities [
 					ifFalse: [ current append: entities]
 ]
 
-{ #category : #'access options' }
+{ #category : #accessing }
 MidasHistory >> allEntries [
 	| list todo entry |
 	list := OrderedCollection new.
