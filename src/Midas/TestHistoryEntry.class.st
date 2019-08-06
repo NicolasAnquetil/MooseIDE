@@ -17,16 +17,29 @@ TestHistoryEntry >> entity: anObject [
 TestHistoryEntry >> testDescription [
 	| entry |
 	entry := HistoryEntry with: {  self entity: 'first' . self entity: 'second' . self entity: 'third' }.
-	self assert: entry summaryDescription equals: 'first
+	self
+		assert: entry summaryDescription
+		equals: 'first
 second
 third'
 ]
 
 { #category : #tests }
+TestHistoryEntry >> testDescriptionMooseModel [
+	| model |
+	model := MooseModel new
+					name: 'test model' ;
+					yourself.
+	self
+		assert: (HistoryMooseModelEntry with: model) summaryDescription
+		equals: 'test model'
+]
+
+{ #category : #tests }
 TestHistoryEntry >> testDescriptionSingleEntity [
-	| entry |
-	entry := HistoryEntry with: (self entity: 'just me').
-	self assert: entry summaryDescription equals: 'just me'
+	self
+		assert: (HistoryEntry with: (self entity: 'just me')) summaryDescription
+		equals: 'just me'
 ]
 
 { #category : #tests }
@@ -43,4 +56,18 @@ even longer text
 and even longer yet
 the goal is to sum up more than 100 characters
 ...'
+]
+
+{ #category : #tests }
+TestHistoryEntry >> testNamed [
+	| entry |
+	entry := HistoryEntry with: (self entity: 'blah').
+	self
+		assert: entry entryName
+		equals: ''.
+	entry entryName: 'entryBlah'.
+	self
+		assert: entry entryName
+		equals: 'entryBlah'.
+
 ]

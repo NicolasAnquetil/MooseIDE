@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'parent',
 		'children',
-		'value'
+		'value',
+		'name'
 	],
 	#category : #'Midas-helpers'
 }
@@ -23,6 +24,16 @@ HistoryEntry >> append: anObject [
 	entry parentEntry: self.
 	children ifNil: [ children := OrderedCollection with: entry ] ifNotNil: [children add: entry].
 	^ entry
+]
+
+{ #category : #accessing }
+HistoryEntry >> entryName [
+	^name ifNil: [ '' ]
+]
+
+{ #category : #accessing }
+HistoryEntry >> entryName: aString [
+	name := aString
 ]
 
 { #category : #accessing }

@@ -20,7 +20,7 @@ MidasContextNavigate >> doesNotUnderstand: message [
 
 { #category : #accessing }
 MidasContextNavigate >> navigationProperties [
-	(self weakFocus = self mooseModel)
+	self weakFocusIsMooseModel
 		ifTrue: [ ^ self navigationPropertiesForModel: self weakFocus ].
 	self weakFocus isCollection
 		ifTrue: [ ^ self navigationPropertiesForCollection: self weakFocus ].
@@ -57,7 +57,7 @@ MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 MidasContextNavigate >> selected: anObject [
 	| focus |
 	focus := self weakFocus.
-	(focus = self mooseModel)
+	(self focusIsMooseModel: focus)
 		ifTrue: [ ^ self strongFocus: (focus perform: anObject methodSelector) ].
 	focus isCollection
 		ifTrue: [ ^ self strongFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].

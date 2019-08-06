@@ -22,6 +22,11 @@ MidasHistory >> addEntry: entities [
 					ifFalse: [ current append: entities]
 ]
 
+{ #category : #adding }
+MidasHistory >> addEntryModel: aMooseModel [
+	current := entries := HistoryMooseModelEntry with: aMooseModel
+]
+
 { #category : #accessing }
 MidasHistory >> allEntries [
 	| list todo entry |
@@ -46,6 +51,16 @@ MidasHistory >> currentEntry [
 { #category : #accessing }
 MidasHistory >> currentEntry: anHistoryEntry [
 	current := anHistoryEntry 
+]
+
+{ #category : #accessing }
+MidasHistory >> currentName [
+	^current entryName
+]
+
+{ #category : #accessing }
+MidasHistory >> currentName: aString [
+	current entryName: aString
 ]
 
 { #category : #enumerating }

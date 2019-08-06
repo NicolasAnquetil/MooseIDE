@@ -6,7 +6,10 @@ Class {
 	#superclass : #MidasAbstractAppWithRoassal,
 	#instVars : [
 		'btnPrev',
-		'btnNext'
+		'btnNext',
+		'lblName',
+		'fldName',
+		'btnName'
 	],
 	#category : #'Midas-apps'
 }
@@ -18,9 +21,20 @@ MidasAppHistory class >> defaultSpec [
 			(SpecBoxLayout newHorizontal
 				add: #btnPrev;
 				add: #btnNext)
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		withConstraints: [ :constraint | constraint height: self toolbarHeight ];
+		add:
+			(SpecBoxLayout newHorizontal
+				add: #lblName withConstraints: [ :constraint | constraint width: 40 ];
+				add: #fldName;
+				add: #btnName withConstraints: [ :constraint | constraint width: 60 ])
+		withConstraints: [ :constraint | constraint height: self buttonHeight ];
 		add: #roassal ;
 		yourself
+]
+
+{ #category : #accessing }
+MidasAppHistory >> btnName [
+	^btnName 
 ]
 
 { #category : #accessing }
@@ -35,20 +49,28 @@ MidasAppHistory >> btnPrev [
 
 { #category : #displaying }
 MidasAppHistory >> drawChainOfEvent [
-	| viewElts |
+	| viewElts shape |
 	view canvas extent: self viewExtent.
 	view @ RTDraggableView.
 	view @ RTZoomableView.
-	viewElts := (RTEllipse new
+	shape := RTCompositeShape new.
+	shape add: (RTLabel new text: #entryName).
+	shape add: (RTEllipse new
 						extent: self entryExtent ;
-						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ])
-						elementsOn: context history.
+						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ]).
+	shape vertical.
+	viewElts := shape elementsOn: context allEntries.
 	viewElts when: TRMouseClick do: [ :event | context selected: event element model ].
 	viewElts @ (RTPopup new text: [:e | e summaryDescription ]) .
 	view addAll: viewElts.
 	RTEdgeBuilder new
 		view: view;
 		elements: viewElts;
+		shape:
+			(RTArrowedLine new
+				attachPoint:
+					(RTShorterDistanceAttachPointAndCompositeShape new
+						composedShapeSelection: #second));
 		connectToAll: [ :e | e nextEntries ].
 	RTHorizontalTreeLayout new
 		on: viewElts.
@@ -57,6 +79,26 @@ MidasAppHistory >> drawChainOfEvent [
 { #category : #accessing }
 MidasAppHistory >> entryExtent [
 	^ 15 @ 15
+]
+
+{ #category : #accessing }
+MidasAppHistory >> fldName [
+	^fldName 
+]
+
+{ #category : #initialization }
+MidasAppHistory >> initializeNamingRow [
+	lblName := self newLabel
+		label: 'name:';
+		yourself.
+	fldName := self newTextInput
+		placeholder: 'Enter the log name...';
+		autoAccept: true;
+		acceptOnCR: true;
+		yourself.
+	btnName := self newButton
+		label: 'Name it';
+		yourself
 ]
 
 { #category : #initialization }
@@ -75,8 +117,18 @@ MidasAppHistory >> initializeNextPreviousButtons [
 ]
 
 { #category : #initialization }
+MidasAppHistory >> initializePresenter [
+	btnName action: [
+		context currentName: fldName text.
+		fldName text: ''.
+		self refresh
+	]
+]
+
+{ #category : #initialization }
 MidasAppHistory >> initializeWidgets [
 	self initializeNextPreviousButtons.
+	self initializeNamingRow.
 	roassal := self instantiate: RoassalModel.
 	roassal
 		script: [ :aView :canvas | 
@@ -94,6 +146,16 @@ MidasAppHistory >> refresh [
 MidasAppHistory >> updatePreviousNext [
 	btnPrev enabled: (context historyHasPrevious).
 	btnNext enabled: (context historyHasNext).
+]
+
+{ #category : #notifications }
+MidasAppHistory >> updateStrongFocus: focus [
+	"never called"
+]
+
+{ #category : #notifications }
+MidasAppHistory >> updateWeakFocus: focus [
+	"never called"
 ]
 
 { #category : #accessing }

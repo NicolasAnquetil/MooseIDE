@@ -64,13 +64,6 @@ MidasContextDashboard >> metric: id [
 ]
 
 { #category : #accessing }
-MidasContextDashboard >> mooseModelSummary [
-	^ {self mooseModel allModelNamespaces.
-	self mooseModel allModelClasses.
-	self mooseModel allModelMethods}
-]
-
-{ #category : #accessing }
 MidasContextDashboard >> subQuery: id [
 	^ subQueries at: id
 ]

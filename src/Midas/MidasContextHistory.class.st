@@ -25,7 +25,10 @@ MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
 
 { #category : #history }
 MidasContextHistory >> addToHistory: entities [
-	history addEntry: entities
+	(self focusIsMooseModel: entities)
+		ifTrue: [ history addEntryModel: entities ]
+		ifFalse: [ history addEntry: entities ]
+	
 ]
 
 { #category : #accessing }
@@ -36,6 +39,16 @@ MidasContextHistory >> allEntries [
 { #category : #history }
 MidasContextHistory >> current [
 	^history currentEntry
+]
+
+{ #category : #history }
+MidasContextHistory >> currentName [
+	^history currentName
+]
+
+{ #category : #history }
+MidasContextHistory >> currentName: aString [
+	history currentName: aString
 ]
 
 { #category : #history }
@@ -75,7 +88,7 @@ MidasContextHistory >> historyHasPrevious [
 { #category : #initialization }
 MidasContextHistory >> initHistory [ 
 	history := MidasHistory new.
-	history addEntry: self strongFocus
+	self addToHistory: self strongFocus
 ]
 
 { #category : #initialization }

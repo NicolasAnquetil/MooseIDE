@@ -19,7 +19,20 @@ TestCtxtNavigate >> testAttributeProperties [
 	launcherCtxt strongFocus: self someAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 10
+		equals: 11
+
+"expected navigatinProperties
+FAMIX.StructuralEntity.declaredType
+FAMIX.SourcedEntity.comments
+FAMIX.SourcedEntity.containerFiles
+FAMIX.NamedEntity.annotationInstances
+FAMIX.StructuralEntity.incomingAccesses
+FAMIX.SourcedEntity.declaredSourceLanguage
+FAMIX.Attribute.parentType
+FAMIX.NamedEntity.parentPackage
+FAMIX.StructuralEntity.dereferencedInvocations
+FAMIX.SourcedEntity.sourceAnchor
+FAMIX.NamedEntity.receivingInvocations"	
 ]
 
 { #category : #tests }
@@ -27,7 +40,7 @@ TestCtxtNavigate >> testClassProperties [
 	launcherCtxt strongFocus: self someClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 20
+		equals: 21
 ]
 
 { #category : #tests }
@@ -35,7 +48,19 @@ TestCtxtNavigate >> testHeterogeneousProperties [
 	launcherCtxt strongFocus: {self someMethods anyOne . self someClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 9 "properties for FAMIXContainerEntity"
+		equals: 10 "properties for FAMIXContainerEntity"
+		
+ "Expected properties:
+FAMIX.NamedEntity.parentPackage
+FAMIX.SourcedEntity.declaredSourceLanguage
+FAMIX.SourcedEntity.comments
+FAMIX.ContainerEntity.types
+FAMIX.SourcedEntity.sourceAnchor
+FAMIX.ContainerEntity.definedAnnotationTypes
+FAMIX.ContainerEntity.functions
+FAMIX.SourcedEntity.containerFiles
+FAMIX.NamedEntity.annotationInstances
+FAMIX.NamedEntity.receivingInvocations"
 ]
 
 { #category : #tests }
@@ -43,7 +68,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 	launcherCtxt strongFocus: self someMethods.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 22 "same as for a single method: #testMethodProperties"
+		equals: 23 "same as for a single method: #testMethodProperties"
 ]
 
 { #category : #tests }
@@ -51,7 +76,7 @@ TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt strongFocus: self someMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 22
+		equals: 23
 ]
 
 { #category : #tests }
@@ -66,7 +91,7 @@ TestCtxtNavigate >> testNamespaceProperties [
 	launcherCtxt strongFocus: self someNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 14
+		equals: 15
 ]
 
 { #category : #tests }
@@ -79,5 +104,5 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	navigateCtxt selected: selector.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 10
+		equals: 11
 ]

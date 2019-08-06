@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #running }
+TestHistoryApp >> colorForRoassalElement: anInteger [ 
+	^ (historyApp view elements at: anInteger) trachelShape allShapes second color
+]
+
+{ #category : #running }
 TestHistoryApp >> setUp [
 	super setUp.
 	historyApp := launcherApp launchHistoryApp
@@ -25,13 +30,22 @@ TestHistoryApp >> testBack [
 
 { #category : #tests }
 TestHistoryApp >> testCurrentHighlighted [
-	self assert: historyApp view elements first color equals: Color red.
+	self assert: (self colorForRoassalElement: 1) equals: Color red.
 	historyApp context strongFocus: self someClasses.
-	self assert: historyApp view elements first color equals: Color veryLightGray.
-	self assert: historyApp view elements second color equals: Color red.
+	self assert: (self colorForRoassalElement: 1) equals: Color veryLightGray.
+	self assert: (self colorForRoassalElement: 2) equals: Color red.
 	historyApp btnPrev performAction.
-	self assert: historyApp view elements first color equals: Color red.
-	self assert: historyApp view elements second color equals: Color veryLightGray.
+	self assert: (self colorForRoassalElement: 1) equals: Color red.
+	self assert: (self colorForRoassalElement: 2) equals: Color veryLightGray.
+
+]
+
+{ #category : #tests }
+TestHistoryApp >> testEntryName [
+	self assert: historyApp context currentName equals: ''.
+	historyApp fldName text: 'blah'.
+	historyApp btnName performAction.
+	self assert: historyApp context currentName equals: 'blah'.
 
 ]
 

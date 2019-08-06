@@ -24,6 +24,7 @@ MidasContextEntities >> classScope [
 	| actuel |
 	actuel := self strongFocus.
 	actuel ifEmpty: [ ^ nil ].
+	"hack to know whether we should go up (from methods -> atScope) or down (-> toScope)"
 	actuel anyOne isMethod
 		ifTrue: [ self strongFocus: (self atScope: 'FAMIXClass') ]
 		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ].
@@ -42,11 +43,11 @@ MidasContextEntities >> formatNewModel: mooseModel [
 
 { #category : #notifications }
 MidasContextEntities >> formatNewStrongFocus: focus [
-	(focus = self mooseModel)
-		ifTrue: [ ^ {MidasEntityTransparent with: focus} ].
-	focus isCollection 
-		ifTrue: [ ^ focus collect: [ :each | MidasEntityTransparent with: each] ].
-	^ {MidasEntityTransparent with: focus}
+	(self focusIsMooseModel: focus)
+		ifTrue: [ ^ {(MidasEntityTransparent with: focus)} ].
+	focus isCollection
+		ifTrue: [ ^ focus collect: [ :each | MidasEntityTransparent with: each ] ].
+	^ {(MidasEntityTransparent with: focus)}
 ]
 
 { #category : #initialization }

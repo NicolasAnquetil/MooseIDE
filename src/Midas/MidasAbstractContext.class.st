@@ -27,6 +27,16 @@ MidasAbstractContext >> app: anApp [
 	self notifyStrongFocus: self strongFocus
 ]
 
+{ #category : #testing }
+MidasAbstractContext >> focusIsMooseModel [
+	^ self focusIsMooseModel: self strongFocus
+]
+
+{ #category : #testing }
+MidasAbstractContext >> focusIsMooseModel: focus [
+	^ focus = self mooseModel
+]
+
 { #category : #accessing }
 MidasAbstractContext >> modelName [
 	^self mooseModel ifNil: [ '--' ] ifNotNil: [ :model | model name ]
@@ -70,4 +80,9 @@ MidasAbstractContext >> weakFocus [
 { #category : #accessing }
 MidasAbstractContext >> weakFocus: newFocus [
 	self subclassResponsibility
+]
+
+{ #category : #testing }
+MidasAbstractContext >> weakFocusIsMooseModel [
+	^ self focusIsMooseModel: self weakFocus
 ]
