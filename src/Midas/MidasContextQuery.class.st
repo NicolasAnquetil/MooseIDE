@@ -9,11 +9,6 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #notifications }
-MidasContextQuery >> acceptHistoryUpdate: newFocus [
-	^ true
-]
-
 { #category : #history }
 MidasContextQuery >> addToHistory: anEntry [
 	history add: anEntry.
@@ -40,7 +35,7 @@ MidasContextQuery >> classScope [
 { #category : #accessing }
 MidasContextQuery >> flattenResult [
 	resultsWithParents := false.
-	"self notifyStrongFocus: nil"
+	 self notifyStrongFocus: nil
 ]
 
 { #category : #notifications }
@@ -144,6 +139,7 @@ MidasContextQuery >> selectedStrongFocus: aMidasEntity [
 	wasFrozen := frozen.
 	frozen := false.
 	self strongFocus: aMidasEntity selection.
+	self addToHistory: aMidasEntity selection.
 	frozen := wasFrozen
 ]
 
@@ -181,5 +177,5 @@ MidasContextQuery >> toScope: aSymbol [
 { #category : #accessing }
 MidasContextQuery >> trackAssociation [
 	resultsWithParents := true.
-"	self notifyStrongFocus: nil"
+	self notifyStrongFocus: nil
 ]

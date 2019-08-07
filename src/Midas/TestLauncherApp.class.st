@@ -73,46 +73,12 @@ TestLauncherApp >> testCloseQuery [
 ]
 
 { #category : #tests }
-TestLauncherApp >> testQueryIsOnlyOpenedOnce [
-	self assert: launcherApp context children size equals: 0.
-	launcherApp launchQueryApp.
-	launcherApp launchQueryApp.
-	self assert: launcherApp context children size equals: 1
-]
-
-{ #category : #tests }
-TestLauncherApp >> testUpdateModel [
-	self
-		assert: launcherApp lblModelName label
-		equals: 'Current model: First-lanModel'.
-	launcherApp context mooseModel: models second.
-	self
-		assert: launcherApp lblModelName label
-		equals: 'Current model: Second-simpleModel'
-]
-
-{ #category : #tests }
 TestLauncherApp >> testWindowTitle [
 	self
 		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''First-lanModel'''.
+		equals: 'MIDAS Launcher: First-lanModel'.
 	launcherApp context mooseModel: models second.
 	self
 		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''Second-simpleModel'''
-]
-
-{ #category : #tests }
-TestLauncherApp >> testWindowTitleWithEditor [
-	self
-		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''First-lanModel'''.
-	launcherApp launchDashboardApp.
-	self
-		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''First-lanModel'''.
-	launcherApp launchEditorApp.
-	self
-		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''First-lanModel'''
+		equals: 'MIDAS Launcher: Second-simpleModel'.
 ]

@@ -20,6 +20,20 @@ TestEditorApp >> setUp [
 ]
 
 { #category : #tests }
+TestEditorApp >> testModelUpdate [ 
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''First-lanModel'''.
+	launcherApp context mooseModel: models second.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''Second-simpleModel'''.
+	self
+		assert: editorApp code text
+		equals: editorApp modelHasNoSource
+]
+
+{ #category : #tests }
 TestEditorApp >> testStrongFocusUpdateNoSource [
 	editorApp context strongFocus: models first allModelClasses.
 	self
@@ -65,16 +79,4 @@ TestEditorApp >> testWeakFocusUpdateWithSource [
 	self
 		assert: editorApp code text
 		equals: 'The source code of this method'.
-]
-
-{ #category : #tests }
-TestEditorApp >> testWindowTitle [ 
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''First-lanModel'''.
-	launcherApp context mooseModel: models second.
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''Second-simpleModel'''.
-	self assert: editorApp code text equals: editorApp modelHasNoSource
 ]

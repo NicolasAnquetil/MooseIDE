@@ -50,9 +50,7 @@ TestModelsApp >> testUpdateModelInDashboard [
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self
-		assert: launcherApp window title
-		equals: 'MIDAS Launcher: ''Second-simpleModel'''
+	self assert: launcherApp window title  equals: 'MIDAS Launcher: Second-simpleModel'.
 ]
 
 { #category : #tests }

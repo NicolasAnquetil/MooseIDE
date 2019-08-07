@@ -70,11 +70,6 @@ MidasContextDashboard >> mooseModelSummary [
 	self mooseModel allModelMethods}
 ]
 
-{ #category : #notifications }
-MidasContextDashboard >> selectedStrongFocus: newFocus [
-	self strongFocus: newFocus.
-]
-
 { #category : #accessing }
 MidasContextDashboard >> subQuery: id [
 	^ subQueries at: id

@@ -20,14 +20,6 @@ TestQueryApp >> setUp [
 ]
 
 { #category : #tests }
-TestQueryApp >> testDisplayListEntities [
-	self
-		assert: (queryApp lstEntities items collect: [ :each | each selection ])
-		equals:
-			((queryApp context formatNewStrongFocus: queryApp strongFocus) collect: [ :each | each selection ])
-]
-
-{ #category : #tests }
 TestQueryApp >> testFilterQuery [
 	queryApp mnuSelcol selectedIndex: 1.	"select #filter"
 	queryApp fldQuery text: 'each name = ''Node'''.
@@ -52,20 +44,6 @@ TestQueryApp >> testFreezeContentIsSelected [
 	queryApp freeze state: true.
 	queryApp context mooseModel: models second.
 	self assert: queryApp lstEntities items equals: cachedItems
-]
-
-{ #category : #tests }
-TestQueryApp >> testNavigateQuery [
-	queryApp lstEntities doubleClickAtIndex: 1.	"All allClasses"
-	queryApp mnuSelcol selectedIndex: 2.	"select #navigate"
-	queryApp fldQuery text: 'each queryIncoming: FAMIXInheritance'.
-	queryApp btnQuery performAction.
-	self assert: queryApp lstEntities items size equals: 2.
-	queryApp lstEntities items
-		do: [ :item | 
-			self assert: item selection superclass name = 'Node'.
-			self
-				assert: ({'Printer' . 'Workstation'} includes: item selection subclass name) ]
 ]
 
 { #category : #tests }
@@ -97,8 +75,7 @@ TestQueryApp >> testPreviousAndNextButtonsDisplay [
 
 { #category : #tests }
 TestQueryApp >> testSelectClasses [
-	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
-
+	queryApp lstEntities doubleClickAtIndex: 3.   "All model packages"
 	queryApp btnClassScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 6.
 	queryApp lstEntities items
@@ -107,7 +84,7 @@ TestQueryApp >> testSelectClasses [
 
 { #category : #tests }
 TestQueryApp >> testSelectMethods [
-	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
+	queryApp lstEntities doubleClickAtIndex: 1.   "All model classes"
 	queryApp btnMethodScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 58.
 	queryApp lstEntities items
@@ -116,7 +93,7 @@ TestQueryApp >> testSelectMethods [
 
 { #category : #tests }
 TestQueryApp >> testSelectPackage [
-	queryApp lstEntities doubleClickAtIndex: 3.	"All model classes"
+	queryApp lstEntities doubleClickAtIndex: 3.   "All model classes"
 	queryApp btnPackageScope performMenuActionWith: self.
 	self assert: queryApp lstEntities items size equals: 1.
 	self
