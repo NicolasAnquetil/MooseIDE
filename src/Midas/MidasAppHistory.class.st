@@ -58,6 +58,7 @@ MidasAppHistory >> drawChainOfEvent [
 	shape add: (RTEllipse new
 						extent: self entryExtent ;
 						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ]).
+	shape add: (RTLabel new text: '').  "empty text below RTEllipse to turn around a bug in edge building"
 	shape vertical.
 	viewElts := shape elementsOn: context allEntries.
 	viewElts when: TRMouseClick do: [ :event | context selected: event element model ].
@@ -66,11 +67,6 @@ MidasAppHistory >> drawChainOfEvent [
 	RTEdgeBuilder new
 		view: view;
 		elements: viewElts;
-		shape:
-			(RTArrowedLine new
-				attachPoint:
-					(RTShorterDistanceAttachPointAndCompositeShape new
-						composedShapeSelection: #second));
 		connectToAll: [ :e | e nextEntries ].
 	RTHorizontalTreeLayout new
 		on: viewElts.
