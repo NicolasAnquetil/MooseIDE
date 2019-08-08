@@ -44,7 +44,20 @@ RunButton class >> script: aBlock [
 
 { #category : #accessing }
 RunButton >> balloonText [
-	^ self script asString
+	^ scripts 
+		ifEmpty: [ self noScriptMessage ]
+		ifNotEmpty: [ self script asString]
+]
+
+{ #category : #initialization }
+RunButton >> defaultScript [
+		^ [ UIManager default inform: self noScriptMessage ]
+]
+
+{ #category : #drawing }
+RunButton >> doScript: anInteger [
+	current := anInteger.
+	self runCurrentScript
 ]
 
 { #category : #drawing }
@@ -58,7 +71,6 @@ RunButton >> initialize [
 	current := 0.
 	scripts := OrderedCollection new.
 	self
-		script: [ UIManager default inform: 'Set a script to run with:', String cr , self class name asString , ' script: <a-block-without-parameter>' ] ;
 		extent: 75 @ 75;
 		color: Color green
 ]
@@ -66,17 +78,48 @@ RunButton >> initialize [
 { #category : #drawing }
 RunButton >> mouseDown: anEvent [
 	anEvent whichButton = 4 "left/primary button"
-		ifTrue: [self script value].
-     
+		ifTrue: [^ self script value].
+    anEvent whichButton = 2 "right button"
+		ifTrue: [ self scriptMenu ].
+
+]
+
+{ #category : #accessing }
+RunButton >> noScriptMessage [
+			^ 'Set a script to run with:', String cr , '`' , self class name asString , ' script: [...]'''
+]
+
+{ #category : #drawing }
+RunButton >> runCurrentScript [
+	self script value
 ]
 
 { #category : #accessing }
 RunButton >> script [
-	^scripts at: current
+	^ scripts 
+		ifEmpty: [ self defaultScript ]
+		ifNotEmpty: [ scripts at: current]
 ]
 
 { #category : #accessing }
 RunButton >> script: aBlock [
 	scripts add: aBlock.
 	current := current+1
+]
+
+{ #category : #drawing }
+RunButton >> scriptMenu [
+	| menu i |
+	menu := MenuMorph new.
+	menu defaultTarget: self.
+	"menu add: 'Add script' selector: #getNewScript."
+	menu add: 'Delete' selector: #delete.
+	menu addLine.
+	i := 1.
+	scripts do: [ :sc |
+		menu add: sc asString selector: #doScript: argument: i.
+		i := i + 1
+	].
+	menu invokeModal.
+
 ]
