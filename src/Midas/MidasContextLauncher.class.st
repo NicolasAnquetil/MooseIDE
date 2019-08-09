@@ -65,6 +65,11 @@ MidasContextLauncher >> midasFocus: newFocus [
 ]
 
 { #category : #accessing }
+MidasContextLauncher >> midasFocusIsModel [
+	^ mooseModel = strongFocus
+]
+
+{ #category : #accessing }
 MidasContextLauncher >> mooseModel [
 	^ mooseModel
 ]
@@ -109,9 +114,4 @@ MidasContextLauncher >> spawn: aContextClass [
 	^aContextClass new
 		parentContext: self ;
 		yourself
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> strongFocusIsModel [
-	^ mooseModel = strongFocus
 ]

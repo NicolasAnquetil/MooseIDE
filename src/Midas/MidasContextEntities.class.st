@@ -37,17 +37,17 @@ MidasContextEntities >> flattenResult [
 ]
 
 { #category : #notifications }
-MidasContextEntities >> formatNewModel: mooseModel [
-	^ 	{MidasEntityTransparent with: mooseModel}
-]
-
-{ #category : #notifications }
-MidasContextEntities >> formatNewStrongFocus: focus [
+MidasContextEntities >> formatMidasFocus: focus [
 	(self focusIsMooseModel: focus)
 		ifTrue: [ ^ {(MidasEntityTransparent with: focus)} ].
 	focus isCollection
 		ifTrue: [ ^ focus collect: [ :each | MidasEntityTransparent with: each ] ].
 	^ {(MidasEntityTransparent with: focus)}
+]
+
+{ #category : #notifications }
+MidasContextEntities >> formatNewModel: mooseModel [
+	^ 	{MidasEntityTransparent with: mooseModel}
 ]
 
 { #category : #initialization }
@@ -98,7 +98,7 @@ MidasContextEntities >> runSelectQuery: aBloc [
 ]
 
 { #category : #notifications }
-MidasContextEntities >> selectedStrongFocus: aMidasEntity [
+MidasContextEntities >> selectedFocus: aMidasEntity [
 	| wasFrozen |
 	wasFrozen := frozen.
 	frozen := false.

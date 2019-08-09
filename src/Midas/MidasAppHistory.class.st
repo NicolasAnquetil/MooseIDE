@@ -139,14 +139,14 @@ MidasAppHistory >> refresh [
 ]
 
 { #category : #notifications }
-MidasAppHistory >> updatePreviousNext [
-	btnPrev enabled: (context historyHasPrevious).
-	btnNext enabled: (context historyHasNext).
+MidasAppHistory >> updateMidasFocus: focus [
+	"never called"
 ]
 
 { #category : #notifications }
-MidasAppHistory >> updateStrongFocus: focus [
-	"never called"
+MidasAppHistory >> updatePreviousNext [
+	btnPrev enabled: (context historyHasPrevious).
+	btnNext enabled: (context historyHasNext).
 ]
 
 { #category : #accessing }

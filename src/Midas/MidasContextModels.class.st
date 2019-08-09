@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextModels >> acceptStrongFocusUpdate: newFocus [
+MidasContextModels >> acceptMidasFocusUpdate: newFocus [
 	^ false
 ]
 

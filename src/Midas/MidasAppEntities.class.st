@@ -100,7 +100,7 @@ MidasAppEntities >> initializePresenter [
 			[ :item | context selectedWeakFocus: item ]
 				cull: selection selectedItem ];
 		doubleClickAction:
-				[ :item | context selectedStrongFocus: lstEntities selection selectedItem ].
+				[ :item | context selectedFocus: lstEntities selection selectedItem ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
@@ -213,7 +213,7 @@ MidasAppEntities >> title [
 ]
 
 { #category : #notifications }
-MidasAppEntities >> updateStrongFocus: focus [
+MidasAppEntities >> updateMidasFocus: focus [
 	"need to deal with  'WeakFocus': select focused item"
 	lstEntities items: focus.
 ]

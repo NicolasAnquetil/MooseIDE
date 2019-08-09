@@ -15,12 +15,12 @@ Class {
 }
 
 { #category : #notifications }
-MidasChildContext >> acceptModelUpdate: newModel [
+MidasChildContext >> acceptMidasFocusUpdate: newFocus [
 	^ true
 ]
 
 { #category : #notifications }
-MidasChildContext >> acceptStrongFocusUpdate: newFocus [
+MidasChildContext >> acceptModelUpdate: newModel [
 	^ true
 ]
 
@@ -32,13 +32,13 @@ MidasChildContext >> exit [
 ]
 
 { #category : #notifications }
-MidasChildContext >> formatNewModel: newMooseModel [
-	^ newMooseModel
+MidasChildContext >> formatMidasFocus: focus [
+	^focus
 ]
 
 { #category : #notifications }
-MidasChildContext >> formatNewStrongFocus: newFocus [
-	^newFocus 
+MidasChildContext >> formatNewModel: newMooseModel [
+	^ newMooseModel
 ]
 
 { #category : #accessing }
@@ -67,6 +67,11 @@ MidasChildContext >> midasFocus: focus [
 ]
 
 { #category : #accessing }
+MidasChildContext >> midasFocusIsModel [
+	^ parentContext midasFocusIsModel
+]
+
+{ #category : #accessing }
 MidasChildContext >> mooseModel [
 	^ parentContext mooseModel
 ]
@@ -80,8 +85,8 @@ MidasChildContext >> mooseModel: aMooseModel [
 MidasChildContext >> notifyMidasFocus: newFocus [
 	frozen
 		ifTrue: [ ^ self ].
-	(self acceptStrongFocusUpdate: newFocus)
-		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
+	(self acceptMidasFocusUpdate: newFocus)
+		ifTrue: [ app updateMidasFocus: (self formatMidasFocus: newFocus) ]
 ]
 
 { #category : #notifications }
@@ -103,11 +108,6 @@ MidasChildContext >> parentContext: aContext [
 		ifTrue: [ ^ self ].
 	parentContext := aContext.
 	aContext addChild: self
-]
-
-{ #category : #accessing }
-MidasChildContext >> strongFocusIsModel [
-	^ parentContext strongFocusIsModel
 ]
 
 { #category : #accessing }

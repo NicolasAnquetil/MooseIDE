@@ -69,11 +69,11 @@ MidasAppTag >> title [
 ]
 
 { #category : #notifications }
-MidasAppTag >> updateModel: aMooseModel [
-	self shouldNotImplement
+MidasAppTag >> updateMidasFocus: newFocus [
+	entities items: newFocus
 ]
 
 { #category : #notifications }
-MidasAppTag >> updateStrongFocus: newFocus [
-	entities items: newFocus
+MidasAppTag >> updateModel: aMooseModel [
+	self shouldNotImplement
 ]

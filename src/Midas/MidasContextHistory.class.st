@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextHistory >> acceptStrongFocusUpdate: newFocus [
+MidasContextHistory >> acceptMidasFocusUpdate: newFocus [
 	^ paused
 ]
 
@@ -116,13 +116,4 @@ MidasContextHistory >> prev [
 { #category : #notifications }
 MidasContextHistory >> selected: anHistoryEntry [
 	self gotoEntry: anHistoryEntry
-]
-
-{ #category : #history }
-MidasContextHistory >> strongFocusFromHistory: newFocus [
-	| cachedFrozen |
-	cachedFrozen := frozen.
-	frozen := true.
-	self midasFocus: newFocus.
-	frozen := cachedFrozen
 ]

@@ -12,8 +12,8 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
-	^ self strongFocusIsModel
+MidasContextDashboard >> acceptMidasFocusUpdate: newFocus [
+	^ self midasFocusIsModel
 ]
 
 { #category : #accessing }
@@ -26,8 +26,8 @@ MidasContextDashboard >> focusedEntities [
 ]
 
 { #category : #accessing }
-MidasContextDashboard >> formatNewStrongFocus: newFocus [
-	^ self strongFocusIsModel
+MidasContextDashboard >> formatMidasFocus: newFocus [
+	^ self midasFocusIsModel
 		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ newFocus ]
 ]

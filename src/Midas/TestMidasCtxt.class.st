@@ -12,7 +12,7 @@ TestMidasCtxt >> mockEmptyApp [
 	| mockApp |
 	mockApp := Mock new.
 	mockApp stub updateModel: nil.
-	mockApp stub updateStrongFocus: nil.
+	mockApp stub updateMidasFocus: nil.
 	^ mockApp
 
 ]

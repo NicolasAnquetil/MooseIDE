@@ -204,12 +204,12 @@ MidasLauncher >> title [
 ]
 
 { #category : #notifications }
-MidasLauncher >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	lblModelName label: 'Current model: ''' , context modelName , ''''
+MidasLauncher >> updateMidasFocus: newFocus [
+	self shouldNotImplement 
 ]
 
 { #category : #notifications }
-MidasLauncher >> updateStrongFocus: newFocus [
-	self shouldNotImplement 
+MidasLauncher >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
+	lblModelName label: 'Current model: ''' , context modelName , ''''
 ]

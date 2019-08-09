@@ -38,15 +38,15 @@ MidasAppSystemComplexity >> title [
 ]
 
 { #category : #notifications }
-MidasAppSystemComplexity >> updateModel: aMooseModel [
-	self shouldNotImplement
-]
-
-{ #category : #notifications }
-MidasAppSystemComplexity >> updateStrongFocus: newFocus [
+MidasAppSystemComplexity >> updateMidasFocus: newFocus [
 	visualizer highlight: nil.
 	visualizer selected: newFocus.
 	visualizer refresh
+]
+
+{ #category : #notifications }
+MidasAppSystemComplexity >> updateModel: aMooseModel [
+	self shouldNotImplement
 ]
 
 { #category : #accessing }

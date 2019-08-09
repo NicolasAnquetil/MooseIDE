@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #notifications }
-MidasContextSystemComplexity >> acceptStrongFocusUpdate: newFocus [
+MidasContextSystemComplexity >> acceptMidasFocusUpdate: newFocus [
 	^ newFocus isCollection
 ]
 
 { #category : #notifications }
-MidasContextSystemComplexity >> formatNewStrongFocus: newFocus [
-	^self strongFocusIsModel
+MidasContextSystemComplexity >> formatMidasFocus: newFocus [
+	^self midasFocusIsModel
 		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ newFocus ]
 ]

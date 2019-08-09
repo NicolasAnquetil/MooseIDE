@@ -53,12 +53,12 @@ MidasAppNavigate >> title [
 ]
 
 { #category : #notifications }
-MidasAppNavigate >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
+MidasAppNavigate >> updateMidasFocus: focus [
 	self refresh
 ]
 
 { #category : #notifications }
-MidasAppNavigate >> updateStrongFocus: focus [
+MidasAppNavigate >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
 	self refresh
 ]

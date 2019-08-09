@@ -62,13 +62,13 @@ MidasAppDashboard >> title [
 ]
 
 { #category : #notifications }
-MidasAppDashboard >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	self updateStrongFocus: aMooseModel allModelClasses.
-		
+MidasAppDashboard >> updateMidasFocus: newFocus [
+	dashboard updateView
 ]
 
 { #category : #notifications }
-MidasAppDashboard >> updateStrongFocus: newFocus [
-	dashboard updateView
+MidasAppDashboard >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
+	self updateMidasFocus: aMooseModel allModelClasses.
+		
 ]

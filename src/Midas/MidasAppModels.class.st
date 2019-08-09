@@ -91,13 +91,13 @@ MidasAppModels >> title [
 ]
 
 { #category : #notifications }
+MidasAppModels >> updateMidasFocus: focus [
+	self shouldNotImplement 
+]
+
+{ #category : #notifications }
 MidasAppModels >> updateModel: newModel [
 	lstModels items: context allModels.
 	lstModels selectItem: newModel
 	
-]
-
-{ #category : #notifications }
-MidasAppModels >> updateStrongFocus: focus [
-	self shouldNotImplement 
 ]

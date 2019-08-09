@@ -20,6 +20,30 @@ TestEditorApp >> setUp [
 ]
 
 { #category : #tests }
+TestEditorApp >> testFocusUpdateNoSource [
+	editorApp context midasFocus: self someClasses.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''All model classes'''.
+	self
+		assert: editorApp code text
+		equals: editorApp entityHasNoSource.
+]
+
+{ #category : #tests }
+TestEditorApp >> testFocusUpdateWithSource [
+	| method |
+	method := self someMethods detect: [:m | m sourceText isNotNil ].
+	editorApp context midasFocus: method.
+	self
+		assert: editorApp window title
+		equals: 'MIDAS Source: ''', method name , ''''.
+	self
+		assert: editorApp code text
+		equals: 'The source code of this method'.
+]
+
+{ #category : #tests }
 TestEditorApp >> testModelUpdate [
 	self
 		assert: editorApp window title
@@ -31,28 +55,4 @@ TestEditorApp >> testModelUpdate [
 	self
 		assert: editorApp code text
 		equals: editorApp modelHasNoSource
-]
-
-{ #category : #tests }
-TestEditorApp >> testStrongFocusUpdateNoSource [
-	editorApp context midasFocus: self someClasses.
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''All model classes'''.
-	self
-		assert: editorApp code text
-		equals: editorApp entityHasNoSource.
-]
-
-{ #category : #tests }
-TestEditorApp >> testStrongFocusUpdateWithSource [
-	| method |
-	method := self someMethods detect: [:m | m sourceText isNotNil ].
-	editorApp context midasFocus: method.
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''', method name , ''''.
-	self
-		assert: editorApp code text
-		equals: 'The source code of this method'.
 ]

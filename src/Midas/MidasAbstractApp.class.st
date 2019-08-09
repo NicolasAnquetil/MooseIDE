@@ -74,13 +74,13 @@ MidasAbstractApp >> mooseModel [
 ]
 
 { #category : #notifications }
-MidasAbstractApp >> updateModel: aMooseModel [
-	self updateTitle.
+MidasAbstractApp >> updateMidasFocus: focus [
+	self subclassResponsibility
 ]
 
 { #category : #notifications }
-MidasAbstractApp >> updateStrongFocus: focus [
-	self subclassResponsibility
+MidasAbstractApp >> updateModel: aMooseModel [
+	self updateTitle.
 ]
 
 { #category : #api }

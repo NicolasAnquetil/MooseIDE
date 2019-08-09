@@ -51,13 +51,7 @@ MidasAppEditor >> title [
 ]
 
 { #category : #notifications }
-MidasAppEditor >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	code text: self modelHasNoSource
-]
-
-{ #category : #notifications }
-MidasAppEditor >> updateStrongFocus: newFocus [
+MidasAppEditor >> updateMidasFocus: newFocus [
 	self updateTitle.
 	self flag: 'should test that the class or superclasses use FamixTWithSourceAnchor'.
 	code text:
@@ -67,4 +61,10 @@ MidasAppEditor >> updateStrongFocus: newFocus [
 				newFocus sourceText
 					ifNil: [ self entityHasEmptySource ]
 					ifNotNil: #yourself])
+]
+
+{ #category : #notifications }
+MidasAppEditor >> updateModel: aMooseModel [
+	super updateModel: aMooseModel.
+	code text: self modelHasNoSource
 ]
