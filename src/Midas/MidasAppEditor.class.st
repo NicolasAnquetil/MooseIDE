@@ -47,7 +47,7 @@ MidasAppEditor >> modelHasNoSource [
 
 { #category : #api }
 MidasAppEditor >> title [
-	^ 'MIDAS Source: ''' , context weakFocus name , ''''
+	^ 'MIDAS Source: ''' , context strongFocus name , ''''
 ]
 
 { #category : #notifications }

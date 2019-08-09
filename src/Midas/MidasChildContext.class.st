@@ -114,13 +114,3 @@ MidasChildContext >> strongFocusIsModel [
 MidasChildContext >> unfreeze [
 	frozen := false.
 ]
-
-{ #category : #accessing }
-MidasChildContext >> weakFocus [
-	^parentContext weakFocus
-]
-
-{ #category : #accessing }
-MidasChildContext >> weakFocus: focus [
-	parentContext weakFocus: focus
-]

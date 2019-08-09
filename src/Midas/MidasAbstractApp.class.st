@@ -87,8 +87,3 @@ MidasAbstractApp >> updateStrongFocus: focus [
 MidasAbstractApp >> updateTitle [.
 	self window title: self title.
 ]
-
-{ #category : #accessing }
-MidasAbstractApp >> weakFocus [
-	^ context weakFocus
-]

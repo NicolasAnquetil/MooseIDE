@@ -16,11 +16,6 @@ MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
 	^ self strongFocusIsModel
 ]
 
-{ #category : #notifications }
-MidasContextDashboard >> acceptWeakFocusUpdate: newFocus [
-	^ false
-]
-
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities [
 	"for compatibility with MVSMainPresenter"

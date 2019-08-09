@@ -115,16 +115,3 @@ MidasContextLauncher >> strongFocus: newFocus [
 MidasContextLauncher >> strongFocusIsModel [
 	^ mooseModel = strongFocus
 ]
-
-{ #category : #accessing }
-MidasContextLauncher >> weakFocus [
-	^weakFocus
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> weakFocus: newFocus [
-	weakFocus = newFocus
-		ifTrue: [ ^self ].
-	weakFocus := newFocus.
-	self notifyWeakFocus: newFocus
-]
