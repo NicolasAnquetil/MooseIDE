@@ -49,7 +49,7 @@ MidasContextHistory >> currentName: aString [
 { #category : #history }
 MidasContextHistory >> gotoEntry [
 	paused := true.
-	self strongFocus: history currentEntry value.
+	self midasFocus: history currentEntry value.
 	paused := false.
 	app refresh
 ]
@@ -58,7 +58,7 @@ MidasContextHistory >> gotoEntry [
 MidasContextHistory >> gotoEntry: anHistoryEntry [
 	history currentEntry: anHistoryEntry.
 	paused := true.
-	self strongFocus: anHistoryEntry value.
+	self midasFocus: anHistoryEntry value.
 	paused := false.
 	app refresh
 ]
@@ -83,7 +83,7 @@ MidasContextHistory >> historyHasPrevious [
 { #category : #initialization }
 MidasContextHistory >> initHistory [ 
 	history := MidasHistory new.
-	self addToHistory: self strongFocus
+	self addToHistory: self midasFocus
 ]
 
 { #category : #initialization }
@@ -123,6 +123,6 @@ MidasContextHistory >> strongFocusFromHistory: newFocus [
 	| cachedFrozen |
 	cachedFrozen := frozen.
 	frozen := true.
-	self strongFocus: newFocus.
+	self midasFocus: newFocus.
 	frozen := cachedFrozen
 ]

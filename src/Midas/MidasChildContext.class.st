@@ -57,6 +57,16 @@ MidasChildContext >> initialize [
 ]
 
 { #category : #accessing }
+MidasChildContext >> midasFocus [
+	^ parentContext midasFocus
+]
+
+{ #category : #accessing }
+MidasChildContext >> midasFocus: focus [
+	parentContext midasFocus: focus
+]
+
+{ #category : #accessing }
 MidasChildContext >> mooseModel [
 	^ parentContext mooseModel
 ]
@@ -93,16 +103,6 @@ MidasChildContext >> parentContext: aContext [
 		ifTrue: [ ^ self ].
 	parentContext := aContext.
 	aContext addChild: self
-]
-
-{ #category : #accessing }
-MidasChildContext >> strongFocus [
-	^ parentContext strongFocus
-]
-
-{ #category : #accessing }
-MidasChildContext >> strongFocus: focus [
-	parentContext strongFocus: focus
 ]
 
 { #category : #accessing }

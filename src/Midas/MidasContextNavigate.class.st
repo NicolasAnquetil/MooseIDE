@@ -21,10 +21,10 @@ MidasContextNavigate >> doesNotUnderstand: message [
 { #category : #accessing }
 MidasContextNavigate >> navigationProperties [
 	self focusIsMooseModel
-		ifTrue: [ ^ self navigationPropertiesForModel: self strongFocus ].
-	self strongFocus isCollection
-		ifTrue: [ ^ self navigationPropertiesForCollection: self strongFocus ].
-	^ self navigationPropertiesForClass: self strongFocus class
+		ifTrue: [ ^ self navigationPropertiesForModel: self midasFocus ].
+	self midasFocus isCollection
+		ifTrue: [ ^ self navigationPropertiesForCollection: self midasFocus ].
+	^ self navigationPropertiesForClass: self midasFocus class
 ]
 
 { #category : #accessing }
@@ -56,11 +56,11 @@ MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 { #category : #accessing }
 MidasContextNavigate >> selected: anObject [
 	| focus |
-	focus := self strongFocus.
+	focus := self midasFocus.
 	(self focusIsMooseModel: focus)
-		ifTrue: [ ^ self strongFocus: (focus perform: anObject methodSelector) ].
+		ifTrue: [ ^ self midasFocus: (focus perform: anObject methodSelector) ].
 	focus isCollection
-		ifTrue: [ ^ self strongFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].
-	self strongFocus: (focus perform: anObject methodSelector)
+		ifTrue: [ ^ self midasFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].
+	self midasFocus: (focus perform: anObject methodSelector)
 	
 ]

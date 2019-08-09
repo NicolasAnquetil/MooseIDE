@@ -22,12 +22,12 @@ MidasContextEntities >> atScope: aSymbol [
 { #category : #running }
 MidasContextEntities >> classScope [
 	| actuel |
-	actuel := self strongFocus.
+	actuel := self midasFocus.
 	actuel ifEmpty: [ ^ nil ].
 	"hack to know whether we should go up (from methods -> atScope) or down (-> toScope)"
 	actuel anyOne isMethod
-		ifTrue: [ self strongFocus: (self atScope: 'FAMIXClass') ]
-		ifFalse: [ self strongFocus: (self toScope: 'FAMIXClass') ].
+		ifTrue: [ self midasFocus: (self atScope: 'FAMIXClass') ]
+		ifFalse: [ self midasFocus: (self toScope: 'FAMIXClass') ].
 ]
 
 { #category : #accessing }
@@ -64,7 +64,7 @@ MidasContextEntities >> interpretQuery: aBlockAsString [
 			self notifyStrongFocus: history now ]
 		ifNotEmpty: [ aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
 			self
-				strongFocus:
+				midasFocus:
 					(app filterQuery
 						ifTrue: [ self runSelectQuery: aBlock ]
 						ifFalse: [ self runCollectQuery: aBlock ]) ]
@@ -72,12 +72,12 @@ MidasContextEntities >> interpretQuery: aBlockAsString [
 
 { #category : #running }
 MidasContextEntities >> methodScope [
-	self strongFocus: (self toScope: 'FAMIXMethod')
+	self midasFocus: (self toScope: 'FAMIXMethod')
 ]
 
 { #category : #running }
 MidasContextEntities >> packageScope [
-	self strongFocus: (self atScope: 'FAMIXPackage')
+	self midasFocus: (self atScope: 'FAMIXPackage')
 ]
 
 { #category : #accessing }
@@ -87,14 +87,14 @@ MidasContextEntities >> resultsWithParents [
 
 { #category : #running }
 MidasContextEntities >> runCollectQuery: aBloc [
-	^self strongFocus flatCollect: aBloc.
+	^self midasFocus flatCollect: aBloc.
 
 	
 ]
 
 { #category : #running }
 MidasContextEntities >> runSelectQuery: aBloc [
-	^ self strongFocus select: aBloc
+	^ self midasFocus select: aBloc
 ]
 
 { #category : #notifications }
@@ -102,7 +102,7 @@ MidasContextEntities >> selectedStrongFocus: aMidasEntity [
 	| wasFrozen |
 	wasFrozen := frozen.
 	frozen := false.
-	self strongFocus: aMidasEntity selection.
+	self midasFocus: aMidasEntity selection.
 	frozen := wasFrozen
 ]
 

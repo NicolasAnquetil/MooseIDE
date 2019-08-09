@@ -18,11 +18,11 @@ TestCtxtHistory >> setUp [
 TestCtxtHistory >> testEntriesBranchingCount [
 	self assert: historyCtxt allEntries size equals: 1.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 0.
-	historyCtxt strongFocus: self someClasses.
+	historyCtxt midasFocus: self someClasses.
 	self assert: historyCtxt allEntries size equals: 2.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 1.
 	historyCtxt prev.
-	historyCtxt strongFocus: self somePackages.
+	historyCtxt midasFocus: self somePackages.
 	self assert: historyCtxt allEntries size equals: 3.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 2.
 
@@ -31,9 +31,9 @@ TestCtxtHistory >> testEntriesBranchingCount [
 { #category : #tests }
 TestCtxtHistory >> testEntriesCount [
 	self assert: historyCtxt allEntries size equals: 1.
-	historyCtxt strongFocus: self someClasses.
+	historyCtxt midasFocus: self someClasses.
 	self assert: historyCtxt allEntries size equals: 2.
-	historyCtxt strongFocus: self somePackages.
+	historyCtxt midasFocus: self somePackages.
 	self assert: historyCtxt allEntries size equals: 3.
 
 ]

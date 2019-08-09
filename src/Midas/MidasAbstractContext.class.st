@@ -24,17 +24,27 @@ MidasAbstractContext >> app: anApp [
 		ifTrue: [ ^ self ].
 	app := anApp.
 	anApp context: self.
-	self notifyStrongFocus: self strongFocus
+	self notifyStrongFocus: self midasFocus
 ]
 
 { #category : #testing }
 MidasAbstractContext >> focusIsMooseModel [
-	^ self focusIsMooseModel: self strongFocus
+	^ self focusIsMooseModel: self midasFocus
 ]
 
 { #category : #testing }
 MidasAbstractContext >> focusIsMooseModel: focus [
 	^ focus = self mooseModel
+]
+
+{ #category : #accessing }
+MidasAbstractContext >> midasFocus [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+MidasAbstractContext >> midasFocus: newFocus [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -55,14 +65,4 @@ MidasAbstractContext >> notifyNewModel: newMooseModel [
 { #category : #notifications }
 MidasAbstractContext >> notifyStrongFocus: newFocus [
 	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-MidasAbstractContext >> strongFocus [
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-MidasAbstractContext >> strongFocus: newFocus [
-	self subclassResponsibility
 ]

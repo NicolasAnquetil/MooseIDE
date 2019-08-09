@@ -21,7 +21,7 @@ TestHistoryApp >> setUp [
 { #category : #tests }
 TestHistoryApp >> testBack [
 	self assert: historyApp context history size equals: 1.
-	historyApp context strongFocus: self someClasses.
+	historyApp context midasFocus: self someClasses.
 	self assert: historyApp context history size equals: 2.
 	historyApp btnPrev performAction.
 	self assert: historyApp context history size equals: 2.
@@ -31,7 +31,7 @@ TestHistoryApp >> testBack [
 { #category : #tests }
 TestHistoryApp >> testCurrentHighlighted [
 	self assert: (self colorForRoassalElement: 1) equals: Color red.
-	historyApp context strongFocus: self someClasses.
+	historyApp context midasFocus: self someClasses.
 	self assert: (self colorForRoassalElement: 1) equals: Color veryLightGray.
 	self assert: (self colorForRoassalElement: 2) equals: Color red.
 	historyApp btnPrev performAction.
@@ -52,21 +52,21 @@ TestHistoryApp >> testEntryName [
 { #category : #tests }
 TestHistoryApp >> testPreviousAndNext [
 	| focusBefore focusAfter |
-	focusBefore := historyApp context strongFocus.
-	historyApp context strongFocus: self someClasses.
-	focusAfter := historyApp context strongFocus.
+	focusBefore := historyApp context midasFocus.
+	historyApp context midasFocus: self someClasses.
+	focusAfter := historyApp context midasFocus.
 	self deny: focusAfter equals: focusBefore.
 	historyApp btnPrev performAction.
-	self assert: historyApp context strongFocus equals: focusBefore.
+	self assert: historyApp context midasFocus equals: focusBefore.
 	historyApp btnNext performAction.
-	self assert: historyApp context strongFocus equals: focusAfter
+	self assert: historyApp context midasFocus equals: focusAfter
 ]
 
 { #category : #tests }
 TestHistoryApp >> testPreviousAndNextButtonsStatus [
 	self deny: historyApp btnPrev isEnabled.
 	self deny: historyApp btnNext isEnabled.
-	historyApp context strongFocus: self someClasses.
+	historyApp context midasFocus: self someClasses.
 	self assert: historyApp btnPrev isEnabled.
 	self deny: historyApp btnNext isEnabled.
 	historyApp btnPrev performAction.

@@ -20,14 +20,14 @@ TestModelsApp >> setUp [
 { #category : #tests }
 TestModelsApp >> testInitializeModelInDashboard [
 	self
-		assert: launcherApp launchDashboardApp context strongFocus
+		assert: launcherApp launchDashboardApp context midasFocus
 		equals: models first
 ]
 
 { #category : #tests }
 TestModelsApp >> testInitializeModelInListEntities [
 	self
-		assert: launcherApp launchEntitiesApp context strongFocus
+		assert: launcherApp launchEntitiesApp context midasFocus
 		equals: models first
 ]
 
@@ -44,13 +44,13 @@ TestModelsApp >> testUpdateModelInDashboard [
 	| dashboardApp |
 	dashboardApp := launcherApp launchDashboardApp.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self assert: dashboardApp context strongFocus equals: models second
+	self assert: dashboardApp context midasFocus equals: models second
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self assert: launcherApp context strongFocus equals: models second
+	self assert: launcherApp context midasFocus equals: models second
 ]
 
 { #category : #tests }
@@ -58,7 +58,7 @@ TestModelsApp >> testUpdateModelInQuery [
 	| queryApp |
 	queryApp := launcherApp launchEntitiesApp.
 	modelsApp lstModels doubleClickAtIndex: 2.
-	self assert: queryApp context strongFocus equals: models second
+	self assert: queryApp context midasFocus equals: models second
 ]
 
 { #category : #tests }

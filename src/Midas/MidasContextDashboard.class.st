@@ -18,17 +18,11 @@ MidasContextDashboard >> acceptStrongFocusUpdate: newFocus [
 
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities [
-	"for compatibility with MVSMainPresenter"
-
-	^  self mooseModel allModelClasses 
-
-]
-
-{ #category : #accessing }
-MidasContextDashboard >> focusedEntities: focus [
-	"for compatibility with MVSMainPresenter"
-
-	self strongFocus: focus
+	self focusIsMooseModel
+		ifTrue: [ ^ self mooseModel allModelClasses ].
+	self midasFocus isCollection
+		ifTrue: [ ^ self midasFocus ].
+	^ {self midasFocus}
 ]
 
 { #category : #accessing }

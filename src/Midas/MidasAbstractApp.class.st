@@ -64,13 +64,13 @@ MidasAbstractApp >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #accessing }
-MidasAbstractApp >> mooseModel [
-	^ context mooseModel
+MidasAbstractApp >> midasFocus [
+	^ context midasFocus
 ]
 
 { #category : #accessing }
-MidasAbstractApp >> strongFocus [
-	^ context strongFocus
+MidasAbstractApp >> mooseModel [
+	^ context mooseModel
 ]
 
 { #category : #notifications }

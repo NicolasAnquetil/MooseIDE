@@ -173,7 +173,7 @@ MidasAppEntities >> initializeWidgetsScopeRow [
 MidasAppEntities >> initializeWindow: aWindowPresenter [
 	aWindowPresenter title: self title.
 	aWindowPresenter
-		whenClosedDo: [ context strongFocus: context mooseModel.
+		whenClosedDo: [ context midasFocus: context mooseModel.
 			context exit ]
 ]
 

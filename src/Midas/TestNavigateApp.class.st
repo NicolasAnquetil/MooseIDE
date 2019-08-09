@@ -23,23 +23,23 @@ TestNavigateApp >> setUp [
 
 { #category : #tests }
 TestNavigateApp >> testNavigateFromClass [
-	navigateApp context strongFocus: (self someClasses detect: [:c | c name = 'Node']).
+	navigateApp context midasFocus: (self someClasses detect: [:c | c name = 'Node']).
 	navigateApp diagram doubleClickAtIndex: (self indexFor: 'methods').
 	self
-		assert: launcherApp strongFocus size
+		assert: launcherApp midasFocus size
 		equals: 14
 ]
 
 { #category : #tests }
 TestNavigateApp >> testSelectAllModelClasses [
 	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelClasses).
-	self assert: navigateApp context strongFocus size equals: 6
+	self assert: navigateApp context midasFocus size equals: 6
 ]
 
 { #category : #tests }
 TestNavigateApp >> testSelectAllModelPackages [
 	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelPackages).
-	self assert: navigateApp context strongFocus size equals: 1
+	self assert: navigateApp context midasFocus size equals: 1
 ]
 
 { #category : #tests }

@@ -16,7 +16,7 @@ TestCtxtNavigate >> setUp [
 
 { #category : #tests }
 TestCtxtNavigate >> testAttributeProperties [
-	launcherCtxt strongFocus: self someAttributes anyOne.
+	launcherCtxt midasFocus: self someAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 11
@@ -37,7 +37,7 @@ FAMIX.NamedEntity.receivingInvocations"
 
 { #category : #tests }
 TestCtxtNavigate >> testClassProperties [
-	launcherCtxt strongFocus: self someClasses anyOne.
+	launcherCtxt midasFocus: self someClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 21
@@ -45,7 +45,7 @@ TestCtxtNavigate >> testClassProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testHeterogeneousProperties [
-	launcherCtxt strongFocus: {self someMethods anyOne . self someClasses anyOne}.
+	launcherCtxt midasFocus: {self someMethods anyOne . self someClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 10 "properties for FAMIXContainerEntity"
@@ -65,7 +65,7 @@ FAMIX.NamedEntity.receivingInvocations"
 
 { #category : #tests }
 TestCtxtNavigate >> testHomogeneousProperties [
-	launcherCtxt strongFocus: self someMethods.
+	launcherCtxt midasFocus: self someMethods.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 23 "same as for a single method: #testMethodProperties"
@@ -73,7 +73,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testMethodProperties [
-	launcherCtxt strongFocus: self someMethods anyOne.
+	launcherCtxt midasFocus: self someMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 23
@@ -88,7 +88,7 @@ TestCtxtNavigate >> testModelProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testNamespaceProperties [
-	launcherCtxt strongFocus: self someNamespaces anyOne.
+	launcherCtxt midasFocus: self someNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 15
@@ -100,7 +100,7 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	selector := Mock new.
 	selector stub methodSelector willReturn: #attributes.
 
-	launcherCtxt strongFocus: self someClasses.
+	launcherCtxt midasFocus: self someClasses.
 	navigateCtxt selected: selector.
 	self
 		assert: navigateCtxt navigationProperties size

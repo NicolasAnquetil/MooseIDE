@@ -50,6 +50,21 @@ MidasContextLauncher >> initialize [
 ]
 
 { #category : #accessing }
+MidasContextLauncher >> midasFocus [
+	^ strongFocus
+]
+
+{ #category : #accessing }
+MidasContextLauncher >> midasFocus: newFocus [
+	self midasFocus = newFocus
+		ifTrue: [ ^ self ].
+	strongFocus := newFocus.
+	"note: setting strongFocus _sets_ weakFocus but does not _notify_ weakFocus"
+	weakFocus := newFocus.
+	self notifyStrongFocus: newFocus.
+]
+
+{ #category : #accessing }
 MidasContextLauncher >> mooseModel [
 	^ mooseModel
 ]
@@ -94,21 +109,6 @@ MidasContextLauncher >> spawn: aContextClass [
 	^aContextClass new
 		parentContext: self ;
 		yourself
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> strongFocus [
-	^ strongFocus
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> strongFocus: newFocus [
-	self strongFocus = newFocus
-		ifTrue: [ ^ self ].
-	strongFocus := newFocus.
-	"note: setting strongFocus _sets_ weakFocus but does not _notify_ weakFocus"
-	weakFocus := newFocus.
-	self notifyStrongFocus: newFocus.
 ]
 
 { #category : #accessing }

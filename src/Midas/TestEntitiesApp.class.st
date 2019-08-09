@@ -37,23 +37,23 @@ TestEntitiesApp >> testFilterQuery [
 
 { #category : #tests }
 TestEntitiesApp >> testFrozen [
-	entitiesApp context strongFocus: self someNamespaces.
+	entitiesApp context midasFocus: self someNamespaces.
 	entitiesApp chkFreeze state: false.
-	entitiesApp context strongFocus: self someClasses.
+	entitiesApp context midasFocus: self someClasses.
 	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection 
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testNotFrozen [
-	entitiesApp context strongFocus: self someNamespaces.
+	entitiesApp context midasFocus: self someNamespaces.
 	entitiesApp chkFreeze state: false.
-	entitiesApp context strongFocus: self someClasses.
+	entitiesApp context midasFocus: self someClasses.
 	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testScopeClasses [
-	entitiesApp context strongFocus: self somePackages.
+	entitiesApp context midasFocus: self somePackages.
 	entitiesApp btnClassScope performMenuActionWith: self.
 	self assert: self listedEntities size equals: 6.
 	self listedEntities do: [ :each | self assert: each isClass ]
@@ -61,7 +61,7 @@ TestEntitiesApp >> testScopeClasses [
 
 { #category : #tests }
 TestEntitiesApp >> testScopeMethods [
-	entitiesApp context strongFocus: self someClasses.
+	entitiesApp context midasFocus: self someClasses.
 	entitiesApp btnMethodScope performMenuActionWith: self.
 	self assert: self listedEntities size equals: 58.
 	self listedEntities do:[:each|self assert: each isMethod]
@@ -69,7 +69,7 @@ TestEntitiesApp >> testScopeMethods [
 
 { #category : #tests }
 TestEntitiesApp >> testScopePackage [
-	entitiesApp context strongFocus: self someClasses.
+	entitiesApp context midasFocus: self someClasses.
 	entitiesApp btnPackageScope performMenuActionWith: self.
 	self assert: self listedEntities size equals: 1.
 	self assert: self listedEntities first name equals: 'LANSimulation'

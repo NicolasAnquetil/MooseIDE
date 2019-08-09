@@ -35,7 +35,7 @@ TestEditorApp >> testModelUpdate [
 
 { #category : #tests }
 TestEditorApp >> testStrongFocusUpdateNoSource [
-	editorApp context strongFocus: self someClasses.
+	editorApp context midasFocus: self someClasses.
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''All model classes'''.
@@ -48,7 +48,7 @@ TestEditorApp >> testStrongFocusUpdateNoSource [
 TestEditorApp >> testStrongFocusUpdateWithSource [
 	| method |
 	method := self someMethods detect: [:m | m sourceText isNotNil ].
-	editorApp context strongFocus: method.
+	editorApp context midasFocus: method.
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''', method name , ''''.
