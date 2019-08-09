@@ -61,7 +61,7 @@ MidasContextLauncher >> midasFocus: newFocus [
 	strongFocus := newFocus.
 	"note: setting strongFocus _sets_ weakFocus but does not _notify_ weakFocus"
 	weakFocus := newFocus.
-	self notifyStrongFocus: newFocus.
+	self notifyMidasFocus: newFocus.
 ]
 
 { #category : #accessing }
@@ -87,14 +87,14 @@ MidasContextLauncher >> mooseModelAsGroups [
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyNewModel: newMooseModel [
-	app updateModel: newMooseModel.
-	children do: [ :child | child notifyNewModel: newMooseModel ]
+MidasContextLauncher >> notifyMidasFocus: newFocus [
+	children do: [ :child | child notifyMidasFocus: newFocus]
 ]
 
 { #category : #notifications }
-MidasContextLauncher >> notifyStrongFocus: newFocus [
-	children do: [ :child | child notifyStrongFocus: newFocus]
+MidasContextLauncher >> notifyNewModel: newMooseModel [
+	app updateModel: newMooseModel.
+	children do: [ :child | child notifyNewModel: newMooseModel ]
 ]
 
 { #category : #actions }

@@ -77,19 +77,19 @@ MidasChildContext >> mooseModel: aMooseModel [
 ]
 
 { #category : #notifications }
+MidasChildContext >> notifyMidasFocus: newFocus [
+	frozen
+		ifTrue: [ ^ self ].
+	(self acceptStrongFocusUpdate: newFocus)
+		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
+]
+
+{ #category : #notifications }
 MidasChildContext >> notifyNewModel: newMooseModel [
 	frozen
 		ifTrue: [ ^ self ].
 	(self acceptModelUpdate: newMooseModel)
 		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
-]
-
-{ #category : #notifications }
-MidasChildContext >> notifyStrongFocus: newFocus [
-	frozen
-		ifTrue: [ ^ self ].
-	(self acceptStrongFocusUpdate: newFocus)
-		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
 ]
 
 { #category : #accessing }

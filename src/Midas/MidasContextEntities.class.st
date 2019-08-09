@@ -33,7 +33,7 @@ MidasContextEntities >> classScope [
 { #category : #accessing }
 MidasContextEntities >> flattenResult [
 	resultsWithParents := false.
-	self notifyStrongFocus: nil
+	self notifyMidasFocus: nil
 ]
 
 { #category : #notifications }
@@ -61,7 +61,7 @@ MidasContextEntities >> interpretQuery: aBlockAsString [
 	| aBlock |
 	aBlockAsString
 		ifEmpty: [
-			self notifyStrongFocus: history now ]
+			self notifyMidasFocus: history now ]
 		ifNotEmpty: [ aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
 			self
 				midasFocus:
@@ -115,5 +115,5 @@ MidasContextEntities >> toScope: aSymbol [
 { #category : #accessing }
 MidasContextEntities >> trackAssociation [
 	resultsWithParents := true.
-	self notifyStrongFocus: nil
+	self notifyMidasFocus: nil
 ]

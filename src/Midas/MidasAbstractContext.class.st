@@ -24,7 +24,7 @@ MidasAbstractContext >> app: anApp [
 		ifTrue: [ ^ self ].
 	app := anApp.
 	anApp context: self.
-	self notifyStrongFocus: self midasFocus
+	self notifyMidasFocus: self midasFocus
 ]
 
 { #category : #testing }
@@ -58,11 +58,11 @@ MidasAbstractContext >> mooseModel [
 ]
 
 { #category : #notifications }
-MidasAbstractContext >> notifyNewModel: newMooseModel [
+MidasAbstractContext >> notifyMidasFocus: newFocus [
 	self subclassResponsibility 
 ]
 
 { #category : #notifications }
-MidasAbstractContext >> notifyStrongFocus: newFocus [
+MidasAbstractContext >> notifyNewModel: newMooseModel [
 	self subclassResponsibility 
 ]

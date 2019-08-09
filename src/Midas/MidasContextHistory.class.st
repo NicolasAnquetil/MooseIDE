@@ -100,7 +100,7 @@ MidasContextHistory >> next [
 ]
 
 { #category : #notifications }
-MidasContextHistory >> notifyStrongFocus: newFocus [
+MidasContextHistory >> notifyMidasFocus: newFocus [
 	paused ifTrue: [ ^ self ].
 	self addToHistory: newFocus.
 	app refresh
