@@ -24,11 +24,6 @@ MidasChildContext >> acceptStrongFocusUpdate: newFocus [
 	^ true
 ]
 
-{ #category : #notifications }
-MidasChildContext >> acceptWeakFocusUpdate: newFocus [
-	^ true
-]
-
 { #category : #actions }
 MidasChildContext >> exit [
 	parentContext removeChild: self.
@@ -85,14 +80,6 @@ MidasChildContext >> notifyStrongFocus: newFocus [
 		ifTrue: [ ^ self ].
 	(self acceptStrongFocusUpdate: newFocus)
 		ifTrue: [ app updateStrongFocus: (self formatNewStrongFocus: newFocus) ]
-]
-
-{ #category : #notifications }
-MidasChildContext >> notifyWeakFocus: newFocus [
-	frozen
-		ifTrue: [ ^ self ].
-	(self acceptWeakFocusUpdate: newFocus)
-		ifTrue: [ app updateWeakFocus: newFocus ]
 ]
 
 { #category : #accessing }

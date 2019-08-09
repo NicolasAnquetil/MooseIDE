@@ -58,11 +58,6 @@ MidasAppEditor >> updateModel: aMooseModel [
 
 { #category : #notifications }
 MidasAppEditor >> updateStrongFocus: newFocus [
-	self updateWeakFocus: newFocus
-]
-
-{ #category : #notifications }
-MidasAppEditor >> updateWeakFocus: newFocus [
 	self updateTitle.
 	self flag: 'should test that the class or superclasses use FamixTWithSourceAnchor'.
 	code text:

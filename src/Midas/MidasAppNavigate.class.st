@@ -62,8 +62,3 @@ MidasAppNavigate >> updateModel: aMooseModel [
 MidasAppNavigate >> updateStrongFocus: focus [
 	self refresh
 ]
-
-{ #category : #notifications }
-MidasAppNavigate >> updateWeakFocus: focus [
-	self refresh
-]

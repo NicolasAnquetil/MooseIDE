@@ -82,11 +82,6 @@ MidasContextLauncher >> notifyStrongFocus: newFocus [
 	children do: [ :child | child notifyStrongFocus: newFocus]
 ]
 
-{ #category : #notifications }
-MidasContextLauncher >> notifyWeakFocus: newFocus [
-	children do: [ :child | child notifyWeakFocus: newFocus ]
-]
-
 { #category : #actions }
 MidasContextLauncher >> removeChild: aContext [
 	(children includes: aContext)

@@ -88,11 +88,6 @@ MidasAbstractApp >> updateTitle [.
 	self window title: self title.
 ]
 
-{ #category : #notifications }
-MidasAbstractApp >> updateWeakFocus: focus [
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 MidasAbstractApp >> weakFocus [
 	^ context weakFocus

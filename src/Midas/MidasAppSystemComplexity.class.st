@@ -49,12 +49,6 @@ MidasAppSystemComplexity >> updateStrongFocus: newFocus [
 	visualizer refresh
 ]
 
-{ #category : #notifications }
-MidasAppSystemComplexity >> updateWeakFocus: newFocus [
-	visualizer highlight: newFocus.
-	visualizer refresh
-]
-
 { #category : #accessing }
 MidasAppSystemComplexity >> visualizer [
 ^visualizer

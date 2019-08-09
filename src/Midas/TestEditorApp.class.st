@@ -56,27 +56,3 @@ TestEditorApp >> testStrongFocusUpdateWithSource [
 		assert: editorApp code text
 		equals: 'The source code of this method'.
 ]
-
-{ #category : #tests }
-TestEditorApp >> testWeakFocusUpdateNoSource [
-	editorApp context weakFocus: self someClasses.
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''All model classes'''.
-	self
-		assert: editorApp code text
-		equals: editorApp entityHasNoSource.
-]
-
-{ #category : #tests }
-TestEditorApp >> testWeakFocusUpdateWithSource [
-	| method |
-	method := self someMethods detect: [:m | m sourceText isNotNil ].
-	editorApp context weakFocus: method.
-	self
-		assert: editorApp window title
-		equals: 'MIDAS Source: ''', method name , ''''.
-	self
-		assert: editorApp code text
-		equals: 'The source code of this method'.
-]

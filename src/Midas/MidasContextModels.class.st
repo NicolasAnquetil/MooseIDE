@@ -13,11 +13,6 @@ MidasContextModels >> acceptStrongFocusUpdate: newFocus [
 	^ false
 ]
 
-{ #category : #notifications }
-MidasContextModels >> acceptWeakFocusUpdate: newFocus [
-	^ false
-]
-
 { #category : #accessing }
 MidasContextModels >> allModels [
 	^ MooseModel root allModels

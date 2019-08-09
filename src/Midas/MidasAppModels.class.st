@@ -101,8 +101,3 @@ MidasAppModels >> updateModel: newModel [
 MidasAppModels >> updateStrongFocus: focus [
 	self shouldNotImplement 
 ]
-
-{ #category : #notifications }
-MidasAppModels >> updateWeakFocus: focus [
-	self shouldNotImplement
-]

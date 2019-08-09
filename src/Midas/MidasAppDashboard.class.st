@@ -72,10 +72,3 @@ MidasAppDashboard >> updateModel: aMooseModel [
 MidasAppDashboard >> updateStrongFocus: newFocus [
 	dashboard updateView
 ]
-
-{ #category : #notifications }
-MidasAppDashboard >> updateWeakFocus: newFocus [
-	self shouldNotImplement 
-
-	
-]

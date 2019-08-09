@@ -213,8 +213,3 @@ MidasLauncher >> updateModel: aMooseModel [
 MidasLauncher >> updateStrongFocus: newFocus [
 	self shouldNotImplement 
 ]
-
-{ #category : #notifications }
-MidasLauncher >> updateWeakFocus: newFocus [
-	self shouldNotImplement
-]

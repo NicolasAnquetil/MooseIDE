@@ -18,11 +18,6 @@ MidasContextHistory >> acceptStrongFocusUpdate: newFocus [
 	^ paused
 ]
 
-{ #category : #notifications }
-MidasContextHistory >> acceptWeakFocusUpdate: newFocus [
-	^ false
-]
-
 { #category : #history }
 MidasContextHistory >> addToHistory: entities [
 	(self focusIsMooseModel: entities)

@@ -149,11 +149,6 @@ MidasAppHistory >> updateStrongFocus: focus [
 	"never called"
 ]
 
-{ #category : #notifications }
-MidasAppHistory >> updateWeakFocus: focus [
-	"never called"
-]
-
 { #category : #accessing }
 MidasAppHistory >> view [
 	^ view

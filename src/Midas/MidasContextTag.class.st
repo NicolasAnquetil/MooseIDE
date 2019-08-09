@@ -6,8 +6,3 @@ Class {
 	#superclass : #MidasChildContext,
 	#category : #'Midas-context'
 }
-
-{ #category : #notifications }
-MidasContextTag >> acceptWeakFocusUpdate: newFocus [
-	^false
-]

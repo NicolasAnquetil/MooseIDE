@@ -57,11 +57,6 @@ MidasAbstractContext >> notifyStrongFocus: newFocus [
 	self subclassResponsibility 
 ]
 
-{ #category : #notifications }
-MidasAbstractContext >> notifyWeakFocus: newFocus [
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 MidasAbstractContext >> strongFocus [
 	self subclassResponsibility

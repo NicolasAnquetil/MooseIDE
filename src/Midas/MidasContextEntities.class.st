@@ -106,12 +106,6 @@ MidasContextEntities >> selectedStrongFocus: aMidasEntity [
 	frozen := wasFrozen
 ]
 
-{ #category : #notifications }
-MidasContextEntities >> selectedWeakFocus: aMidasEntity [
-	aMidasEntity ifNil: [ ^ self ].
-	self weakFocus: aMidasEntity selection
-]
-
 { #category : #running }
 MidasContextEntities >> toScope: aSymbol [
 	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
