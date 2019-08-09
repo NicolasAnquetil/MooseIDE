@@ -20,11 +20,11 @@ MidasContextNavigate >> doesNotUnderstand: message [
 
 { #category : #accessing }
 MidasContextNavigate >> navigationProperties [
-	self weakFocusIsMooseModel
-		ifTrue: [ ^ self navigationPropertiesForModel: self weakFocus ].
-	self weakFocus isCollection
-		ifTrue: [ ^ self navigationPropertiesForCollection: self weakFocus ].
-	^ self navigationPropertiesForClass: self weakFocus class
+	self focusIsMooseModel
+		ifTrue: [ ^ self navigationPropertiesForModel: self strongFocus ].
+	self strongFocus isCollection
+		ifTrue: [ ^ self navigationPropertiesForCollection: self strongFocus ].
+	^ self navigationPropertiesForClass: self strongFocus class
 ]
 
 { #category : #accessing }

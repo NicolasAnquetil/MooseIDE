@@ -66,18 +66,3 @@ MidasAbstractContext >> strongFocus [
 MidasAbstractContext >> strongFocus: newFocus [
 	self subclassResponsibility
 ]
-
-{ #category : #accessing }
-MidasAbstractContext >> weakFocus [
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-MidasAbstractContext >> weakFocus: newFocus [
-	self subclassResponsibility
-]
-
-{ #category : #testing }
-MidasAbstractContext >> weakFocusIsMooseModel [
-	^ self focusIsMooseModel: self weakFocus
-]
