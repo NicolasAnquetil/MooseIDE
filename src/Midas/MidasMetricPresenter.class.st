@@ -10,7 +10,7 @@ Class {
 		'metricName',
 		'metricValue'
 	],
-	#category : #'Midas-helpers'
+	#category : #'Midas-apps'
 }
 
 { #category : #specs }
@@ -50,7 +50,11 @@ MidasMetricPresenter >> allValues [
 { #category : #accessing }
 MidasMetricPresenter >> guiModel: aGuiModel [
 	guiModel := aGuiModel.
-	metricName label: self myMetric displayName
+	metricName label: self myMetric displayName.
+	submetric1  help: (guiModel subQuery: 1) displayName.
+	submetric2  help: (guiModel subQuery: 2) displayName.
+	submetric3  help: (guiModel subQuery: 3) displayName.
+
 ]
 
 { #category : #accessing }
@@ -103,11 +107,10 @@ MidasMetricPresenter >> updateMainMetric [
 
 { #category : #update }
 MidasMetricPresenter >> updateSubmetric: index [
-		| sub value |
-		sub := guiModel subQuery: index.
-		value := self myMetric aggregateMetricFor: sub entities.
+		| value |
+		value := self myMetric aggregateMetricFor: (guiModel subQuery: index) entities.
 		(self submetric: index)
-			label: sub displayName , String cr , (value truncateTo: 0.001) asString
+			label: (value truncateTo: 0.001) asString
 ]
 
 { #category : #update }

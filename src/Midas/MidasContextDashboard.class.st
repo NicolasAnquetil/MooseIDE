@@ -30,14 +30,14 @@ MidasContextDashboard >> formatMidasFocus: newFocus [
 { #category : #initialization }
 MidasContextDashboard >> initialize [
 	super initialize.
-	metrics := {MDMetricNumberOfEntities new.
-	MDMetricLOC new.
-	MDMetricCyclomaticComplexity new} asOrderedCollection.
-	subQueries := {(MDQueryCore new master: self).
-	(MDQueryBig new
+	metrics := {MidasMetricNumberOfEntities new.
+	MidasMetricLOC new.
+	MidasMetricCyclomaticComplexity new} asOrderedCollection.
+	subQueries := {(MidasQueryCore new master: self).
+	(MidasQueryBig new
 		master: self;
 		threshold: 20 percent).
-	(MDQueryComplex new
+	(MidasQueryComplex new
 		master: self;
 		threshold: 20 percent)} asOrderedCollection
 ]
