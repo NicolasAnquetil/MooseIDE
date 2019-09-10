@@ -6,7 +6,9 @@ Class {
 	#name : #MidasAppDashboard,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'dashboard'
+		'metric1',
+		'metric2',
+		'metric3'
 	],
 	#category : #'Midas-apps'
 }
@@ -15,7 +17,13 @@ Class {
 MidasAppDashboard class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 				add: #chkFreeze withConstraints: [ :constraints | constraints height: 30 ];
-				add: #dashboard ;
+				add:
+					(SpecBoxLayout newHorizontal
+						add: #metric1;
+						add: #metric2;
+						add: #metric3 ;
+						yourself
+					) ;
 		yourself
 ]
 
@@ -24,36 +32,57 @@ MidasAppDashboard >> context: aContext [
 	"need to do this first because setting the context will try to update the view
 	 and dashboard needs guiModel to update itself"
 
-	dashboard guiModel: aContext.
+	metric1 guiModel: aContext.
+	metric2 guiModel: aContext.
+	metric3 guiModel: aContext.
 	super context: aContext
-]
-
-{ #category : #accessing }
-MidasAppDashboard >> dashboard [
-^dashboard
 ]
 
 { #category : #accessing }
 MidasAppDashboard >> dashboardMetric: anInt [
 	^ anInt == 1
-		ifTrue: [ dashboard firstMetric allValues ]
+		ifTrue: [ self metric1 allValues ]
 		ifFalse: [ anInt == 2
-				ifTrue: [ dashboard secondMetric allValues ]
+				ifTrue: [ self metric2 allValues ]
 				ifFalse: [ anInt == 3
-						ifTrue: [ dashboard thirdMetric allValues ]
+						ifTrue: [ self metric3 allValues ]
 						ifFalse: [ nil ] ] ]
+]
+
+{ #category : #initialization }
+MidasAppDashboard >> initializeMetricWidget: anInt [
+	^ (self instantiate: MDMetricPresenter)
+			id: anInt ;
+			yourself
 ]
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWidgets [
 	self canBeFrozen.
-	dashboard := self instantiate: MDMetricDashBoard
+	metric1 := self initializeMetricWidget: 1.
+	metric2 := self initializeMetricWidget: 2.
+	metric3 := self initializeMetricWidget: 3
 ]
 
 { #category : #initialization }
 MidasAppDashboard >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 750 @ 180.
+]
+
+{ #category : #accessing }
+MidasAppDashboard >> metric1 [
+	^ metric1
+]
+
+{ #category : #accessing }
+MidasAppDashboard >> metric2 [
+	^ metric2
+]
+
+{ #category : #accessing }
+MidasAppDashboard >> metric3 [
+	^ metric3
 ]
 
 { #category : #api }
@@ -63,7 +92,10 @@ MidasAppDashboard >> title [
 
 { #category : #notifications }
 MidasAppDashboard >> updateMidasFocus: newFocus [
-	dashboard updateView
+	metric1 update.
+	metric2 update.
+	metric3 update.
+
 ]
 
 { #category : #notifications }

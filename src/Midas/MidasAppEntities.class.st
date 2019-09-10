@@ -214,6 +214,5 @@ MidasAppEntities >> title [
 
 { #category : #notifications }
 MidasAppEntities >> updateMidasFocus: focus [
-	"need to deal with  'WeakFocus': select focused item"
 	lstEntities items: focus.
 ]

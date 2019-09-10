@@ -24,7 +24,7 @@ TestCtxtNavigate >> testAttributeProperties [
 "expected navigatinProperties
 FAMIX.StructuralEntity.declaredType
 FAMIX.SourcedEntity.comments
-FAMIX.SourcedEntity.containerFiles
+FAMIX.SourcedEntity.containerFiles  <-- sometimes missing ?!?!
 FAMIX.NamedEntity.annotationInstances
 FAMIX.StructuralEntity.incomingAccesses
 FAMIX.SourcedEntity.declaredSourceLanguage
@@ -58,7 +58,7 @@ FAMIX.ContainerEntity.types
 FAMIX.SourcedEntity.sourceAnchor
 FAMIX.ContainerEntity.definedAnnotationTypes
 FAMIX.ContainerEntity.functions
-FAMIX.SourcedEntity.containerFiles
+FAMIX.SourcedEntity.containerFiles   <-- sometimes missing
 FAMIX.NamedEntity.annotationInstances
 FAMIX.NamedEntity.receivingInvocations"
 ]

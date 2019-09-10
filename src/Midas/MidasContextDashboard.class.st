@@ -11,11 +11,6 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #notifications }
-MidasContextDashboard >> acceptMidasFocusUpdate: newFocus [
-	^ self midasFocusIsModel
-]
-
 { #category : #accessing }
 MidasContextDashboard >> focusedEntities [
 	self focusIsMooseModel
