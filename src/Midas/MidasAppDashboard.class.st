@@ -51,7 +51,7 @@ MidasAppDashboard >> dashboardMetric: anInt [
 
 { #category : #initialization }
 MidasAppDashboard >> initializeMetricWidget: anInt [
-	^ (self instantiate: MDMetricPresenter)
+	^ (self instantiate: MidasMetricPresenter)
 			id: anInt ;
 			yourself
 ]
