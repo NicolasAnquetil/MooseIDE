@@ -27,7 +27,7 @@ MidasAppNavigate >> initializePresenter [
 	"-- Not using the 'freeze' checkbox --
 	 super initializePresenter."
 	diagram whenSelectionChangedDo: [ :selection |
-		selection selectedItem ifNotNil: [ :item | context selected: item ]
+		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
 	]
 	
 

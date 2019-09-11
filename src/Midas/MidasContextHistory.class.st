@@ -114,6 +114,6 @@ MidasContextHistory >> prev [
 ]
 
 { #category : #notifications }
-MidasContextHistory >> selected: anHistoryEntry [
+MidasContextHistory >> userSelection: anHistoryEntry [
 	self gotoEntry: anHistoryEntry
 ]

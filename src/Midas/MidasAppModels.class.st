@@ -39,9 +39,10 @@ MidasAppModels >> importStModel [
 { #category : #initialization }
 MidasAppModels >> initializePresenter [
 
-	lstModels
-		doubleClickAction:
-			[ :item | self context mooseModel: lstModels selection selectedItem ]
+	lstModels whenSelectionChangedDo: [ :selection |
+		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
+	]
+
 ]
 
 { #category : #initialization }

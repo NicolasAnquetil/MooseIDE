@@ -97,10 +97,8 @@ MidasAppEntities >> initializePresenter [
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
-			[ :item | context selectedWeakFocus: item ]
-				cull: selection selectedItem ];
-		doubleClickAction:
-				[ :item | context selectedFocus: lstEntities selection selectedItem ].
+			[ :item | context userSelection: item ]
+				cull: selection selectedItem ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]

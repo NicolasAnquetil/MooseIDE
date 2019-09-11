@@ -101,7 +101,7 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	selector stub methodSelector willReturn: #attributes.
 
 	launcherCtxt midasFocus: self someClasses.
-	navigateCtxt selected: selector.
+	navigateCtxt userSelection: selector.
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 11

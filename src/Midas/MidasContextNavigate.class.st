@@ -11,8 +11,9 @@ Class {
 
 { #category : #accessing }
 MidasContextNavigate >> doesNotUnderstand: message [
+	"capturing #visitXXX: message and redirecting to FAMIXClass"
 	((message selector asString beginsWith: 'visit') and: [message arguments size = 1])
-		ifFalse: [ "does not seem to be a visitFAMIXClass: message so really does not understand"
+		ifFalse: [ "does not seem to be a #visitFAMIXClass: message, so really does not understand"
 			^ super doesNotUnderstand: message ].
 
 	^self navigationPropertiesForClass: message argument class
@@ -53,8 +54,8 @@ MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 		]
 ]
 
-{ #category : #accessing }
-MidasContextNavigate >> selected: anObject [
+{ #category : #notifications }
+MidasContextNavigate >> userSelection: anObject [
 	| focus |
 	focus := self midasFocus.
 	(self focusIsMooseModel: focus)

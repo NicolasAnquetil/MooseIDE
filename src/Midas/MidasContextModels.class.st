@@ -23,3 +23,8 @@ MidasContextModels >> mooseModel: newMooseModel [
 	parentContext mooseModel: newMooseModel
 
 ]
+
+{ #category : #notifications }
+MidasContextModels >> userSelection: aMooseModel [
+	self mooseModel: aMooseModel 
+]

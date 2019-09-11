@@ -40,7 +40,7 @@ MidasAppSystemComplexity >> title [
 { #category : #notifications }
 MidasAppSystemComplexity >> updateMidasFocus: newFocus [
 	visualizer highlight: nil.
-	visualizer selected: newFocus.
+	visualizer userSelection: newFocus.
 	visualizer refresh
 ]
 

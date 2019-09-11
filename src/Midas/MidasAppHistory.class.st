@@ -61,7 +61,7 @@ MidasAppHistory >> drawChainOfEvent [
 	shape add: (RTLabel new text: '').  "empty text below RTEllipse to turn around a bug in edge building"
 	shape vertical.
 	viewElts := shape elementsOn: context allEntries.
-	viewElts when: TRMouseClick do: [ :event | context selected: event element model ].
+	viewElts when: TRMouseClick do: [ :event | context userSelection: event element model ].
 	viewElts @ (RTPopup new text: [:e | e summaryDescription ]) .
 	view addAll: viewElts.
 	RTEdgeBuilder new

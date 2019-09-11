@@ -24,7 +24,7 @@ TestNavigateApp >> setUp [
 { #category : #tests }
 TestNavigateApp >> testNavigateFromClass [
 	navigateApp context midasFocus: (self someClasses detect: [:c | c name = 'Node']).
-	navigateApp diagram doubleClickAtIndex: (self indexFor: 'methods').
+	navigateApp diagram clickAtIndex: (self indexFor: 'methods').
 	self
 		assert: launcherApp midasFocus size
 		equals: 14
@@ -32,13 +32,13 @@ TestNavigateApp >> testNavigateFromClass [
 
 { #category : #tests }
 TestNavigateApp >> testSelectAllModelClasses [
-	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelClasses).
+	navigateApp diagram clickAtIndex: (self indexFor: #allModelClasses).
 	self assert: navigateApp context midasFocus size equals: 6
 ]
 
 { #category : #tests }
 TestNavigateApp >> testSelectAllModelPackages [
-	navigateApp diagram doubleClickAtIndex: (self indexFor: #allModelPackages).
+	navigateApp diagram clickAtIndex: (self indexFor: #allModelPackages).
 	self assert: navigateApp context midasFocus size equals: 1
 ]
 

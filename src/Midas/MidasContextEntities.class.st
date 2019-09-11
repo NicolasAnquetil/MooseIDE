@@ -62,7 +62,8 @@ MidasContextEntities >> interpretQuery: aBlockAsString [
 	aBlockAsString
 		ifEmpty: [
 			self notifyMidasFocus: history now ]
-		ifNotEmpty: [ aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
+		ifNotEmpty: [
+			aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
 			self
 				midasFocus:
 					(app filterQuery
@@ -97,15 +98,6 @@ MidasContextEntities >> runSelectQuery: aBloc [
 	^ self midasFocus select: aBloc
 ]
 
-{ #category : #notifications }
-MidasContextEntities >> selectedFocus: aMidasEntity [
-	| wasFrozen |
-	wasFrozen := frozen.
-	frozen := false.
-	self midasFocus: aMidasEntity selection.
-	frozen := wasFrozen
-]
-
 { #category : #running }
 MidasContextEntities >> toScope: aSymbol [
 	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
@@ -116,4 +108,13 @@ MidasContextEntities >> toScope: aSymbol [
 MidasContextEntities >> trackAssociation [
 	resultsWithParents := true.
 	self notifyMidasFocus: nil
+]
+
+{ #category : #notifications }
+MidasContextEntities >> userSelection: aMidasEntity [
+	| wasFrozen |
+	wasFrozen := frozen.
+	frozen := false.
+	self midasFocus: aMidasEntity selection.
+	frozen := wasFrozen
 ]

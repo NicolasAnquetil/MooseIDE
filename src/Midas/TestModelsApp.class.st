@@ -43,13 +43,13 @@ TestModelsApp >> testModelListSortedByName [
 TestModelsApp >> testUpdateModelInDashboard [
 	| dashboardApp |
 	dashboardApp := launcherApp launchDashboardApp.
-	modelsApp lstModels doubleClickAtIndex: 2.
+	modelsApp lstModels clickAtIndex: 2.
 	self assert: dashboardApp context midasFocus equals: models second
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
-	modelsApp lstModels doubleClickAtIndex: 2.
+	modelsApp lstModels clickAtIndex: 2.
 	self assert: launcherApp context midasFocus equals: models second
 ]
 
@@ -57,17 +57,17 @@ TestModelsApp >> testUpdateModelInLauncher [
 TestModelsApp >> testUpdateModelInQuery [
 	| queryApp |
 	queryApp := launcherApp launchEntitiesApp.
-	modelsApp lstModels doubleClickAtIndex: 2.
+	modelsApp lstModels clickAtIndex: 2.
 	self assert: queryApp context midasFocus equals: models second
 ]
 
 { #category : #tests }
-TestModelsApp >> testUpdateModelOnDoubleClick [
-	modelsApp lstModels doubleClickAtIndex: 1.
+TestModelsApp >> testUpdateModelOnClick [
+	modelsApp lstModels clickAtIndex: 1.
 	self
 		assert: modelsApp mooseModel
 		equals: modelsApp lstModels items first.
-	modelsApp lstModels doubleClickAtIndex: 2.
+	modelsApp lstModels clickAtIndex: 2.
 	self
 		assert: modelsApp mooseModel
 		equals: modelsApp lstModels items second
