@@ -1,7 +1,7 @@
 Class {
 	#name : #MidasQueryBig,
 	#superclass : #MidasQueryMetricThreshold,
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }

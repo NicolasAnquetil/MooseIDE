@@ -4,7 +4,7 @@ I represent the LinesOfCode Metric
 Class {
 	#name : #MidasMetricLOC,
 	#superclass : #MidasAbstractMetric,
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-gui'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'threshold'
 	],
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'diagram'
 	],
-	#category : #'Midas-apps'
+	#category : #'Midas-gui'
 }
 
 { #category : #specs }

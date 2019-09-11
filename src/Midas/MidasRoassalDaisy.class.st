@@ -8,7 +8,7 @@ Class {
 		'btnZoomIn',
 		'btnZoomOut'
 	],
-	#category : #'Midas-helpers'
+	#category : #'Midas-gui'
 }
 
 { #category : #specs }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'visualizer'
 	],
-	#category : #'Midas-apps'
+	#category : #'Midas-gui'
 }
 
 { #category : #specs }

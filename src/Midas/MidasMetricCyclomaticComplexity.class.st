@@ -4,7 +4,7 @@ I represent the cyclomatic complexity Metric
 Class {
 	#name : #MidasMetricCyclomaticComplexity,
 	#superclass : #MidasAbstractMetric,
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-gui'
 }
 
 { #category : #accessing }

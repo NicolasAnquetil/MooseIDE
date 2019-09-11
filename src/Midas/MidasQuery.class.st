@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'masterModel'
 	],
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }

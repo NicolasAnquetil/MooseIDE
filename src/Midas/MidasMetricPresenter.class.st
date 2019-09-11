@@ -10,7 +10,7 @@ Class {
 		'metricName',
 		'metricValue'
 	],
-	#category : #'Midas-apps'
+	#category : #'Midas-gui'
 }
 
 { #category : #specs }

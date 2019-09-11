@@ -1,7 +1,7 @@
 Class {
 	#name : #MidasQueryCore,
 	#superclass : #MidasQuery,
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }

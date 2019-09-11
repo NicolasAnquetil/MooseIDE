@@ -4,7 +4,7 @@ I represent the LCOM3 cohesion Metric
 Class {
 	#name : #MidasMetricLCOM3,
 	#superclass : #MidasAbstractMetric,
-	#category : #'Midas-dashboardhelpers'
+	#category : #'Midas-gui'
 }
 
 { #category : #accessing }

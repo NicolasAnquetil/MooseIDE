@@ -12,7 +12,7 @@ Class {
 	#classInstVars : [
 		'iconTheme'
 	],
-	#category : #'Midas-apps'
+	#category : #'Midas-gui'
 }
 
 { #category : #specs }
