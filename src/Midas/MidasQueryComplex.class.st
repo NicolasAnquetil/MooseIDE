@@ -1,15 +1,18 @@
+"
+Concrete subclass of a MidasQueryTopEntities that selects the top complex classes (in cyclomaticComplexity)
+"
 Class {
 	#name : #MidasQueryComplex,
-	#superclass : #MidasQueryMetricThreshold,
+	#superclass : #MidasQueryTopEntities,
 	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }
-MidasQueryComplex >> displayName [
+MidasQueryComplex class >> displayName [
 	^ 'Complex Classes'
 ]
 
 { #category : #accessing }
 MidasQueryComplex >> entities [
-	^self firstEntitiesFor: #cyclomaticComplexity
+	^self topEntitiesFor: #cyclomaticComplexity
 ]

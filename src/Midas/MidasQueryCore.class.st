@@ -1,3 +1,7 @@
+"
+Concrete subclass of a MidasQuery that selects all entities belonging to a *core* namespace
+
+"
 Class {
 	#name : #MidasQueryCore,
 	#superclass : #MidasQuery,
@@ -5,13 +9,13 @@ Class {
 }
 
 { #category : #accessing }
-MidasQueryCore >> displayName [
+MidasQueryCore class >> displayName [
 	^ 'Core Entities'
 ]
 
 { #category : #accessing }
 MidasQueryCore >> entities [
-	^ (masterModel focusedEntities
+	^ (context focusedEntities
 		select:
 			[ :each | (each atScope: FAMIXNamespace) mooseName asLowercase matchesRegex: '.*core.*'] )
 		asCollection

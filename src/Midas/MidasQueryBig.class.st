@@ -1,15 +1,18 @@
+"
+Concrete subclass of a MidasQueryTopEntities that selects the top big classes (in numberOfLinesOfCode)
+"
 Class {
 	#name : #MidasQueryBig,
-	#superclass : #MidasQueryMetricThreshold,
+	#superclass : #MidasQueryTopEntities,
 	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }
-MidasQueryBig >> displayName [
+MidasQueryBig class >> displayName [
 	^ 'Big Classes'
 ]
 
 { #category : #accessing }
 MidasQueryBig >> entities [
-	^ self firstEntitiesFor: #numberOfLinesOfCode
+	^ self topEntitiesFor: #numberOfLinesOfCode
 ]

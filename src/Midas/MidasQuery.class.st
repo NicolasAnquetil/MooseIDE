@@ -1,18 +1,24 @@
 "
-I query models
+Abstract class of a query that selects some entities from a context
+
+Selectors:
+
+entities -- the selected entities
+displayName
+model: -- sets the model containing all entities from which to select
 "
 Class {
 	#name : #MidasQuery,
 	#superclass : #Object,
 	#instVars : [
-		'masterModel'
+		'context'
 	],
 	#category : #'Midas-helpers'
 }
 
 { #category : #accessing }
 MidasQuery >> displayName [
-	self subclassResponsibility 
+	^ self class displayName
 ]
 
 { #category : #accessing }
@@ -22,5 +28,5 @@ MidasQuery >> entities [
 
 { #category : #accessing }
 MidasQuery >> master: aGuiModel [
-	masterModel := aGuiModel 
+	context := aGuiModel 
 ]
