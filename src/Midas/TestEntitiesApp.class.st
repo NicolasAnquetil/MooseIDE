@@ -76,6 +76,19 @@ TestEntitiesApp >> testScopePackage [
 ]
 
 { #category : #tests }
+TestEntitiesApp >> testSelectEntity [
+	| initialFocus |
+	initialFocus := self someClasses collect: [ :c | MidasEntityTransparent with: c ].
+	initialFocus := initialFocus sorted: [:a :b | a selection name < b selection name].
+	entitiesApp updateMidasFocus: initialFocus. 
+	self assert: self listedEntities size equals: 6.
+
+	entitiesApp lstEntities clickAtIndex: 3.
+	self assert: self listedEntities size equals: 1.
+	self assert: self listedEntities first name equals: 'Node'.
+]
+
+{ #category : #tests }
 TestEntitiesApp >> testWindowTitle [
 	self
 		assert: entitiesApp window title
