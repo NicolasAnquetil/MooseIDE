@@ -36,6 +36,11 @@ MidasContextEntities >> flattenResult [
 	self notifyMidasFocus: nil
 ]
 
+{ #category : #running }
+MidasContextEntities >> focusOnSelection [
+	self midasFocus: (app selectedItems)
+]
+
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: focus [
 	(self focusIsMooseModel: focus)
@@ -111,10 +116,11 @@ MidasContextEntities >> trackAssociation [
 ]
 
 { #category : #notifications }
-MidasContextEntities >> userSelection: aMidasEntity [
+MidasContextEntities >> userSelection: aCollection [
+	"selecting entities does not change this selection"
 	| wasFrozen |
 	wasFrozen := frozen.
-	frozen := false.
-	self midasFocus: aMidasEntity selection.
+	frozen := true.
+	self midasFocus: aCollection.
 	frozen := wasFrozen
 ]

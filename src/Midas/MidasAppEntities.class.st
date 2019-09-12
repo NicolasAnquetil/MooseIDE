@@ -97,8 +97,7 @@ MidasAppEntities >> initializePresenter [
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
-			[ :item | context userSelection: item ]
-				cull: selection selectedItem ].
+			context userSelection: selection selectedItems ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
@@ -106,10 +105,11 @@ MidasAppEntities >> initializePresenter [
 { #category : #initialization }
 MidasAppEntities >> initializeWidgetListEntities [
 	lstEntities := self instantiate: ListPresenter.
+	lstEntities beMultipleSelection.
 	lstEntities contextMenu: self listMenu.
 	lstEntities
 		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
-		icons: [ :item | item mooseIcon ]";
+		icons: [ :item | item mooseIcon ] ";
 		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]"
 ]
 
@@ -143,6 +143,12 @@ MidasAppEntities >> initializeWidgetsScopeRow [
 	mnuScope
 		addGroup: [ :group | 
 			"mnuScope applyTo: self"
+			group
+				addItem: [ :item | 
+					item
+						name: 'Focus on selection';
+						description: 'Focus on Selection';
+						action: [ context focusOnSelection ] ].
 			group
 				addItem: [ :item | 
 					item

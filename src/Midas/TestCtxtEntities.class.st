@@ -26,40 +26,42 @@ TestCtxtEntities >> testFilterQuery [
 
 { #category : #tests }
 TestCtxtEntities >> testFrozen [
-	entitiesApp context midasFocus: self someNamespaces.
-	entitiesApp chkFreeze state: false.
-	entitiesApp context midasFocus: self someClasses.
-	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection 
+	entitiesCtxt midasFocus: self someNamespaces.
+	entitiesCtxt freeze.
+	entitiesCtxt userSelection: self someClasses.
+	self assert: entitiesCtxt midasFocus equals: self someNamespaces
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testNotFrozen [
-	entitiesApp context midasFocus: self someNamespaces.
-	entitiesApp chkFreeze state: false.
-	entitiesApp context midasFocus: self someClasses.
-	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection
+	entitiesCtxt midasFocus: self someNamespaces.
+	entitiesCtxt unfreeze.
+	entitiesCtxt userSelection: self someClasses.
+	self assert: entitiesCtxt midasFocus equals: self someClasses
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopeClasses [
-	entitiesApp context midasFocus: self somePackages.
-	entitiesApp btnClassScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 6.
-	self listedEntities do: [ :each | self assert: each isClass ]
+	entitiesCtxt midasFocus: self somePackages.
+	entitiesCtxt classScope.
+	self assert: entitiesCtxt midasFocus size equals: 6.
+	entitiesCtxt midasFocus do: [ :each | self assert: each isClass ]
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopeMethods [
-	entitiesApp context midasFocus: self someClasses.
-	entitiesApp btnMethodScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 58.
-	self listedEntities do:[:each|self assert: each isMethod]
+	entitiesCtxt midasFocus: self someClasses.
+	entitiesCtxt methodScope.
+	self assert: entitiesCtxt midasFocus size equals: 58.
+	entitiesCtxt midasFocus do: [ :each | self assert: each isMethod ]
+
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopePackage [
-	entitiesApp context midasFocus: self someClasses.
-	entitiesApp btnPackageScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 1.
-	self assert: self listedEntities first name equals: 'LANSimulation'
+	entitiesCtxt midasFocus: self someClasses.
+	entitiesCtxt packageScope.
+	self assert: entitiesCtxt midasFocus size equals: 1.
+	self assert: entitiesCtxt midasFocus first name equals: 'LANSimulation'
+
 ]

@@ -9,7 +9,7 @@ Class {
 	#category : #'Midas-context'
 }
 
-{ #category : #accessing }
+{ #category : #running }
 MidasContextNavigate >> doesNotUnderstand: message [
 	"capturing #visitXXX: message and redirecting to FAMIXClass"
 	((message selector asString beginsWith: 'visit') and: [message arguments size = 1])
@@ -19,22 +19,26 @@ MidasContextNavigate >> doesNotUnderstand: message [
 	^self navigationPropertiesForClass: message argument class
 ]
 
-{ #category : #accessing }
+{ #category : #running }
 MidasContextNavigate >> navigationProperties [
+	self midasFocus
+		ifNil: [ ^ #() ].
 	self focusIsMooseModel
 		ifTrue: [ ^ self navigationPropertiesForModel: self midasFocus ].
 	self midasFocus isCollection
-		ifTrue: [ ^ self navigationPropertiesForCollection: self midasFocus ].
+		ifTrue: [ 
+			self midasFocus ifEmpty: [ ^ #() ].
+			^ self navigationPropertiesForCollection: self midasFocus ].
 	^ self navigationPropertiesForClass: self midasFocus class
 ]
 
-{ #category : #accessing }
+{ #category : #running }
 MidasContextNavigate >> navigationPropertiesForClass: aClass [
 	^ (self mooseModel metamodel descriptionOf: aClass) allAttributes
 			select: [:p | p opposite isNotNil]
 ]
 
-{ #category : #accessing }
+{ #category : #running }
 MidasContextNavigate >> navigationPropertiesForCollection: aCollectionOfEntities [
 	| classes props |
 	classes := (aCollectionOfEntities groupedBy: #class) keys.
@@ -44,7 +48,7 @@ MidasContextNavigate >> navigationPropertiesForCollection: aCollectionOfEntities
 	^ props
 ]
 
-{ #category : #accessing }
+{ #category : #running }
 MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 	^ aMooseModel navigationSelectors collect: [ :sel |
 			MidasEntityNavigateModel new

@@ -42,7 +42,11 @@ MidasLauncher class >> iconTheme [
 { #category : #specs }
 MidasLauncher class >> openDefault [
 	<script>
-	^self openOnModel: MooseModel root allModels first
+	| launcher |
+	launcher := self openOnModel: MooseModel root allModels first.
+	launcher launchEntitiesApp.
+	launcher launchNavigateApp.
+	^ launcher
 ]
 
 { #category : #specs }
