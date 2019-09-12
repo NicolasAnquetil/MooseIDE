@@ -15,6 +15,16 @@ TestCtxtHistory >> setUp [
 ]
 
 { #category : #tests }
+TestCtxtHistory >> testBack [
+	self assert: historyCtxt history size equals: 1.
+	historyCtxt midasFocus: self someClasses.
+	self assert: historyCtxt history size equals: 2.
+	historyCtxt prev.
+	self assert: historyCtxt history size equals: 2.
+
+]
+
+{ #category : #tests }
 TestCtxtHistory >> testEntriesBranchingCount [
 	self assert: historyCtxt allEntries size equals: 1.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 0.
@@ -36,4 +46,17 @@ TestCtxtHistory >> testEntriesCount [
 	historyCtxt midasFocus: self somePackages.
 	self assert: historyCtxt allEntries size equals: 3.
 
+]
+
+{ #category : #tests }
+TestCtxtHistory >> testPreviousAndNext [
+	| focusBefore focusAfter |
+	focusBefore := historyCtxt midasFocus.
+	historyCtxt midasFocus: self someClasses.
+	focusAfter := historyCtxt midasFocus.
+	self deny: focusAfter equals: focusBefore.
+	historyCtxt prev.
+	self assert: historyCtxt midasFocus equals: focusBefore.
+	historyCtxt next.
+	self assert: historyCtxt midasFocus equals: focusAfter
 ]

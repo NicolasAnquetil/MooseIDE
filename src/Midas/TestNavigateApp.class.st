@@ -9,7 +9,7 @@ Class {
 
 { #category : #running }
 TestNavigateApp >> indexFor: aString [
-	^ 	navigateApp diagram items
+	^ 	navigateApp properties items
 			detectIndex: [ :item | item name beginsWith: aString ]
 			 ifNone: [ 0 ].
 
@@ -19,27 +19,6 @@ TestNavigateApp >> indexFor: aString [
 TestNavigateApp >> setUp [
 	super setUp.
 	navigateApp := launcherApp launchNavigateApp
-]
-
-{ #category : #tests }
-TestNavigateApp >> testNavigateFromClass [
-	navigateApp context midasFocus: (self someClasses detect: [:c | c name = 'Node']).
-	navigateApp diagram clickAtIndex: (self indexFor: 'methods').
-	self
-		assert: launcherApp midasFocus size
-		equals: 14
-]
-
-{ #category : #tests }
-TestNavigateApp >> testSelectAllModelClasses [
-	navigateApp diagram clickAtIndex: (self indexFor: #allModelClasses).
-	self assert: navigateApp context midasFocus size equals: 6
-]
-
-{ #category : #tests }
-TestNavigateApp >> testSelectAllModelPackages [
-	navigateApp diagram clickAtIndex: (self indexFor: #allModelPackages).
-	self assert: navigateApp context midasFocus size equals: 1
 ]
 
 { #category : #tests }

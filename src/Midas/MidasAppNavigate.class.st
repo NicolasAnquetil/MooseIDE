@@ -5,7 +5,7 @@ Class {
 	#name : #MidasAppNavigate,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'diagram'
+		'properties'
 	],
 	#category : #'Midas-gui'
 }
@@ -13,20 +13,15 @@ Class {
 { #category : #specs }
 MidasAppNavigate class >> defaultSpec [
 	^ SpecBoxLayout newVertical
-		add: #diagram ;
+		add: #properties ;
 		yourself
-]
-
-{ #category : #accessing }
-MidasAppNavigate >> diagram [
-	^ diagram
 ]
 
 { #category : #initialization }
 MidasAppNavigate >> initializePresenter [ 
 	"-- Not using the 'freeze' checkbox --
 	 super initializePresenter."
-	diagram whenSelectionChangedDo: [ :selection |
+	properties whenSelectionChangedDo: [ :selection |
 		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
 	]
 	
@@ -35,16 +30,21 @@ MidasAppNavigate >> initializePresenter [
 
 { #category : #initialization }
 MidasAppNavigate >> initializeWidgets [
-	diagram := self newList.
-	diagram
+	properties := self newList.
+	properties
 		displayBlock: #name ;
 		sortingBlock: #name ascending.
 
 ]
 
+{ #category : #accessing }
+MidasAppNavigate >> properties [
+	^ properties
+]
+
 { #category : #refreshing }
 MidasAppNavigate >> refresh [
-	diagram items: context navigationProperties 
+	properties items: context navigationProperties 
 ]
 
 { #category : #TOREMOVE }

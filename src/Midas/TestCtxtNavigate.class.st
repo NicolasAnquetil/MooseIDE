@@ -101,6 +101,38 @@ TestCtxtNavigate >> testNamespaceProperties [
 ]
 
 { #category : #tests }
+TestCtxtNavigate >> testNavigateFromClass [
+	| prop |
+	prop := FM3PropertyDescription allInstances detect: [ :p | p mooseName endsWith: 'FAMIX.Type.methods]'].
+	navigateCtxt midasFocus: (self someClasses detect: [:c | c name = 'Node']).
+	navigateCtxt userSelection: prop.
+
+	self
+		assert: launcherCtxt midasFocus size
+		equals: 14
+]
+
+{ #category : #tests }
+TestCtxtNavigate >> testSelectAllModelClasses [
+	| prop |
+	prop := MidasEntityNavigateModel new
+			 		selector: #allModelClasses 
+					yourself.
+	navigateCtxt userSelection: prop.
+	self assert: navigateCtxt midasFocus size equals: 6
+]
+
+{ #category : #tests }
+TestCtxtNavigate >> testSelectAllModelPackages [
+	| prop |
+	prop := MidasEntityNavigateModel new
+			 		selector: #allModelPackages
+					yourself.
+	navigateCtxt userSelection: prop.
+	self assert: navigateCtxt midasFocus size equals: 1
+]
+
+{ #category : #tests }
 TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	| selector |
 	selector := Mock new.

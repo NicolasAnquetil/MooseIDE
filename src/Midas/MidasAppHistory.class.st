@@ -114,7 +114,7 @@ MidasAppHistory >> initializeNextPreviousButtons [
 
 { #category : #initialization }
 MidasAppHistory >> initializePresenter [
-	btnName action: [
+	btnName action: [1halt.
 		context currentName: fldName text.
 		fldName text: ''.
 		self refresh
