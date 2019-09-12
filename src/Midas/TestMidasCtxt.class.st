@@ -2,14 +2,14 @@ Class {
 	#name : #TestMidasCtxt,
 	#superclass : #TestMidas,
 	#instVars : [
-		'launcherCtxt'
+		'launcherCtxt',
+		'mockApp'
 	],
 	#category : #'Midas-Tests'
 }
 
 { #category : #running }
 TestMidasCtxt >> mockEmptyApp [
-	| mockApp |
 	mockApp := Mock new.
 	mockApp stub updateModel: nil.
 	mockApp stub updateMidasFocus: nil.

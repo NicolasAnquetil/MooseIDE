@@ -19,7 +19,7 @@ TestCtxtNavigate >> testAttributeProperties [
 	launcherCtxt midasFocus: self someAttributes anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 11
+		equals: 10
 
 "expected navigatinProperties
 FAMIX.StructuralEntity.declaredType
@@ -40,7 +40,13 @@ TestCtxtNavigate >> testClassProperties [
 	launcherCtxt midasFocus: self someClasses anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 21
+		equals: 20
+]
+
+{ #category : #tests }
+TestCtxtNavigate >> testEmptyFocus [
+	launcherCtxt midasFocus: #().
+	self assert: navigateCtxt navigationProperties isEmpty
 ]
 
 { #category : #tests }
@@ -48,7 +54,7 @@ TestCtxtNavigate >> testHeterogeneousProperties [
 	launcherCtxt midasFocus: {self someMethods anyOne . self someClasses anyOne}.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 10 "properties for FAMIXContainerEntity"
+		equals: 9 "properties for FAMIXContainerEntity"
 		
  "Expected properties:
 FAMIX.NamedEntity.parentPackage
@@ -68,7 +74,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 	launcherCtxt midasFocus: self someMethods.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 23 "same as for a single method: #testMethodProperties"
+		equals: 22 "same as for a single method: #testMethodProperties"
 ]
 
 { #category : #tests }
@@ -76,14 +82,14 @@ TestCtxtNavigate >> testMethodProperties [
 	launcherCtxt midasFocus: self someMethods anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 23
+		equals: 22
 ]
 
 { #category : #tests }
 TestCtxtNavigate >> testModelProperties [
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 41
+		equals: 43
 ]
 
 { #category : #tests }
@@ -91,7 +97,7 @@ TestCtxtNavigate >> testNamespaceProperties [
 	launcherCtxt midasFocus: self someNamespaces anyOne.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 15
+		equals: 14
 ]
 
 { #category : #tests }
@@ -104,5 +110,5 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	navigateCtxt userSelection: selector.
 	self
 		assert: navigateCtxt navigationProperties size
-		equals: 11
+		equals: 10
 ]

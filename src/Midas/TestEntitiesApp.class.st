@@ -23,69 +23,44 @@ TestEntitiesApp >> listedEntities [
 { #category : #running }
 TestEntitiesApp >> setUp [
 	super setUp.
-	entitiesApp := launcherApp launchEntitiesApp
+	entitiesApp := launcherApp launchEntitiesApp.
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testFilterQuery [
+	|  mockCtxt query ctxtReceived|
+	mockCtxt := Mock new.
+	(mockCtxt 	stub interpretQuery: Any) will: [:arg | ctxtReceived := arg].
+	entitiesApp context: mockCtxt.
+	
+	query := 'each name = ''Node'''.
+
 	entitiesApp mnuSelcol selectedIndex: 1.	"select #filter"
-	entitiesApp fldQuery text: 'each name = ''Node'''.
+	entitiesApp fldQuery text: query.
 	entitiesApp btnQuery performAction.
-	self assert: self listedEntities size equals: 1.
-	self assert: self listedEntities first name equals: 'Node'	
-]
+	
+	self assert: entitiesApp filterQuery.
+	self assert: ctxtReceived equals: query.
 
-{ #category : #tests }
-TestEntitiesApp >> testFrozen [
-	entitiesApp context midasFocus: self someNamespaces.
-	entitiesApp chkFreeze state: false.
-	entitiesApp context midasFocus: self someClasses.
-	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection 
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testNotFrozen [
-	entitiesApp context midasFocus: self someNamespaces.
-	entitiesApp chkFreeze state: false.
-	entitiesApp context midasFocus: self someClasses.
-	self assert: self listedEntities asOrderedCollection equals: self someClasses asOrderedCollection
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testScopeClasses [
-	entitiesApp context midasFocus: self somePackages.
-	entitiesApp btnClassScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 6.
-	self listedEntities do: [ :each | self assert: each isClass ]
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testScopeMethods [
-	entitiesApp context midasFocus: self someClasses.
-	entitiesApp btnMethodScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 58.
-	self listedEntities do:[:each|self assert: each isMethod]
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testScopePackage [
-	entitiesApp context midasFocus: self someClasses.
-	entitiesApp btnPackageScope performMenuActionWith: self.
-	self assert: self listedEntities size equals: 1.
-	self assert: self listedEntities first name equals: 'LANSimulation'
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testSelectEntity [
-	| initialFocus |
+	| initialFocus mockCtxt ctxtReceived |
+
+	mockCtxt := Mock new.
+	(mockCtxt 	stub userSelection: Any) will: [:arg | ctxtReceived := arg].
+	entitiesApp context: mockCtxt.
+
 	initialFocus := self someClasses collect: [ :c | MidasEntityTransparent with: c ].
 	initialFocus := initialFocus sorted: [:a :b | a selection name < b selection name].
 	entitiesApp updateMidasFocus: initialFocus. 
+	
 	self assert: self listedEntities size equals: 6.
 
 	entitiesApp lstEntities clickAtIndex: 3.
-	self assert: self listedEntities size equals: 1.
-	self assert: self listedEntities first name equals: 'Node'.
+	self assert: ctxtReceived size equals: 1.
+	self assert: ctxtReceived first selection name equals: 'Node'.
 ]
 
 { #category : #tests }
