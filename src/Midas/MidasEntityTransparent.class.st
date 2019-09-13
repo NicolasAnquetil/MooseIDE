@@ -21,12 +21,12 @@ MidasEntityTransparent >> displayWithParent: aBoolean [
 		ifTrue: [ '** must implement #formatWithParent: **' ]
 ]
 
+{ #category : #formatting }
+MidasEntityTransparent >> entities [
+	^ famix
+]
+
 { #category : #accessing }
 MidasEntityTransparent >> famix: aFamixEntity [
 	famix := aFamixEntity
-]
-
-{ #category : #formatting }
-MidasEntityTransparent >> selection [
-	^ famix
 ]

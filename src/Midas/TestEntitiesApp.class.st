@@ -17,13 +17,19 @@ TestEntitiesApp >> indexFor: aString [
 
 { #category : #running }
 TestEntitiesApp >> listedEntities [
-	^ entitiesApp lstEntities items collect: #selection
+	^ entitiesApp lstEntities items collect: #entities
 ]
 
 { #category : #running }
 TestEntitiesApp >> setUp [
 	super setUp.
 	entitiesApp := launcherApp launchEntitiesApp.
+]
+
+{ #category : #tests }
+TestEntitiesApp >> testDefaultToFrozen [
+	self deny: entitiesApp chkFreeze state
+
 ]
 
 { #category : #tests }
@@ -53,14 +59,30 @@ TestEntitiesApp >> testSelectEntity [
 	entitiesApp context: mockCtxt.
 
 	initialFocus := self someClasses collect: [ :c | MidasEntityTransparent with: c ].
-	initialFocus := initialFocus sorted: [:a :b | a selection name < b selection name].
+	initialFocus := initialFocus sorted: [:a :b | a entities name < b entities name].
 	entitiesApp updateMidasFocus: initialFocus. 
 	
 	self assert: self listedEntities size equals: 6.
 
 	entitiesApp lstEntities clickAtIndex: 3.
 	self assert: ctxtReceived size equals: 1.
-	self assert: ctxtReceived first selection name equals: 'Node'.
+	self assert: ctxtReceived first entities name equals: 'Node'.
+]
+
+{ #category : #tests }
+TestEntitiesApp >> testSelectionFreezeOnFocusButton [
+	entitiesApp chkSelectionToFocus state: true.
+	self deny: entitiesApp btnFocusOnSelection isEnabled.
+	entitiesApp chkSelectionToFocus state: false.
+	self assert: entitiesApp btnFocusOnSelection isEnabled
+
+]
+
+{ #category : #tests }
+TestEntitiesApp >> testSelectionFrozenDefault [
+	self deny: entitiesApp chkSelectionToFocus state.
+	self assert: entitiesApp context selectionFrozen
+
 ]
 
 { #category : #tests }

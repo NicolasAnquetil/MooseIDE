@@ -13,7 +13,9 @@ Class {
 		'lstEntities',
 		'btnPrev',
 		'btnNext',
-		'filterQuery'
+		'filterQuery',
+		'btnFocusOnSelection',
+		'chkSelectionToFocus'
 	],
 	#category : #'Midas-gui'
 }
@@ -24,7 +26,10 @@ MidasAppEntities class >> defaultSpec [
 		add:
 			(SpecBoxLayout newHorizontal
 				add: #chkFreeze;
-				add: #chkAssociation)
+				add: #chkSelectionToFocus ;
+				add: #btnFocusOnSelection ;
+				add: #chkAssociation ;
+				yourself)
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add:
 			(SpecBoxLayout newHorizontal
@@ -48,6 +53,11 @@ MidasAppEntities >> btnClassScope [
 ]
 
 { #category : #accessing }
+MidasAppEntities >> btnFocusOnSelection [
+	^btnFocusOnSelection
+]
+
+{ #category : #accessing }
 MidasAppEntities >> btnMethodScope [
 	^mnuScope menuGroups first menuItems third
 ]
@@ -62,19 +72,40 @@ MidasAppEntities >> btnQuery [
 	^ btnQuery
 ]
 
+{ #category : #initialization }
+MidasAppEntities >> canBeFrozen [
+	super canBeFrozen.
+
+	chkSelectionToFocus := self newCheckBox.
+	chkSelectionToFocus label: 'Selection focus'.
+	chkSelectionToFocus state: false.
+
+	btnFocusOnSelection := self newButton.
+	btnFocusOnSelection label: 'Force focus'.
+	btnFocusOnSelection enable.
+
+	
+]
+
 { #category : #accessing }
 MidasAppEntities >> chkAssociation [
 	^ chkAssociation
 ]
 
 { #category : #accessing }
-MidasAppEntities >> chkFreeze [
-^chkFreeze
+MidasAppEntities >> chkSelectionToFocus [
+	^ chkSelectionToFocus 
 ]
 
 { #category : #accessing }
 MidasAppEntities >> context: aContext [
 	super context: aContext.
+	chkFreeze state
+		ifTrue:  [ aContext freeze ];
+		ifFalse: [ aContext unfreeze ].
+	chkSelectionToFocus state
+		ifTrue:  [ aContext selectionToFocus ];
+		ifFalse: [ aContext selectionNoFocus ].
 ]
 
 { #category : #accessing }
@@ -92,6 +123,15 @@ MidasAppEntities >> initializePresenter [
 	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
+	chkSelectionToFocus
+		whenActivatedDo: [
+			context selectionToFocus.
+			btnFocusOnSelection disable ];
+		whenDeactivatedDo: [
+			context selectionNoFocus.
+			btnFocusOnSelection enable ].
+	btnFocusOnSelection action: [ context focusOnSelection ].
+
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
@@ -116,6 +156,7 @@ MidasAppEntities >> initializeWidgetListEntities [
 { #category : #initialization }
 MidasAppEntities >> initializeWidgets [
 	self canBeFrozen.
+	
 	chkAssociation := (self instantiate: CheckBoxPresenter)
 		label: 'Result as tree';
 		yourself.
@@ -143,12 +184,6 @@ MidasAppEntities >> initializeWidgetsScopeRow [
 	mnuScope
 		addGroup: [ :group | 
 			"mnuScope applyTo: self"
-			group
-				addItem: [ :item | 
-					item
-						name: 'Focus on selection';
-						description: 'Focus on Selection';
-						action: [ context focusOnSelection ] ].
 			group
 				addItem: [ :item | 
 					item
@@ -188,7 +223,7 @@ MidasAppEntities >> listMenu [
 			anItem
 				name: 'Inspect';
 				icon: (self iconNamed: #smallInspectIt);
-				action: [ lstEntities selection selectedItem inspect ] ]
+				action: [ lstEntities entities selectedItem inspect ] ]
 ]
 
 { #category : #accessing }

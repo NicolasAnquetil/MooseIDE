@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'resultsWithParents',
 		'listEntities',
-		'history'
+		'history',
+		'selectionFrozen'
 	],
 	#category : #'Midas-context'
 }
@@ -37,8 +38,8 @@ MidasContextEntities >> flattenResult [
 ]
 
 { #category : #running }
-MidasContextEntities >> focusOnSelection [
-	self midasFocus: (app selectedItems)
+MidasContextEntities >> focusOnSelection: aCollection [
+	self midasFocus: (aCollection collect: #entities)
 ]
 
 { #category : #notifications }
@@ -59,6 +60,7 @@ MidasContextEntities >> formatNewModel: mooseModel [
 MidasContextEntities >> initialize [
 	super initialize.
 	resultsWithParents := false.
+	selectionFrozen := true
 ]
 
 { #category : #running }
@@ -103,6 +105,21 @@ MidasContextEntities >> runSelectQuery: aBloc [
 	^ self midasFocus select: aBloc
 ]
 
+{ #category : #accessing }
+MidasContextEntities >> selectionFrozen [
+	^ selectionFrozen
+]
+
+{ #category : #accessing }
+MidasContextEntities >> selectionNoFocus [
+	selectionFrozen := true
+]
+
+{ #category : #accessing }
+MidasContextEntities >> selectionToFocus [
+	selectionFrozen := false
+]
+
 { #category : #running }
 MidasContextEntities >> toScope: aSymbol [
 	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
@@ -115,12 +132,11 @@ MidasContextEntities >> trackAssociation [
 	self notifyMidasFocus: nil
 ]
 
-{ #category : #notifications }
+{ #category : #running }
 MidasContextEntities >> userSelection: aCollection [
-	"selecting entities does not change this selection"
 	| wasFrozen |
 	wasFrozen := frozen.
-	frozen := true.
-	self midasFocus: aCollection.
-	frozen := wasFrozen
+	selectionFrozen ifTrue: [ frozen := true ].
+	self midasFocus: (aCollection collect:  #entities).
+	frozen := wasFrozen.
 ]

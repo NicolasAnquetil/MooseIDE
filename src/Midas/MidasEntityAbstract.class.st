@@ -10,6 +10,6 @@ MidasEntityAbstract >> displayWithParent: aBoolean [
 ]
 
 { #category : #formatting }
-MidasEntityAbstract >> selection [
+MidasEntityAbstract >> entities [
 	self subclassResponsibility
 ]

@@ -26,18 +26,26 @@ TestCtxtEntities >> testFilterQuery [
 
 { #category : #tests }
 TestCtxtEntities >> testFrozen [
-	entitiesCtxt midasFocus: self someNamespaces.
+	| displayUpdated |
+	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+
+	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt freeze.
-	entitiesCtxt userSelection: self someClasses.
-	self assert: entitiesCtxt midasFocus equals: self someNamespaces
+	displayUpdated := false.
+	launcherCtxt midasFocus: self someClasses.
+	self deny: displayUpdated 
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testNotFrozen [
-	entitiesCtxt midasFocus: self someNamespaces.
+	| displayUpdated |
+	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+
+	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt unfreeze.
-	entitiesCtxt userSelection: self someClasses.
-	self assert: entitiesCtxt midasFocus equals: self someClasses
+	displayUpdated := false.
+	launcherCtxt midasFocus: self someClasses.
+	self assert: displayUpdated 
 ]
 
 { #category : #tests }
@@ -64,4 +72,35 @@ TestCtxtEntities >> testScopePackage [
 	self assert: entitiesCtxt midasFocus size equals: 1.
 	self assert: entitiesCtxt midasFocus first name equals: 'LANSimulation'
 
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testSelectionFrozen [
+	| displayUpdated midasEntities |
+	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+
+	launcherCtxt midasFocus: self someNamespaces.
+	entitiesCtxt selectionNoFocus.
+	displayUpdated := false.
+
+	midasEntities := self someClasses collect: [:c | MidasEntityTransparent with: c].
+	entitiesCtxt userSelection: midasEntities.
+	self deny: displayUpdated.
+
+	entitiesCtxt focusOnSelection: midasEntities.
+	self assert: displayUpdated.
+
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testSelectionNotFrozen [
+	| displayUpdated |
+	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+
+	launcherCtxt midasFocus: self someNamespaces.
+	entitiesCtxt selectionToFocus.
+	displayUpdated := false.
+	entitiesCtxt userSelection: (self someClasses collect: [:c | MidasEntityTransparent with: c]).
+.
+	self assert: displayUpdated 
 ]

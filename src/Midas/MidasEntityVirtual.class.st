@@ -28,6 +28,11 @@ MidasEntityVirtual >> displayWithParent: aBoolean [
 		ifTrue: [ '** must implement #formatWithParent: **' ]
 ]
 
+{ #category : #formatting }
+MidasEntityVirtual >> entities [
+	^children
+]
+
 { #category : #initialization }
 MidasEntityVirtual >> name [
 	^ name
@@ -36,9 +41,4 @@ MidasEntityVirtual >> name [
 { #category : #initialization }
 MidasEntityVirtual >> name: aString [
 	name := aString
-]
-
-{ #category : #formatting }
-MidasEntityVirtual >> selection [
-	^children
 ]
