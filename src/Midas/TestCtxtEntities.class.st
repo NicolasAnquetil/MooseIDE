@@ -83,7 +83,7 @@ TestCtxtEntities >> testSelectionFrozen [
 	entitiesCtxt selectionNoFocus.
 	displayUpdated := false.
 
-	midasEntities := self someClasses collect: [:c | MidasEntityTransparent with: c].
+	midasEntities := self someClasses collect: [:c | MidasEntityFamix with: c].
 	entitiesCtxt userSelection: midasEntities.
 	self deny: displayUpdated.
 
@@ -100,7 +100,7 @@ TestCtxtEntities >> testSelectionNotFrozen [
 	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt selectionToFocus.
 	displayUpdated := false.
-	entitiesCtxt userSelection: (self someClasses collect: [:c | MidasEntityTransparent with: c]).
-.
+	entitiesCtxt userSelection: (self someClasses collect: [:c | MidasEntityFamix with: c]).
+
 	self assert: displayUpdated 
 ]

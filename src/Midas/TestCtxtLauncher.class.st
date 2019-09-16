@@ -6,6 +6,7 @@ Class {
 
 { #category : #tests }
 TestCtxtLauncher >> testMooseModel [
-	self assert: launcherCtxt mooseModel equals: models first.
+	self assert: (launcherCtxt mooseModel
+						sameModel: models first)
 
 ]

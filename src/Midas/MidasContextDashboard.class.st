@@ -22,7 +22,7 @@ MidasContextDashboard >> focusedEntities [
 
 { #category : #accessing }
 MidasContextDashboard >> formatMidasFocus: newFocus [
-	^ self midasFocusIsModel
+	^ self midasFocus isModel
 		ifTrue: [ self mooseModel allModelClasses ]
 		ifFalse: [ newFocus ]
 ]

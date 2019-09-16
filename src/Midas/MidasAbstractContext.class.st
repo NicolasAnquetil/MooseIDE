@@ -49,11 +49,16 @@ MidasAbstractContext >> midasFocus: newFocus [
 
 { #category : #accessing }
 MidasAbstractContext >> modelName [
-	^self mooseModel ifNil: [ '--' ] ifNotNil: [ :model | model name ]
+	^self mooseModel ifNil: [ '--' ] ifNotNil: [ :model | model displayString ]
 ]
 
 { #category : #accessing }
 MidasAbstractContext >> mooseModel [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+MidasAbstractContext >> mooseModel: aMooseModel [
 	self subclassResponsibility 
 ]
 

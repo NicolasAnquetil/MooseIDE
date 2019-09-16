@@ -45,15 +45,15 @@ MidasContextEntities >> focusOnSelection: aCollection [
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: focus [
 	(self focusIsMooseModel: focus)
-		ifTrue: [ ^ {(MidasEntityTransparent with: focus)} ].
+		ifTrue: [ ^ {(MidasEntityFamix with: focus)} ].
 	focus isCollection
-		ifTrue: [ ^ focus collect: [ :each | MidasEntityTransparent with: each ] ].
-	^ {(MidasEntityTransparent with: focus)}
+		ifTrue: [ ^ focus collect: [ :each | MidasEntityFamix with: each ] ].
+	^ {(MidasEntityFamix with: focus)}
 ]
 
 { #category : #notifications }
 MidasContextEntities >> formatNewModel: mooseModel [
-	^ 	{MidasEntityTransparent with: mooseModel}
+	^ 	{MidasEntityFamix with: mooseModel}
 ]
 
 { #category : #initialization }

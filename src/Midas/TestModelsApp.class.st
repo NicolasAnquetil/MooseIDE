@@ -20,15 +20,15 @@ TestModelsApp >> setUp [
 { #category : #tests }
 TestModelsApp >> testInitializeModelInDashboard [
 	self
-		assert: launcherApp launchDashboardApp context midasFocus
-		equals: models first
+		assert: (launcherApp launchDashboardApp context midasFocus
+					sameModel: models first)
 ]
 
 { #category : #tests }
 TestModelsApp >> testInitializeModelInListEntities [
 	self
-		assert: launcherApp launchEntitiesApp context midasFocus
-		equals: models first
+		assert: (launcherApp launchEntitiesApp context midasFocus
+					sameModel: models first)
 ]
 
 { #category : #tests }
@@ -44,13 +44,15 @@ TestModelsApp >> testUpdateModelInDashboard [
 	| dashboardApp |
 	dashboardApp := launcherApp launchDashboardApp.
 	modelsApp lstModels clickAtIndex: 2.
-	self assert: dashboardApp context midasFocus equals: models second
+	self assert: (dashboardApp context midasFocus 
+						sameModel: models second)
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelInLauncher [
 	modelsApp lstModels clickAtIndex: 2.
-	self assert: launcherApp context midasFocus equals: models second
+	self assert: (launcherApp context midasFocus
+						sameModel: models second)
 ]
 
 { #category : #tests }
@@ -58,17 +60,18 @@ TestModelsApp >> testUpdateModelInQuery [
 	| queryApp |
 	queryApp := launcherApp launchEntitiesApp.
 	modelsApp lstModels clickAtIndex: 2.
-	self assert: queryApp context midasFocus equals: models second
+	self assert: (queryApp context midasFocus
+						sameModel: models second)
 ]
 
 { #category : #tests }
 TestModelsApp >> testUpdateModelOnClick [
 	modelsApp lstModels clickAtIndex: 1.
 	self
-		assert: modelsApp mooseModel
-		equals: modelsApp lstModels items first.
+		assert: (modelsApp mooseModel
+					sameModel: modelsApp lstModels items first).
 	modelsApp lstModels clickAtIndex: 2.
 	self
-		assert: modelsApp mooseModel
-		equals: modelsApp lstModels items second
+		assert: (modelsApp mooseModel
+					sameModel: modelsApp lstModels items second)
 ]

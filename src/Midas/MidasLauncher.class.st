@@ -204,7 +204,7 @@ MidasLauncher >> openOnModel: aMooseModel [
 
 { #category : #api }
 MidasLauncher >> title [
-	^ 'MIDAS Launcher: ''' , context modelName , ''''
+	^ 'MIDAS ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

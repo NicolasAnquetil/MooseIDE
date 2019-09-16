@@ -65,9 +65,9 @@ TestDashboardApp >> testFreezeContentIsSelected [
 TestDashboardApp >> testWindowTitle [
 	self
 		assert: dashboardApp window title
-		equals: 'MIDAS Dashboard: ''First-lanModel'''.
+		equals: 'Dashboard ''Model: First-lanModel'''.
 	launcherApp context mooseModel: models second.
 	self
 		assert: dashboardApp window title
-		equals: 'MIDAS Dashboard: ''Second-simpleModel'''
+		equals: 'Dashboard ''Model: Second-simpleModel'''
 ]

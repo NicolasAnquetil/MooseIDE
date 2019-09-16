@@ -27,7 +27,7 @@ MidasFocusFormater >> format: anObject [
 MidasFocusFormater >> virtualEntity: label from: col [
 	col ifNotEmpty: [ | finalLbl |
 		finalLbl := label , ' (' , col size asString , ')'.
-		result add: (MidasEntityVirtual with: col named: finalLbl)
+		result add: (MidasEntityFamixCollection with: col named: finalLbl)
 	]
 ]
 
@@ -43,7 +43,7 @@ MidasFocusFormater >> visitClass: aClass [
 MidasFocusFormater >> visitCollection: aCollection [
 	"using visitor infrastrcture as a generic double dispatch mechanism"
 	aCollection do: [ :each |
-		result add: (MidasEntityTransparent with: each)
+		result add: (MidasEntityFamix with: each)
 	]
 
 ]

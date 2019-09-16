@@ -87,7 +87,7 @@ MidasAppDashboard >> metric3 [
 
 { #category : #api }
 MidasAppDashboard >> title [
-	^'MIDAS Dashboard: ''' , context modelName , ''''
+	^'Dashboard ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

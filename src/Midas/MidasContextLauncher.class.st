@@ -10,8 +10,7 @@ Class {
 	#instVars : [
 		'children',
 		'mooseModel',
-		'strongFocus',
-		'weakFocus'
+		'midasFocus'
 	],
 	#category : #'Midas-context'
 }
@@ -51,22 +50,15 @@ MidasContextLauncher >> initialize [
 
 { #category : #accessing }
 MidasContextLauncher >> midasFocus [
-	^ strongFocus
+	^ midasFocus
 ]
 
-{ #category : #accessing }
+{ #category : #notifications }
 MidasContextLauncher >> midasFocus: newFocus [
 	self midasFocus = newFocus
 		ifTrue: [ ^ self ].
-	strongFocus := newFocus.
-	"note: setting strongFocus _sets_ weakFocus but does not _notify_ weakFocus"
-	weakFocus := newFocus.
+	midasFocus := newFocus.
 	self notifyMidasFocus: newFocus.
-]
-
-{ #category : #accessing }
-MidasContextLauncher >> midasFocusIsModel [
-	^ mooseModel = strongFocus
 ]
 
 { #category : #accessing }
@@ -74,21 +66,25 @@ MidasContextLauncher >> mooseModel [
 	^ mooseModel
 ]
 
-{ #category : #accessing }
+{ #category : #notifications }
 MidasContextLauncher >> mooseModel: newMooseModel [
 	newMooseModel ifNil: [ ^ self ].
-	self mooseModel = newMooseModel
+	(self mooseModel notNil and: [self mooseModel sameModel: newMooseModel])
 		ifTrue: [ ^ self ].
-	mooseModel := newMooseModel.
-	"note: setting model _sets_ strong and weak focuses but does not _notify_ strong and weak focuses"
-	strongFocus := newMooseModel.
-	weakFocus := newMooseModel.
-	self notifyNewModel: newMooseModel
+	mooseModel := MidasEntityMooseModel with: newMooseModel.
+	"note: setting model _sets_ focus but does not _notify_ focus (notifies model)"
+	midasFocus := mooseModel.
+	self notifyNewModel: mooseModel
 ]
 
 { #category : #accessing }
 MidasContextLauncher >> mooseModelAsGroups [
-	^ self mooseModel ifNotNil: [ :model | model entityCache associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']]]
+	^ self mooseModel
+		ifNotNil: [ :model |
+			model entityCache 
+				associationsSelect: [ :a | a key isString and: [a key beginsWith: 'All model']
+		]
+	]
 ]
 
 { #category : #notifications }

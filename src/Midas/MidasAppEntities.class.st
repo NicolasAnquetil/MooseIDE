@@ -148,7 +148,7 @@ MidasAppEntities >> initializeWidgetListEntities [
 	lstEntities beMultipleSelection.
 	lstEntities contextMenu: self listMenu.
 	lstEntities
-		displayBlock: [ :entity | entity displayWithParent: context resultsWithParents ];
+		displayBlock: [ :entity | entity displayString ];
 		icons: [ :item | item mooseIcon ] ";
 		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]"
 ]
@@ -248,7 +248,7 @@ MidasAppEntities >> runQueryButtonAction [
 
 { #category : #api }
 MidasAppEntities >> title [
-	^'MIDAS Query: ''' , context modelName , ''''
+	^'Query ''' , context modelName , ''''
 ]
 
 { #category : #notifications }

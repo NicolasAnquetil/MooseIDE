@@ -58,15 +58,15 @@ TestEntitiesApp >> testSelectEntity [
 	(mockCtxt 	stub userSelection: Any) will: [:arg | ctxtReceived := arg].
 	entitiesApp context: mockCtxt.
 
-	initialFocus := self someClasses collect: [ :c | MidasEntityTransparent with: c ].
-	initialFocus := initialFocus sorted: [:a :b | a entities name < b entities name].
+	initialFocus := self someClasses collect: [ :c | MidasEntityFamix with: c ].
+	initialFocus := initialFocus sorted: [:a :b | a displayString < b displayString].
 	entitiesApp updateMidasFocus: initialFocus. 
 	
 	self assert: self listedEntities size equals: 6.
 
 	entitiesApp lstEntities clickAtIndex: 3.
 	self assert: ctxtReceived size equals: 1.
-	self assert: ctxtReceived first entities name equals: 'Node'.
+	self assert: ctxtReceived first displayString equals: 'Node'.
 ]
 
 { #category : #tests }
@@ -89,9 +89,9 @@ TestEntitiesApp >> testSelectionFrozenDefault [
 TestEntitiesApp >> testWindowTitle [
 	self
 		assert: entitiesApp window title
-		equals: 'MIDAS Query: ''First-lanModel'''.
+		equals: 'Query ''Model: First-lanModel'''.
 	launcherApp context mooseModel: models second.
 	self
 		assert: entitiesApp window title
-		equals: 'MIDAS Query: ''Second-simpleModel'''
+		equals: 'Query ''Model: Second-simpleModel'''
 ]

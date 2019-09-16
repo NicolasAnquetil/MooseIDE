@@ -49,7 +49,7 @@ MidasAppNavigate >> refresh [
 
 { #category : #TOREMOVE }
 MidasAppNavigate >> title [
-	^'MIDAS Navigate: ''' , context modelName , ''''
+	^'Navigate ''' , context modelName , ''''
 ]
 
 { #category : #notifications }
