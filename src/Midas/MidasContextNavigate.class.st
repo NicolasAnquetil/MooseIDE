@@ -23,7 +23,7 @@ MidasContextNavigate >> doesNotUnderstand: message [
 MidasContextNavigate >> navigationProperties [
 	self midasFocus
 		ifNil: [ ^ #() ].
-	self focusIsMooseModel
+	self midasFocus isModel
 		ifTrue: [ ^ self navigationPropertiesForModel: self midasFocus ].
 	self midasFocus isCollection
 		ifTrue: [ 
@@ -62,7 +62,7 @@ MidasContextNavigate >> navigationPropertiesForModel: aMooseModel [
 MidasContextNavigate >> userSelection: anObject [
 	| focus |
 	focus := self midasFocus.
-	(self focusIsMooseModel: focus)
+	(focus isModel)
 		ifTrue: [ ^ self midasFocus: (focus perform: anObject methodSelector) ].
 	focus isCollection
 		ifTrue: [ ^ self midasFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].

@@ -20,7 +20,7 @@ MidasContextHistory >> acceptMidasFocusUpdate: newFocus [
 
 { #category : #history }
 MidasContextHistory >> addToHistory: entities [
-	(self focusIsMooseModel: entities)
+	(entities isModel)
 		ifTrue: [ history addEntryModel: entities ]
 		ifFalse: [ history addEntry: entities ]
 	

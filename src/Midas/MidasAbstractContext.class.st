@@ -27,16 +27,6 @@ MidasAbstractContext >> app: anApp [
 	self notifyMidasFocus: self midasFocus
 ]
 
-{ #category : #testing }
-MidasAbstractContext >> focusIsMooseModel [
-	^ self focusIsMooseModel: self midasFocus
-]
-
-{ #category : #testing }
-MidasAbstractContext >> focusIsMooseModel: focus [
-	^ focus = self mooseModel
-]
-
 { #category : #accessing }
 MidasAbstractContext >> midasFocus [
 	self subclassResponsibility

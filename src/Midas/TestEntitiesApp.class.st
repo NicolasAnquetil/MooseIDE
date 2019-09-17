@@ -52,21 +52,21 @@ TestEntitiesApp >> testFilterQuery [
 
 { #category : #tests }
 TestEntitiesApp >> testSelectEntity [
-	| initialFocus mockCtxt ctxtReceived |
+	| initialFocus mockCtxt userSelection |
 
 	mockCtxt := Mock new.
-	(mockCtxt 	stub userSelection: Any) will: [:arg | ctxtReceived := arg].
+	(mockCtxt stub userSelection: Any) will: [:arg | userSelection := arg].
 	entitiesApp context: mockCtxt.
 
-	initialFocus := self someClasses collect: [ :c | MidasEntityFamix with: c ].
+	initialFocus := self someClasses collect: [ :c | MidasEntityFamix with: c ancestor: nil ].
 	initialFocus := initialFocus sorted: [:a :b | a displayString < b displayString].
 	entitiesApp updateMidasFocus: initialFocus. 
 	
 	self assert: self listedEntities size equals: 6.
 
 	entitiesApp lstEntities clickAtIndex: 3.
-	self assert: ctxtReceived size equals: 1.
-	self assert: ctxtReceived first displayString equals: 'Node'.
+	self assert: userSelection size equals: 1.
+	self assert: userSelection first displayString equals: 'Node'.
 ]
 
 { #category : #tests }
@@ -90,7 +90,7 @@ TestEntitiesApp >> testWindowTitle [
 	self
 		assert: entitiesApp window title
 		equals: 'Query ''Model: First-lanModel'''.
-	launcherApp context mooseModel: models second.
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: entitiesApp window title
 		equals: 'Query ''Model: Second-simpleModel'''

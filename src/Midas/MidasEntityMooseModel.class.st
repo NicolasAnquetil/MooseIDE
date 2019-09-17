@@ -10,9 +10,7 @@ Class {
 
 { #category : #'instance creation' }
 MidasEntityMooseModel class >> with: aMooseModel [
-	^self new
-		model: aMooseModel ;
-		yourself
+	^self with: aMooseModel ancestor: nil
 ]
 
 { #category : #formatting }
@@ -28,11 +26,6 @@ MidasEntityMooseModel >> isModel [
 { #category : #meta }
 MidasEntityMooseModel >> metamodel [
 	^ singleEntity metamodel
-]
-
-{ #category : #dependencies }
-MidasEntityMooseModel >> model: aMooseModel [
-	singleEntity := aMooseModel
 ]
 
 { #category : #testing }

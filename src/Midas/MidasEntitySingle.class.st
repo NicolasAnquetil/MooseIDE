@@ -13,6 +13,14 @@ Class {
 	#category : #'Midas-context'
 }
 
+{ #category : #'instance creation' }
+MidasEntitySingle class >> with: anEntity ancestor: aMidasEntity [
+	^ self new
+			singleEntity: anEntity ;
+			ancestor: aMidasEntity ;
+			yourself
+]
+
 { #category : #'reflective operations' }
 MidasEntitySingle >> doesNotUnderstand: aMessage [
 	^ [ aMessage sendTo: singleEntity ]
@@ -23,4 +31,40 @@ MidasEntitySingle >> doesNotUnderstand: aMessage [
 { #category : #formatting }
 MidasEntitySingle >> entities [
 	^ { singleEntity }
+]
+
+{ #category : #running }
+MidasEntitySingle >> indexInListWithoutAncestors: index [
+	"Index considers a list including the ancestor, we translate it to an index in the list of entities
+	i.e.  '1' tranlates to nothing and '2' translates to '1'"
+	^ index = 2
+		ifTrue: [ 1 ]
+		ifFalse: [ 0 ]
+]
+
+{ #category : #'instance creation' }
+MidasEntitySingle >> nextGenerationSelector: aSelector [
+	| nextGen |
+	nextGen := singleEntity perform: aSelector.
+	nextGen ifEmpty: [ ^ MidasEntityEmpty ancestor: singleEntity ].
+	(nextGen size = 1) ifTrue: [ ^ MidasEntityFamix with: nextGen first ancestor: singleEntity ].
+	^ MidasEntityFamixCollection with: { singleEntity -> nextGen }
+	
+]
+
+{ #category : #running }
+MidasEntitySingle >> selectEntitiesIndexed: indexes [
+	^ (indexes includes: 1)
+			ifTrue: self entities
+			ifFalse: [ #() ]
+]
+
+{ #category : #accessing }
+MidasEntitySingle >> singleEntity [
+	^ singleEntity 
+]
+
+{ #category : #accessing }
+MidasEntitySingle >> singleEntity: aFamixEntity [
+	singleEntity := aFamixEntity
 ]

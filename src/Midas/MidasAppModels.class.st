@@ -40,7 +40,7 @@ MidasAppModels >> importStModel [
 MidasAppModels >> initializePresenter [
 
 	lstModels whenSelectionChangedDo: [ :selection |
-		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
+		selection selectedIndex ifNotNil: [ :i | context userSelection: i ]
 	]
 
 ]

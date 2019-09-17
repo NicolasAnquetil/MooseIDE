@@ -83,7 +83,7 @@ TestCtxtEntities >> testSelectionFrozen [
 	entitiesCtxt selectionNoFocus.
 	displayUpdated := false.
 
-	midasEntities := self someClasses collect: [:c | MidasEntityFamix with: c].
+	midasEntities := MidasEntityFamixCollection with: self someClasses ancestors: nil.
 	entitiesCtxt userSelection: midasEntities.
 	self deny: displayUpdated.
 

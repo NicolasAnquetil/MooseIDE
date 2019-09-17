@@ -17,6 +17,4 @@ TestMidasApp >> setUp [
 { #category : #running }
 TestMidasApp >> tearDown [
 	launcherApp ifNotNil: [launcherApp exit]
-
-	
 ]

@@ -42,20 +42,6 @@ MidasContextEntities >> focusOnSelection: aCollection [
 	self midasFocus: (aCollection collect: #entities)
 ]
 
-{ #category : #notifications }
-MidasContextEntities >> formatMidasFocus: focus [
-	(self focusIsMooseModel: focus)
-		ifTrue: [ ^ {(MidasEntityFamix with: focus)} ].
-	focus isCollection
-		ifTrue: [ ^ focus collect: [ :each | MidasEntityFamix with: each ] ].
-	^ {(MidasEntityFamix with: focus)}
-]
-
-{ #category : #notifications }
-MidasContextEntities >> formatNewModel: mooseModel [
-	^ 	{MidasEntityFamix with: mooseModel}
-]
-
 { #category : #initialization }
 MidasContextEntities >> initialize [
 	super initialize.
@@ -133,10 +119,13 @@ MidasContextEntities >> trackAssociation [
 ]
 
 { #category : #running }
-MidasContextEntities >> userSelection: aCollection [
-	| wasFrozen |
+MidasContextEntities >> userSelection: indexes [
+	| wasFrozen realIndexes |
 	wasFrozen := frozen.
 	selectionFrozen ifTrue: [ frozen := true ].
-	self midasFocus: (aCollection collect:  #entities).
+	realIndexes := resultsWithParents
+							ifTrue: [ self midasFocus indexesInListWithoutAncestors: indexes ]
+							ifFalse: [ indexes ].
+	self midasFocus: (self midasFocus selectEntitiesIndexed: realIndexes).
 	frozen := wasFrozen.
 ]
