@@ -23,7 +23,7 @@ MidasEntityEmpty >> entities [
 
 { #category : #running }
 MidasEntityEmpty >> indexInListWithoutAncestors: index [
-	^ index
+	^ 0
 ]
 
 { #category : #'as yet unclassified' }
@@ -33,5 +33,5 @@ MidasEntityEmpty >> nextGenerationSelector: aSelector [
 
 { #category : #running }
 MidasEntityEmpty >> selectEntitiesIndexed: indexes [
-	^ self entities
+	^ self
 ]

@@ -55,8 +55,8 @@ MidasEntitySingle >> nextGenerationSelector: aSelector [
 { #category : #running }
 MidasEntitySingle >> selectEntitiesIndexed: indexes [
 	^ (indexes includes: 1)
-			ifTrue: self entities
-			ifFalse: [ #() ]
+			ifTrue: self
+			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]
 
 { #category : #accessing }

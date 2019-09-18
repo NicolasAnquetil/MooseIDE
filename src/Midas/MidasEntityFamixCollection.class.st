@@ -65,15 +65,23 @@ MidasEntityFamixCollection >> filterNextGeneration: nextGeneration [
 
 { #category : #running }
 MidasEntityFamixCollection >> indexInListWithoutAncestors: index [
-	| realIndex nbEntities |
+	| nbEntities nbAncestors |
+	(index < 1) ifTrue: [ ^ 0 ].
 	nbEntities := 0.
-	realIndex := index - 1. "first ancestor is not counted"
+	nbAncestors := 0.
 	entities do: [ :assoc |
-		nbEntities := nbEntities + assoc value size.
-		(nbEntities < realIndex)
-			ifTrue: [ realIndex := realIndex -1 "next ancestor is not counted"]
+		nbAncestors := nbAncestors + 1.
+		((nbEntities + nbAncestors) = index)
+			ifTrue: [ ^ 0 ]
+			ifFalse: [
+				nbEntities := nbEntities + assoc value size.
+				((nbEntities + nbAncestors) >= index)
+				ifTrue: [ ^ index - nbAncestors ]
+			]
 	].
-	^ realIndex 
+	((nbEntities + nbAncestors) < index)
+			ifTrue: [ ^ 0 ]
+			ifFalse: [ ^ index - nbAncestors ]
 ]
 
 { #category : #initialization }
@@ -104,7 +112,7 @@ MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 								myIndexes := indexes collect: [ :i | i - nbEntities ].
 								myIndexes := myIndexes reject: [ :i | i < 1 or: [ i > assoc value size ] ].
 								nbEntities := nbEntities + assoc value size.
-								assoc key -> myIndexes collect: [ :i | assoc value at: i ].
+								assoc key -> (myIndexes collect: [ :i | assoc value at: i ]).
 							].
 
 	^ self filterNextGeneration: nextGeneration
