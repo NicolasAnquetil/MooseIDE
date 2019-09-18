@@ -16,7 +16,7 @@ TestCtxtNavigate >> setUp [
 
 { #category : #tests }
 TestCtxtNavigate >> testAttributeProperties [
-	launcherCtxt midasFocus: self someAttributes anyOne.
+	launcherCtxt midasFocus: (MidasEntityFamix with: self someAttributes anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 10
@@ -37,7 +37,7 @@ FAMIX.NamedEntity.receivingInvocations"
 
 { #category : #tests }
 TestCtxtNavigate >> testClassProperties [
-	launcherCtxt midasFocus: self someClasses anyOne.
+	launcherCtxt midasFocus: (MidasEntityFamix with: self someClasses anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 20
@@ -45,13 +45,16 @@ TestCtxtNavigate >> testClassProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testEmptyFocus [
-	launcherCtxt midasFocus: #().
+	launcherCtxt midasFocus: (MidasEntityEmpty ancestor: #anAncestor).
 	self assert: navigateCtxt navigationProperties isEmpty
 ]
 
 { #category : #tests }
 TestCtxtNavigate >> testHeterogeneousProperties [
-	launcherCtxt midasFocus: {self someMethods anyOne . self someClasses anyOne}.
+	launcherCtxt midasFocus:
+		(MidasEntityFamixCollection with: {
+			#ancestor1 -> { self someMethods anyOne } .
+			#ancestor2 -> { self someClasses anyOne } }).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 9 "properties for FAMIXContainerEntity"
@@ -71,7 +74,8 @@ FAMIX.NamedEntity.receivingInvocations"
 
 { #category : #tests }
 TestCtxtNavigate >> testHomogeneousProperties [
-	launcherCtxt midasFocus: self someMethods.
+	launcherCtxt midasFocus:
+		(MidasEntityFamixCollection with: { #anAncestor -> self someMethods }).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 22 "same as for a single method: #testMethodProperties"
@@ -79,7 +83,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testMethodProperties [
-	launcherCtxt midasFocus: self someMethods anyOne.
+	launcherCtxt midasFocus: (MidasEntityFamix with: self someMethods anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 22
@@ -94,7 +98,7 @@ TestCtxtNavigate >> testModelProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testNamespaceProperties [
-	launcherCtxt midasFocus: self someNamespaces anyOne.
+	launcherCtxt midasFocus: (MidasEntityFamix with: self someNamespaces anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 14
@@ -102,13 +106,14 @@ TestCtxtNavigate >> testNamespaceProperties [
 
 { #category : #tests }
 TestCtxtNavigate >> testNavigateFromClass [
-	| prop |
-	prop := FM3PropertyDescription allInstances detect: [ :p | p mooseName endsWith: 'FAMIX.Type.methods]'].
-	navigateCtxt midasFocus: (self someClasses detect: [:c | c name = 'Node']).
-	navigateCtxt userSelection: prop.
+	| clazz props |
+	clazz := self someClasses detect: [:c | c name = 'Node'].
+	navigateCtxt midasFocus: (MidasEntityFamix with: clazz ancestor: #anAncestor).
+	props := navigateCtxt navigationPropertiesForClass: FAMIXClass.
+	navigateCtxt userSelection: (props detect: [:p | p mooseName endsWith: 'FAMIX.Type.methods]']).
 
 	self
-		assert: launcherCtxt midasFocus size
+		assert: launcherCtxt midasFocus entities size
 		equals: 14
 ]
 
@@ -119,7 +124,7 @@ TestCtxtNavigate >> testSelectAllModelClasses [
 			 		selector: #allModelClasses 
 					yourself.
 	navigateCtxt userSelection: prop.
-	self assert: navigateCtxt midasFocus size equals: 6
+	self assert: navigateCtxt midasFocus entities size equals: 6
 ]
 
 { #category : #tests }
@@ -129,7 +134,7 @@ TestCtxtNavigate >> testSelectAllModelPackages [
 			 		selector: #allModelPackages
 					yourself.
 	navigateCtxt userSelection: prop.
-	self assert: navigateCtxt midasFocus size equals: 1
+	self assert: navigateCtxt midasFocus entities size equals: 1
 ]
 
 { #category : #tests }
@@ -138,7 +143,7 @@ TestCtxtNavigate >> testSelectionOnCollectionFocus [
 	selector := Mock new.
 	selector stub methodSelector willReturn: #attributes.
 
-	launcherCtxt midasFocus: self someClasses.
+	launcherCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> self someClasses }).
 	navigateCtxt userSelection: selector.
 	self
 		assert: navigateCtxt navigationProperties size

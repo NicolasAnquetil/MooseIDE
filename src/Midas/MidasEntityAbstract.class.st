@@ -54,6 +54,11 @@ MidasEntityAbstract >> indexesInListWithoutAncestors: indexes [
 ]
 
 { #category : #testing }
+MidasEntityAbstract >> isEmpty [
+	^ false
+]
+
+{ #category : #testing }
 MidasEntityAbstract >> isModel [
 	^ false
 ]

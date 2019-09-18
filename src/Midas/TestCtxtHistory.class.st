@@ -15,24 +15,14 @@ TestCtxtHistory >> setUp [
 ]
 
 { #category : #tests }
-TestCtxtHistory >> testBack [
-	self assert: historyCtxt history size equals: 1.
-	historyCtxt midasFocus: self someClasses.
-	self assert: historyCtxt history size equals: 2.
-	historyCtxt prev.
-	self assert: historyCtxt history size equals: 2.
-
-]
-
-{ #category : #tests }
 TestCtxtHistory >> testEntriesBranchingCount [
 	self assert: historyCtxt allEntries size equals: 1.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 0.
-	historyCtxt midasFocus: self someClasses.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(child1 child2) }).
 	self assert: historyCtxt allEntries size equals: 2.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 1.
 	historyCtxt prev.
-	historyCtxt midasFocus: self somePackages.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(other1 other2 other3) }).
 	self assert: historyCtxt allEntries size equals: 3.
 	self assert: historyCtxt history firstEntry nextEntries size equals: 2.
 
@@ -41,9 +31,9 @@ TestCtxtHistory >> testEntriesBranchingCount [
 { #category : #tests }
 TestCtxtHistory >> testEntriesCount [
 	self assert: historyCtxt allEntries size equals: 1.
-	historyCtxt midasFocus: self someClasses.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(child1 child2) }).
 	self assert: historyCtxt allEntries size equals: 2.
-	historyCtxt midasFocus: self somePackages.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(other1 other2 other3) }).
 	self assert: historyCtxt allEntries size equals: 3.
 
 ]
@@ -52,11 +42,21 @@ TestCtxtHistory >> testEntriesCount [
 TestCtxtHistory >> testPreviousAndNext [
 	| focusBefore focusAfter |
 	focusBefore := historyCtxt midasFocus.
-	historyCtxt midasFocus: self someClasses.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(child1 child2) }).
 	focusAfter := historyCtxt midasFocus.
 	self deny: focusAfter equals: focusBefore.
 	historyCtxt prev.
 	self assert: historyCtxt midasFocus equals: focusBefore.
 	historyCtxt next.
 	self assert: historyCtxt midasFocus equals: focusAfter
+]
+
+{ #category : #tests }
+TestCtxtHistory >> testSizeBack [
+	self assert: historyCtxt history size equals: 1.
+	historyCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> #(child1 child2) }).
+	self assert: historyCtxt history size equals: 2.
+	historyCtxt prev.
+	self assert: historyCtxt history size equals: 2.
+
 ]

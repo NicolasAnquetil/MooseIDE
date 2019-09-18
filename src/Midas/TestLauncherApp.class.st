@@ -77,7 +77,7 @@ TestLauncherApp >> testWindowTitle [
 	self
 		assert: launcherApp window title
 		equals: 'MIDAS ''Model: First-lanModel'''.
-	launcherApp context mooseModel: models second.
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: launcherApp window title
 		equals: 'MIDAS ''Model: Second-simpleModel'''.

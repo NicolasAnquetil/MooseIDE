@@ -48,7 +48,7 @@ TestDashboardApp >> testFreezeContentIsNotSelected [
 	| cachedMetric |
 	cachedMetric := dashboardApp dashboardMetric: 1.
 	dashboardApp chkFreeze state: false.
-	dashboardApp context mooseModel: models second.
+	dashboardApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self deny: (dashboardApp dashboardMetric: 1) equals: cachedMetric
 ]
 
@@ -66,7 +66,7 @@ TestDashboardApp >> testWindowTitle [
 	self
 		assert: dashboardApp window title
 		equals: 'Dashboard ''Model: First-lanModel'''.
-	launcherApp context mooseModel: models second.
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: dashboardApp window title
 		equals: 'Dashboard ''Model: Second-simpleModel'''

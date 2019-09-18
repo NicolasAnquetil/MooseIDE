@@ -21,15 +21,11 @@ MidasContextNavigate >> doesNotUnderstand: message [
 
 { #category : #running }
 MidasContextNavigate >> navigationProperties [
-	self midasFocus
-		ifNil: [ ^ #() ].
+	self midasFocus isEmpty
+		ifTrue: [ ^ #() ].
 	self midasFocus isModel
 		ifTrue: [ ^ self navigationPropertiesForModel: self midasFocus ].
-	self midasFocus isCollection
-		ifTrue: [ 
-			self midasFocus ifEmpty: [ ^ #() ].
-			^ self navigationPropertiesForCollection: self midasFocus ].
-	^ self navigationPropertiesForClass: self midasFocus class
+	^ self navigationPropertiesForCollection: self midasFocus entities
 ]
 
 { #category : #running }
@@ -63,9 +59,9 @@ MidasContextNavigate >> userSelection: anObject [
 	| focus |
 	focus := self midasFocus.
 	(focus isModel)
-		ifTrue: [ ^ self midasFocus: (focus perform: anObject methodSelector) ].
+		ifTrue: [ ^ self midasFocus: (focus nextGenerationSelector: anObject methodSelector) ].
 	focus isCollection
-		ifTrue: [ ^ self midasFocus: (focus flatCollect: [ :each | each perform: anObject methodSelector]) ].
-	self midasFocus: (focus perform: anObject methodSelector)
+		ifTrue: [ ^ self midasFocus: (focus flatCollect: [ :each | each nextGenerationSelector: anObject methodSelector]) ].
+	self midasFocus: (focus nextGenerationSelector: anObject methodSelector)
 	
 ]

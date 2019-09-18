@@ -26,6 +26,11 @@ MidasEntityEmpty >> indexInListWithoutAncestors: index [
 	^ 0
 ]
 
+{ #category : #testing }
+MidasEntityEmpty >> isEmpty [
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 MidasEntityEmpty >> nextGenerationSelector: aSelector [
 	^self

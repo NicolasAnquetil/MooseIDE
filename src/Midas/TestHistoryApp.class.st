@@ -21,7 +21,7 @@ TestHistoryApp >> setUp [
 { #category : #tests }
 TestHistoryApp >> testCurrentHighlighted [
 	self assert: (self colorForRoassalElement: 1) equals: Color red.
-	historyApp context midasFocus: self someClasses.
+	historyApp context midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
 	self assert: (self colorForRoassalElement: 1) equals: Color veryLightGray.
 	self assert: (self colorForRoassalElement: 2) equals: Color red.
 	historyApp btnPrev performAction.
@@ -52,7 +52,7 @@ TestHistoryApp >> testEntryName [
 TestHistoryApp >> testPreviousAndNextButtonsStatus [
 	self deny: historyApp btnPrev isEnabled.
 	self deny: historyApp btnNext isEnabled.
-	historyApp context midasFocus: self someClasses.
+	historyApp context midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
 	self assert: historyApp btnPrev isEnabled.
 	self deny: historyApp btnNext isEnabled.
 	historyApp btnPrev performAction.

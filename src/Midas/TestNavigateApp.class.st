@@ -18,7 +18,7 @@ TestNavigateApp >> testWindowTitle [
 	self
 		assert: navigateApp window title
 		equals: 'Navigate ''Model: First-lanModel'''.
-	launcherApp context mooseModel: models second.
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: navigateApp window title
 		equals: 'Navigate ''Model: Second-simpleModel'''
