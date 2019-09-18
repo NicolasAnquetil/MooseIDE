@@ -40,5 +40,12 @@ MidasContextModels >> mooseModel: newMooseModel [
 
 { #category : #notifications }
 MidasContextModels >> userSelection: anIndex [
-	self mooseModel: (self allModels at: anIndex)
+	| newMooseModel |
+	((anIndex < 1) or: [ anIndex > self allModels size ])
+		ifTrue: [  ^ self ].
+	newMooseModel := (self allModels at: anIndex).
+	(self mooseModel notNil and: [self mooseModel sameModel: newMooseModel])
+		ifTrue: [ ^ self ].
+	self mooseModel: (MidasEntityMooseModel with: newMooseModel)
+
 ]

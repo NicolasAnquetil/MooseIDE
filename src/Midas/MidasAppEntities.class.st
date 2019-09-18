@@ -137,7 +137,7 @@ MidasAppEntities >> initializePresenter [
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
-			context userSelection: selection selectedItems ].
+			context userSelection: selection selectedIndexes ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
@@ -256,5 +256,5 @@ MidasAppEntities >> updateMidasFocus: focus [
 	lstEntities items:
 		(focus isModel
 			ifTrue: [ context mooseModel allModelClasses ]
-			ifFalse: [ focus ])
+			ifFalse: [ focus entities ])
 ]

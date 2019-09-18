@@ -199,7 +199,7 @@ MidasLauncher >> nullLaunchApp [
 { #category : #api }
 MidasLauncher >> openOnModel: aMooseModel [
 	self openWithSpec.
-	self context mooseModel: aMooseModel.
+	self context initializeMooseModel: aMooseModel.
 ]
 
 { #category : #api }

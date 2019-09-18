@@ -31,6 +31,15 @@ MidasContextEntities >> classScope [
 		ifFalse: [ self midasFocus: (self toScope: 'FAMIXClass') ].
 ]
 
+{ #category : #running }
+MidasContextEntities >> computeNewFocus: indexes [
+	| realIndexes |
+	realIndexes := resultsWithParents
+							ifTrue: [ self midasFocus indexesInListWithoutAncestors: indexes ]
+							ifFalse: [ indexes ].
+	^ self midasFocus selectEntitiesIndexed: realIndexes
+]
+
 { #category : #accessing }
 MidasContextEntities >> flattenResult [
 	resultsWithParents := false.
@@ -38,8 +47,13 @@ MidasContextEntities >> flattenResult [
 ]
 
 { #category : #running }
-MidasContextEntities >> focusOnSelection: aCollection [
-	self midasFocus: (aCollection collect: #entities)
+MidasContextEntities >> focusOnSelection: selectedIndexes [
+	"forces receiver focus on the selection, whatever the states of the flags frozen and selectionFrozen"
+	| wasFrozen |
+	wasFrozen := frozen.
+	frozen := false.
+	self midasFocus: (self computeNewFocus: selectedIndexes).
+	frozen := wasFrozen.
 ]
 
 { #category : #initialization }
@@ -119,13 +133,10 @@ MidasContextEntities >> trackAssociation [
 ]
 
 { #category : #running }
-MidasContextEntities >> userSelection: indexes [
-	| wasFrozen realIndexes |
+MidasContextEntities >> userSelection: selectedIndexes [
+	| wasFrozen |
 	wasFrozen := frozen.
 	selectionFrozen ifTrue: [ frozen := true ].
-	realIndexes := resultsWithParents
-							ifTrue: [ self midasFocus indexesInListWithoutAncestors: indexes ]
-							ifFalse: [ indexes ].
-	self midasFocus: (self midasFocus selectEntitiesIndexed: realIndexes).
+	self midasFocus: (self computeNewFocus: selectedIndexes).
 	frozen := wasFrozen.
 ]

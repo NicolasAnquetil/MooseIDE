@@ -22,5 +22,5 @@ TestMidasCtxt >> setUp [
 	super setUp.
 	launcherCtxt := MidasContextLauncher new.
 	launcherCtxt app: self mockEmptyApp.
-	launcherCtxt mooseModel: models first.
+	launcherCtxt initializeMooseModel: models first.
 ]

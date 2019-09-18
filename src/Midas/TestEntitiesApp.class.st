@@ -17,7 +17,7 @@ TestEntitiesApp >> indexFor: aString [
 
 { #category : #running }
 TestEntitiesApp >> listedEntities [
-	^ entitiesApp lstEntities items collect: #entities
+	^ entitiesApp lstEntities items
 ]
 
 { #category : #running }
@@ -52,21 +52,24 @@ TestEntitiesApp >> testFilterQuery [
 
 { #category : #tests }
 TestEntitiesApp >> testSelectEntity [
-	| initialFocus mockCtxt userSelection |
-
+	| mockCtxt userSelection |
+	userSelection := nil.
 	mockCtxt := Mock new.
-	(mockCtxt stub userSelection: Any) will: [:arg | userSelection := arg].
+	(mockCtxt stub userSelection: Any)
+		will: [ :arg | userSelection := arg ].
 	entitiesApp context: mockCtxt.
 
-	initialFocus := self someClasses collect: [ :c | MidasEntityFamix with: c ancestor: nil ].
-	initialFocus := initialFocus sorted: [:a :b | a displayString < b displayString].
-	entitiesApp updateMidasFocus: initialFocus. 
-	
-	self assert: self listedEntities size equals: 6.
+	entitiesApp
+		updateMidasFocus:
+			(MidasEntityFamixCollection with: {
+					(#ancestor1 -> #(child11 child12)) .
+					(#ancestor2 -> #(child21 child22 child23)) }).
+
+	self assert: self listedEntities size equals: 5.
 
 	entitiesApp lstEntities clickAtIndex: 3.
 	self assert: userSelection size equals: 1.
-	self assert: userSelection first displayString equals: 'Node'.
+	self assert: userSelection first equals: 3
 ]
 
 { #category : #tests }

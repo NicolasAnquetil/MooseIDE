@@ -48,6 +48,12 @@ MidasContextLauncher >> initialize [
 	children := OrderedCollection new.
 ]
 
+{ #category : #initialization }
+MidasContextLauncher >> initializeMooseModel: aMooseModel [
+	self mooseModel: (MidasEntityMooseModel with: aMooseModel)
+
+]
+
 { #category : #accessing }
 MidasContextLauncher >> midasFocus [
 	^ midasFocus
@@ -68,10 +74,7 @@ MidasContextLauncher >> mooseModel [
 
 { #category : #notifications }
 MidasContextLauncher >> mooseModel: newMooseModel [
-	newMooseModel ifNil: [ ^ self ].
-	(self mooseModel notNil and: [self mooseModel sameModel: newMooseModel])
-		ifTrue: [ ^ self ].
-	mooseModel := MidasEntityMooseModel with: newMooseModel.
+	mooseModel := newMooseModel.
 	"note: setting model _sets_ focus but does not _notify_ focus (notifies model)"
 	midasFocus := mooseModel.
 	self notifyNewModel: mooseModel

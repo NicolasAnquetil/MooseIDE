@@ -76,18 +76,19 @@ TestCtxtEntities >> testScopePackage [
 
 { #category : #tests }
 TestCtxtEntities >> testSelectionFrozen [
-	| displayUpdated midasEntities |
+	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+	launcherCtxt midasFocus: 
+			(MidasEntityFamixCollection with: { #ancestor1 -> #(child1 child2) }).
 
-	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt selectionNoFocus.
-	displayUpdated := false.
 
-	midasEntities := MidasEntityFamixCollection with: self someClasses ancestors: nil.
-	entitiesCtxt userSelection: midasEntities.
+	displayUpdated := false.
+	entitiesCtxt userSelection: #(1).
 	self deny: displayUpdated.
 
-	entitiesCtxt focusOnSelection: midasEntities.
+	displayUpdated := false.
+	entitiesCtxt focusOnSelection: #(2).
 	self assert: displayUpdated.
 
 ]
@@ -96,11 +97,13 @@ TestCtxtEntities >> testSelectionFrozen [
 TestCtxtEntities >> testSelectionNotFrozen [
 	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+	launcherCtxt midasFocus: 
+			(MidasEntityFamixCollection with: { #ancestor1 -> #(child1 child2) }).
 
-	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt selectionToFocus.
+
 	displayUpdated := false.
-	entitiesCtxt userSelection: (self someClasses collect: [:c | MidasEntityFamix with: c]).
+	entitiesCtxt userSelection: #(1).
 
 	self assert: displayUpdated 
 ]
