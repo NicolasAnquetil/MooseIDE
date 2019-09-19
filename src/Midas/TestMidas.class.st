@@ -3870,25 +3870,25 @@ TestMidas >> setUp [
 
 { #category : #running }
 TestMidas >> someAttributes [
-	^models first allAttributes 
+	^models second allAttributes 
 ]
 
 { #category : #running }
 TestMidas >> someClasses [
-	^models first allModelClasses 
+	^models second allModelClasses 
 ]
 
 { #category : #running }
 TestMidas >> someMethods [
-	^models first allModelMethods 
+	^models second allModelMethods 
 ]
 
 { #category : #running }
 TestMidas >> someNamespaces [
-	^models first allModelNamespaces
+	^models second allModelNamespaces
 ]
 
 { #category : #running }
 TestMidas >> somePackages [
-	^models first allModelPackages 
+	^models second allModelPackages 
 ]

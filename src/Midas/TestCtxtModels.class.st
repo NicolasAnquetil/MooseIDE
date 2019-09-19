@@ -19,7 +19,7 @@ TestCtxtModels >> setUp [
 TestCtxtModels >> testInitializeModelInOtherApp [
 	| otherCtxt |
 	otherCtxt := launcherCtxt spawn: MidasContextEditor.
-	self assert: (otherCtxt midasFocus sameModel: models first)
+	self assert: (otherCtxt midasFocus sameModel: models second)
 ]
 
 { #category : #tests }

@@ -49,8 +49,7 @@ TestMidasEntitiesSingle >> testNextGenerationYieldEmpty [
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
 				nextGenerationSelector: #someSelector.
 
-	self assert: md class equals: MidasEntityEmpty.
-	self assert: md ancestor equals: entity.
+	self assert: md class equals: MidasEntityEmpty
 ]
 
 { #category : #tests }

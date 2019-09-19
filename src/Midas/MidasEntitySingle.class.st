@@ -33,7 +33,12 @@ MidasEntitySingle >> entities [
 	^ { singleEntity }
 ]
 
-{ #category : #running }
+{ #category : #accessing }
+MidasEntitySingle >> entitiesWithAncestors [
+	^ { ancestor -> { singleEntity } }
+]
+
+{ #category : #private }
 MidasEntitySingle >> indexInListWithoutAncestors: index [
 	"Index considers a list including the ancestor, we translate it to an index in the list of entities
 	i.e.  '1' tranlates to nothing and '2' translates to '1'"
@@ -42,17 +47,7 @@ MidasEntitySingle >> indexInListWithoutAncestors: index [
 		ifFalse: [ 0 ]
 ]
 
-{ #category : #'instance creation' }
-MidasEntitySingle >> nextGenerationSelector: aSelector [
-	| nextGen |
-	nextGen := singleEntity perform: aSelector.
-	nextGen ifEmpty: [ ^ MidasEntityEmpty ancestor: singleEntity ].
-	(nextGen size = 1) ifTrue: [ ^ MidasEntityFamix with: nextGen first ancestor: singleEntity ].
-	^ MidasEntityFamixCollection with: { singleEntity -> nextGen }
-	
-]
-
-{ #category : #running }
+{ #category : #private }
 MidasEntitySingle >> selectEntitiesIndexed: indexes [
 	^ (indexes includes: 1)
 			ifTrue: self
@@ -67,4 +62,10 @@ MidasEntitySingle >> singleEntity [
 { #category : #accessing }
 MidasEntitySingle >> singleEntity: aFamixEntity [
 	singleEntity := aFamixEntity
+]
+
+{ #category : #accessing }
+MidasEntitySingle >> size [
+	"optimization"
+	^1
 ]

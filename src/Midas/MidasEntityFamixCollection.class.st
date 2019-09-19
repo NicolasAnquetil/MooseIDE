@@ -38,32 +38,17 @@ MidasEntityFamixCollection >> entities [
 	^ entities flatCollect: #value
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 MidasEntityFamixCollection >> entities: aCollection [
 	entities := aCollection 
 ]
 
-{ #category : #formatting }
+{ #category : #accessing }
 MidasEntityFamixCollection >> entitiesWithAncestors [
 	^ entities
 ]
 
-{ #category : #running }
-MidasEntityFamixCollection >> filterNextGeneration: nextGeneration [
-	| filteredGeneration |
-	filteredGeneration := nextGeneration reject: [ :nextAssoc | nextAssoc value isEmpty ].
-
-	filteredGeneration ifEmpty: [ ^ MidasEntityEmpty ancestor: self entities ].
-	((filteredGeneration size = 1) and: [ filteredGeneration first value size = 1 ])
-		ifTrue: [ ^ MidasEntityFamix
-							with: filteredGeneration first value first
-							ancestor: filteredGeneration first key
-					].
-
-	^ MidasEntityFamixCollection with: filteredGeneration
-]
-
-{ #category : #running }
+{ #category : #private }
 MidasEntityFamixCollection >> indexInListWithoutAncestors: index [
 	| nbEntities nbAncestors |
 	(index < 1) ifTrue: [ ^ 0 ].
@@ -84,27 +69,17 @@ MidasEntityFamixCollection >> indexInListWithoutAncestors: index [
 			ifFalse: [ ^ index - nbAncestors ]
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 MidasEntityFamixCollection >> name [
 	^ name
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 MidasEntityFamixCollection >> name: aString [
 	name := aString
 ]
 
-{ #category : #'instance creation' }
-MidasEntityFamixCollection >> nextGenerationSelector: aSelector [
-	| nextGeneration |
-	nextGeneration := entities flatCollect: [ :assoc |
-								assoc value collect: [ :each | each -> (each perform: aSelector) ]
-							].
-	^ self filterNextGeneration: nextGeneration
-	
-]
-
-{ #category : #running }
+{ #category : #private }
 MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 	| nextGeneration nbEntities |
 	nbEntities := 0.

@@ -59,11 +59,7 @@ TestEntitiesApp >> testSelectEntity [
 		will: [ :arg | userSelection := arg ].
 	entitiesApp context: mockCtxt.
 
-	entitiesApp
-		updateMidasFocus:
-			(MidasEntityFamixCollection with: {
-					(#ancestor1 -> #(child11 child12)) .
-					(#ancestor2 -> #(child21 child22 child23)) }).
+	entitiesApp updateMidasFocus: #(entity1 entity2 entity3 entity4 entity5).
 
 	self assert: self listedEntities size equals: 5.
 

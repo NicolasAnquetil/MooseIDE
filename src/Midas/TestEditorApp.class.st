@@ -11,11 +11,6 @@ Class {
 TestEditorApp >> setUp [
 	super setUp.
 	editorApp := launcherApp launchEditorApp.
-	models first allMethods first
-		sourceAnchor:
-			(FamixStSourceTextAnchor new
-				source: 'The source code of this method';
-				yourself).
 
 ]
 
@@ -33,7 +28,12 @@ TestEditorApp >> testFocusUpdateNoSource [
 { #category : #tests }
 TestEditorApp >> testFocusUpdateWithSource [
 	| method |
-	method := self someMethods detect: [:m | m sourceText isNotNil ].
+	method := self someMethods anyOne.
+	method sourceAnchor:
+		(FamixStSourceTextAnchor new
+			source: 'The source code of this method';
+			yourself).
+
 	editorApp context midasFocus: method.
 	self
 		assert: editorApp window title

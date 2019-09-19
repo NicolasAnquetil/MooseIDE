@@ -252,9 +252,6 @@ MidasAppEntities >> title [
 ]
 
 { #category : #notifications }
-MidasAppEntities >> updateMidasFocus: focus [
-	lstEntities items:
-		(focus isModel
-			ifTrue: [ context mooseModel allModelClasses ]
-			ifFalse: [ focus entities ])
+MidasAppEntities >> updateMidasFocus: aCollection [
+	lstEntities items: aCollection
 ]

@@ -31,6 +31,11 @@ MidasChildContext >> exit [
 	app := nil
 ]
 
+{ #category : #notifications }
+MidasChildContext >> formatMidasFocus: newFocus [
+	^ newFocus
+]
+
 { #category : #accessing }
 MidasChildContext >> freeze [
 	frozen := true
@@ -76,7 +81,7 @@ MidasChildContext >> notifyMidasFocus: newFocus [
 	frozen
 		ifTrue: [ ^ self ].
 	(self acceptMidasFocusUpdate: newFocus)
-		ifTrue: [ app updateMidasFocus: newFocus ]
+		ifTrue: [ app updateMidasFocus: (self formatMidasFocus: newFocus) ]
 ]
 
 { #category : #notifications }

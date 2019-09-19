@@ -7,6 +7,6 @@ Class {
 { #category : #tests }
 TestCtxtLauncher >> testMooseModel [
 	self assert: (launcherCtxt mooseModel
-						sameModel: models first)
+						sameModel: models second)
 
 ]

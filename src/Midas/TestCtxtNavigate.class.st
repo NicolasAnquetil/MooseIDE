@@ -107,14 +107,14 @@ TestCtxtNavigate >> testNamespaceProperties [
 { #category : #tests }
 TestCtxtNavigate >> testNavigateFromClass [
 	| clazz props |
-	clazz := self someClasses detect: [:c | c name = 'Node'].
+	clazz := self someClasses detect: [:c | c name = 'ClassA'].
 	navigateCtxt midasFocus: (MidasEntityFamix with: clazz ancestor: #anAncestor).
 	props := navigateCtxt navigationPropertiesForClass: FAMIXClass.
 	navigateCtxt userSelection: (props detect: [:p | p mooseName endsWith: 'FAMIX.Type.methods]']).
 
 	self
-		assert: launcherCtxt midasFocus entities size
-		equals: 14
+		assert: launcherCtxt midasFocus size
+		equals: 1
 ]
 
 { #category : #tests }
@@ -124,7 +124,7 @@ TestCtxtNavigate >> testSelectAllModelClasses [
 			 		selector: #allModelClasses 
 					yourself.
 	navigateCtxt userSelection: prop.
-	self assert: navigateCtxt midasFocus entities size equals: 6
+	self assert: navigateCtxt midasFocus size equals: 2
 ]
 
 { #category : #tests }
@@ -134,7 +134,7 @@ TestCtxtNavigate >> testSelectAllModelPackages [
 			 		selector: #allModelPackages
 					yourself.
 	navigateCtxt userSelection: prop.
-	self assert: navigateCtxt midasFocus entities size equals: 1
+	self assert: navigateCtxt midasFocus size equals: 2
 ]
 
 { #category : #tests }

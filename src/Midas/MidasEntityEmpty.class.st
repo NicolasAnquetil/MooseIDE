@@ -21,6 +21,11 @@ MidasEntityEmpty >> entities [
 	^ #()
 ]
 
+{ #category : #accessing }
+MidasEntityEmpty >> entitiesWithAncestors [
+	^ { ancestor -> #() }
+]
+
 { #category : #running }
 MidasEntityEmpty >> indexInListWithoutAncestors: index [
 	^ 0
@@ -31,12 +36,13 @@ MidasEntityEmpty >> isEmpty [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
-MidasEntityEmpty >> nextGenerationSelector: aSelector [
+{ #category : #'instance creation' }
+MidasEntityEmpty >> selectEntitiesIndexed: indexes [
 	^self
 ]
 
-{ #category : #running }
-MidasEntityEmpty >> selectEntitiesIndexed: indexes [
-	^ self
+{ #category : #accessing }
+MidasEntityEmpty >> size [
+	"optimization"
+	^0
 ]

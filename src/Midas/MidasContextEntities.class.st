@@ -15,8 +15,8 @@ Class {
 
 { #category : #running }
 MidasContextEntities >> atScope: aSymbol [
-	^ (self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol))
-			removeDuplicates.
+	^self midasFocus collectNextGeneration:
+		(MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol)
 	
 ]
 
@@ -24,9 +24,9 @@ MidasContextEntities >> atScope: aSymbol [
 MidasContextEntities >> classScope [
 	| actuel |
 	actuel := self midasFocus.
-	actuel ifEmpty: [ ^ nil ].
+	actuel isEmpty ifTrue: [ ^ nil ].
 	"hack to know whether we should go up (from methods -> atScope) or down (-> toScope)"
-	actuel anyOne isMethod
+	actuel entities anyOne isMethod
 		ifTrue: [ self midasFocus: (self atScope: 'FAMIXClass') ]
 		ifFalse: [ self midasFocus: (self toScope: 'FAMIXClass') ].
 ]
@@ -56,6 +56,13 @@ MidasContextEntities >> focusOnSelection: selectedIndexes [
 	frozen := wasFrozen.
 ]
 
+{ #category : #notifications }
+MidasContextEntities >> formatMidasFocus: newFocus [
+	^ newFocus isModel
+			ifTrue: [ self mooseModel allModelClasses ]
+			ifFalse: [ newFocus entities ]
+]
+
 { #category : #initialization }
 MidasContextEntities >> initialize [
 	super initialize.
@@ -67,20 +74,29 @@ MidasContextEntities >> initialize [
 MidasContextEntities >> interpretQuery: aBlockAsString [
 	| aBlock |
 	aBlockAsString
-		ifEmpty: [
-			self notifyMidasFocus: history now ]
-		ifNotEmpty: [
-			aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
-			self
-				midasFocus:
-					(app filterQuery
-						ifTrue: [ self runSelectQuery: aBlock ]
-						ifFalse: [ self runCollectQuery: aBlock ]) ]
+		ifEmpty: [ ^ self "notifyMidasFocus: history now" ].
+	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
+	self
+		midasFocus:
+			(app filterQuery
+				ifTrue: [ self midasFocus selectNextGeneration: aBlock ]
+				ifFalse: [ self midasFocus collectNextGeneration: aBlock ])
 ]
 
 { #category : #running }
 MidasContextEntities >> methodScope [
 	self midasFocus: (self toScope: 'FAMIXMethod')
+]
+
+{ #category : #notifications }
+MidasContextEntities >> notifyMidasFocus: newFocus [
+	frozen
+		ifTrue: [ ^ self ].
+	(self acceptMidasFocusUpdate: newFocus)
+		ifTrue: [ app updateMidasFocus: 
+		(newFocus isModel
+			ifTrue: [ self mooseModel allModelClasses ]
+			ifFalse: [ newFocus entities ])]
 ]
 
 { #category : #running }
@@ -91,18 +107,6 @@ MidasContextEntities >> packageScope [
 { #category : #accessing }
 MidasContextEntities >> resultsWithParents [
 	^resultsWithParents
-]
-
-{ #category : #running }
-MidasContextEntities >> runCollectQuery: aBloc [
-	^self midasFocus flatCollect: aBloc.
-
-	
-]
-
-{ #category : #running }
-MidasContextEntities >> runSelectQuery: aBloc [
-	^ self midasFocus select: aBloc
 ]
 
 { #category : #accessing }
@@ -122,7 +126,8 @@ MidasContextEntities >> selectionToFocus [
 
 { #category : #running }
 MidasContextEntities >> toScope: aSymbol [
-	^ self runCollectQuery: (MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
+	^ self midasFocus collectNextGeneration:
+		(MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
 	
 ]
 

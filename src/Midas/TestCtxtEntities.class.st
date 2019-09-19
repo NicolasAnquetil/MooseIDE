@@ -18,10 +18,15 @@ TestCtxtEntities >> setUp [
 TestCtxtEntities >> testFilterQuery [
 	mockApp stub filterQuery willReturn: true.
 
-	entitiesCtxt interpretQuery: 'each name = ''Node'''.
+	entitiesCtxt midasFocus:
+		(MidasEntityFamixCollection with: {
+			#ancestor1 -> #(child11 child12) .
+			#ancestor2 -> #(child21 child22 child23) }).
+	entitiesCtxt interpretQuery: 'each asString endsWith: ''2'''.
 
-	self assert: entitiesCtxt midasFocus size equals: 1.
-	self assert: entitiesCtxt midasFocus first name equals: 'Node'	
+	self assert: entitiesCtxt midasFocus size equals: 2.
+	self assert: entitiesCtxt midasFocus entities first  equals: #child12.
+	self assert: entitiesCtxt midasFocus entities second equals: #child22.	
 ]
 
 { #category : #tests }
@@ -29,10 +34,9 @@ TestCtxtEntities >> testFrozen [
 	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
 
-	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt freeze.
 	displayUpdated := false.
-	launcherCtxt midasFocus: self someClasses.
+	launcherCtxt midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
 	self deny: displayUpdated 
 ]
 
@@ -41,36 +45,40 @@ TestCtxtEntities >> testNotFrozen [
 	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
 
-	launcherCtxt midasFocus: self someNamespaces.
 	entitiesCtxt unfreeze.
 	displayUpdated := false.
-	launcherCtxt midasFocus: self someClasses.
+	launcherCtxt midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
 	self assert: displayUpdated 
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopeClasses [
-	entitiesCtxt midasFocus: self somePackages.
+	entitiesCtxt midasFocus: (MidasEntityFamix with: (self someNamespaces anyOne) ancestor: #anAncestor).
 	entitiesCtxt classScope.
-	self assert: entitiesCtxt midasFocus size equals: 6.
-	entitiesCtxt midasFocus do: [ :each | self assert: each isClass ]
+	self assert: entitiesCtxt midasFocus size equals: 2.
+	entitiesCtxt midasFocus entities do: [ :each | self assert: each isClass ]
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopeMethods [
-	entitiesCtxt midasFocus: self someClasses.
+	entitiesCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> self someClasses}).
 	entitiesCtxt methodScope.
-	self assert: entitiesCtxt midasFocus size equals: 58.
-	entitiesCtxt midasFocus do: [ :each | self assert: each isMethod ]
+	self assert: entitiesCtxt midasFocus size equals: 1.
+	self assert: entitiesCtxt midasFocus entities anyOne name equals: 'methodA1'
 
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testScopePackage [
-	entitiesCtxt midasFocus: self someClasses.
+	entitiesCtxt midasFocus:
+		(MidasEntityFamixCollection with: {
+			#anAncestor -> {
+				models second entityNamed: 'aNamespace::ClassA' .
+				models second entityNamed: 'aNamespace::ClassB'}}).
 	entitiesCtxt packageScope.
-	self assert: entitiesCtxt midasFocus size equals: 1.
-	self assert: entitiesCtxt midasFocus first name equals: 'LANSimulation'
+	self assert: entitiesCtxt midasFocus size equals: 2.
+	self assert: entitiesCtxt midasFocus entities first  name equals: 'aPackage'.
+	self assert: entitiesCtxt midasFocus entities second name equals: 'anotherPackage'
 
 ]
 
