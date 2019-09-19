@@ -1,7 +1,7 @@
 Class {
 	#name : #MidasMetricNumberOfEntities,
 	#superclass : #MidasAbstractMetric,
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #accessing }

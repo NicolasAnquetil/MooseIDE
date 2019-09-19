@@ -5,7 +5,7 @@ Class {
 		'view',
 		'roassal'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #accessing }

@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'allModels'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #notifications }

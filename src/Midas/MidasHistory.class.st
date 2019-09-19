@@ -12,7 +12,7 @@ Class {
 		'entries',
 		'current'
 	],
-	#category : #'Midas-helpers'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #adding }

@@ -5,7 +5,7 @@ I am a MidasEntity with exactly one inner MooseModel.
 Class {
 	#name : #MidasEntityMooseModel,
 	#superclass : #MidasEntitySingle,
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #'instance creation' }

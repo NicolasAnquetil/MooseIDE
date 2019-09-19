@@ -8,7 +8,7 @@ Class {
 		'context',
 		'chkFreeze'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #initialization }

@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'ancestor'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #accessing }

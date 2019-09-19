@@ -9,7 +9,7 @@ Class {
 		'newTag',
 		'tags'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #specs }

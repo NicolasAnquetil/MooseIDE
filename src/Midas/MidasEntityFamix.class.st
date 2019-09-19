@@ -1,7 +1,7 @@
 Class {
 	#name : #MidasEntityFamix,
 	#superclass : #MidasEntitySingle,
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #formatting }

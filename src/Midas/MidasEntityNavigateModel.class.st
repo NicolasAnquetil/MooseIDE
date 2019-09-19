@@ -5,7 +5,7 @@ Class {
 		'selector',
 		'name'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #accessing }

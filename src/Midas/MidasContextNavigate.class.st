@@ -6,7 +6,7 @@ Properties are the bi-directional association that link an entity to other ones
 Class {
 	#name : #MidasContextNavigate,
 	#superclass : #MidasChildContext,
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #running }

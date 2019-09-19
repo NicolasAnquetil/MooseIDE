@@ -11,7 +11,7 @@ Class {
 		'fldName',
 		'btnName'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #specs }

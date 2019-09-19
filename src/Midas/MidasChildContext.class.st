@@ -11,7 +11,7 @@ Class {
 		'frozen',
 		'parentContext'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #notifications }

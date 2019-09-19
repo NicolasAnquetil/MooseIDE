@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'properties'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #specs }

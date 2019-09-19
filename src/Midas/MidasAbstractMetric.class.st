@@ -5,7 +5,7 @@ I can compute my value on the entity or aggregate my values over a collection of
 Class {
 	#name : #MidasAbstractMetric,
 	#superclass : #Object,
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #accessing }

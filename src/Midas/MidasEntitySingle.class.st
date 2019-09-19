@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'singleEntity'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #'instance creation' }

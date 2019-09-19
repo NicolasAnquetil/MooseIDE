@@ -17,7 +17,7 @@ Class {
 		'btnFocusOnSelection',
 		'chkSelectionToFocus'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #specs }

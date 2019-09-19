@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'app'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #accessing }

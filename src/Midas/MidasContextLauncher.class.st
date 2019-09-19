@@ -12,7 +12,7 @@ Class {
 		'mooseModel',
 		'midasFocus'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #actions }

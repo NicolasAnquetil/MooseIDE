@@ -1,7 +1,7 @@
 Class {
 	#name : #MidasEntityEmpty,
 	#superclass : #MidasEntityAbstract,
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #'as yet unclassified' }

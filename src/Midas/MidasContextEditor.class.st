@@ -5,5 +5,5 @@ Does not really edit, just show the code
 Class {
 	#name : #MidasContextEditor,
 	#superclass : #MidasChildContext,
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }

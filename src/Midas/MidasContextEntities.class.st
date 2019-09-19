@@ -10,7 +10,7 @@ Class {
 		'history',
 		'selectionFrozen'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #running }

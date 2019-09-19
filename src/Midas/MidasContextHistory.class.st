@@ -10,7 +10,7 @@ Class {
 		'history',
 		'paused'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-appModel'
 }
 
 { #category : #notifications }

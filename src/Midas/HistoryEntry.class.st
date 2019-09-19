@@ -7,7 +7,7 @@ Class {
 		'value',
 		'name'
 	],
-	#category : #'Midas-helpers'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #'instance creation' }

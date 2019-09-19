@@ -8,7 +8,7 @@ Class {
 		'lstModels',
 		'mnuLoaders'
 	],
-	#category : #'Midas-gui'
+	#category : #'Midas-appGUI'
 }
 
 { #category : #specs }

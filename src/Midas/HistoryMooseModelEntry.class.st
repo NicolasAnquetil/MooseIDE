@@ -1,7 +1,7 @@
 Class {
 	#name : #HistoryMooseModelEntry,
 	#superclass : #HistoryEntry,
-	#category : #'Midas-helpers'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #accessing }

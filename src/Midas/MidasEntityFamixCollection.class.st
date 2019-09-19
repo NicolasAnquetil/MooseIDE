@@ -9,7 +9,7 @@ Class {
 		'name',
 		'entities'
 	],
-	#category : #'Midas-context'
+	#category : #'Midas-focusModel'
 }
 
 { #category : #'as yet unclassified' }
