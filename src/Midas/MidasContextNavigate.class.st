@@ -60,8 +60,6 @@ MidasContextNavigate >> userSelection: anObject [
 	focus := self midasFocus.
 	(focus isModel)
 		ifTrue: [ ^ self midasFocus: (focus nextGenerationSelector: anObject methodSelector) ].
-	focus isCollection
-		ifTrue: [ ^ self midasFocus: (focus flatCollect: [ :each | each nextGenerationSelector: anObject methodSelector]) ].
 	self midasFocus: (focus nextGenerationSelector: anObject methodSelector)
 	
 ]

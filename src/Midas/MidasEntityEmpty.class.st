@@ -1,3 +1,6 @@
+"
+I represent a Famix empty list of entity
+"
 Class {
 	#name : #MidasEntityEmpty,
 	#superclass : #MidasEntityAbstract,

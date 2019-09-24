@@ -1,3 +1,8 @@
+"
+An entity to wrap MooseModels in the Navigate app
+
+basically returns an appropriate list of selector for the model
+"
 Class {
 	#name : #MidasEntityNavigateModel,
 	#superclass : #Object,

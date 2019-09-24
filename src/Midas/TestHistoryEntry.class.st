@@ -16,7 +16,7 @@ TestHistoryEntry >> entity: anObject [
 { #category : #tests }
 TestHistoryEntry >> testDescription [
 	| entry |
-	entry := HistoryEntry with: {  self entity: 'first' . self entity: 'second' . self entity: 'third' }.
+	entry := MidasHistoryEntry with: {  self entity: 'first' . self entity: 'second' . self entity: 'third' }.
 	self
 		assert: entry summaryDescription
 		equals: 'first
@@ -38,14 +38,14 @@ TestHistoryEntry >> testDescriptionMooseModel [
 { #category : #tests }
 TestHistoryEntry >> testDescriptionSingleEntity [
 	self
-		assert: (HistoryEntry with: (self entity: 'just me')) summaryDescription
+		assert: (MidasHistoryEntry with: (self entity: 'just me')) summaryDescription
 		equals: 'just me'
 ]
 
 { #category : #tests }
 TestHistoryEntry >> testLongDescription [
 	| entry |
-	entry := HistoryEntry with: {
+	entry := MidasHistoryEntry with: {
 		self entity: 'some long text' .
 		self entity: 'even longer text' .
 		self entity: 'and even longer yet' .
@@ -61,7 +61,7 @@ the goal is to sum up more than 100 characters
 { #category : #tests }
 TestHistoryEntry >> testNamed [
 	| entry |
-	entry := HistoryEntry with: (self entity: 'blah').
+	entry := MidasHistoryEntry with: (self entity: 'blah').
 	self
 		assert: entry entryName
 		equals: ''.

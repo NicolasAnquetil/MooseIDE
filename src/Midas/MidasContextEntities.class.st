@@ -34,6 +34,7 @@ MidasContextEntities >> classScope [
 { #category : #running }
 MidasContextEntities >> computeNewFocus: indexes [
 	| realIndexes |
+	indexes ifEmpty: [ ^ self ].
 	realIndexes := resultsWithParents
 							ifTrue: [ self midasFocus indexesInListWithoutAncestors: indexes ]
 							ifFalse: [ indexes ].
@@ -43,7 +44,7 @@ MidasContextEntities >> computeNewFocus: indexes [
 { #category : #accessing }
 MidasContextEntities >> flattenResult [
 	resultsWithParents := false.
-	self notifyMidasFocus: nil
+	self notifyMidasFocus: self midasFocus
 ]
 
 { #category : #running }
@@ -52,15 +53,31 @@ MidasContextEntities >> focusOnSelection: selectedIndexes [
 	| wasFrozen |
 	wasFrozen := frozen.
 	frozen := false.
-	self midasFocus: (self computeNewFocus: selectedIndexes).
+	self updateMidasFocus: self midasFocus.
 	frozen := wasFrozen.
 ]
 
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: newFocus [
-	^ newFocus isModel
-			ifTrue: [ self mooseModel allModelClasses ]
-			ifFalse: [ newFocus entities ]
+	^resultsWithParents
+		ifFalse: [ newFocus entities ]
+		ifTrue:  [
+			newFocus isCollection
+				ifTrue: [ newFocus entitiesWithAncestors ]
+				ifFalse: [ newFocus entities ]
+			
+		]
+		
+]
+
+{ #category : #notifications }
+MidasContextEntities >> formatNewModel: newModel [
+	^ self mooseModel allModelClasses
+]
+
+{ #category : #notifications }
+MidasContextEntities >> formatedMidasFocus [
+	^ self formatMidasFocus: self midasFocus
 ]
 
 { #category : #initialization }
@@ -86,17 +103,6 @@ MidasContextEntities >> interpretQuery: aBlockAsString [
 { #category : #running }
 MidasContextEntities >> methodScope [
 	self midasFocus: (self toScope: 'FAMIXMethod')
-]
-
-{ #category : #notifications }
-MidasContextEntities >> notifyMidasFocus: newFocus [
-	frozen
-		ifTrue: [ ^ self ].
-	(self acceptMidasFocusUpdate: newFocus)
-		ifTrue: [ app updateMidasFocus: 
-		(newFocus isModel
-			ifTrue: [ self mooseModel allModelClasses ]
-			ifFalse: [ newFocus entities ])]
 ]
 
 { #category : #running }
@@ -134,12 +140,13 @@ MidasContextEntities >> toScope: aSymbol [
 { #category : #accessing }
 MidasContextEntities >> trackAssociation [
 	resultsWithParents := true.
-	self notifyMidasFocus: nil
+	self notifyMidasFocus: self midasFocus
 ]
 
 { #category : #running }
 MidasContextEntities >> userSelection: selectedIndexes [
 	| wasFrozen |
+	selectedIndexes ifEmpty: [ ^ self ].
 	wasFrozen := frozen.
 	selectionFrozen ifTrue: [ frozen := true ].
 	self midasFocus: (self computeNewFocus: selectedIndexes).

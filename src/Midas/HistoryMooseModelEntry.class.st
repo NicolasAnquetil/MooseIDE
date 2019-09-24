@@ -1,6 +1,6 @@
 Class {
 	#name : #HistoryMooseModelEntry,
-	#superclass : #HistoryEntry,
+	#superclass : #MidasHistoryEntry,
 	#category : #'Midas-focusModel'
 }
 

@@ -109,6 +109,11 @@ MidasAppEntities >> context: aContext [
 ]
 
 { #category : #accessing }
+MidasAppEntities >> entities [
+	^context formatedMidasFocus
+]
+
+{ #category : #accessing }
 MidasAppEntities >> filterQuery [
 	^ filterQuery
 ]
@@ -137,20 +142,35 @@ MidasAppEntities >> initializePresenter [
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
-			context userSelection: selection selectedIndexes ].
+			context userSelection: selection selectedPaths ].
 	mnuSelcol
 		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
 ]
 
 { #category : #initialization }
 MidasAppEntities >> initializeWidgetListEntities [
-	lstEntities := self instantiate: ListPresenter.
+	lstEntities 	:= self newTreeTable.
+	lstEntities
+		addColumn:
+			"(CompositeTableColumn new
+				addColumn:
+					(ImageTableColumn new
+						width: 20 ;
+						evaluated: #mooseIcon ;
+						yourself) ;
+				addColumn:"
+					(StringTableColumn new
+						evaluated: [ :each | (each class = Association) ifTrue: [ each key ] ifFalse: [ each ] ] ;
+						yourself)
+						")" ;
+		children: [ :each | (each class = Association) ifTrue: [ each value ] ifFalse: [ #() ] ]
+
+"	lstEntities := self newList.
 	lstEntities beMultipleSelection.
 	lstEntities contextMenu: self listMenu.
 	lstEntities
-		displayBlock: [ :entity | entity displayString ];
-		icons: [ :item | item mooseIcon ] ";
-		sortingBlock: [ :entityA :entityB | entityA lessThan: entityB ]"
+		displayBlock: #displayString ;
+		icons: #mooseIcon"
 ]
 
 { #category : #initialization }
@@ -253,5 +273,11 @@ MidasAppEntities >> title [
 
 { #category : #notifications }
 MidasAppEntities >> updateMidasFocus: aCollection [
-	lstEntities items: aCollection
+	lstEntities roots: aCollection
+]
+
+{ #category : #notifications }
+MidasAppEntities >> updateModel: entities [
+	super updateModel: entities.
+	self updateMidasFocus: entities
 ]

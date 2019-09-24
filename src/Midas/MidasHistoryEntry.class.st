@@ -1,5 +1,5 @@
 Class {
-	#name : #HistoryEntry,
+	#name : #MidasHistoryEntry,
 	#superclass : #Object,
 	#instVars : [
 		'parent',
@@ -11,73 +11,73 @@ Class {
 }
 
 { #category : #'instance creation' }
-HistoryEntry class >> with: anObject [
+MidasHistoryEntry class >> with: anObject [
 	^self new
 		value: anObject ;
 		yourself
 ]
 
 { #category : #accessing }
-HistoryEntry >> append: anObject [
+MidasHistoryEntry >> append: anObject [
 	| entry |
-	entry := HistoryEntry with: anObject.
+	entry := MidasHistoryEntry with: anObject.
 	entry parentEntry: self.
 	children ifNil: [ children := OrderedCollection with: entry ] ifNotNil: [children add: entry].
 	^ entry
 ]
 
 { #category : #accessing }
-HistoryEntry >> entryName [
+MidasHistoryEntry >> entryName [
 	^name ifNil: [ '' ]
 ]
 
 { #category : #accessing }
-HistoryEntry >> entryName: aString [
+MidasHistoryEntry >> entryName: aString [
 	name := aString
 ]
 
 { #category : #accessing }
-HistoryEntry >> hasNext [
+MidasHistoryEntry >> hasNext [
 	^children notNil
 ]
 
 { #category : #accessing }
-HistoryEntry >> hasPrevious [
+MidasHistoryEntry >> hasPrevious [
 	^parent notNil
 ]
 
 { #category : #accessing }
-HistoryEntry >> next [
+MidasHistoryEntry >> next [
 	self hasNext ifFalse: [ ^ nil ].
 	^children anyOne
 ]
 
 { #category : #accessing }
-HistoryEntry >> nextAt: anInt [
+MidasHistoryEntry >> nextAt: anInt [
 	(children size < anInt) ifTrue: [ ^ nil ].
 	^children at: anInt
 ]
 
 { #category : #accessing }
-HistoryEntry >> nextEntries [
+MidasHistoryEntry >> nextEntries [
 	^self hasNext
 		ifTrue: [ children ]
 		ifFalse: [ #() ]
 ]
 
 { #category : #accessing }
-HistoryEntry >> parentEntry: anEntry [
+MidasHistoryEntry >> parentEntry: anEntry [
 	parent := anEntry 
 ]
 
 { #category : #accessing }
-HistoryEntry >> prev [
+MidasHistoryEntry >> prev [
 	self hasPrevious ifFalse: [ ^ nil ].
 	^parent
 ]
 
 { #category : #accessing }
-HistoryEntry >> summaryDescription [
+MidasHistoryEntry >> summaryDescription [
 	| stream size |
 	value isCollection ifFalse: [ ^ value name ].
 	stream := WriteStream on: String new.
@@ -98,12 +98,12 @@ HistoryEntry >> summaryDescription [
 ]
 
 { #category : #accessing }
-HistoryEntry >> value [
+MidasHistoryEntry >> value [
 	^ value
 ]
 
 { #category : #accessing }
-HistoryEntry >> value: anObject [
-Halt if: [ anObject isKindOf: HistoryEntry ].
+MidasHistoryEntry >> value: anObject [
+Halt if: [ anObject isKindOf: MidasHistoryEntry ].
 	value := anObject 
 ]

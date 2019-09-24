@@ -15,7 +15,26 @@ TestCtxtNavigate >> setUp [
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testAttributeProperties [
+TestCtxtNavigate >> testEmptyFocus [
+	launcherCtxt midasFocus: (MidasEntityEmpty ancestor: #anAncestor).
+	self assert: navigateCtxt navigationProperties isEmpty
+]
+
+{ #category : #tests }
+TestCtxtNavigate >> testNavigateFromClass [
+	| clazz props |
+	clazz := self someClasses detect: [:c | c name = 'ClassA'].
+	navigateCtxt midasFocus: (MidasEntityFamix with: clazz ancestor: #anAncestor).
+	props := navigateCtxt navigationPropertiesForClass: FAMIXClass.
+	navigateCtxt userSelection: (props detect: [:p | p mooseName endsWith: 'FAMIX.Type.methods]']).
+
+	self
+		assert: launcherCtxt midasFocus size
+		equals: 1
+]
+
+{ #category : #tests }
+TestCtxtNavigate >> testPropertiesAttribute [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someAttributes anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
@@ -36,7 +55,7 @@ FAMIX.NamedEntity.receivingInvocations"
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testClassProperties [
+TestCtxtNavigate >> testPropertiesClass [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someClasses anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
@@ -44,13 +63,7 @@ TestCtxtNavigate >> testClassProperties [
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testEmptyFocus [
-	launcherCtxt midasFocus: (MidasEntityEmpty ancestor: #anAncestor).
-	self assert: navigateCtxt navigationProperties isEmpty
-]
-
-{ #category : #tests }
-TestCtxtNavigate >> testHeterogeneousProperties [
+TestCtxtNavigate >> testPropertiesHeterogeneous [
 	launcherCtxt midasFocus:
 		(MidasEntityFamixCollection with: {
 			#ancestor1 -> { self someMethods anyOne } .
@@ -73,7 +86,7 @@ FAMIX.NamedEntity.receivingInvocations"
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testHomogeneousProperties [
+TestCtxtNavigate >> testPropertiesHomogeneous [
 	launcherCtxt midasFocus:
 		(MidasEntityFamixCollection with: { #anAncestor -> self someMethods }).
 	self
@@ -82,7 +95,7 @@ TestCtxtNavigate >> testHomogeneousProperties [
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testMethodProperties [
+TestCtxtNavigate >> testPropertiesMethod [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someMethods anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
@@ -90,31 +103,18 @@ TestCtxtNavigate >> testMethodProperties [
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testModelProperties [
+TestCtxtNavigate >> testPropertiesModel [
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 43
 ]
 
 { #category : #tests }
-TestCtxtNavigate >> testNamespaceProperties [
+TestCtxtNavigate >> testPropertiesNamespace [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someNamespaces anyOne ancestor: #anAncestor).
 	self
 		assert: navigateCtxt navigationProperties size
 		equals: 14
-]
-
-{ #category : #tests }
-TestCtxtNavigate >> testNavigateFromClass [
-	| clazz props |
-	clazz := self someClasses detect: [:c | c name = 'ClassA'].
-	navigateCtxt midasFocus: (MidasEntityFamix with: clazz ancestor: #anAncestor).
-	props := navigateCtxt navigationPropertiesForClass: FAMIXClass.
-	navigateCtxt userSelection: (props detect: [:p | p mooseName endsWith: 'FAMIX.Type.methods]']).
-
-	self
-		assert: launcherCtxt midasFocus size
-		equals: 1
 ]
 
 { #category : #tests }

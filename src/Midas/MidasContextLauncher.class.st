@@ -92,13 +92,25 @@ MidasContextLauncher >> mooseModelAsGroups [
 
 { #category : #notifications }
 MidasContextLauncher >> notifyMidasFocus: newFocus [
-	children do: [ :child | child notifyMidasFocus: newFocus]
+	"notifies all children apps that a new focus was selected"
+	children do: [ :child |
+		"erro in ne app should prevent from notifying the other ones"
+		[child notifyMidasFocus: newFocus]
+		on: Error
+		do: [ "nothing" ]
+	]
 ]
 
 { #category : #notifications }
 MidasContextLauncher >> notifyNewModel: newMooseModel [
+	"notifies all children apps that a new model is in use"
 	app updateModel: newMooseModel.
-	children do: [ :child | child notifyNewModel: newMooseModel ]
+	children do: [ :child |
+		"erro in ne app should prevent from notifying the other ones"
+		[child notifyNewModel: newMooseModel]
+		on: Error
+		do: [ "nothing" ]
+	]
 ]
 
 { #category : #actions }

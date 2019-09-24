@@ -1,5 +1,5 @@
 "
-A conveniance wrapper over NavigatinHistory
+A conveniance wrapper over NavigationHistory
 
 Hides the fact that NavigationHistory stores entries with their insertion date
 
@@ -18,7 +18,7 @@ Class {
 { #category : #adding }
 MidasHistory >> addEntry: entities [
 	current := self isEmpty
-					ifTrue: [ entries := HistoryEntry with: entities ]
+					ifTrue: [ entries := MidasHistoryEntry with: entities ]
 					ifFalse: [ current append: entities]
 ]
 

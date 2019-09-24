@@ -1,3 +1,6 @@
+"
+I represent a Famix entity seen has a list of entities in Midas
+"
 Class {
 	#name : #MidasEntityFamix,
 	#superclass : #MidasEntitySingle,

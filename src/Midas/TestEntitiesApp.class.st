@@ -27,6 +27,14 @@ TestEntitiesApp >> setUp [
 ]
 
 { #category : #tests }
+TestEntitiesApp >> testChangeModel [
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models first).
+
+	self assert: self listedEntities size equals: 6.
+
+]
+
+{ #category : #tests }
 TestEntitiesApp >> testDefaultToFrozen [
 	self deny: entitiesApp chkFreeze state
 

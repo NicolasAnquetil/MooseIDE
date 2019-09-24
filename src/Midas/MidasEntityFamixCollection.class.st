@@ -69,6 +69,11 @@ MidasEntityFamixCollection >> indexInListWithoutAncestors: index [
 			ifFalse: [ ^ index - nbAncestors ]
 ]
 
+{ #category : #testing }
+MidasEntityFamixCollection >> isCollection [
+	^ true
+]
+
 { #category : #accessing }
 MidasEntityFamixCollection >> name [
 	^ name
