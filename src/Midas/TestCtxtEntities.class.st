@@ -15,6 +15,20 @@ TestCtxtEntities >> setUp [
 ]
 
 { #category : #tests }
+TestCtxtEntities >> testChekResultAsTree [
+	| displayUpdated |
+	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+
+	displayUpdated := false.
+	entitiesCtxt trackAssociation.
+	self assert: displayUpdated.
+
+	displayUpdated := false.
+	entitiesCtxt flattenResult.
+	self assert: displayUpdated.
+]
+
+{ #category : #tests }
 TestCtxtEntities >> testFilterQuery [
 	mockApp stub filterQuery willReturn: true.
 
@@ -92,11 +106,11 @@ TestCtxtEntities >> testSelectionFrozen [
 	entitiesCtxt selectionNoFocus.
 
 	displayUpdated := false.
-	entitiesCtxt userSelection: #(1).
+	entitiesCtxt userSelection: #( #(1) ).
 	self deny: displayUpdated.
 
 	displayUpdated := false.
-	entitiesCtxt focusOnSelection: #(2).
+	entitiesCtxt focusOnSelection: #( #(2) ).
 	self assert: displayUpdated.
 
 ]
@@ -111,7 +125,37 @@ TestCtxtEntities >> testSelectionNotFrozen [
 	entitiesCtxt selectionToFocus.
 
 	displayUpdated := false.
-	entitiesCtxt userSelection: #(1).
+	entitiesCtxt userSelection: #( #(1) ).
 
 	self assert: displayUpdated 
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testSelectionResultAsTree [
+	| focus |
+	focus := {(#ancestor1 -> #(child1 child2))}.
+	launcherCtxt midasFocus: (MidasEntityFamixCollection with: focus).
+	
+	entitiesCtxt selectionToFocus.
+	entitiesCtxt trackAssociation.
+	
+	(mockApp stub updateMidasFocus: Any) will: [ :arg | focus := arg ].
+	entitiesCtxt userSelection: #(#(1 2)).
+	self assert: focus size equals: 1.
+	self assert: focus first equals: #ancestor1->#(#child2)
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testSelectionResultFlatten [
+	| focus |
+	focus := {(#ancestor1 -> #(child1 child2))}.
+	launcherCtxt midasFocus: (MidasEntityFamixCollection with: focus).
+	
+	entitiesCtxt selectionToFocus.
+	entitiesCtxt flattenResult.
+	
+	(mockApp stub updateMidasFocus: Any) will: [ :arg | focus := arg ].
+	entitiesCtxt userSelection: #(#(2)).
+	self assert: focus size equals: 1.
+	self assert: focus first equals: #child2
 ]

@@ -39,17 +39,15 @@ MidasEntitySingle >> entitiesWithAncestors [
 ]
 
 { #category : #private }
-MidasEntitySingle >> indexInListWithoutAncestors: index [
-	"Index considers a list including the ancestor, we translate it to an index in the list of entities
-	i.e.  '1' tranlates to nothing and '2' translates to '1'"
-	^ index = 2
-		ifTrue: [ 1 ]
-		ifFalse: [ 0 ]
+MidasEntitySingle >> selectEntitiesIndexed: indexes [
+	^ (indexes includes: 1)
+			ifTrue: self
+			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]
 
 { #category : #private }
-MidasEntitySingle >> selectEntitiesIndexed: indexes [
-	^ (indexes includes: 1)
+MidasEntitySingle >> selectPathsIndexed: indexes [
+	^ (indexes includes: #(1 1))
 			ifTrue: self
 			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]

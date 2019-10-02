@@ -35,10 +35,9 @@ MidasContextEntities >> classScope [
 MidasContextEntities >> computeNewFocus: indexes [
 	| realIndexes |
 	indexes ifEmpty: [ ^ self ].
-	realIndexes := resultsWithParents
-							ifTrue: [ self midasFocus indexesInListWithoutAncestors: indexes ]
-							ifFalse: [ indexes ].
-	^ self midasFocus selectEntitiesIndexed: realIndexes
+	^ resultsWithParents
+			ifTrue: [ self midasFocus selectPathsIndexed: indexes ]
+			ifFalse: [ self midasFocus selectEntitiesIndexed: indexes flatten ]
 ]
 
 { #category : #accessing }
@@ -49,11 +48,11 @@ MidasContextEntities >> flattenResult [
 
 { #category : #running }
 MidasContextEntities >> focusOnSelection: selectedIndexes [
-	"forces receiver focus on the selection, whatever the states of the flags frozen and selectionFrozen"
+	"forces receiver to focus on the selection, whatever the states of the flags frozen and selectionFrozen"
 	| wasFrozen |
 	wasFrozen := frozen.
 	frozen := false.
-	self updateMidasFocus: self midasFocus.
+	self notifyMidasFocus: self midasFocus.
 	frozen := wasFrozen.
 ]
 
@@ -61,12 +60,7 @@ MidasContextEntities >> focusOnSelection: selectedIndexes [
 MidasContextEntities >> formatMidasFocus: newFocus [
 	^resultsWithParents
 		ifFalse: [ newFocus entities ]
-		ifTrue:  [
-			newFocus isCollection
-				ifTrue: [ newFocus entitiesWithAncestors ]
-				ifFalse: [ newFocus entities ]
-			
-		]
+		ifTrue:  [ newFocus entitiesWithAncestors ]
 		
 ]
 

@@ -5,17 +5,6 @@ Class {
 }
 
 { #category : #tests }
-TestMidasEntitiesEmpty >> testIndexWithAncestors [
-	| md |
-	md := (MidasEntityEmpty ancestor: #anAncestor).
-
-	self assert: (md indexInListWithoutAncestors: 0) equals: 0.
-	self assert: (md indexInListWithoutAncestors: 1) equals: 0.
-	self assert: (md indexInListWithoutAncestors: 2) equals: 0.
-	self assert: (md indexInListWithoutAncestors: 3) equals: 0.
-]
-
-{ #category : #tests }
 TestMidasEntitiesEmpty >> testIsModel [
 	self deny: MidasEntityEmpty new isModel
 ]

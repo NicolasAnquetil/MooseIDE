@@ -29,11 +29,6 @@ MidasEntityEmpty >> entitiesWithAncestors [
 	^ { ancestor -> #() }
 ]
 
-{ #category : #running }
-MidasEntityEmpty >> indexInListWithoutAncestors: index [
-	^ 0
-]
-
 { #category : #testing }
 MidasEntityEmpty >> isEmpty [
 	^ true
@@ -41,6 +36,11 @@ MidasEntityEmpty >> isEmpty [
 
 { #category : #'instance creation' }
 MidasEntityEmpty >> selectEntitiesIndexed: indexes [
+	^self
+]
+
+{ #category : #'instance creation' }
+MidasEntityEmpty >> selectPathsIndexed: indexes [
 	^self
 ]
 

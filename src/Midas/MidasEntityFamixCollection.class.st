@@ -48,27 +48,6 @@ MidasEntityFamixCollection >> entitiesWithAncestors [
 	^ entities
 ]
 
-{ #category : #private }
-MidasEntityFamixCollection >> indexInListWithoutAncestors: index [
-	| nbEntities nbAncestors |
-	(index < 1) ifTrue: [ ^ 0 ].
-	nbEntities := 0.
-	nbAncestors := 0.
-	entities do: [ :assoc |
-		nbAncestors := nbAncestors + 1.
-		((nbEntities + nbAncestors) = index)
-			ifTrue: [ ^ 0 ]
-			ifFalse: [
-				nbEntities := nbEntities + assoc value size.
-				((nbEntities + nbAncestors) >= index)
-				ifTrue: [ ^ index - nbAncestors ]
-			]
-	].
-	((nbEntities + nbAncestors) < index)
-			ifTrue: [ ^ 0 ]
-			ifFalse: [ ^ index - nbAncestors ]
-]
-
 { #category : #testing }
 MidasEntityFamixCollection >> isCollection [
 	^ true
@@ -95,6 +74,22 @@ MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 								assoc key -> (myIndexes collect: [ :i | assoc value at: i ]).
 							].
 
+	^ self filterNextGeneration: nextGeneration
+	
+]
+
+{ #category : #private }
+MidasEntityFamixCollection >> selectPathsIndexed: indexes [
+	| nextGeneration ancestorsIndexes |
+	ancestorsIndexes := indexes groupedBy: #first.
+	nextGeneration := OrderedCollection new: entities size.
+	ancestorsIndexes keysAndValuesDo:  [ :ascendantIndex :descendantsIndexes |
+								| currentEntity descendants |
+								currentEntity := entities at: ascendantIndex.
+								descendants := descendantsIndexes collect: [ :duplet |
+														currentEntity value at: duplet second].
+								nextGeneration add: (currentEntity key -> descendants)
+							].
 	^ self filterNextGeneration: nextGeneration
 	
 ]

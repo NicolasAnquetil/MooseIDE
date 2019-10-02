@@ -74,17 +74,6 @@ MidasEntityAbstract >> hasSourceAnchor [
 	^ false
 ]
 
-{ #category : #private }
-MidasEntityAbstract >> indexInListWithoutAncestors: index [
-	self subclassResponsibility
-]
-
-{ #category : #running }
-MidasEntityAbstract >> indexesInListWithoutAncestors: indexes [
-	"Indexes consider a list including ancestors, we translate them to indexes in the list of entities"
-	^ indexes collect: [ :i | self indexInListWithoutAncestors: i ]
-]
-
 { #category : #testing }
 MidasEntityAbstract >> isCollection [
 	^ false
@@ -125,6 +114,11 @@ MidasEntityAbstract >> selectNextGeneration: aBlock [
 			assoc key -> (assoc value select: [ :each | aBlock value: each ])
 		])
 
+]
+
+{ #category : #'instance creation' }
+MidasEntityAbstract >> selectPathsIndexed: indexes [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
