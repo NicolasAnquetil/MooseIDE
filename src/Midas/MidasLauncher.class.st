@@ -88,7 +88,7 @@ MidasLauncher >> initializeWidgets [
 		addGroup: [ :group |
 			{ #models -> #launchModelsApp .
 			  #metrics -> #launchDashboardApp .
-			  #query -> #launchEntitiesApp .
+			  #entities -> #launchEntitiesApp .
 			  #navigate -> #launchNavigateApp .
 			  #code -> #launchEditorApp .
 			  #views -> #nullLaunchApp .

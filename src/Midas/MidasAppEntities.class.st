@@ -7,15 +7,8 @@ Class {
 	#instVars : [
 		'chkAssociation',
 		'mnuSelcol',
-		'fldQuery',
-		'btnQuery',
-		'mnuScope',
 		'lstEntities',
-		'btnPrev',
-		'btnNext',
-		'filterQuery',
-		'btnFocusOnSelection',
-		'chkSelectionToFocus'
+		'btnFocusOnSelection'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -26,30 +19,12 @@ MidasAppEntities class >> defaultSpec [
 		add:
 			(SpecBoxLayout newHorizontal
 				add: #chkFreeze;
-				add: #chkSelectionToFocus ;
 				add: #btnFocusOnSelection ;
 				add: #chkAssociation ;
 				yourself)
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add:
-			(SpecBoxLayout newHorizontal
-				add: #mnuSelcol
-					withConstraints: [ :constraints | constraints width: 80 ];
-				add: ' each where:'
-					withConstraints: [ :constraints | constraints width: 75 ];
-				add: #fldQuery;
-				add: #btnQuery
-					withConstraints: [ :constraints | constraints width: 30 ])
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #mnuScope
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #lstEntities;
 		yourself
-]
-
-{ #category : #accessing }
-MidasAppEntities >> btnClassScope [
-	^mnuScope menuGroups first menuItems second
 ]
 
 { #category : #accessing }
@@ -57,28 +32,9 @@ MidasAppEntities >> btnFocusOnSelection [
 	^btnFocusOnSelection
 ]
 
-{ #category : #accessing }
-MidasAppEntities >> btnMethodScope [
-	^mnuScope menuGroups first menuItems third
-]
-
-{ #category : #accessing }
-MidasAppEntities >> btnPackageScope [
-	^mnuScope menuGroups first menuItems first
-]
-
-{ #category : #accessing }
-MidasAppEntities >> btnQuery [
-	^ btnQuery
-]
-
 { #category : #initialization }
 MidasAppEntities >> canBeFrozen [
 	super canBeFrozen.
-
-	chkSelectionToFocus := self newCheckBox.
-	chkSelectionToFocus label: 'Selection focus'.
-	chkSelectionToFocus state: false.
 
 	btnFocusOnSelection := self newButton.
 	btnFocusOnSelection label: 'Force focus'.
@@ -93,19 +49,11 @@ MidasAppEntities >> chkAssociation [
 ]
 
 { #category : #accessing }
-MidasAppEntities >> chkSelectionToFocus [
-	^ chkSelectionToFocus 
-]
-
-{ #category : #accessing }
 MidasAppEntities >> context: aContext [
 	super context: aContext.
 	chkFreeze state
 		ifTrue:  [ aContext freeze ];
-		ifFalse: [ aContext unfreeze ].
-	chkSelectionToFocus state
-		ifTrue:  [ aContext selectionToFocus ];
-		ifFalse: [ aContext selectionNoFocus ].
+		ifFalse: [ aContext unfreeze ]
 ]
 
 { #category : #accessing }
@@ -113,64 +61,31 @@ MidasAppEntities >> entities [
 	^context formatedMidasFocus
 ]
 
-{ #category : #accessing }
-MidasAppEntities >> filterQuery [
-	^ filterQuery
-]
-
-{ #category : #accessing }
-MidasAppEntities >> fldQuery [
-	^fldQuery
-]
-
 { #category : #initialization }
 MidasAppEntities >> initializePresenter [
 	chkFreeze
 		whenActivatedDo: [ context freeze ];
 		whenDeactivatedDo: [ context unfreeze ].
-	chkSelectionToFocus
-		whenActivatedDo: [
-			context selectionToFocus.
-			btnFocusOnSelection disable ];
-		whenDeactivatedDo: [
-			context selectionNoFocus.
-			btnFocusOnSelection enable ].
 	btnFocusOnSelection action: [ context focusOnSelection ].
-
 	chkAssociation
 		whenActivatedDo: [ context trackAssociation ];
 		whenDeactivatedDo: [ context flattenResult ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
 			context userSelection: selection selectedPaths ].
-	mnuSelcol
-		whenSelectedItemChangedDo: [ :item | filterQuery := item = #filter ]
+
 ]
 
 { #category : #initialization }
 MidasAppEntities >> initializeWidgetListEntities [
 	lstEntities 	:= self newTreeTable.
 	lstEntities
-		addColumn:
-			"(CompositeTableColumn new
-				addColumn:
-					(ImageTableColumn new
-						width: 20 ;
-						evaluated: #mooseIcon ;
-						yourself) ;
-				addColumn:"
-					(StringTableColumn new
-						evaluated: [ :each | (each class = Association) ifTrue: [ each key ] ifFalse: [ each ] ] ;
-						yourself)
-						")" ;
-		children: [ :each | (each class = Association) ifTrue: [ each value ] ifFalse: [ #() ] ]
+		beMultipleSelection ;
+		addColumn: (StringTableColumn new
+							evaluated: #name;
+							yourself) ;
+		children: [ :each | self context childrenFor: each ]
 
-"	lstEntities := self newList.
-	lstEntities beMultipleSelection.
-	lstEntities contextMenu: self listMenu.
-	lstEntities
-		displayBlock: #displayString ;
-		icons: #mooseIcon"
 ]
 
 { #category : #initialization }
@@ -180,52 +95,7 @@ MidasAppEntities >> initializeWidgets [
 	chkAssociation := (self instantiate: CheckBoxPresenter)
 		label: 'Result as tree';
 		yourself.
-	self initializeWidgetsQueryRow.
-	self initializeWidgetsScopeRow.
 	self initializeWidgetListEntities
-]
-
-{ #category : #initialization }
-MidasAppEntities >> initializeWidgetsQueryRow [
-	mnuSelcol := self newDropList.
-	mnuSelcol
-		items: #(#filter #navigate);
-		displayBlock: [ :i | i asString ].
-	filterQuery := true.	"by default will be on #filter"
-	fldQuery := self newTextInput.
-	btnQuery := self newButton.
-	btnQuery label: 'run'.
-	btnQuery action: self runQueryButtonAction
-]
-
-{ #category : #initialization }
-MidasAppEntities >> initializeWidgetsScopeRow [
-	mnuScope := self newMenuBar.
-	mnuScope
-		addGroup: [ :group | 
-			"mnuScope applyTo: self"
-			group
-				addItem: [ :item | 
-					item
-						name: 'Package';
-						description: 'Packages';
-						icon: (self iconNamed: #famixPackageGroup);
-						action: [ context packageScope ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: 'Classes';
-						description: 'Classes';
-						icon: (self iconNamed: #famixClassGroup);
-						action: [ context classScope ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: 'Methods';
-						description: 'Methods';
-						icon: (self iconNamed: #famixMethodGroup);
-						action: [ 
-							context methodScope ] ] ]
 ]
 
 { #category : #initialization }
@@ -252,23 +122,13 @@ MidasAppEntities >> lstEntities [
 ]
 
 { #category : #accessing }
-MidasAppEntities >> mnuScope [
-	^ mnuScope
-]
-
-{ #category : #accessing }
 MidasAppEntities >> mnuSelcol [
 	^ mnuSelcol
 ]
 
-{ #category : #running }
-MidasAppEntities >> runQueryButtonAction [
-	^[ context interpretQuery: fldQuery getText  ]
-]
-
 { #category : #api }
 MidasAppEntities >> title [
-	^'Query ''' , context modelName , ''''
+	^'Entities ''' , context modelName , ''''
 ]
 
 { #category : #notifications }
@@ -277,7 +137,7 @@ MidasAppEntities >> updateMidasFocus: aCollection [
 ]
 
 { #category : #notifications }
-MidasAppEntities >> updateModel: entities [
-	super updateModel: entities.
-	self updateMidasFocus: entities
+MidasAppEntities >> updateModel: entity [
+	super updateModel: entity.
+	self updateMidasFocus: entity
 ]

@@ -7,37 +7,25 @@ Class {
 	#instVars : [
 		'resultsWithParents',
 		'listEntities',
-		'history',
-		'selectionFrozen'
+		'frozenFocus'
 	],
 	#category : #'Midas-appModel'
 }
 
-{ #category : #running }
-MidasContextEntities >> atScope: aSymbol [
-	^self midasFocus collectNextGeneration:
-		(MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol)
-	
+{ #category : #notifications }
+MidasContextEntities >> childrenFor: aRoot [
+	^resultsWithParents
+		ifTrue:  [ self midasFocus childrenFor: aRoot ]
+		ifFalse: [ #() ]
+		
 ]
 
 { #category : #running }
-MidasContextEntities >> classScope [
-	| actuel |
-	actuel := self midasFocus.
-	actuel isEmpty ifTrue: [ ^ nil ].
-	"hack to know whether we should go up (from methods -> atScope) or down (-> toScope)"
-	actuel entities anyOne isMethod
-		ifTrue: [ self midasFocus: (self atScope: 'FAMIXClass') ]
-		ifFalse: [ self midasFocus: (self toScope: 'FAMIXClass') ].
-]
-
-{ #category : #running }
-MidasContextEntities >> computeNewFocus: indexes [
-	| realIndexes |
-	indexes ifEmpty: [ ^ self ].
+MidasContextEntities >> entitiesToSelection: focus [
+	focus ifEmpty: [ ^ self ].
 	^ resultsWithParents
-			ifTrue: [ self midasFocus selectPathsIndexed: indexes ]
-			ifFalse: [ self midasFocus selectEntitiesIndexed: indexes flatten ]
+			ifTrue: [ self midasFocus selectPathsIndexed: focus ]
+			ifFalse: [ self midasFocus selectEntitiesIndexed: focus flatten ]
 ]
 
 { #category : #accessing }
@@ -59,14 +47,9 @@ MidasContextEntities >> focusOnSelection: selectedIndexes [
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: newFocus [
 	^resultsWithParents
+		ifTrue:  [ newFocus ancestors ]
 		ifFalse: [ newFocus entities ]
-		ifTrue:  [ newFocus entitiesWithAncestors ]
 		
-]
-
-{ #category : #notifications }
-MidasContextEntities >> formatNewModel: newModel [
-	^ self mooseModel allModelClasses
 ]
 
 { #category : #notifications }
@@ -74,34 +57,16 @@ MidasContextEntities >> formatedMidasFocus [
 	^ self formatMidasFocus: self midasFocus
 ]
 
+{ #category : #accessing }
+MidasContextEntities >> freeze [ 
+	super freeze.
+	frozenFocus := self midasFocus
+]
+
 { #category : #initialization }
 MidasContextEntities >> initialize [
 	super initialize.
-	resultsWithParents := false.
-	selectionFrozen := true
-]
-
-{ #category : #running }
-MidasContextEntities >> interpretQuery: aBlockAsString [
-	| aBlock |
-	aBlockAsString
-		ifEmpty: [ ^ self "notifyMidasFocus: history now" ].
-	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
-	self
-		midasFocus:
-			(app filterQuery
-				ifTrue: [ self midasFocus selectNextGeneration: aBlock ]
-				ifFalse: [ self midasFocus collectNextGeneration: aBlock ])
-]
-
-{ #category : #running }
-MidasContextEntities >> methodScope [
-	self midasFocus: (self toScope: 'FAMIXMethod')
-]
-
-{ #category : #running }
-MidasContextEntities >> packageScope [
-	self midasFocus: (self atScope: 'FAMIXPackage')
+	resultsWithParents := false
 ]
 
 { #category : #accessing }
@@ -109,26 +74,11 @@ MidasContextEntities >> resultsWithParents [
 	^resultsWithParents
 ]
 
-{ #category : #accessing }
-MidasContextEntities >> selectionFrozen [
-	^ selectionFrozen
-]
-
-{ #category : #accessing }
-MidasContextEntities >> selectionNoFocus [
-	selectionFrozen := true
-]
-
-{ #category : #accessing }
-MidasContextEntities >> selectionToFocus [
-	selectionFrozen := false
-]
-
 { #category : #running }
-MidasContextEntities >> toScope: aSymbol [
-	^ self midasFocus collectNextGeneration:
-		(MVSFilterManager new buildQueryBlockFrom: 'each toScope: ' , aSymbol).
-	
+MidasContextEntities >> selectionToEntities: paths [
+	^ resultsWithParents
+			ifTrue: [ self midasFocus selectPathsIndexed: paths ]
+			ifFalse: [ self midasFocus selectEntitiesIndexed: paths flatten ]
 ]
 
 { #category : #accessing }
@@ -138,11 +88,7 @@ MidasContextEntities >> trackAssociation [
 ]
 
 { #category : #running }
-MidasContextEntities >> userSelection: selectedIndexes [
-	| wasFrozen |
-	selectedIndexes ifEmpty: [ ^ self ].
-	wasFrozen := frozen.
-	selectionFrozen ifTrue: [ frozen := true ].
-	self midasFocus: (self computeNewFocus: selectedIndexes).
-	frozen := wasFrozen.
+MidasContextEntities >> userSelection: selectedPaths [
+	selectedPaths ifEmpty: [ ^ self ].
+	self midasFocus: (self selectionToEntities: selectedPaths)
 ]

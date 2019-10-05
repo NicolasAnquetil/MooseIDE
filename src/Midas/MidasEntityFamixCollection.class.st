@@ -29,11 +29,24 @@ MidasEntityFamixCollection class >> with: aCollection named: aString [
 ]
 
 { #category : #formatting }
+MidasEntityFamixCollection >> ancestors [
+	^ entities collect: #key
+]
+
+{ #category : #accessing }
+MidasEntityFamixCollection >> childrenFor: anAncestor [
+	^entities
+		detect: [ :assoc | assoc key = anAncestor ]
+		ifFound: [ :assoc | assoc value ]
+		ifNone: [ #() ]
+]
+
+{ #category : #formatting }
 MidasEntityFamixCollection >> displayString [
 	^ self name
 ]
 
-{ #category : #formatting }
+{ #category : #accessing }
 MidasEntityFamixCollection >> entities [
 	^ entities flatCollect: #value
 ]

@@ -16,8 +16,15 @@ TestEntitiesApp >> indexFor: aString [
 ]
 
 { #category : #running }
-TestEntitiesApp >> listedEntities [
-	^ entitiesApp lstEntities items
+TestEntitiesApp >> listedEntitiesFlat [
+	^ entitiesApp lstEntities roots 
+]
+
+{ #category : #running }
+TestEntitiesApp >> listedEntitiesTree [
+	| presenter |
+	presenter := entitiesApp lstEntities.
+	^ presenter roots flatCollect: [ :r | presenter childrenFor: r ]
 ]
 
 { #category : #running }
@@ -30,7 +37,7 @@ TestEntitiesApp >> setUp [
 TestEntitiesApp >> testChangeModel [
 	launcherApp context mooseModel: (MidasEntityMooseModel with: models first).
 
-	self assert: self listedEntities size equals: 6.
+	self assert: self listedEntitiesFlat size equals: 1.
 
 ]
 
@@ -41,64 +48,37 @@ TestEntitiesApp >> testDefaultToFrozen [
 ]
 
 { #category : #tests }
-TestEntitiesApp >> testFilterQuery [
-	|  mockCtxt query ctxtReceived|
-	mockCtxt := Mock new.
-	(mockCtxt 	stub interpretQuery: Any) will: [:arg | ctxtReceived := arg].
-	entitiesApp context: mockCtxt.
-	
-	query := 'each name = ''Node'''.
-
-	entitiesApp mnuSelcol selectedIndex: 1.	"select #filter"
-	entitiesApp fldQuery text: query.
-	entitiesApp btnQuery performAction.
-	
-	self assert: entitiesApp filterQuery.
-	self assert: ctxtReceived equals: query.
-
-]
-
-{ #category : #tests }
 TestEntitiesApp >> testSelectEntity [
 	| mockCtxt userSelection |
 	userSelection := nil.
 	mockCtxt := Mock new.
 	(mockCtxt stub userSelection: Any)
 		will: [ :arg | userSelection := arg ].
+	(mockCtxt stub childrenFor: Any)
+		willReturn: #().
 	entitiesApp context: mockCtxt.
 
-	entitiesApp updateMidasFocus: #(entity1 entity2 entity3 entity4 entity5).
+	entitiesApp updateMidasFocus:
+						{ self mockEntity: #entity1 .
+						  self mockEntity: #entity2 .
+						  self mockEntity: #entity3 .
+						  self mockEntity: #entity4 .
+						  self mockEntity: #entity5 }.
 
-	self assert: self listedEntities size equals: 5.
+	self assert: self listedEntitiesFlat size equals: 5.
 
-	entitiesApp lstEntities clickAtIndex: 3.
+	entitiesApp lstEntities clickAtPath: #(3).
 	self assert: userSelection size equals: 1.
-	self assert: userSelection first equals: 3
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testSelectionFreezeOnFocusButton [
-	entitiesApp chkSelectionToFocus state: true.
-	self deny: entitiesApp btnFocusOnSelection isEnabled.
-	entitiesApp chkSelectionToFocus state: false.
-	self assert: entitiesApp btnFocusOnSelection isEnabled
-
-]
-
-{ #category : #tests }
-TestEntitiesApp >> testSelectionFrozenDefault [
-	self deny: entitiesApp chkSelectionToFocus state.
-	self assert: entitiesApp context selectionFrozen
-
+	self assert: userSelection first equals: #(3)
 ]
 
 { #category : #tests }
 TestEntitiesApp >> testWindowTitle [
 	self
 		assert: entitiesApp window title
-		equals: 'Query ''Model: First-lanModel'''.
+		equals: 'Entities ''Model: First-lanModel'''.
 	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: entitiesApp window title
-		equals: 'Query ''Model: Second-simpleModel'''
+		equals: 'Entities ''Model: Second-simpleModel'''
 ]

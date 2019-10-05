@@ -21,6 +21,12 @@ TestCtxtNavigate >> testEmptyFocus [
 ]
 
 { #category : #tests }
+TestCtxtNavigate >> testInitialFocus [
+	
+	self assert: navigateCtxt midasFocus isModel 
+]
+
+{ #category : #tests }
 TestCtxtNavigate >> testNavigateFromClass [
 	| clazz props |
 	clazz := self someClasses detect: [:c | c name = 'ClassA'].

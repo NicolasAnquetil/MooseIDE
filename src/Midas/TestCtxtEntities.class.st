@@ -15,7 +15,7 @@ TestCtxtEntities >> setUp [
 ]
 
 { #category : #tests }
-TestCtxtEntities >> testChekResultAsTree [
+TestCtxtEntities >> testCheckResultAsTree [
 	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
 

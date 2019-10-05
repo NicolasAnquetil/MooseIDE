@@ -13,6 +13,16 @@ MidasEntityMooseModel class >> with: aMooseModel [
 	^self with: aMooseModel ancestor: nil
 ]
 
+{ #category : #accessing }
+MidasEntityMooseModel >> ancestors [
+	^ { singleEntity }
+]
+
+{ #category : #accessing }
+MidasEntityMooseModel >> childrenFor: anAncestor [
+	^ #()
+]
+
 { #category : #formatting }
 MidasEntityMooseModel >> displayString [
 	^ 'Model: ' , singleEntity name

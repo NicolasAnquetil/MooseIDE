@@ -27,6 +27,16 @@ MidasEntityAbstract >> ancestor: anAncestor [
 	ancestor := anAncestor
 ]
 
+{ #category : #accessing }
+MidasEntityAbstract >> ancestors [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+MidasEntityAbstract >> childrenFor: anAncestor [
+	self subclassResponsibility 
+]
+
 { #category : #'instance creation' }
 MidasEntityAbstract >> collectNextGeneration: aBlock [
 	"aBlock takes as argument a single entity of the receiving MidasEntity.

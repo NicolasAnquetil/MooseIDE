@@ -62,7 +62,7 @@ MidasAppHistory >> drawChainOfEvent [
 	shape vertical.
 	viewElts := shape elementsOn: context allEntries.
 	viewElts when: TRMouseClick do: [ :event | context userSelection: event element model ].
-	viewElts @ (RTPopup new text: [:e | e summaryDescription ]) .
+	viewElts @ (RTPopup new text: self entryPopupBlock) .
 	view addAll: viewElts.
 	RTEdgeBuilder new
 		view: view;
@@ -75,6 +75,12 @@ MidasAppHistory >> drawChainOfEvent [
 { #category : #accessing }
 MidasAppHistory >> entryExtent [
 	^ 15 @ 15
+]
+
+{ #category : #displaying }
+MidasAppHistory >> entryPopupBlock [
+	"a block to compute the popup text of an history entry"
+	^ [ :historyEntry | historyEntry summaryDescription ]
 ]
 
 { #category : #accessing }

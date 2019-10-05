@@ -15,6 +15,16 @@ MidasEntityEmpty class >> ancestor: aMidasEntity [
 ]
 
 { #category : #formatting }
+MidasEntityEmpty >> ancestors [
+	^ #()
+]
+
+{ #category : #accessing }
+MidasEntityEmpty >> childrenFor: anAncestor [
+	^#()
+]
+
+{ #category : #formatting }
 MidasEntityEmpty >> displayString [
 	^ '--'
 ]

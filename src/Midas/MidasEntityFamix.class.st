@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #formatting }
+MidasEntityFamix >> ancestors [
+	^ { ancestor }
+]
+
+{ #category : #accessing }
+MidasEntityFamix >> childrenFor: anAncestor [
+	^(anAncestor = ancestor)
+		ifTrue: [ self entities ]
+		ifFalse: [ #() ]
+]
+
+{ #category : #formatting }
 MidasEntityFamix >> displayString [
 	^ singleEntity name
 ]

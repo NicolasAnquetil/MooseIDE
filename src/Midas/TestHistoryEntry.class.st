@@ -1,22 +1,17 @@
 Class {
 	#name : #TestHistoryEntry,
-	#superclass : #TestCase,
+	#superclass : #TestMidas,
 	#category : #'Midas-Tests'
 }
-
-{ #category : #accessing }
-TestHistoryEntry >> entity: anObject [
-	| mockEntity |
-	mockEntity := Mock new.
-	mockEntity stub name willReturn: (anObject asString).
-	^mockEntity
-	
-]
 
 { #category : #tests }
 TestHistoryEntry >> testDescription [
 	| entry |
-	entry := MidasHistoryEntry with: {  self entity: 'first' . self entity: 'second' . self entity: 'third' }.
+	entry := MidasHistoryEntry
+					with: (self midasEntityCollection:
+								 { #ancestor1 -> 'first' . 
+									#ancestor1 -> 'second' .
+									#ancestor2 -> 'third'} ).
 	self
 		assert: entry summaryDescription
 		equals: 'first
@@ -27,30 +22,30 @@ third'
 { #category : #tests }
 TestHistoryEntry >> testDescriptionMooseModel [
 	| model |
-	model := MooseModel new
-					name: 'test model' ;
-					yourself.
+	model := (MidasHistoryEntry with: (self midasEntityModel: 'test model')).
 	self
-		assert: (HistoryMooseModelEntry with: model) summaryDescription
+		assert:  model summaryDescription
 		equals: 'test model'
 ]
 
 { #category : #tests }
 TestHistoryEntry >> testDescriptionSingleEntity [
 	self
-		assert: (MidasHistoryEntry with: (self entity: 'just me')) summaryDescription
+		assert: (MidasHistoryEntry with: (self midasEntityFamix: 'just me'))
+						 summaryDescription
 		equals: 'just me'
 ]
 
 { #category : #tests }
 TestHistoryEntry >> testLongDescription [
 	| entry |
-	entry := MidasHistoryEntry with: {
-		self entity: 'some long text' .
-		self entity: 'even longer text' .
-		self entity: 'and even longer yet' .
-		self entity: 'the goal is to sum up more than 100 characters' .
-		self entity: 'all this to force elipsis in the summary description' }.
+	entry := MidasHistoryEntry
+					with: (self midasEntityCollection:
+								 { #ancestor1 -> { self mockEntity: 'some long text' .
+														self mockEntity: 'even longer text' .
+														self mockEntity: 'and even longer yet' .
+														self mockEntity: 'the goal is to sum up more than 100 characters' .
+														self mockEntity: 'all this to force elipsis in the summary description' }}).
 	self assert: entry summaryDescription equals: 'some long text
 even longer text
 and even longer yet
@@ -61,7 +56,7 @@ the goal is to sum up more than 100 characters
 { #category : #tests }
 TestHistoryEntry >> testNamed [
 	| entry |
-	entry := MidasHistoryEntry with: (self entity: 'blah').
+	entry := MidasHistoryEntry with: (self midasEntityFamix: 'blah').
 	self
 		assert: entry entryName
 		equals: ''.

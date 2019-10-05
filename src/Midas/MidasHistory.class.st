@@ -16,15 +16,15 @@ Class {
 }
 
 { #category : #adding }
-MidasHistory >> addEntry: entities [
+MidasHistory >> addEntry: focus [
 	current := self isEmpty
-					ifTrue: [ entries := MidasHistoryEntry with: entities ]
-					ifFalse: [ current append: entities]
+					ifTrue: [ entries := MidasHistoryEntry with: focus ]
+					ifFalse: [ current append: focus]
 ]
 
 { #category : #adding }
 MidasHistory >> addEntryModel: aMooseModel [
-	current := entries := HistoryMooseModelEntry with: aMooseModel
+	current := entries := MidasHistoryEntry with: aMooseModel
 ]
 
 { #category : #accessing }

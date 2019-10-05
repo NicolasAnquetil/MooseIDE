@@ -3858,6 +3858,41 @@ TestMidas class >> simpleModel [
   (FAMIX.UnknownSourceLanguage (id: 9999)) )'
 ]
 
+{ #category : #accessing }
+TestMidas >> midasEntityCollection: aCollectionOfAssociations [
+	"helper method to create a MidasEntityFamixCollection form a collection of ancestor -> string
+	 where the ancestor can be repeated and string is a name for a mock entity"
+	| entities |
+	entities := OrderedCollection new.
+	(aCollectionOfAssociations groupedBy: #key)
+		keysAndValuesDo: [ :key :value |
+			entities add: (key -> (value collect: [ :string | self mockEntity: string ])) ].
+	^MidasEntityFamixCollection with: entities
+]
+
+{ #category : #accessing }
+TestMidas >> midasEntityFamix: aString [
+	^MidasEntityFamix with: (self mockEntity: aString) ancestor: #ancestor
+]
+
+{ #category : #accessing }
+TestMidas >> midasEntityModel: aString [
+	^MidasEntityMooseModel
+		with: (MooseModel new
+					name: aString ;
+					yourself)
+		ancestor: #ancestor
+]
+
+{ #category : #accessing }
+TestMidas >> mockEntity: anObject [
+	| mockEntity |
+	mockEntity := Mock new.
+	mockEntity stub name willReturn: (anObject asString).
+	^mockEntity
+	
+]
+
 { #category : #running }
 TestMidas >> setUp [
 	models := OrderedCollection new.

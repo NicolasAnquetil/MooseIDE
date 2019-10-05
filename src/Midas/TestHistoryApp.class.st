@@ -49,6 +49,14 @@ TestHistoryApp >> testEntryName [
 ]
 
 { #category : #tests }
+TestHistoryApp >> testEntryPopup [
+	self assert: (historyApp entryPopupBlock value)  equals: Color red.
+	historyApp context midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
+	self assert: (self colorForRoassalElement: 1) equals: Color veryLightGray.
+
+]
+
+{ #category : #tests }
 TestHistoryApp >> testPreviousAndNextButtonsStatus [
 	self deny: historyApp btnPrev isEnabled.
 	self deny: historyApp btnNext isEnabled.

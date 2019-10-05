@@ -22,7 +22,9 @@ MidasHistoryEntry >> append: anObject [
 	| entry |
 	entry := MidasHistoryEntry with: anObject.
 	entry parentEntry: self.
-	children ifNil: [ children := OrderedCollection with: entry ] ifNotNil: [children add: entry].
+	children
+		ifNil: [ children := (OrderedCollection new: 1) add: entry ; yourself ]
+		ifNotNil: [children add: entry].
 	^ entry
 ]
 
@@ -79,11 +81,10 @@ MidasHistoryEntry >> prev [
 { #category : #accessing }
 MidasHistoryEntry >> summaryDescription [
 	| stream size |
-	value isCollection ifFalse: [ ^ value name ].
 	stream := WriteStream on: String new.
 	size := 0.
-	value do: [ :entity |
-			"all entries except the first start a new line"
+	value entities do: [ :entity |
+			"all entries, except the first, start with a new line"
 			size = 0 ifFalse: [ stream cr ].
 			"if summary too long, put elipsis, otherwise add the entity name"
 			size := size + entity name size.
@@ -104,6 +105,5 @@ MidasHistoryEntry >> value [
 
 { #category : #accessing }
 MidasHistoryEntry >> value: anObject [
-Halt if: [ anObject isKindOf: MidasHistoryEntry ].
 	value := anObject 
 ]

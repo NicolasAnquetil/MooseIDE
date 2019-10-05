@@ -37,6 +37,49 @@ MidasAppNavigate >> initializeWidgets [
 
 ]
 
+{ #category : #initialization }
+MidasAppNavigate >> initializeWidgetsQueryRow [
+	mnuSelcol := self newDropList.
+	mnuSelcol
+		items: #(#filter #navigate);
+		displayBlock: [ :i | i asString ].
+	filterQuery := true.	"by default will be on #filter"
+	fldQuery := self newTextInput.
+	btnQuery := self newButton.
+	btnQuery label: 'run'.
+	btnQuery action: self runQueryButtonAction
+]
+
+{ #category : #initialization }
+MidasAppNavigate >> initializeWidgetsScopeRow [
+	mnuScope := self newMenuBar.
+	mnuScope
+		addGroup: [ :group | 
+			"mnuScope applyTo: self"
+			group
+				addItem: [ :item | 
+					item
+						name: 'Package';
+						description: 'Packages';
+						icon: (self iconNamed: #famixPackageGroup);
+						action: [ context packageScope ] ].
+			group
+				addItem: [ :item | 
+					item
+						name: 'Classes';
+						description: 'Classes';
+						icon: (self iconNamed: #famixClassGroup);
+						action: [ context classScope ] ].
+			group
+				addItem: [ :item | 
+					item
+						name: 'Methods';
+						description: 'Methods';
+						icon: (self iconNamed: #famixMethodGroup);
+						action: [ 
+							context methodScope ] ] ]
+]
+
 { #category : #accessing }
 MidasAppNavigate >> properties [
 	^ properties
@@ -45,6 +88,11 @@ MidasAppNavigate >> properties [
 { #category : #refreshing }
 MidasAppNavigate >> refresh [
 	properties items: context navigationProperties 
+]
+
+{ #category : #running }
+MidasAppNavigate >> runQueryButtonAction [
+	^[ context interpretQuery: fldQuery getText  ]
 ]
 
 { #category : #TOREMOVE }
@@ -60,5 +108,5 @@ MidasAppNavigate >> updateMidasFocus: focus [
 { #category : #notifications }
 MidasAppNavigate >> updateModel: aMooseModel [
 	super updateModel: aMooseModel.
-	self refresh
+	self updateMidasFocus: aMooseModel
 ]
