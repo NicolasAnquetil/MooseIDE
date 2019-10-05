@@ -41,11 +41,11 @@ TestHistoryEntry >> testLongDescription [
 	| entry |
 	entry := MidasHistoryEntry
 					with: (self midasEntityCollection:
-								 { #ancestor1 -> { self mockEntity: 'some long text' .
-														self mockEntity: 'even longer text' .
-														self mockEntity: 'and even longer yet' .
-														self mockEntity: 'the goal is to sum up more than 100 characters' .
-														self mockEntity: 'all this to force elipsis in the summary description' }}).
+								 { #ancestor1 -> 'some long text' .
+									#ancestor1 -> 'even longer text' .
+									#ancestor1 -> 'and even longer yet' .
+									#ancestor1 -> 'the goal is to sum up more than 100 characters' .
+									#ancestor1 -> 'all this to force elipsis in the summary description' }).
 	self assert: entry summaryDescription equals: 'some long text
 even longer text
 and even longer yet

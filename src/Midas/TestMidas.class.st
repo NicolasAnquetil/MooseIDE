@@ -3866,7 +3866,7 @@ TestMidas >> midasEntityCollection: aCollectionOfAssociations [
 	entities := OrderedCollection new.
 	(aCollectionOfAssociations groupedBy: #key)
 		keysAndValuesDo: [ :key :value |
-			entities add: (key -> (value collect: [ :string | self mockEntity: string ])) ].
+			entities add: (key -> (value collect: [ :assoc | self mockEntity: assoc value ])) ].
 	^MidasEntityFamixCollection with: entities
 ]
 

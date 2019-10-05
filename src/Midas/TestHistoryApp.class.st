@@ -50,7 +50,7 @@ TestHistoryApp >> testEntryName [
 
 { #category : #tests }
 TestHistoryApp >> testEntryPopup [
-	self assert: (historyApp entryPopupBlock value)  equals: Color red.
+	self assert: (self colorForRoassalElement: 1) equals: Color red.
 	historyApp context midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
 	self assert: (self colorForRoassalElement: 1) equals: Color veryLightGray.
 
