@@ -10,7 +10,13 @@ Class {
 { #category : #specs }
 MidasAppSystemComplexity class >> defaultSpec [
 	^ SpecBoxLayout newVertical
-		add: #chkFreeze withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add:
+			(SpecBoxLayout newHorizontal
+				add: #chkFreeze;
+				add: #btnFocusOnSelection ;
+				add: #chkHierarchicalFocus ;
+				yourself)
+		withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #roassal ;
 		yourself
 ]
@@ -44,6 +50,7 @@ MidasAppSystemComplexity >> drawEntities [
 { #category : #initialization }
 MidasAppSystemComplexity >> initializeWidgets [
 	self canBeFrozen.
+	self focusCanBeHierarchical.
 
 	roassal := self instantiate: RoassalModel.
 	roassal
@@ -60,9 +67,4 @@ MidasAppSystemComplexity >> title [
 { #category : #notifications }
 MidasAppSystemComplexity >> updateMidasFocus: newFocus [
 	roassal ifNotNil: [ roassal refresh ]
-]
-
-{ #category : #notifications }
-MidasAppSystemComplexity >> updateModel: aMooseModel [
-	self shouldNotImplement
 ]

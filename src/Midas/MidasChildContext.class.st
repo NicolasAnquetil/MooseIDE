@@ -57,6 +57,16 @@ MidasChildContext >> focusIsHierarchical [
 	^hierarchicalFocus
 ]
 
+{ #category : #running }
+MidasChildContext >> focusOnSelection: selectedIndexes [
+	"forces receiver to focus on the selection, whatever the states of the flags frozen and selectionFrozen"
+	| wasFrozen |
+	wasFrozen := frozen.
+	frozen := false.
+	self notifyMidasFocus: self midasFocus.
+	frozen := wasFrozen.
+]
+
 { #category : #notifications }
 MidasChildContext >> formatMidasFocus: newFocus [
 	^ newFocus

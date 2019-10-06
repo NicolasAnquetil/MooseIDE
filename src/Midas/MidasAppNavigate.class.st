@@ -104,9 +104,3 @@ MidasAppNavigate >> title [
 MidasAppNavigate >> updateMidasFocus: focus [
 	self refresh
 ]
-
-{ #category : #notifications }
-MidasAppNavigate >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	self updateMidasFocus: aMooseModel
-]

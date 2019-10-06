@@ -5,10 +5,8 @@ Class {
 	#name : #MidasAppEntities,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'chkAssociation',
 		'mnuSelcol',
-		'lstEntities',
-		'btnFocusOnSelection'
+		'lstEntities'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -20,40 +18,11 @@ MidasAppEntities class >> defaultSpec [
 			(SpecBoxLayout newHorizontal
 				add: #chkFreeze;
 				add: #btnFocusOnSelection ;
-				add: #chkAssociation ;
+				add: #chkHierarchicalFocus ;
 				yourself)
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #lstEntities;
 		yourself
-]
-
-{ #category : #accessing }
-MidasAppEntities >> btnFocusOnSelection [
-	^btnFocusOnSelection
-]
-
-{ #category : #initialization }
-MidasAppEntities >> canBeFrozen [
-	super canBeFrozen.
-
-	btnFocusOnSelection := self newButton.
-	btnFocusOnSelection label: 'Force focus'.
-	btnFocusOnSelection enable.
-
-	
-]
-
-{ #category : #accessing }
-MidasAppEntities >> chkAssociation [
-	^ chkAssociation
-]
-
-{ #category : #accessing }
-MidasAppEntities >> context: aContext [
-	super context: aContext.
-	chkFreeze state
-		ifTrue:  [ aContext freeze ];
-		ifFalse: [ aContext unfreeze ]
 ]
 
 { #category : #accessing }
@@ -63,13 +32,7 @@ MidasAppEntities >> entities [
 
 { #category : #initialization }
 MidasAppEntities >> initializePresenter [
-	chkFreeze
-		whenActivatedDo: [ context freeze ];
-		whenDeactivatedDo: [ context unfreeze ].
-	btnFocusOnSelection action: [ context focusOnSelection ].
-	chkAssociation
-		whenActivatedDo: [ context focusBeHierarchical ];
-		whenDeactivatedDo: [ context focusBeFlat ].
+	super initializePresenter.
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
 			context userSelection: selection selectedPaths ].
@@ -77,7 +40,10 @@ MidasAppEntities >> initializePresenter [
 ]
 
 { #category : #initialization }
-MidasAppEntities >> initializeWidgetListEntities [
+MidasAppEntities >> initializeWidgets [
+	self canBeFrozen.
+	self focusCanBeHierarchical.
+
 	lstEntities 	:= self newTreeTable.
 	lstEntities
 		beMultipleSelection ;
@@ -86,16 +52,6 @@ MidasAppEntities >> initializeWidgetListEntities [
 							yourself) ;
 		children: [ :each | self context childrenFor: each ]
 
-]
-
-{ #category : #initialization }
-MidasAppEntities >> initializeWidgets [
-	self canBeFrozen.
-	
-	chkAssociation := (self instantiate: CheckBoxPresenter)
-		label: 'Result as tree';
-		yourself.
-	self initializeWidgetListEntities
 ]
 
 { #category : #initialization }
@@ -134,10 +90,4 @@ MidasAppEntities >> title [
 { #category : #notifications }
 MidasAppEntities >> updateMidasFocus: aCollection [
 	lstEntities roots: aCollection
-]
-
-{ #category : #notifications }
-MidasAppEntities >> updateModel: entity [
-	super updateModel: entity.
-	self updateMidasFocus: entity
 ]

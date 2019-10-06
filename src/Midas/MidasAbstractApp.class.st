@@ -6,23 +6,58 @@ Class {
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'context',
-		'chkFreeze'
+		'chkFreeze',
+		'chkHierarchicalFocus',
+		'btnFocusOnSelection'
 	],
 	#category : #'Midas-appGUI'
 }
 
+{ #category : #accessing }
+MidasAbstractApp >> btnFocusOnSelection [
+	^btnFocusOnSelection
+]
+
 { #category : #initialization }
 MidasAbstractApp >> canBeFrozen [
-	chkFreeze := (self instantiate: CheckBoxPresenter)
-		label: 'Freeze content' ;
-		whenActivatedDo: [ context freeze ];
-		whenDeactivatedDo: [ context unfreeze ] ;
-		yourself
+	chkFreeze :=
+		(self instantiate: CheckBoxPresenter)
+			label: 'Freeze content' ;
+			whenActivatedDo: [ context freeze ];
+			whenDeactivatedDo: [ context unfreeze ] ;
+			yourself.
+	
+	btnFocusOnSelection :=
+		self newButton
+			label: 'Force focus' ;
+			enable ;
+			action: [ context focusOnSelection ] ;
+			yourself
+
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> chkFocusIsHierarchical [
+	^chkHierarchicalFocus
+		ifNil: [ false ]
+		ifNotNil: [ chkHierarchicalFocus state ]
 ]
 
 { #category : #accessing }
 MidasAbstractApp >> chkFreeze [ 
 	^ chkFreeze 
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> chkHierarchicalFocus [
+	^ chkHierarchicalFocus
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> chkIsFrozen [
+	^ chkFreeze
+		ifNil: [ false ]
+		ifNotNil: [ chkFreeze state ] 
 ]
 
 { #category : #accessing }
@@ -35,7 +70,21 @@ MidasAbstractApp >> context: aContext [
 	context = aContext
 		ifTrue: [ ^ self ].
 	context := aContext.
-	aContext app: self
+	aContext app: self.
+	
+	self chkIsFrozen
+		ifTrue:  [ aContext freeze ];
+		ifFalse: [ aContext unfreeze ]
+]
+
+{ #category : #initialization }
+MidasAbstractApp >> focusCanBeHierarchical [
+	chkHierarchicalFocus := (self instantiate: CheckBoxPresenter)
+		label: 'Hierarchical view';
+		whenActivatedDo: [ context focusBeHierarchical ];
+		whenDeactivatedDo: [ context focusBeFlat ] ;
+		yourself.
+
 ]
 
 { #category : #accessing }
@@ -79,6 +128,7 @@ MidasAbstractApp >> updateMidasFocus: focus [
 { #category : #notifications }
 MidasAbstractApp >> updateModel: aMooseModel [
 	self updateTitle.
+	self updateMidasFocus: aMooseModel
 ]
 
 { #category : #api }

@@ -61,3 +61,8 @@ MidasAbstractContext >> notifyMidasFocus: newFocus [
 MidasAbstractContext >> notifyNewModel: newMooseModel [
 	self subclassResponsibility 
 ]
+
+{ #category : #accessing }
+MidasAbstractContext >> unfreeze [
+	"default to nothing, useful for ContextLauncher"
+]

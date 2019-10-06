@@ -209,7 +209,7 @@ MidasLauncher >> title [
 
 { #category : #notifications }
 MidasLauncher >> updateMidasFocus: newFocus [
-	self shouldNotImplement 
+	"nothing"
 ]
 
 { #category : #notifications }
