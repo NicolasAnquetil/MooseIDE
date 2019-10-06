@@ -5,33 +5,17 @@ Class {
 	#name : #MidasContextEntities,
 	#superclass : #MidasChildContext,
 	#instVars : [
-		'resultsWithParents',
-		'listEntities',
-		'frozenFocus'
+		'listEntities'
 	],
 	#category : #'Midas-appModel'
 }
 
-{ #category : #notifications }
-MidasContextEntities >> childrenFor: aRoot [
-	^resultsWithParents
-		ifTrue:  [ self midasFocus childrenFor: aRoot ]
-		ifFalse: [ #() ]
-		
-]
-
 { #category : #running }
 MidasContextEntities >> entitiesToSelection: focus [
 	focus ifEmpty: [ ^ self ].
-	^ resultsWithParents
+	^ hierarchicalFocus
 			ifTrue: [ self midasFocus selectPathsIndexed: focus ]
 			ifFalse: [ self midasFocus selectEntitiesIndexed: focus flatten ]
-]
-
-{ #category : #accessing }
-MidasContextEntities >> flattenResult [
-	resultsWithParents := false.
-	self notifyMidasFocus: self midasFocus
 ]
 
 { #category : #running }
@@ -46,7 +30,7 @@ MidasContextEntities >> focusOnSelection: selectedIndexes [
 
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: newFocus [
-	^resultsWithParents
+	^hierarchicalFocus
 		ifTrue:  [ newFocus ancestors ]
 		ifFalse: [ newFocus entities ]
 		
@@ -57,34 +41,11 @@ MidasContextEntities >> formatedMidasFocus [
 	^ self formatMidasFocus: self midasFocus
 ]
 
-{ #category : #accessing }
-MidasContextEntities >> freeze [ 
-	super freeze.
-	frozenFocus := self midasFocus
-]
-
-{ #category : #initialization }
-MidasContextEntities >> initialize [
-	super initialize.
-	resultsWithParents := false
-]
-
-{ #category : #accessing }
-MidasContextEntities >> resultsWithParents [
-	^resultsWithParents
-]
-
 { #category : #running }
 MidasContextEntities >> selectionToEntities: paths [
-	^ resultsWithParents
+	^ hierarchicalFocus
 			ifTrue: [ self midasFocus selectPathsIndexed: paths ]
 			ifFalse: [ self midasFocus selectEntitiesIndexed: paths flatten ]
-]
-
-{ #category : #accessing }
-MidasContextEntities >> trackAssociation [
-	resultsWithParents := true.
-	self notifyMidasFocus: self midasFocus
 ]
 
 { #category : #running }

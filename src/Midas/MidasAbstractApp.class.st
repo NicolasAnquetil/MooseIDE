@@ -15,6 +15,8 @@ Class {
 MidasAbstractApp >> canBeFrozen [
 	chkFreeze := (self instantiate: CheckBoxPresenter)
 		label: 'Freeze content' ;
+		whenActivatedDo: [ context freeze ];
+		whenDeactivatedDo: [ context unfreeze ] ;
 		yourself
 ]
 
@@ -44,16 +46,6 @@ MidasAbstractApp >> iconNamed: aSymbol [
 ]
 
 { #category : #initialization }
-MidasAbstractApp >> initializePresenter [
-	super initializePresenter.
-	chkFreeze ifNotNil: [
-		chkFreeze
-			whenActivatedDo: [ context freeze ];
-			whenDeactivatedDo: [ context unfreeze ]
-	]
-]
-
-{ #category : #initialization }
 MidasAbstractApp >> initializeWindow: aWindowPresenter [
 	aWindowPresenter title: self title.
 	aWindowPresenter
@@ -61,6 +53,12 @@ MidasAbstractApp >> initializeWindow: aWindowPresenter [
 			context exit.
 			context := nil
 		]
+]
+
+{ #category : #initialization }
+MidasAbstractApp >> isFrozen [
+	chkFreeze ifNil: [ ^false ].
+	^chkFreeze isActivated 
 ]
 
 { #category : #accessing }

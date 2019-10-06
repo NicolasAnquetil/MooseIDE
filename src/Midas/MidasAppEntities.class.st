@@ -68,8 +68,8 @@ MidasAppEntities >> initializePresenter [
 		whenDeactivatedDo: [ context unfreeze ].
 	btnFocusOnSelection action: [ context focusOnSelection ].
 	chkAssociation
-		whenActivatedDo: [ context trackAssociation ];
-		whenDeactivatedDo: [ context flattenResult ].
+		whenActivatedDo: [ context focusBeHierarchical ];
+		whenDeactivatedDo: [ context focusBeFlat ].
 	lstEntities
 		whenSelectionChangedDo: [ :selection | 
 			context userSelection: selection selectedPaths ].

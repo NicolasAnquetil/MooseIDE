@@ -91,7 +91,7 @@ MidasLauncher >> initializeWidgets [
 			  #entities -> #launchEntitiesApp .
 			  #navigate -> #launchNavigateApp .
 			  #code -> #launchEditorApp .
-			  #views -> #nullLaunchApp .
+			  #views -> #launchSystemComplexityApp .
 			  #archi -> #nullLaunchApp .
 			  #critic -> #nullLaunchApp .
 			  #tags -> #nullLaunchApp .

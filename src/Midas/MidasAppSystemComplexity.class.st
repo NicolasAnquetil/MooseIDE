@@ -4,9 +4,6 @@ An app showing a visualization on the current model or selected entity-ies
 Class {
 	#name : #MidasAppSystemComplexity,
 	#superclass : #MidasAbstractAppWithRoassal,
-	#instVars : [
-		'visualizer'
-	],
 	#category : #'Midas-appGUI'
 }
 
@@ -14,22 +11,45 @@ Class {
 MidasAppSystemComplexity class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add: #chkFreeze withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #visualizer;
+		add: #roassal ;
 		yourself
 ]
 
-{ #category : #private }
-MidasAppSystemComplexity >> delete [
-	visualizer delete.
-	visualizer := nil.
-	super delete
+{ #category : #initialization }
+MidasAppSystemComplexity >> drawEntities [
+	| es |
+	view @ RTZoomableView.
+	view @ RTDraggableView.
+	es := (RTBox new
+		borderColor: Color black;
+		width: 10 ;
+		height: 10 ;
+		color: Color black) elementsOn: self context entities.
+	view addAll: es.
+	es @ RTPopup.
+	es @ RTMVSElInteraction.
+	es @ RTDraggable.
+"	RTEdgeBuilder new
+		elements: es;
+		view: view;
+		connectToAll: [ :cls | cls directSubclasses ].
+	RTTreeLayout new on: es.
+	RTMetricNormalizer new
+		elements: es;
+		normalizeColorAsGray: [ :cls | cls numberOfLinesOfCode ]."
+	RTGridLayout new
+		on: es.
 ]
 
 { #category : #initialization }
 MidasAppSystemComplexity >> initializeWidgets [
-	super initializeWidgets.
-	visualizer := self instantiate: MidasSystemComplexityAdapter	"MVSSystemComplexityPresenter".
-	visualizer parentApp: self
+	self canBeFrozen.
+
+	roassal := self instantiate: RoassalModel.
+	roassal
+		script: [ :aView :canvas | 
+			view := aView.
+			self drawEntities ]
 ]
 
 { #category : #api }
@@ -39,17 +59,10 @@ MidasAppSystemComplexity >> title [
 
 { #category : #notifications }
 MidasAppSystemComplexity >> updateMidasFocus: newFocus [
-	visualizer highlight: nil.
-	visualizer userSelection: newFocus.
-	visualizer refresh
+	roassal ifNotNil: [ roassal refresh ]
 ]
 
 { #category : #notifications }
 MidasAppSystemComplexity >> updateModel: aMooseModel [
 	self shouldNotImplement
-]
-
-{ #category : #accessing }
-MidasAppSystemComplexity >> visualizer [
-^visualizer
 ]

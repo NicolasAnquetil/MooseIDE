@@ -20,11 +20,11 @@ TestCtxtEntities >> testCheckResultAsTree [
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
 
 	displayUpdated := false.
-	entitiesCtxt trackAssociation.
+	entitiesCtxt focusBeHierarchical.
 	self assert: displayUpdated.
 
 	displayUpdated := false.
-	entitiesCtxt flattenResult.
+	entitiesCtxt focusBeFlat.
 	self assert: displayUpdated.
 ]
 
@@ -53,7 +53,7 @@ TestCtxtEntities >> testNotFrozen [
 { #category : #tests }
 TestCtxtEntities >> testSelectionResultAsTree [
 	| focus |
-	entitiesCtxt trackAssociation.
+	entitiesCtxt focusBeHierarchical.
 
 	launcherCtxt midasFocus:
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
@@ -74,7 +74,7 @@ TestCtxtEntities >> testSelectionResultFlatten [
 	focus := {(#ancestor1 -> #(child1 child2))}.
 	launcherCtxt midasFocus: (MidasEntityFamixCollection with: focus).
 
-	entitiesCtxt flattenResult.
+	entitiesCtxt focusBeFlat.
 	
 	(mockApp stub updateMidasFocus: Any) will: [ :arg | focus := arg ].
 	entitiesCtxt userSelection: #(#(2)).

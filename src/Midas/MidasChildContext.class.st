@@ -9,7 +9,8 @@ Class {
 	#superclass : #MidasAbstractContext,
 	#instVars : [
 		'frozen',
-		'parentContext'
+		'parentContext',
+		'hierarchicalFocus'
 	],
 	#category : #'Midas-appModel'
 }
@@ -24,11 +25,36 @@ MidasChildContext >> acceptModelUpdate: newModel [
 	^ true
 ]
 
+{ #category : #notifications }
+MidasChildContext >> childrenFor: aRoot [
+	^hierarchicalFocus
+		ifTrue:  [ self midasFocus childrenFor: aRoot ]
+		ifFalse: [ #() ]
+		
+]
+
 { #category : #actions }
 MidasChildContext >> exit [
 	parentContext removeChild: self.
 	app delete.
 	app := nil
+]
+
+{ #category : #accessing }
+MidasChildContext >> focusBeFlat [
+	hierarchicalFocus := false.
+	self notifyMidasFocus: self midasFocus
+]
+
+{ #category : #accessing }
+MidasChildContext >> focusBeHierarchical [
+	hierarchicalFocus := true.
+	self notifyMidasFocus: self midasFocus
+]
+
+{ #category : #accessing }
+MidasChildContext >> focusIsHierarchical [
+	^hierarchicalFocus
 ]
 
 { #category : #notifications }
@@ -53,7 +79,9 @@ MidasChildContext >> frozen [
 
 { #category : #initialization }
 MidasChildContext >> initialize [
+	super initialize.
 	frozen := false.
+	hierarchicalFocus := false
 ]
 
 { #category : #accessing }
