@@ -69,7 +69,8 @@ TestEntitiesApp >> testSelectEntity [
 
 	entitiesApp lstEntities clickAtPath: #(3).
 	self assert: userSelection size equals: 1.
-	self assert: userSelection first equals: #(3)
+	self assert: userSelection first equals: #(3).
+	self assert: entitiesApp selectedPaths isEmpty
 ]
 
 { #category : #tests }

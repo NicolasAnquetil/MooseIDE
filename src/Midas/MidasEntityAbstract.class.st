@@ -104,12 +104,17 @@ MidasEntityAbstract >> nextGenerationSelector: aSelector [
 	^self collectNextGeneration: [ :entity | entity perform: aSelector ]
 ]
 
+{ #category : #indexing }
+MidasEntityAbstract >> pathsFor: midasEntities [
+	self subclassResponsibility 
+]
+
 { #category : #testing }
 MidasEntityAbstract >> sameModel: aModel [
 	^ false
 ]
 
-{ #category : #'instance creation' }
+{ #category : #indexing }
 MidasEntityAbstract >> selectEntitiesIndexed: indexes [
 	self subclassResponsibility
 ]
@@ -126,7 +131,7 @@ MidasEntityAbstract >> selectNextGeneration: aBlock [
 
 ]
 
-{ #category : #'instance creation' }
+{ #category : #indexing }
 MidasEntityAbstract >> selectPathsIndexed: indexes [
 	self subclassResponsibility
 ]

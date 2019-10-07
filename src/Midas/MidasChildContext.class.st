@@ -105,11 +105,6 @@ MidasChildContext >> midasFocus: focus [
 ]
 
 { #category : #accessing }
-MidasChildContext >> midasFocusIsModel [
-	^ parentContext midasFocusIsModel
-]
-
-{ #category : #accessing }
 MidasChildContext >> mooseModel [
 	^ parentContext mooseModel
 ]
@@ -122,9 +117,14 @@ MidasChildContext >> mooseModel: aMooseModel [
 { #category : #notifications }
 MidasChildContext >> notifyMidasFocus: newFocus [
 	frozen
-		ifTrue: [ ^ self ].
-	(self acceptMidasFocusUpdate: newFocus)
-		ifTrue: [ app updateMidasFocus: (self formatMidasFocus: newFocus) ]
+		ifTrue: [ self notifyMidasFocusFrozen: newFocus ]
+		ifFalse: [ (self acceptMidasFocusUpdate: newFocus)
+						ifTrue: [ app updateMidasFocus: (self formatMidasFocus: newFocus) ] ]
+]
+
+{ #category : #notifications }
+MidasChildContext >> notifyMidasFocusFrozen: newFocus [
+	"defaults to nothing"
 ]
 
 { #category : #notifications }

@@ -5,7 +5,8 @@ Class {
 	#name : #MidasContextEntities,
 	#superclass : #MidasChildContext,
 	#instVars : [
-		'listEntities'
+		'listEntities',
+		'myFocusFrozen'
 	],
 	#category : #'Midas-appModel'
 }
@@ -29,6 +30,17 @@ MidasContextEntities >> formatMidasFocus: newFocus [
 { #category : #notifications }
 MidasContextEntities >> formatedMidasFocus [
 	^ self formatMidasFocus: self midasFocus
+]
+
+{ #category : #accessing }
+MidasContextEntities >> freeze [
+	super freeze.
+	myFocusFrozen := self midasFocus
+]
+
+{ #category : #notifications }
+MidasContextEntities >> notifyMidasFocusFrozen: newFocus [
+	app selectPaths: (myFocusFrozen pathsFor: newFocus)
 ]
 
 { #category : #running }

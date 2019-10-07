@@ -34,8 +34,10 @@ MidasAppEntities >> entities [
 MidasAppEntities >> initializePresenter [
 	super initializePresenter.
 	lstEntities
-		whenSelectionChangedDo: [ :selection | 
-			context userSelection: selection selectedPaths ].
+		whenSelectionChangedDo: [ :selection |
+			context userSelection: selection selectedPaths.
+			lstEntities unselectAll
+		].
 
 ]
 
@@ -80,6 +82,11 @@ MidasAppEntities >> lstEntities [
 { #category : #accessing }
 MidasAppEntities >> mnuSelcol [
 	^ mnuSelcol
+]
+
+{ #category : #accessing }
+MidasAppEntities >> selectedPaths [
+	^lstEntities selection selectedPaths
 ]
 
 { #category : #api }

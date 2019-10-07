@@ -38,14 +38,21 @@ MidasEntitySingle >> entitiesWithAncestors [
 	^ { ancestor -> { singleEntity } }
 ]
 
-{ #category : #private }
+{ #category : #indexing }
+MidasEntitySingle >> pathsFor: midasEntities [
+	^(midasEntities entities includes: singleEntity)
+		ifTrue: [ #(1 1) ]
+		ifFalse: [ #() ]
+]
+
+{ #category : #indexing }
 MidasEntitySingle >> selectEntitiesIndexed: indexes [
 	^ (indexes includes: 1)
 			ifTrue: self
 			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]
 
-{ #category : #private }
+{ #category : #indexing }
 MidasEntitySingle >> selectPathsIndexed: indexes [
 	^ (indexes includes: #(1 1))
 			ifTrue: self

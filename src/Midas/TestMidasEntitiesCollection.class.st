@@ -68,6 +68,40 @@ TestMidasEntitiesCollection >> testNextGenerationYieldSingle [
 ]
 
 { #category : #tests }
+TestMidasEntitiesCollection >> testPathsForFound [
+	| search |
+	md := MidasEntityFamixCollection
+				with: {
+					#entity1 -> #( child11 child12 ) .
+					#entity2 -> #( child21 child22 child23 ) }.
+
+	search := MidasEntityFamixCollection
+				with: {
+					#entity1 -> #( child11 ) .
+					#entity2 -> #( child22 ) }.
+	self
+		assert: (md pathsFor: search )
+		equals: #( (1 1) (2 2) ) asOrderedCollection
+]
+
+{ #category : #tests }
+TestMidasEntitiesCollection >> testPathsForNotFound [
+	| search |
+	md := MidasEntityFamixCollection
+				with: {
+					#entity1 -> #( child11 child12 ) .
+					#entity2 -> #( child21 child22 child23 ) }.
+
+	search := MidasEntityFamixCollection
+				with: {
+					#entity3 -> #( child31 ) .
+					#entity2 -> #( child25 ) }.
+	self
+		assert: (md pathsFor: search )
+		equals: #( ) asOrderedCollection
+]
+
+{ #category : #tests }
 TestMidasEntitiesCollection >> testSameModel [
 	self deny: (md sameModel: #whatever)
 ]

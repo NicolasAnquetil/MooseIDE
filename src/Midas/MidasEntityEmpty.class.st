@@ -44,12 +44,17 @@ MidasEntityEmpty >> isEmpty [
 	^ true
 ]
 
-{ #category : #'instance creation' }
+{ #category : #indexing }
+MidasEntityEmpty >> pathsFor: midasEntities [
+	^#()
+]
+
+{ #category : #indexing }
 MidasEntityEmpty >> selectEntitiesIndexed: indexes [
 	^self
 ]
 
-{ #category : #'instance creation' }
+{ #category : #indexing }
 MidasEntityEmpty >> selectPathsIndexed: indexes [
 	^self
 ]

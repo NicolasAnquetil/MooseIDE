@@ -61,6 +61,18 @@ MidasEntityFamixCollection >> entitiesWithAncestors [
 	^ entities
 ]
 
+{ #category : #indexing }
+MidasEntityFamixCollection >> indicesFor: searchedEntities in: aCollection [
+	| found |
+	found := OrderedCollection new: searchedEntities size.
+	searchedEntities do: [ :searchedEntity || i |
+		i := aCollection indexOf: searchedEntity.
+		(i = 0)
+			ifFalse: [ found add: i ]
+	].
+	^found
+]
+
 { #category : #testing }
 MidasEntityFamixCollection >> isCollection [
 	^ true
@@ -76,7 +88,25 @@ MidasEntityFamixCollection >> name: aString [
 	name := aString
 ]
 
-{ #category : #private }
+{ #category : #indexing }
+MidasEntityFamixCollection >> pathsFor: midasEntities [
+	| paths i searched |
+	paths := OrderedCollection new: midasEntities size.
+	searched := midasEntities entitiesWithAncestors.
+	i := 0.
+	self entitiesWithAncestors do: [ :myAssoc |
+		i := i+1.
+		searched
+			detect: [ :searchedAssoc | searchedAssoc key = myAssoc key]
+			ifFound: [ :searchedAssoc |
+				(self indicesFor: searchedAssoc value in: myAssoc value )
+					ifNotEmpty: [ :indices | paths addAll: (indices collect: [ :j | { i . j } ]) ]
+			].
+	].
+^paths
+]
+
+{ #category : #indexing }
 MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 	| nextGeneration nbEntities |
 	nbEntities := 0.
@@ -91,7 +121,7 @@ MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 	
 ]
 
-{ #category : #private }
+{ #category : #indexing }
 MidasEntityFamixCollection >> selectPathsIndexed: indexes [
 	| nextGeneration ancestorsIndexes |
 	ancestorsIndexes := indexes groupedBy: #first.
