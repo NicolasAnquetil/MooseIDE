@@ -5,7 +5,7 @@ Class {
 	#name : #MidasAppNavigate,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'properties'
+		'lstProperties'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -13,20 +13,20 @@ Class {
 { #category : #specs }
 MidasAppNavigate class >> defaultSpec [
 	^ SpecBoxLayout newVertical
-		add: #properties ;
+		add: #lstProperties ;
 		yourself
 ]
 
 { #category : #refreshing }
 MidasAppNavigate >> clearSelection [
-	properties unselectAll
+	lstProperties unselectAll
 ]
 
 { #category : #initialization }
 MidasAppNavigate >> initializePresenter [ 
 	"-- Not using the 'freeze' checkbox --
 	 super initializePresenter."
-	properties whenSelectionChangedDo: [ :selection |
+	lstProperties whenSelectionChangedDo: [ :selection |
 		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
 	]
 	
@@ -35,8 +35,8 @@ MidasAppNavigate >> initializePresenter [
 
 { #category : #initialization }
 MidasAppNavigate >> initializeWidgets [
-	properties := self newList.
-	properties
+	lstProperties := self newList.
+	lstProperties
 		displayBlock: #name ;
 		sortingBlock: #name ascending.
 
@@ -86,13 +86,13 @@ MidasAppNavigate >> initializeWidgetsScopeRow [
 ]
 
 { #category : #accessing }
-MidasAppNavigate >> properties [
-	^ properties
+MidasAppNavigate >> lstProperties [
+	^ lstProperties
 ]
 
 { #category : #refreshing }
 MidasAppNavigate >> refresh [
-	properties items: context navigationProperties 
+	lstProperties items: context navigationProperties 
 ]
 
 { #category : #running }
@@ -102,7 +102,7 @@ MidasAppNavigate >> runQueryButtonAction [
 
 { #category : #accessing }
 MidasAppNavigate >> selectedItems [
-	^ properties selectedItems
+	^ lstProperties selectedItems
 ]
 
 { #category : #TOREMOVE }

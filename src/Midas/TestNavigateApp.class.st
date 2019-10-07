@@ -24,7 +24,7 @@ TestNavigateApp >> testClearSelection [
 
 	navigateApp updateMidasFocus: #whatever.
 
-	navigateApp properties clickAtIndex: 1.
+	navigateApp lstProperties clickAtIndex: 1.
 	self assert: navigateApp selectedItems size equals: 1.
 
 	navigateApp updateMidasFocus: #whatever.

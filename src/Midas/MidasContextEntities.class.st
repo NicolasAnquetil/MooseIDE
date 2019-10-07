@@ -27,6 +27,11 @@ MidasContextEntities >> formatMidasFocus: newFocus [
 ]
 
 { #category : #notifications }
+MidasContextEntities >> formatNewModel: newModel [
+	^newModel entities
+]
+
+{ #category : #notifications }
 MidasContextEntities >> formatedMidasFocus [
 	^ self formatMidasFocus: self midasFocus
 ]

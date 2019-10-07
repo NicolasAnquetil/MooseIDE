@@ -20,6 +20,11 @@ MidasAppModels class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #api }
+MidasAppModels >> clearSelection [
+	lstModels unselectAll
+]
+
 { #category : #accessing }
 MidasAppModels >> context: aContext [
 	super context: aContext.
@@ -99,6 +104,6 @@ MidasAppModels >> updateMidasFocus: focus [
 { #category : #notifications }
 MidasAppModels >> updateModel: newModel [
 	lstModels items: context allModels.
-	lstModels selectItem: newModel
+	self clearSelection 
 	
 ]
