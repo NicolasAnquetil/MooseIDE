@@ -10,7 +10,8 @@ Class {
 	#instVars : [
 		'frozen',
 		'parentContext',
-		'hierarchicalFocus'
+		'hierarchicalFocus',
+		'myFocusFrozen'
 	],
 	#category : #'Midas-appModel'
 }
@@ -79,12 +80,8 @@ MidasChildContext >> formatNewModel: newModel [
 
 { #category : #accessing }
 MidasChildContext >> freeze [
-	frozen := true
-]
-
-{ #category : #accessing }
-MidasChildContext >> frozen [
-	^frozen
+	myFocusFrozen := self midasFocus.
+	frozen := true.
 ]
 
 { #category : #initialization }
@@ -95,8 +92,15 @@ MidasChildContext >> initialize [
 ]
 
 { #category : #accessing }
+MidasChildContext >> isFrozen [
+	^frozen
+]
+
+{ #category : #accessing }
 MidasChildContext >> midasFocus [
-	^ parentContext midasFocus
+	^self isFrozen
+		ifTrue:  [ myFocusFrozen ]
+		ifFalse: [ parentContext midasFocus ]
 ]
 
 { #category : #accessing }

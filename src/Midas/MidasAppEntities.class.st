@@ -84,6 +84,11 @@ MidasAppEntities >> mnuSelcol [
 	^ mnuSelcol
 ]
 
+{ #category : #notifications }
+MidasAppEntities >> selectPaths: paths [
+	lstEntities selectPaths: paths 
+]
+
 { #category : #accessing }
 MidasAppEntities >> selectedPaths [
 	^lstEntities selection selectedPaths

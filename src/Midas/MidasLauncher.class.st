@@ -139,9 +139,7 @@ MidasLauncher >> launchEditorApp [
 
 { #category : #apps }
 MidasLauncher >> launchEntitiesApp [
-	context hasEntities
-		ifTrue: [ ^ self ]
-		ifFalse: [ ^self launch: MidasAppEntities withContext: MidasContextEntities ]
+	self launch: MidasAppEntities withContext: MidasContextEntities
 ]
 
 { #category : #apps }

@@ -8,3 +8,8 @@ Class {
 MidasContextSystemComplexity >> entities [
 	^ self midasFocus entities
 ]
+
+{ #category : #notifications }
+MidasContextSystemComplexity >> notifyMidasFocusFrozen: newFocus [
+	app highlight: (newFocus entities)
+]

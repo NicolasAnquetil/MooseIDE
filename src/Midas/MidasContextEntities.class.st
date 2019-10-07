@@ -5,8 +5,7 @@ Class {
 	#name : #MidasContextEntities,
 	#superclass : #MidasChildContext,
 	#instVars : [
-		'listEntities',
-		'myFocusFrozen'
+		'listEntities'
 	],
 	#category : #'Midas-appModel'
 }
@@ -32,15 +31,14 @@ MidasContextEntities >> formatedMidasFocus [
 	^ self formatMidasFocus: self midasFocus
 ]
 
-{ #category : #accessing }
-MidasContextEntities >> freeze [
-	super freeze.
-	myFocusFrozen := self midasFocus
-]
-
 { #category : #notifications }
 MidasContextEntities >> notifyMidasFocusFrozen: newFocus [
-	app selectPaths: (myFocusFrozen pathsFor: newFocus)
+	| selectedPaths |
+	selectedPaths := myFocusFrozen pathsFor: newFocus.
+	selectedPaths ifEmpty: [ ^ self ].
+	self focusIsHierarchical
+		ifTrue: [ app selectPaths: selectedPaths ]
+		ifFalse: [ app selectPaths: (selectedPaths collect: [ :path | {path second} ] ) ]
 ]
 
 { #category : #running }

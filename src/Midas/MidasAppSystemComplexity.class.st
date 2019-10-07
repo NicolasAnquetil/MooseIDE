@@ -4,6 +4,9 @@ An app showing a visualization on the current model or selected entity-ies
 Class {
 	#name : #MidasAppSystemComplexity,
 	#superclass : #MidasAbstractAppWithRoassal,
+	#instVars : [
+		'highlighted'
+	],
 	#category : #'Midas-appGUI'
 }
 
@@ -30,7 +33,7 @@ MidasAppSystemComplexity >> drawEntities [
 		borderColor: Color black;
 		width: 10 ;
 		height: 10 ;
-		color: Color black) elementsOn: self context entities.
+		color: [:entity | (highlighted includes: entity) ifTrue: [Color red] ifFalse: [Color black]]) elementsOn: self context midasFocus entities.
 	view addAll: es.
 	es @ RTPopup.
 	es @ RTMVSElInteraction.
@@ -47,6 +50,18 @@ MidasAppSystemComplexity >> drawEntities [
 		on: es.
 ]
 
+{ #category : #api }
+MidasAppSystemComplexity >> highlight: aCollection [
+	highlighted := aCollection.
+	self refresh
+]
+
+{ #category : #initialization }
+MidasAppSystemComplexity >> initialize [
+	super initialize.
+	highlighted := #()
+]
+
 { #category : #initialization }
 MidasAppSystemComplexity >> initializeWidgets [
 	self canBeFrozen.
@@ -60,11 +75,17 @@ MidasAppSystemComplexity >> initializeWidgets [
 ]
 
 { #category : #api }
+MidasAppSystemComplexity >> refresh [
+	roassal ifNotNil: [ roassal refresh ]
+]
+
+{ #category : #api }
 MidasAppSystemComplexity >> title [
 	^ 'MIDAS Visualizer' 
 ]
 
 { #category : #notifications }
 MidasAppSystemComplexity >> updateMidasFocus: newFocus [
-	roassal ifNotNil: [ roassal refresh ]
+	highlighted := #().
+	self refresh
 ]
