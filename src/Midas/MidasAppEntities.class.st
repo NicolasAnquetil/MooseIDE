@@ -25,6 +25,11 @@ MidasAppEntities class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #api }
+MidasAppEntities >> clearSelection [
+	lstEntities unselectAll
+]
+
 { #category : #accessing }
 MidasAppEntities >> entities [
 	^context formatedMidasFocus
@@ -35,8 +40,7 @@ MidasAppEntities >> initializePresenter [
 	super initializePresenter.
 	lstEntities
 		whenSelectionChangedDo: [ :selection |
-			context userSelection: selection selectedPaths.
-			lstEntities unselectAll
+			context userSelection: selection selectedPaths
 		].
 
 ]
@@ -101,5 +105,6 @@ MidasAppEntities >> title [
 
 { #category : #notifications }
 MidasAppEntities >> updateMidasFocus: aCollection [
-	lstEntities roots: aCollection
+	lstEntities roots: aCollection.
+	self clearSelection
 ]

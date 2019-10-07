@@ -17,6 +17,11 @@ MidasAppNavigate class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #refreshing }
+MidasAppNavigate >> clearSelection [
+	properties unselectAll
+]
+
 { #category : #initialization }
 MidasAppNavigate >> initializePresenter [ 
 	"-- Not using the 'freeze' checkbox --
@@ -95,6 +100,11 @@ MidasAppNavigate >> runQueryButtonAction [
 	^[ context interpretQuery: fldQuery getText  ]
 ]
 
+{ #category : #accessing }
+MidasAppNavigate >> selectedItems [
+	^ properties selectedItems
+]
+
 { #category : #TOREMOVE }
 MidasAppNavigate >> title [
 	^'Navigate ''' , context modelName , ''''
@@ -102,5 +112,6 @@ MidasAppNavigate >> title [
 
 { #category : #notifications }
 MidasAppNavigate >> updateMidasFocus: focus [
-	self refresh
+	self refresh.
+	self clearSelection
 ]

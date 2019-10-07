@@ -14,6 +14,25 @@ TestNavigateApp >> setUp [
 ]
 
 { #category : #tests }
+TestNavigateApp >> testClearSelection [
+	| mockCtxt |
+	mockCtxt := Mock new.
+	mockCtxt stub navigationProperties willReturn: {
+		self mockEntity: #property1 .
+		self mockEntity: #property2 }.
+	navigateApp context: mockCtxt.
+
+	navigateApp updateMidasFocus: #whatever.
+
+	navigateApp properties clickAtIndex: 1.
+	self assert: navigateApp selectedItems size equals: 1.
+
+	navigateApp updateMidasFocus: #whatever.
+
+	self assert: navigateApp selectedItems size equals: 0
+]
+
+{ #category : #tests }
 TestNavigateApp >> testWindowTitle [
 	self
 		assert: navigateApp window title

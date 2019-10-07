@@ -42,6 +42,28 @@ TestEntitiesApp >> testChangeModel [
 ]
 
 { #category : #tests }
+TestEntitiesApp >> testClearSelection [
+	| mockCtxt |
+	mockCtxt := Mock new.
+	(mockCtxt stub childrenFor: Any)
+		willReturn: #().
+	entitiesApp context: mockCtxt.
+
+	entitiesApp updateMidasFocus:
+						{ self mockEntity: #entity1 .
+						  self mockEntity: #entity2 }.
+
+	entitiesApp lstEntities clickAtPath: #(1).
+	self assert: entitiesApp selectedPaths size equals: 1.
+
+	entitiesApp updateMidasFocus:
+						{ self mockEntity: #entity1 .
+						  self mockEntity: #entity2 }.
+
+	self assert: entitiesApp selectedPaths size equals: 0
+]
+
+{ #category : #tests }
 TestEntitiesApp >> testDefaultToFrozen [
 	self deny: entitiesApp chkFreeze state
 
@@ -69,8 +91,7 @@ TestEntitiesApp >> testSelectEntity [
 
 	entitiesApp lstEntities clickAtPath: #(3).
 	self assert: userSelection size equals: 1.
-	self assert: userSelection first equals: #(3).
-	self assert: entitiesApp selectedPaths isEmpty
+	self assert: userSelection first equals: #(3)
 ]
 
 { #category : #tests }

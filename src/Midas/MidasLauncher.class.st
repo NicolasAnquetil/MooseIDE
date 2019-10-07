@@ -139,7 +139,7 @@ MidasLauncher >> launchEditorApp [
 
 { #category : #apps }
 MidasLauncher >> launchEntitiesApp [
-	self launch: MidasAppEntities withContext: MidasContextEntities
+	^self launch: MidasAppEntities withContext: MidasContextEntities
 ]
 
 { #category : #apps }

@@ -23,7 +23,7 @@ MidasContextEntities >> formatMidasFocus: newFocus [
 	^hierarchicalFocus
 		ifTrue:  [ newFocus ancestors ]
 		ifFalse: [ newFocus entities ]
-		
+
 ]
 
 { #category : #notifications }
