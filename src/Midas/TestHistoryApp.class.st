@@ -1,6 +1,6 @@
 Class {
 	#name : #TestHistoryApp,
-	#superclass : #TestMidasApp,
+	#superclass : #AbstractTestMidasApp,
 	#instVars : [
 		'historyApp'
 	],

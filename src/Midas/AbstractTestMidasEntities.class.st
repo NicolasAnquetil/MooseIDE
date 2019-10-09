@@ -1,5 +1,5 @@
 Class {
-	#name : #TestMidasEntities,
+	#name : #AbstractTestMidasEntities,
 	#superclass : #TestCase,
 	#category : #'Midas-Tests'
 }

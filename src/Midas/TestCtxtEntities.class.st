@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtEntities,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#instVars : [
 		'entitiesCtxt'
 	],
@@ -53,17 +53,20 @@ TestCtxtEntities >> testNotFrozen [
 { #category : #tests }
 TestCtxtEntities >> testSelectionResultAsTree [
 	| selection |
+	(mockApp stub selectPaths: Any) will: [ :arg | selection := arg ].
+
 	entitiesCtxt focusBeHierarchical.
+	launcherCtxt midasFocus:
+		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
+
+	entitiesCtxt userSelection: #(#(1 2)).
+	self assert: selection equals: #(#(1 2)) asOrderedCollection.
 
 	launcherCtxt midasFocus:
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
-	
-	(mockApp stub selectPaths: Any) will: [ :arg | selection := arg ].
-
-	entitiesCtxt userSelection: #(#(1 2)).
-
-	self assert: selection equals: #(#(1 2)) asOrderedCollection
+	entitiesCtxt userSelection: #(#(1)).
+	self assert: selection equals: #(#(1 1) #(1 2)) asOrderedCollection
 ]
 
 { #category : #tests }

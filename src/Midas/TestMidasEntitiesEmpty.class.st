@@ -1,6 +1,6 @@
 Class {
 	#name : #TestMidasEntitiesEmpty,
-	#superclass : #TestMidasEntities,
+	#superclass : #AbstractTestMidasEntities,
 	#category : #'Midas-Tests'
 }
 
@@ -32,6 +32,6 @@ TestMidasEntitiesEmpty >> testSelectIndexed [
 	| md |
 	md := (MidasEntityEmpty ancestor: #anAncestor).
 
-	self assert: (md selectEntitiesIndexed: #(0)) class equals: MidasEntityEmpty.
-	self assert: (md selectEntitiesIndexed: #(1)) class equals: MidasEntityEmpty.
+	self assert: (md selectEntitiesFromIndexes: #(0)) class equals: MidasEntityEmpty.
+	self assert: (md selectEntitiesFromIndexes: #(1)) class equals: MidasEntityEmpty.
 ]

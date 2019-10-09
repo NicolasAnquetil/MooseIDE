@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtModels,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#instVars : [
 		'modelsCtxt'
 	],

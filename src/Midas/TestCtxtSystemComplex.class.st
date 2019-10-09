@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtSystemComplex,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#instVars : [
 		'systCompCtxt'
 	],

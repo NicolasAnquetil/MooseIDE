@@ -1,6 +1,6 @@
 Class {
 	#name : #TestSystemComplexityApp,
-	#superclass : #TestMidasApp,
+	#superclass : #AbstractTestMidasApp,
 	#instVars : [
 		'systCompApp'
 	],

@@ -14,8 +14,8 @@ Class {
 MidasContextEntities >> entitiesToSelection: focus [
 	focus ifEmpty: [ ^ self ].
 	^ hierarchicalFocus
-			ifTrue: [ self midasFocus selectPathsIndexed: focus ]
-			ifFalse: [ self midasFocus selectEntitiesIndexed: focus flatten ]
+			ifTrue: [ self midasFocus selectEntitiesFromPaths: focus ]
+			ifFalse: [ self midasFocus selectEntitiesFromIndexes: focus flatten ]
 ]
 
 { #category : #notifications }
@@ -47,8 +47,8 @@ MidasContextEntities >> notifyMidasFocusFrozen: newFocus [
 { #category : #running }
 MidasContextEntities >> selectionToEntities: paths [
 	^ hierarchicalFocus
-			ifTrue: [ self midasFocus selectPathsIndexed: paths ]
-			ifFalse: [ self midasFocus selectEntitiesIndexed: paths flatten ]
+			ifTrue: [ self midasFocus selectEntitiesFromPaths: paths ]
+			ifFalse: [ self midasFocus selectEntitiesFromIndexes: paths flatten ]
 ]
 
 { #category : #running }

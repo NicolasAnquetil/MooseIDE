@@ -120,7 +120,12 @@ MidasEntityAbstract >> sameModel: aModel [
 ]
 
 { #category : #indexing }
-MidasEntityAbstract >> selectEntitiesIndexed: indexes [
+MidasEntityAbstract >> selectEntitiesFromIndexes: indexes [
+	self subclassResponsibility
+]
+
+{ #category : #indexing }
+MidasEntityAbstract >> selectEntitiesFromPaths: indexes [
 	self subclassResponsibility
 ]
 
@@ -134,11 +139,6 @@ MidasEntityAbstract >> selectNextGeneration: aBlock [
 			assoc key -> (assoc value select: [ :each | aBlock value: each ])
 		])
 
-]
-
-{ #category : #indexing }
-MidasEntityAbstract >> selectPathsIndexed: indexes [
-	self subclassResponsibility
 ]
 
 { #category : #accessing }

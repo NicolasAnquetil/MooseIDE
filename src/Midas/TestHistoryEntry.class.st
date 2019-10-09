@@ -1,6 +1,6 @@
 Class {
 	#name : #TestHistoryEntry,
-	#superclass : #TestMidas,
+	#superclass : #AbstractTestMidas,
 	#category : #'Midas-Tests'
 }
 

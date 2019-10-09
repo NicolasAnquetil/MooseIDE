@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtLauncher,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#category : #'Midas-Tests'
 }
 

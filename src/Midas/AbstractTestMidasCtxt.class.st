@@ -1,6 +1,6 @@
 Class {
-	#name : #TestMidasCtxt,
-	#superclass : #TestMidas,
+	#name : #AbstractTestMidasCtxt,
+	#superclass : #AbstractTestMidas,
 	#instVars : [
 		'launcherCtxt',
 		'mockApp'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #running }
-TestMidasCtxt >> mockEmptyApp [
+AbstractTestMidasCtxt >> mockEmptyApp [
 	mockApp := Mock new.
 	mockApp stub updateModel: nil.
 	mockApp stub updateMidasFocus: nil.
@@ -18,7 +18,7 @@ TestMidasCtxt >> mockEmptyApp [
 ]
 
 { #category : #running }
-TestMidasCtxt >> setUp [
+AbstractTestMidasCtxt >> setUp [
 	super setUp.
 	launcherCtxt := MidasContextLauncher new.
 	launcherCtxt app: self mockEmptyApp.

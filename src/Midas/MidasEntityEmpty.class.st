@@ -50,12 +50,12 @@ MidasEntityEmpty >> pathsFor: midasEntities [
 ]
 
 { #category : #indexing }
-MidasEntityEmpty >> selectEntitiesIndexed: indexes [
+MidasEntityEmpty >> selectEntitiesFromIndexes: indexes [
 	^self
 ]
 
 { #category : #indexing }
-MidasEntityEmpty >> selectPathsIndexed: indexes [
+MidasEntityEmpty >> selectEntitiesFromPaths: indexes [
 	^self
 ]
 

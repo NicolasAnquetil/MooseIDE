@@ -1,6 +1,6 @@
 Class {
-	#name : #TestMidasApp,
-	#superclass : #TestMidas,
+	#name : #AbstractTestMidasApp,
+	#superclass : #AbstractTestMidas,
 	#instVars : [
 		'launcherApp'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #running }
-TestMidasApp >> setUp [
+AbstractTestMidasApp >> setUp [
 	super setUp.
 	launcherApp := MidasLauncher new.
 	launcherApp openOnModel: models first.
 ]
 
 { #category : #running }
-TestMidasApp >> tearDown [
+AbstractTestMidasApp >> tearDown [
 	launcherApp ifNotNil: [launcherApp exit]
 ]

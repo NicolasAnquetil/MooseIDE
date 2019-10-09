@@ -1,5 +1,5 @@
 Class {
-	#name : #TestMidas,
+	#name : #AbstractTestMidas,
 	#superclass : #TestCase,
 	#instVars : [
 		'models'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #models }
-TestMidas class >> lanModel [
+AbstractTestMidas class >> lanModel [
 	^ '(
 	(FAMIX.Invocation (id: 1)
 		(sender (ref: 2))
@@ -3822,12 +3822,12 @@ TestMidas class >> lanModel [
 ]
 
 { #category : #accessing }
-TestMidas class >> resources [
+AbstractTestMidas class >> resources [
 	^Array with: MidasTearDownTestsResource.
 ]
 
 { #category : #models }
-TestMidas class >> simpleModel [
+AbstractTestMidas class >> simpleModel [
 	^ '( (FAMIX.Namespace (id: 1)
     (name ''aNamespace''))
   (FAMIX.Package (id: 201)
@@ -3859,7 +3859,7 @@ TestMidas class >> simpleModel [
 ]
 
 { #category : #accessing }
-TestMidas >> midasEntityCollection: aCollectionOfAssociations [
+AbstractTestMidas >> midasEntityCollection: aCollectionOfAssociations [
 	"helper method to create a MidasEntityFamixCollection form a collection of ancestor -> string
 	 where the ancestor can be repeated and string is a name for a mock entity"
 	| entities |
@@ -3871,12 +3871,12 @@ TestMidas >> midasEntityCollection: aCollectionOfAssociations [
 ]
 
 { #category : #accessing }
-TestMidas >> midasEntityFamix: aString [
+AbstractTestMidas >> midasEntityFamix: aString [
 	^MidasEntityFamix with: (self mockEntity: aString) ancestor: #ancestor
 ]
 
 { #category : #accessing }
-TestMidas >> midasEntityModel: aString [
+AbstractTestMidas >> midasEntityModel: aString [
 	^MidasEntityMooseModel
 		with: (MooseModel new
 					name: aString ;
@@ -3885,7 +3885,7 @@ TestMidas >> midasEntityModel: aString [
 ]
 
 { #category : #accessing }
-TestMidas >> mockEntity: anObject [
+AbstractTestMidas >> mockEntity: anObject [
 	| mockEntity |
 	mockEntity := Mock new.
 	mockEntity stub name willReturn: (anObject asString).
@@ -3894,36 +3894,36 @@ TestMidas >> mockEntity: anObject [
 ]
 
 { #category : #running }
-TestMidas >> setUp [
+AbstractTestMidas >> setUp [
 	models := OrderedCollection new.
 	models
-		add: (MooseModel importFromMSEStream: TestMidas lanModel readStream);
-		add: (MooseModel importFromMSEStream: TestMidas simpleModel readStream).
+		add: (MooseModel importFromMSEStream: AbstractTestMidas lanModel readStream);
+		add: (MooseModel importFromMSEStream: AbstractTestMidas simpleModel readStream).
 	models first  cacheMooseGroups ; name: 'First-lanModel'.
 	models second cacheMooseGroups ; name: 'Second-simpleModel'.
 ]
 
 { #category : #running }
-TestMidas >> someAttributes [
+AbstractTestMidas >> someAttributes [
 	^models second allAttributes 
 ]
 
 { #category : #running }
-TestMidas >> someClasses [
+AbstractTestMidas >> someClasses [
 	^models second allModelClasses 
 ]
 
 { #category : #running }
-TestMidas >> someMethods [
+AbstractTestMidas >> someMethods [
 	^models second allModelMethods 
 ]
 
 { #category : #running }
-TestMidas >> someNamespaces [
+AbstractTestMidas >> someNamespaces [
 	^models second allModelNamespaces
 ]
 
 { #category : #running }
-TestMidas >> somePackages [
+AbstractTestMidas >> somePackages [
 	^models second allModelPackages 
 ]

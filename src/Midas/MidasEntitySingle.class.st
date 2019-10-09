@@ -40,23 +40,28 @@ MidasEntitySingle >> entitiesWithAncestors [
 
 { #category : #indexing }
 MidasEntitySingle >> pathsFor: midasEntities [
-	^(midasEntities entities includes: singleEntity)
-		ifTrue: [ #(1 1) ]
-		ifFalse: [ #() ]
+	| paths |
+	paths := OrderedCollection new: 2.
+	
+	(midasEntities entities includes: ancestor)
+		ifTrue: [ paths add: #(1) ].
+	(midasEntities entities includes: singleEntity)
+		ifTrue: [ paths add: #(1 1) ].
+	^ paths
 ]
 
 { #category : #indexing }
-MidasEntitySingle >> selectEntitiesIndexed: indexes [
+MidasEntitySingle >> selectEntitiesFromIndexes: indexes [
 	^ (indexes includes: 1)
 			ifTrue: self
 			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]
 
 { #category : #indexing }
-MidasEntitySingle >> selectPathsIndexed: indexes [
-	^ (indexes includes: #(1 1))
-			ifTrue: self
-			ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
+MidasEntitySingle >> selectEntitiesFromPaths: paths [
+	^( (paths includes: #(1)) or: [ paths includes: #(1 1) ] )
+		ifTrue: self
+		ifFalse: [ MidasEntityEmpty ancestor: singleEntity ]
 ]
 
 { #category : #accessing }

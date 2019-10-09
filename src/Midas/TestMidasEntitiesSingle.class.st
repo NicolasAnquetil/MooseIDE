@@ -1,6 +1,6 @@
 Class {
 	#name : #TestMidasEntitiesSingle,
-	#superclass : #TestMidasEntities,
+	#superclass : #AbstractTestMidasEntities,
 	#category : #'Midas-Tests'
 }
 
@@ -14,10 +14,10 @@ TestMidasEntitiesSingle >> testIsModel [
 TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 	| md entity |
 	entity := Mock new.
-	entity stub someSelector willReturn: #( child1 child2 ).
+	entity stub children willReturn: #( child1 child2 ).
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #someSelector.
+				nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityFamixCollection.
 	self assert: md entities size equals: 2.
@@ -69,16 +69,31 @@ TestMidasEntitiesSingle >> testSameModel [
 ]
 
 { #category : #tests }
-TestMidasEntitiesSingle >> testSelectIndexed [
+TestMidasEntitiesSingle >> testSelectEntitiesFromIndexes [
 	| md entity |
 	entity := Mock new.
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor).
 
-	self assert: (md selectEntitiesIndexed: #(0)) class equals: MidasEntityEmpty.
+	self assert: (md selectEntitiesFromIndexes: #(0)) class equals: MidasEntityEmpty.
 
-	self assert: (md selectEntitiesIndexed: #(1)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesIndexed: #(1)) entities equals: { entity }.
+	self assert: (md selectEntitiesFromIndexes: #(1)) class equals: MidasEntityFamix.
+	self assert: (md selectEntitiesFromIndexes: #(1)) entities equals: { entity }.
 
-	self assert: (md selectEntitiesIndexed: #(2)) class equals: MidasEntityEmpty.
+	self assert: (md selectEntitiesFromIndexes: #(2)) class equals: MidasEntityEmpty.
+]
+
+{ #category : #tests }
+TestMidasEntitiesSingle >> testSelectEntitiesFromPaths [
+	| md entity |
+	entity := Mock new.
+
+	md := (MidasEntityFamix with: entity ancestor: #anAncestor).
+
+	self assert: ( md selectEntitiesFromPaths: #((0)) ) isEmpty.
+
+	self assert: ( md selectEntitiesFromPaths: #((1)) ) entities equals: { entity }.
+	self assert: ( md selectEntitiesFromPaths: #((1 1)) ) entities equals: { entity }.
+	self assert: ( md selectEntitiesFromPaths: #((1) (1 1)) ) entities equals: { entity }.
+
 ]

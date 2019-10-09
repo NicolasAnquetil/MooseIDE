@@ -1,6 +1,6 @@
 Class {
 	#name : #TestMidasEntitiesCollection,
-	#superclass : #TestMidasEntities,
+	#superclass : #AbstractTestMidasEntities,
 	#instVars : [
 		'md',
 		'entity1',
@@ -107,61 +107,47 @@ TestMidasEntitiesCollection >> testSameModel [
 ]
 
 { #category : #tests }
-TestMidasEntitiesCollection >> testSelectEntitiesIndexed [
+TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
 	md := MidasEntityFamixCollection
 				with: {
 					entity1 -> #( child11 child12 ) .
 					entity2 -> #( child21 child22 child23 ) }.
 
-	self assert: (md selectEntitiesIndexed: #(1)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesIndexed: #(1)) entities equals: #( child11 ).
+	self assert: (md selectEntitiesFromIndexes: #(0)) class equals: MidasEntityEmpty.
 
-	self assert: (md selectEntitiesIndexed: #(4)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesIndexed: #(4)) entities equals: #( child22 ).
+	self assert: (md selectEntitiesFromIndexes: #(1)) class equals: MidasEntityFamix.
+	self assert: (md selectEntitiesFromIndexes: #(1)) entities equals: #( child11 ).
 
-	self assert: (md selectEntitiesIndexed: #(2 5)) class equals: MidasEntityFamixCollection.
-	self assert: (md selectEntitiesIndexed: #(2 5)) entitiesWithAncestors size equals: 2.
-	self assert: (md selectEntitiesIndexed: #(2 5)) entities equals: #( #child12 child23 ).
+	self assert: (md selectEntitiesFromIndexes: #(4)) class equals: MidasEntityFamix.
+	self assert: (md selectEntitiesFromIndexes: #(4)) entities equals: #( child22 ).
+
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) class equals: MidasEntityFamixCollection.
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) entitiesWithAncestors size equals: 2.
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities equals: #( #child12 child23 ).
 
 ]
 
 { #category : #tests }
-TestMidasEntitiesCollection >> testSelectIndexed [
+TestMidasEntitiesCollection >> testSelectEntitiesFromPaths [
 	md := MidasEntityFamixCollection
 				with: {
 					entity1 -> #( child11 child12 ) .
 					entity2 -> #( child21 child22 child23 ) }.
 
-	self assert: (md selectEntitiesIndexed: #(0)) class equals: MidasEntityEmpty.
+	self assert: (md selectEntitiesFromPaths: #( (1 1) )) entities equals: #( child11 ).
 
-	self assert: (md selectEntitiesIndexed: #(1)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesIndexed: #(1)) entities equals: #( child11 ).
+	self assert: (md selectEntitiesFromPaths: #( (2 2) )) entities equals: #( child22 ).
 
-	self assert: (md selectEntitiesIndexed: #(4)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesIndexed: #(4)) entities equals: #( child22 ).
-
-	self assert: (md selectEntitiesIndexed: #(2 5)) class equals: MidasEntityFamixCollection.
-	self assert: (md selectEntitiesIndexed: #(2 5)) entitiesWithAncestors size equals: 2.
-	self assert: (md selectEntitiesIndexed: #(2 5)) entities equals: #( #child12 child23 ).
-
-]
-
-{ #category : #tests }
-TestMidasEntitiesCollection >> testSelectPathsIndexed [
-	md := MidasEntityFamixCollection
-				with: {
-					entity1 -> #( child11 child12 ) .
-					entity2 -> #( child21 child22 child23 ) }.
-
-	self assert: (md selectPathsIndexed: #( (1 1) )) class equals: MidasEntityFamix.
-	self assert: (md selectPathsIndexed: #( (1 1) )) entities equals: #( child11 ).
-
-	self assert: (md selectPathsIndexed: #( (2 2) )) class equals: MidasEntityFamix.
-	self assert: (md selectPathsIndexed: #( (2 2) )) entities equals: #( child22 ).
-
-	self assert: (md selectPathsIndexed: #( (1 2) (2 3) )) class equals: MidasEntityFamixCollection.
-	self assert: (md selectPathsIndexed: #( (1 2) (2 3) )) entitiesWithAncestors size equals: 2.
-	self assert: (md selectPathsIndexed: #( (1 2) (2 3) )) entities
+	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entitiesWithAncestors size equals: 2.
+	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entities
 			equals: #( #child12 child23 ) asOrderedCollection.
+
+	self assert: (md selectEntitiesFromPaths: #( (1) )) entitiesWithAncestors size equals: 1.
+	self assert: (md selectEntitiesFromPaths: #( (1) )) entities
+			equals: #( child11 child12 ) asOrderedCollection.
+
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entitiesWithAncestors size equals: 2.
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities
+			equals: #( child11 child12 child23 ) asOrderedCollection.
 
 ]

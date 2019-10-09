@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtHistory,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#instVars : [
 		'historyCtxt'
 	],

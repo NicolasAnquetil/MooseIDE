@@ -1,6 +1,6 @@
 Class {
 	#name : #TestCtxtNavigate,
-	#superclass : #TestMidasCtxt,
+	#superclass : #AbstractTestMidasCtxt,
 	#instVars : [
 		'navigateCtxt'
 	],

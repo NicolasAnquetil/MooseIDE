@@ -89,10 +89,10 @@ MidasEntityFamixCollection >> name: aString [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> pathsFor: midasEntities [
+MidasEntityFamixCollection >> pathsFor: searchedEntities [
 	| paths i searched |
-	paths := OrderedCollection new: midasEntities size.
-	searched := midasEntities entitiesWithAncestors.
+	paths := OrderedCollection new: searchedEntities size.
+	searched := searchedEntities entitiesWithAncestors.
 	i := 0.
 	self entitiesWithAncestors do: [ :myAssoc |
 		i := i+1.
@@ -107,7 +107,7 @@ MidasEntityFamixCollection >> pathsFor: midasEntities [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
+MidasEntityFamixCollection >> selectEntitiesFromIndexes: indexes [
 	| nextGeneration nbEntities |
 	nbEntities := 0.
 	nextGeneration := entities collect: [ :assoc || myIndexes |
@@ -122,17 +122,21 @@ MidasEntityFamixCollection >> selectEntitiesIndexed: indexes [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> selectPathsIndexed: indexes [
+MidasEntityFamixCollection >> selectEntitiesFromPaths: indexes [
 	| nextGeneration ancestorsIndexes |
 	ancestorsIndexes := indexes groupedBy: #first.
 	nextGeneration := OrderedCollection new: entities size.
-	ancestorsIndexes keysAndValuesDo:  [ :ascendantIndex :descendantsIndexes |
-								| currentEntity descendants |
-								currentEntity := entities at: ascendantIndex.
-								descendants := descendantsIndexes collect: [ :duplet |
-														currentEntity value at: duplet second].
-								nextGeneration add: (currentEntity key -> descendants)
-							].
+	ancestorsIndexes keysAndValuesDo:  [ :ascendantIndex :ascendantPaths |
+		| currentEntity descendants |
+		currentEntity := entities at: ascendantIndex.
+		descendants := (ascendantPaths contains: [ :path | path size = 1 ])
+			ifTrue: [ "if paths include an ancestor, then select all of its descendant"
+				currentEntity value ]
+			ifFalse: [
+				ascendantPaths collect: [ :duplet | currentEntity value at: duplet second ]
+			].				
+		nextGeneration add: (currentEntity key -> descendants)
+	].
 	^ self filterNextGeneration: nextGeneration
 	
 ]
