@@ -6,7 +6,8 @@ Class {
 		'filterQuery',
 		'fldQuery',
 		'btnQuery',
-		'lstProperties'
+		'lstProperties',
+		'lblProperties'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -24,6 +25,7 @@ MidasAppQuery class >> defaultSpec [
 				add: #btnQuery
 					withConstraints: [ :constraints | constraints width: 30 ])
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		add: #lblProperties withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #lstProperties ;
 		yourself
 ]
@@ -62,6 +64,9 @@ MidasAppQuery >> initializePresenter [
 { #category : #initialization }
 MidasAppQuery >> initializeWidgets [
 	self initializeWidgetsQueryRow.
+	lblProperties := self newLabel
+							label: 'Available properties:'.
+	
 	lstProperties := self newList.
 	lstProperties
 		displayBlock: #name ;
@@ -80,6 +85,11 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	btnQuery := self newButton.
 	btnQuery label: 'run'.
 	btnQuery action: self runQueryButtonAction
+]
+
+{ #category : #accessing }
+MidasAppQuery >> lblProperties [
+	^lblProperties
 ]
 
 { #category : #accessing }

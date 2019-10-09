@@ -34,6 +34,15 @@ TestEntitiesApp >> setUp [
 ]
 
 { #category : #tests }
+TestEntitiesApp >> testBtnBypassFreeze [
+	entitiesApp context unfreeze.
+	self deny: entitiesApp btnBypassFreeze isEnabled.
+
+	entitiesApp context freeze.
+	self assert: entitiesApp btnBypassFreeze isEnabled.
+]
+
+{ #category : #tests }
 TestEntitiesApp >> testChangeModel [
 	launcherApp context mooseModel: (MidasEntityMooseModel with: models first).
 

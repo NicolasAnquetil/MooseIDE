@@ -16,7 +16,7 @@ MidasAppSystemComplexity class >> defaultSpec [
 		add:
 			(SpecBoxLayout newHorizontal
 				add: #chkFreeze;
-				add: #btnFocusOnSelection ;
+				add: #btnBypassFreeze ;
 				add: #chkHierarchicalFocus ;
 				yourself)
 		withConstraints: [ :constraints | constraints height: self toolbarHeight ];

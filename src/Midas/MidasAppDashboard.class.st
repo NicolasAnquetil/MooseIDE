@@ -67,7 +67,7 @@ MidasAppDashboard >> initializeWidgets [
 { #category : #initialization }
 MidasAppDashboard >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 750 @ 180.
+	aWindowPresenter initialExtent: self windowExtent
 ]
 
 { #category : #accessing }
@@ -103,4 +103,9 @@ MidasAppDashboard >> updateModel: aMooseModel [
 	super updateModel: aMooseModel.
 	self updateMidasFocus: aMooseModel allModelClasses.
 		
+]
+
+{ #category : #initialization }
+MidasAppDashboard >> windowExtent [
+	^ 400 @ 180
 ]

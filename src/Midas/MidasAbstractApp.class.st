@@ -8,17 +8,17 @@ Class {
 		'context',
 		'chkFreeze',
 		'chkHierarchicalFocus',
-		'btnFocusOnSelection'
+		'btnBypassFreeze'
 	],
 	#category : #'Midas-appGUI'
 }
 
-{ #category : #accessing }
-MidasAbstractApp >> btnFocusOnSelection [
-	^btnFocusOnSelection
+{ #category : #freezeUnfreeze }
+MidasAbstractApp >> btnBypassFreeze [
+	^btnBypassFreeze
 ]
 
-{ #category : #initialization }
+{ #category : #freezeUnfreeze }
 MidasAbstractApp >> canBeFrozen [
 	chkFreeze :=
 		(self instantiate: CheckBoxPresenter)
@@ -27,33 +27,33 @@ MidasAbstractApp >> canBeFrozen [
 			whenDeactivatedDo: [ context unfreeze ] ;
 			yourself.
 	
-	btnFocusOnSelection :=
+	btnBypassFreeze :=
 		self newButton
-			label: 'Force focus' ;
+			label: 'Bypass freeze' ;
 			enable ;
-			action: [ context focusOnSelection ] ;
+			action: [ context bypassFreeze ] ;
 			yourself
 
 ]
 
-{ #category : #accessing }
+{ #category : #flatHierarchical }
 MidasAbstractApp >> chkFocusIsHierarchical [
 	^chkHierarchicalFocus
 		ifNil: [ false ]
 		ifNotNil: [ chkHierarchicalFocus state ]
 ]
 
-{ #category : #accessing }
+{ #category : #freezeUnfreeze }
 MidasAbstractApp >> chkFreeze [ 
 	^ chkFreeze 
 ]
 
-{ #category : #accessing }
+{ #category : #flatHierarchical }
 MidasAbstractApp >> chkHierarchicalFocus [
 	^ chkHierarchicalFocus
 ]
 
-{ #category : #accessing }
+{ #category : #freezeUnfreeze }
 MidasAbstractApp >> chkIsFrozen [
 	^ chkFreeze
 		ifNil: [ false ]
@@ -77,7 +77,17 @@ MidasAbstractApp >> context: aContext [
 		ifFalse: [ aContext unfreeze ]
 ]
 
-{ #category : #initialization }
+{ #category : #freezeUnfreeze }
+MidasAbstractApp >> disableBtnBypassFreeze [
+	btnBypassFreeze ifNotNil: [ btnBypassFreeze disable ]
+]
+
+{ #category : #freezeUnfreeze }
+MidasAbstractApp >> enableBtnBypassFreeze [
+	btnBypassFreeze ifNotNil: [ btnBypassFreeze enable ]
+]
+
+{ #category : #flatHierarchical }
 MidasAbstractApp >> focusCanBeHierarchical [
 	chkHierarchicalFocus := (self instantiate: CheckBoxPresenter)
 		label: 'Hierarchical view';
@@ -104,7 +114,7 @@ MidasAbstractApp >> initializeWindow: aWindowPresenter [
 		]
 ]
 
-{ #category : #initialization }
+{ #category : #freezeUnfreeze }
 MidasAbstractApp >> isFrozen [
 	chkFreeze ifNil: [ ^false ].
 	^chkFreeze isActivated 

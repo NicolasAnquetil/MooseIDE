@@ -15,6 +15,21 @@ TestCtxtEntities >> setUp [
 ]
 
 { #category : #tests }
+TestCtxtEntities >> testBypassFreeze [
+	| displayUpdated |
+	(mockApp stub updateMidasFocus: Any) will: [ :args | displayUpdated := args].
+
+	entitiesCtxt freeze.
+	displayUpdated := #().
+	launcherCtxt midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
+	self assert: displayUpdated isEmpty.
+
+	entitiesCtxt bypassFreeze.
+	self assert: displayUpdated size equals: 1.
+	self assert: displayUpdated first equals: #anEntity
+]
+
+{ #category : #tests }
 TestCtxtEntities >> testCheckResultAsTree [
 	| displayUpdated |
 	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].

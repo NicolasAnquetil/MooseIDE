@@ -26,7 +26,15 @@ MidasChildContext >> acceptModelUpdate: newModel [
 	^ true
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #freezeUnfreeze }
+MidasChildContext >> bypassFreeze [
+	| wasFrozen |
+	wasFrozen := self isFrozen.
+	self unfreeze.
+	wasFrozen ifTrue: [ self freeze ]
+]
+
+{ #category : #flatHierarchical }
 MidasChildContext >> childrenFor: aRoot [
 	^hierarchicalFocus
 		ifTrue:  [ self midasFocus childrenFor: aRoot ]
@@ -41,31 +49,21 @@ MidasChildContext >> exit [
 	app := nil
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #flatHierarchical }
 MidasChildContext >> focusBeFlat [
 	hierarchicalFocus := false.
 	self notifyMidasFocus: self midasFocus
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #flatHierarchical }
 MidasChildContext >> focusBeHierarchical [
 	hierarchicalFocus := true.
 	self notifyMidasFocus: self midasFocus
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #flatHierarchical }
 MidasChildContext >> focusIsHierarchical [
 	^hierarchicalFocus
-]
-
-{ #category : #frozenFocus }
-MidasChildContext >> focusOnSelection: selectedIndexes [
-	"forces receiver to focus on the selection, whatever the states of the flags frozen and selectionFrozen"
-	| wasFrozen |
-	wasFrozen := frozen.
-	frozen := false.
-	self notifyMidasFocus: self midasFocus.
-	frozen := wasFrozen.
 ]
 
 { #category : #notifications }
@@ -78,10 +76,11 @@ MidasChildContext >> formatNewModel: newModel [
 	^ newModel
 ]
 
-{ #category : #frozenFocus }
+{ #category : #freezeUnfreeze }
 MidasChildContext >> freeze [
 	myFocusFrozen := self midasFocus.
 	frozen := true.
+	app enableBtnBypassFreeze
 ]
 
 { #category : #initialization }
@@ -91,7 +90,7 @@ MidasChildContext >> initialize [
 	hierarchicalFocus := false
 ]
 
-{ #category : #frozenFocus }
+{ #category : #freezeUnfreeze }
 MidasChildContext >> isFrozen [
 	^frozen
 ]
@@ -152,12 +151,12 @@ MidasChildContext >> parentContext: aContext [
 	aContext addChild: self
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #flatHierarchical }
 MidasChildContext >> roots [
 	^self roots: self midasFocus
 ]
 
-{ #category : #hierarchicalFocus }
+{ #category : #flatHierarchical }
 MidasChildContext >> roots: aFocus [
 	^hierarchicalFocus
 		ifTrue:  [ aFocus ancestors ]
@@ -165,7 +164,9 @@ MidasChildContext >> roots: aFocus [
 
 ]
 
-{ #category : #frozenFocus }
+{ #category : #freezeUnfreeze }
 MidasChildContext >> unfreeze [
 	frozen := false.
+	app disableBtnBypassFreeze.
+	self notifyMidasFocus: self midasFocus.
 ]
