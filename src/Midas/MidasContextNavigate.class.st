@@ -10,24 +10,6 @@ Class {
 }
 
 { #category : #running }
-MidasContextNavigate >> atScope: aSymbol [
-	^self midasFocus collectNextGeneration:
-		(MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol)
-	
-]
-
-{ #category : #running }
-MidasContextNavigate >> classScope [
-	| actuel |
-	actuel := self midasFocus.
-	actuel isEmpty ifTrue: [ ^ nil ].
-	"hack to know whether we should go up (from methods -> atScope) or down (-> toScope)"
-	actuel entities anyOne isMethod
-		ifTrue: [ self midasFocus: (self atScope: 'FAMIXClass') ]
-		ifFalse: [ self midasFocus: (self toScope: 'FAMIXClass') ].
-]
-
-{ #category : #running }
 MidasContextNavigate >> doesNotUnderstand: message [
 	"capturing #visitXXX: message and redirecting to FAMIXClass"
 	((message selector asString beginsWith: 'visit') and: [message arguments size = 1])
@@ -35,19 +17,6 @@ MidasContextNavigate >> doesNotUnderstand: message [
 			^ super doesNotUnderstand: message ].
 
 	^self navigationPropertiesForClass: message argument class
-]
-
-{ #category : #running }
-MidasContextNavigate >> interpretQuery: aBlockAsString [
-	| aBlock |
-	aBlockAsString
-		ifEmpty: [ ^ self "notifyMidasFocus: history now" ].
-	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
-	self
-		midasFocus:
-			(app filterQuery
-				ifTrue: [ self midasFocus selectNextGeneration: aBlock ]
-				ifFalse: [ self midasFocus collectNextGeneration: aBlock ])
 ]
 
 { #category : #running }

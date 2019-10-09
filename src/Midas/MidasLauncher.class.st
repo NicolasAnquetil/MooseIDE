@@ -92,11 +92,12 @@ MidasLauncher >> initializeWidgets [
 			  #navigate -> #launchNavigateApp .
 			  #code -> #launchEditorApp .
 			  #views -> #launchSystemComplexityApp .
+			  #query -> #launchQueryApp .
 			  #archi -> #nullLaunchApp .
 			  #critic -> #nullLaunchApp .
 			  #tags -> #nullLaunchApp .
 			  #tasks -> #nullLaunchApp .
-			  #log -> #launchHistoryApp .
+			  #history -> #launchHistoryApp .
 			  #exit -> #exit 
 			 }
 			do: [ :appDesc |
@@ -150,11 +151,6 @@ MidasLauncher >> launchHistoryApp [
 ]
 
 { #category : #apps }
-MidasLauncher >> launchLogApp [
-	^ApplicationWithToolbar new openWithSpec; yourself
-]
-
-{ #category : #apps }
 MidasLauncher >> launchModelsApp [
 	^self launch: MidasAppModels withContext: MidasContextModels
 ]
@@ -164,6 +160,13 @@ MidasLauncher >> launchNavigateApp [
 	^self
 		launch: MidasAppNavigate
 		withContext: MidasContextNavigate
+]
+
+{ #category : #apps }
+MidasLauncher >> launchQueryApp [
+	^self
+		launch: MidasAppQuery
+		withContext: MidasContextQuery
 ]
 
 { #category : #apps }
