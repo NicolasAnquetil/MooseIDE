@@ -66,17 +66,22 @@ MidasEntityAbstract >> entitiesWithAncestors [
 
 { #category : #private }
 MidasEntityAbstract >> filterNextGeneration: nextGeneration [
-	| filteredGeneration |
+	| filteredGeneration entity |
 	filteredGeneration := nextGeneration reject: [ :nextAssoc | nextAssoc value isEmpty ].
 
 	filteredGeneration ifEmpty: [ ^ MidasEntityEmpty ancestor: self entities ].
-	((filteredGeneration size = 1) and: [ filteredGeneration first value size = 1 ])
-		ifTrue: [ ^ MidasEntityFamix
-							with: filteredGeneration first value first
+	((filteredGeneration size > 1) or: [ filteredGeneration first value size > 1 ])
+		ifTrue: [ ^ MidasEntityFamixCollection with: filteredGeneration ].
+	"only one entity, is it a MooseModel or a normal FamixEntity ?"
+	entity := filteredGeneration first value first.
+	^(entity class = MooseModel)
+		ifTrue: [ MidasEntityMooseModel with: entity ]
+		ifFalse: [ MidasEntityFamix
+							with: entity
 							ancestor: filteredGeneration first key
-					].
+					]
 
-	^ MidasEntityFamixCollection with: filteredGeneration
+	
 ]
 
 { #category : #testing }

@@ -18,6 +18,20 @@ TestModelsApp >> setUp [
 ]
 
 { #category : #tests }
+TestModelsApp >> testClearSelection [
+	| mockCtxt |
+	mockCtxt := Mock new.
+	modelsApp context: mockCtxt.
+
+	modelsApp lstModels clickAtIndex: 1.
+	self assert: modelsApp selectedIndexes size equals: 1.
+
+	modelsApp updateModel: #whatever.
+
+	self assert: modelsApp selectedIndexes size equals: 0
+]
+
+{ #category : #tests }
 TestModelsApp >> testModelListSortedByName [
 	self
 		assert:

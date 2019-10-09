@@ -121,11 +121,6 @@ MidasAbstractApp >> mooseModel [
 ]
 
 { #category : #notifications }
-MidasAbstractApp >> updateMidasFocus: focus [
-	self subclassResponsibility
-]
-
-{ #category : #notifications }
 MidasAbstractApp >> updateModel: aMooseModel [
 	self updateTitle.
 	self updateMidasFocus: aMooseModel

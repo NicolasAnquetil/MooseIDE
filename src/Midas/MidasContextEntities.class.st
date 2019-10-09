@@ -20,9 +20,7 @@ MidasContextEntities >> entitiesToSelection: focus [
 
 { #category : #notifications }
 MidasContextEntities >> formatMidasFocus: newFocus [
-	^hierarchicalFocus
-		ifTrue:  [ newFocus ancestors ]
-		ifFalse: [ newFocus entities ]
+	^self roots: newFocus
 
 ]
 
@@ -55,6 +53,11 @@ MidasContextEntities >> selectionToEntities: paths [
 
 { #category : #running }
 MidasContextEntities >> userSelection: selectedPaths [
+	| wasFrozen |
 	selectedPaths ifEmpty: [ ^ self ].
-	self midasFocus: (self selectionToEntities: selectedPaths)
+
+	wasFrozen := self isFrozen.
+	self freeze.
+	self midasFocus: (self selectionToEntities: selectedPaths).
+	wasFrozen ifFalse: [ self unfreeze ]
 ]

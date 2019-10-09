@@ -58,6 +58,7 @@ MidasAppModels >> initializeWidgets [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
+
 	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
@@ -91,19 +92,18 @@ MidasAppModels >> mnuLoaders [
 	^ mnuLoaders
 ]
 
+{ #category : #accessing }
+MidasAppModels >> selectedIndexes [
+	^ lstModels selection selectedIndexes
+]
+
 { #category : #api }
 MidasAppModels >> title [
 	^'Moose models'
 ]
 
 { #category : #notifications }
-MidasAppModels >> updateMidasFocus: focus [
-	self shouldNotImplement 
-]
-
-{ #category : #notifications }
 MidasAppModels >> updateModel: newModel [
-	lstModels items: context allModels.
 	self clearSelection 
 	
 ]

@@ -24,21 +24,33 @@ MidasAppSystemComplexity class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #private }
+MidasAppSystemComplexity >> boxShape [
+	^ RTBox new
+		borderColor: [ :entity | 
+			(highlighted includes: entity)
+				ifTrue: [ Color red ]
+				ifFalse: [ Color black ] ]
+]
+
 { #category : #initialization }
 MidasAppSystemComplexity >> drawEntities [
-	| es |
-	view @ RTZoomableView.
+	| viewElts shape |
 	view @ RTDraggableView.
-	es := (RTBox new
-		borderColor: Color black;
-		width: 10 ;
-		height: 10 ;
-		color: [:entity | (highlighted includes: entity) ifTrue: [Color red] ifFalse: [Color black]]) elementsOn: self context midasFocus entities.
-	view addAll: es.
-	es @ RTPopup.
-	es @ RTMVSElInteraction.
-	es @ RTDraggable.
-"	RTEdgeBuilder new
+	view @ RTZoomableView.
+	shape := self boxShape.
+	viewElts := shape elementsOn: self context roots.
+	view addAll: viewElts.
+	RTNest new
+		view: view ;
+		for: viewElts add: [ :group :model | 
+			group
+				addAll: (self boxShape elementsOn: (self context childrenFor: model)).
+			self setInteractions: group.
+			RTGridLayout on: group
+		].
+	self setInteractions: viewElts.
+	"	RTEdgeBuilder new
 		elements: es;
 		view: view;
 		connectToAll: [ :cls | cls directSubclasses ].
@@ -46,8 +58,7 @@ MidasAppSystemComplexity >> drawEntities [
 	RTMetricNormalizer new
 		elements: es;
 		normalizeColorAsGray: [ :cls | cls numberOfLinesOfCode ]."
-	RTGridLayout new
-		on: es.
+	RTGridLayout new on: viewElts
 ]
 
 { #category : #api }
@@ -77,6 +88,20 @@ MidasAppSystemComplexity >> initializeWidgets [
 { #category : #api }
 MidasAppSystemComplexity >> refresh [
 	roassal ifNotNil: [ roassal refresh ]
+]
+
+{ #category : #accessing }
+MidasAppSystemComplexity >> roassalView [
+	^view
+]
+
+{ #category : #initialization }
+MidasAppSystemComplexity >> setInteractions: viewElts [
+	viewElts @ RTPopup.
+	viewElts @ RTDraggable.
+	viewElts
+		when: TRMouseClick
+		do: [ :event | context userSelection: event element model ].
 ]
 
 { #category : #api }

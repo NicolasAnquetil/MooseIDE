@@ -52,32 +52,31 @@ TestCtxtEntities >> testNotFrozen [
 
 { #category : #tests }
 TestCtxtEntities >> testSelectionResultAsTree [
-	| focus |
+	| selection |
 	entitiesCtxt focusBeHierarchical.
 
 	launcherCtxt midasFocus:
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
 	
-	(mockApp stub updateMidasFocus: Any) will: [ :arg | focus := arg ].
+	(mockApp stub selectPaths: Any) will: [ :arg | selection := arg ].
 
 	entitiesCtxt userSelection: #(#(1 2)).
-	self assert: focus size equals: 1.
-	self assert: focus first equals: #ancestor1.
-	self assert: (entitiesCtxt childrenFor: #ancestor1) size equals: 1.
-	self assert: (entitiesCtxt childrenFor: #ancestor1) first name equals:	'child2'
+
+	self assert: selection equals: #(#(1 2)) asOrderedCollection
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testSelectionResultFlatten [
-	| focus |
-	focus := {(#ancestor1 -> #(child1 child2))}.
-	launcherCtxt midasFocus: (MidasEntityFamixCollection with: focus).
+	| selection |
+	launcherCtxt midasFocus:
+		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
 	entitiesCtxt focusBeFlat.
 	
-	(mockApp stub updateMidasFocus: Any) will: [ :arg | focus := arg ].
+	(mockApp stub selectPaths: Any) will: [ :arg | selection := arg ].
+
 	entitiesCtxt userSelection: #(#(2)).
-	self assert: focus size equals: 1.
-	self assert: focus first equals: #child2
+
+	self assert: selection equals: #(#(2)) asOrderedCollection
 ]

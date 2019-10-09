@@ -26,7 +26,7 @@ MidasChildContext >> acceptModelUpdate: newModel [
 	^ true
 ]
 
-{ #category : #notifications }
+{ #category : #hierarchicalFocus }
 MidasChildContext >> childrenFor: aRoot [
 	^hierarchicalFocus
 		ifTrue:  [ self midasFocus childrenFor: aRoot ]
@@ -41,24 +41,24 @@ MidasChildContext >> exit [
 	app := nil
 ]
 
-{ #category : #accessing }
+{ #category : #hierarchicalFocus }
 MidasChildContext >> focusBeFlat [
 	hierarchicalFocus := false.
 	self notifyMidasFocus: self midasFocus
 ]
 
-{ #category : #accessing }
+{ #category : #hierarchicalFocus }
 MidasChildContext >> focusBeHierarchical [
 	hierarchicalFocus := true.
 	self notifyMidasFocus: self midasFocus
 ]
 
-{ #category : #accessing }
+{ #category : #hierarchicalFocus }
 MidasChildContext >> focusIsHierarchical [
 	^hierarchicalFocus
 ]
 
-{ #category : #running }
+{ #category : #frozenFocus }
 MidasChildContext >> focusOnSelection: selectedIndexes [
 	"forces receiver to focus on the selection, whatever the states of the flags frozen and selectionFrozen"
 	| wasFrozen |
@@ -78,7 +78,7 @@ MidasChildContext >> formatNewModel: newModel [
 	^ newModel
 ]
 
-{ #category : #accessing }
+{ #category : #frozenFocus }
 MidasChildContext >> freeze [
 	myFocusFrozen := self midasFocus.
 	frozen := true.
@@ -91,7 +91,7 @@ MidasChildContext >> initialize [
 	hierarchicalFocus := false
 ]
 
-{ #category : #accessing }
+{ #category : #frozenFocus }
 MidasChildContext >> isFrozen [
 	^frozen
 ]
@@ -152,7 +152,20 @@ MidasChildContext >> parentContext: aContext [
 	aContext addChild: self
 ]
 
-{ #category : #accessing }
+{ #category : #hierarchicalFocus }
+MidasChildContext >> roots [
+	^self roots: self midasFocus
+]
+
+{ #category : #hierarchicalFocus }
+MidasChildContext >> roots: aFocus [
+	^hierarchicalFocus
+		ifTrue:  [ aFocus ancestors ]
+		ifFalse: [ aFocus entities ]
+
+]
+
+{ #category : #frozenFocus }
 MidasChildContext >> unfreeze [
 	frozen := false.
 ]
