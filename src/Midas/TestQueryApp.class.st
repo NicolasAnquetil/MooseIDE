@@ -1,44 +1,44 @@
 Class {
-	#name : #TestNavigateApp,
+	#name : #TestQueryApp,
 	#superclass : #AbstractTestMidasApp,
 	#instVars : [
-		'navigateApp'
+		'queryApp'
 	],
 	#category : #'Midas-Tests'
 }
 
 { #category : #running }
-TestNavigateApp >> setUp [
+TestQueryApp >> setUp [
 	super setUp.
-	navigateApp := launcherApp launchNavigateApp
+	queryApp := launcherApp launchQueryApp
 ]
 
 { #category : #tests }
-TestNavigateApp >> testClearSelection [
+TestQueryApp >> testClearSelection [
 	| mockCtxt |
 	mockCtxt := Mock new.
 	mockCtxt stub navigationProperties willReturn: {
 		self mockEntity: #property1 .
 		self mockEntity: #property2 }.
-	navigateApp context: mockCtxt.
+	queryApp context: mockCtxt.
 
-	navigateApp updateMidasFocus: #whatever.
+	queryApp updateMidasFocus: #whatever.
 
-	navigateApp lstProperties clickAtIndex: 1.
-	self assert: navigateApp selectedItems size equals: 1.
+	queryApp lstProperties clickAtIndex: 1.
+	self assert: queryApp selectedItems size equals: 1.
 
-	navigateApp updateMidasFocus: #whatever.
+	queryApp updateMidasFocus: #whatever.
 
-	self assert: navigateApp selectedItems size equals: 0
+	self assert: queryApp selectedItems size equals: 0
 ]
 
 { #category : #tests }
-TestNavigateApp >> testWindowTitle [
+TestQueryApp >> testWindowTitle [
 	self
-		assert: navigateApp window title
+		assert: queryApp window title
 		equals: 'Navigate ''Model: First-lanModel'''.
 	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
-		assert: navigateApp window title
+		assert: queryApp window title
 		equals: 'Navigate ''Model: Second-simpleModel'''
 ]

@@ -45,7 +45,7 @@ MidasLauncher class >> openDefault [
 	| launcher |
 	launcher := self openOnModel: MooseModel root allModels first.
 	launcher launchEntitiesApp.
-	launcher launchNavigateApp.
+	launcher launchQueryApp.
 	^ launcher
 ]
 
@@ -89,10 +89,9 @@ MidasLauncher >> initializeWidgets [
 			{ #models -> #launchModelsApp .
 			  #metrics -> #launchDashboardApp .
 			  #entities -> #launchEntitiesApp .
-			  #navigate -> #launchNavigateApp .
+			  #query -> #launchQueryApp .
 			  #code -> #launchEditorApp .
 			  #views -> #launchSystemComplexityApp .
-			  #query -> #launchQueryApp .
 			  #archi -> #nullLaunchApp .
 			  #critic -> #nullLaunchApp .
 			  #tags -> #nullLaunchApp .
@@ -153,13 +152,6 @@ MidasLauncher >> launchHistoryApp [
 { #category : #apps }
 MidasLauncher >> launchModelsApp [
 	^self launch: MidasAppModels withContext: MidasContextModels
-]
-
-{ #category : #apps }
-MidasLauncher >> launchNavigateApp [
-	^self
-		launch: MidasAppNavigate
-		withContext: MidasContextNavigate
 ]
 
 { #category : #apps }
