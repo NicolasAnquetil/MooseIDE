@@ -42,7 +42,9 @@ MidasLauncher class >> iconTheme [
 { #category : #specs }
 MidasLauncher class >> open [
 	<script>
-	^self new openWithSpec
+	^self new
+		openWithSpec ;
+		yourself
 ]
 
 { #category : #specs }
@@ -95,6 +97,11 @@ MidasLauncher >> defaultApps [
 MidasLauncher >> disableWithoutModel: menuItem [
 	(#(models exit) includes: menuItem description) 
 		ifFalse: [ menuItem disable ].
+]
+
+{ #category : #initialization }
+MidasLauncher >> enableWithModel [
+	menu menuGroups first menuItems do: [ :item | item enable ]
 ]
 
 { #category : #apps }
@@ -196,6 +203,11 @@ MidasLauncher >> launchTagsApp [
 	^self launch: MidasAppTag withContext: MidasContextTag
 ]
 
+{ #category : #accessing }
+MidasLauncher >> menu [
+	^menu
+]
+
 { #category : #initialization }
 MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 	| defaultActionBlock |
@@ -235,5 +247,6 @@ MidasLauncher >> updateMidasFocus: newFocus [
 { #category : #notifications }
 MidasLauncher >> updateModel: aMooseModel [
 	super updateModel: aMooseModel.
-	lblModelName label: 'Current model: ''' , context modelName , ''''
+	lblModelName label: 'Current model: ''' , context modelName , ''''.
+	self enableWithModel 
 ]

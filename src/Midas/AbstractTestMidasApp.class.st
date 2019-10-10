@@ -16,5 +16,7 @@ AbstractTestMidasApp >> setUp [
 
 { #category : #running }
 AbstractTestMidasApp >> tearDown [
-	launcherApp ifNotNil: [launcherApp exit]
+	launcherApp ifNotNil: [launcherApp exit].
+	launcherApp ifNotNil: [launcherApp delete].  "special case for TestLauncherApp"
+
 ]

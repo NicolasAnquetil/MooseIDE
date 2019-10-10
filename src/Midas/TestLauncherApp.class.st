@@ -4,6 +4,11 @@ Class {
 	#category : #'Midas-Tests'
 }
 
+{ #category : #accessing }
+TestLauncherApp >> appAt: anInteger [
+	^launcherApp menu menuGroups first menuItems at: anInteger
+]
+
 { #category : #tests }
 TestLauncherApp >> testCloseDashboard [
 	| app |
@@ -69,6 +74,27 @@ TestLauncherApp >> testCloseQuery [
 	self
 		assert: launcherApp context children size
 		equals: 0.
+
+]
+
+{ #category : #tests }
+TestLauncherApp >> testDisabledAppsWithoutModel [
+	| mockCtxt |
+	mockCtxt := Mock new.
+	mockCtxt stub modelName willReturn: #whatever.
+	mockCtxt stub mooseModel willReturn: nil.
+	
+	"create a new launcher without model"
+	launcherApp exit.
+	launcherApp := MidasLauncher open.
+	launcherApp context: mockCtxt.
+
+	self assert: (self appAt: 1) isEnabled.
+	self deny: (self appAt: 2) isEnabled.
+
+	launcherApp updateModel: mockCtxt.
+	self assert: (self appAt: 1) isEnabled.
+	self assert: (self appAt: 2) isEnabled.
 
 ]
 
