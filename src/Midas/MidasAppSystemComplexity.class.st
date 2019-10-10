@@ -12,9 +12,9 @@ Class {
 
 { #category : #specs }
 MidasAppSystemComplexity class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #chkFreeze;
 				add: #btnBypassFreeze ;
 				add: #chkHierarchicalFocus ;

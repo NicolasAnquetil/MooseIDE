@@ -15,10 +15,10 @@ Class {
 
 { #category : #specs }
 MidasAppDashboard class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 				add: #chkFreeze withConstraints: [ :constraints | constraints height: 30 ];
 				add:
-					(SpecBoxLayout newHorizontal
+					(SpBoxLayout newHorizontal
 						add: #metric1;
 						add: #metric2;
 						add: #metric3 ;

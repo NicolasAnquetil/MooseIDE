@@ -14,6 +14,6 @@ Class {
 { #category : #running }
 MidasTearDownTestsResource >> tearDown [
 	"to allow the garbage collector recovering the instances of MidasLauncher created during the tests"
-	SpecNullApplication reset.
+	SpNullApplication reset.
 	super tearDown
 ]

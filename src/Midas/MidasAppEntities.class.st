@@ -13,9 +13,9 @@ Class {
 
 { #category : #specs }
 MidasAppEntities class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #chkFreeze;
 				add: #btnBypassFreeze ;
 				add: #chkHierarchicalFocus ;
@@ -53,7 +53,7 @@ MidasAppEntities >> initializeWidgets [
 	lstEntities 	:= self newTreeTable.
 	lstEntities
 		beMultipleSelection ;
-		addColumn: (StringTableColumn new
+		addColumn: (SpStringTableColumn new
 							evaluated: #name;
 							yourself) ;
 		children: [ :each | self context childrenFor: each ]

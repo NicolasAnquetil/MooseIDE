@@ -23,7 +23,8 @@ MidasContextModels >> allModels [
 
 { #category : #accessing }
 MidasContextModels >> allModels: aCollection [ 
-	allModels := aCollection
+	allModels := aCollection.
+	app ifNotNil: [ app refresh ]
 ]
 
 { #category : #initialization }

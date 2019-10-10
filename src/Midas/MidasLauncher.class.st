@@ -17,7 +17,7 @@ Class {
 
 { #category : #specs }
 MidasLauncher class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add: #lblModelName
 			withConstraints: [ :constraints | constraints height: 20 ];
 		add: #menu;

@@ -3,7 +3,7 @@ Abstract app. Apps are specialized Spec visualization. All app have a context wh
 "
 Class {
 	#name : #MidasAbstractApp,
-	#superclass : #ComposablePresenter,
+	#superclass : #SpPresenter,
 	#instVars : [
 		'context',
 		'chkFreeze',
@@ -21,7 +21,7 @@ MidasAbstractApp >> btnBypassFreeze [
 { #category : #freezeUnfreeze }
 MidasAbstractApp >> canBeFrozen [
 	chkFreeze :=
-		(self instantiate: CheckBoxPresenter)
+		(self instantiate: SpCheckBoxPresenter)
 			label: 'Freeze content' ;
 			whenActivatedDo: [ context freeze ];
 			whenDeactivatedDo: [ context unfreeze ] ;
@@ -89,7 +89,7 @@ MidasAbstractApp >> enableBtnBypassFreeze [
 
 { #category : #flatHierarchical }
 MidasAbstractApp >> focusCanBeHierarchical [
-	chkHierarchicalFocus := (self instantiate: CheckBoxPresenter)
+	chkHierarchicalFocus := (self instantiate: SpCheckBoxPresenter)
 		label: 'Hierarchical view';
 		whenActivatedDo: [ context focusBeHierarchical ];
 		whenDeactivatedDo: [ context focusBeFlat ] ;

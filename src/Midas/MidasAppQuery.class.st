@@ -14,9 +14,9 @@ Class {
 
 { #category : #specs }
 MidasAppQuery class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #mnuSelcol
 					withConstraints: [ :constraints | constraints width: 80 ];
 				add: ' each where:'
@@ -64,14 +64,11 @@ MidasAppQuery >> initializePresenter [
 { #category : #initialization }
 MidasAppQuery >> initializeWidgets [
 	self initializeWidgetsQueryRow.
-	lblProperties := self newLabel
-							label: 'Available properties:'.
-	
+	lblProperties := self newLabel label: 'Available properties:'.
 	lstProperties := self newList.
 	lstProperties
-		displayBlock: #name ;
-		sortingBlock: #name ascending.
-
+		display: #name;
+		sortingBlock: #name ascending
 ]
 
 { #category : #initialization }
@@ -79,7 +76,7 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	mnuSelcol := self newDropList.
 	mnuSelcol
 		items: #(#filter #navigate);
-		displayBlock: [ :i | i asString ].
+		display: [ :i | i asString ].
 	filterQuery := true.	"by default will be on #filter"
 	fldQuery := self newTextInput.
 	btnQuery := self newButton.

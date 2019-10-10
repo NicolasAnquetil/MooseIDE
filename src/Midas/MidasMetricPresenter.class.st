@@ -1,6 +1,6 @@
 Class {
 	#name : #MidasMetricPresenter,
-	#superclass : #ComposablePresenter,
+	#superclass : #SpPresenter,
 	#instVars : [
 		'guiModel',
 		'id',
@@ -15,13 +15,13 @@ Class {
 
 { #category : #specs }
 MidasMetricPresenter class >> defaultSpec [
-	^ SpecBoxLayout newVertical
-		add: (SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
+		add: (SpBoxLayout newVertical
 					add: #metricName withConstraints: [ :c | c height: self defaultFont height ] ;
 					add: #metricValue ;
 					yourself);
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #submetric1 ;
 				add: #submetric2 ;
 				add: #submetric3 ;
@@ -73,7 +73,7 @@ MidasMetricPresenter >> initializeWidgets [
 
 { #category : #accessing }
 MidasMetricPresenter >> mainMetricValue [
-^metricValue
+	^metricValue
 ]
 
 { #category : #accessing }

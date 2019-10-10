@@ -13,7 +13,7 @@ Class {
 
 { #category : #specs }
 MidasAppModels class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add: #mnuLoaders
 			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
 		add: #lstModels;
@@ -52,13 +52,11 @@ MidasAppModels >> initializePresenter [
 
 { #category : #initialization }
 MidasAppModels >> initializeWidgets [
-
-	lstModels := (self instantiate: ListPresenter)
-		displayBlock: [ :item | item name ];
+	lstModels := self newList
+		display: [ :item | item name ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-
 	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
@@ -90,6 +88,11 @@ MidasAppModels >> lstModels [
 { #category : #accessing }
 MidasAppModels >> mnuLoaders [
 	^ mnuLoaders
+]
+
+{ #category : #refreshing }
+MidasAppModels >> refresh [
+	lstModels items: context allModels
 ]
 
 { #category : #accessing }

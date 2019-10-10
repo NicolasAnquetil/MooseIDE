@@ -12,7 +12,7 @@ Class {
 
 { #category : #specs }
 MidasAppEditor class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add: #chkFreeze
 			withConstraints: [ :constraints | constraints height: 30 ];
 		add: #code;

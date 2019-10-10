@@ -16,14 +16,14 @@ Class {
 
 { #category : #specs }
 MidasAppHistory class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #btnPrev;
 				add: #btnNext)
 		withConstraints: [ :constraint | constraint height: self toolbarHeight ];
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 				add: #lblName withConstraints: [ :constraint | constraint width: 40 ];
 				add: #fldName;
 				add: #btnName withConstraints: [ :constraint | constraint width: 60 ])

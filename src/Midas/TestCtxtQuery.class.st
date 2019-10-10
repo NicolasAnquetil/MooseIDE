@@ -44,7 +44,7 @@ TestCtxtQuery >> testPropertiesAttribute [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someAttributes anyOne ancestor: #anAncestor).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 10
+		equals: 11
 
 "expected navigatinProperties
 FAMIX.StructuralEntity.declaredType
@@ -65,7 +65,7 @@ TestCtxtQuery >> testPropertiesClass [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someClasses anyOne ancestor: #anAncestor).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 20
+		equals: 21
 ]
 
 { #category : #tests }
@@ -76,7 +76,7 @@ TestCtxtQuery >> testPropertiesHeterogeneous [
 			#ancestor2 -> { self someClasses anyOne } }).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 9 "properties for FAMIXContainerEntity"
+		equals: 10 "properties for FAMIXContainerEntity"
 		
  "Expected properties:
 FAMIX.NamedEntity.parentPackage
@@ -97,7 +97,7 @@ TestCtxtQuery >> testPropertiesHomogeneous [
 		(MidasEntityFamixCollection with: { #anAncestor -> self someMethods }).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 22 "same as for a single method: #testMethodProperties"
+		equals: 23 "same as for a single method: #testMethodProperties"
 ]
 
 { #category : #tests }
@@ -105,7 +105,7 @@ TestCtxtQuery >> testPropertiesMethod [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someMethods anyOne ancestor: #anAncestor).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 22
+		equals: 23
 ]
 
 { #category : #tests }
@@ -120,7 +120,7 @@ TestCtxtQuery >> testPropertiesNamespace [
 	launcherCtxt midasFocus: (MidasEntityFamix with: self someNamespaces anyOne ancestor: #anAncestor).
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 14
+		equals: 15
 ]
 
 { #category : #tests }
@@ -153,5 +153,5 @@ TestCtxtQuery >> testSelectionOnCollectionFocus [
 	queryCtxt userSelection: selector.
 	self
 		assert: queryCtxt navigationProperties size
-		equals: 10
+		equals: 11
 ]

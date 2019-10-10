@@ -13,7 +13,7 @@ TestModelsApp >> setUp [
 	modelsApp := launcherApp launchModelsApp.
 	modelsApp context allModels: models.
 
-	"Need to call [allmodels] again."
+	"Need to call #allmodels again."
 	modelsApp updateModel: models first
 ]
 
