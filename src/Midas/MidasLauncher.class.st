@@ -40,6 +40,12 @@ MidasLauncher class >> iconTheme [
 ]
 
 { #category : #specs }
+MidasLauncher class >> open [
+	<script>
+	^self new openWithSpec
+]
+
+{ #category : #specs }
 MidasLauncher class >> openDefault [
 	<script>
 	| launcher |
@@ -58,6 +64,37 @@ MidasLauncher class >> openOnModel: aMooseModel [
 MidasLauncher class >> resetIconTheme [
 	<script>
 	iconTheme := nil
+]
+
+{ #category : #initialization }
+MidasLauncher >> appIcon: appDesc [
+	^ appDesc value = #nullLaunchApp
+		ifTrue: [ appDesc key asString , '-off' ]
+		ifFalse: [ appDesc key ]
+]
+
+{ #category : #initialization }
+MidasLauncher >> defaultApps [
+	^ {
+	(#models -> #launchModelsApp).
+	(#metrics -> #launchDashboardApp).
+	(#entities -> #launchEntitiesApp).
+	(#query -> #launchQueryApp).
+	(#code -> #launchEditorApp).
+	(#views -> #launchSystemComplexityApp).
+	(#archi -> #nullLaunchApp).
+	(#critic -> #nullLaunchApp).
+	(#tags -> #nullLaunchApp).
+	(#tasks -> #nullLaunchApp).
+	(#history -> #launchHistoryApp).
+	(#exit -> #exit)
+	}
+]
+
+{ #category : #initialization }
+MidasLauncher >> disableWithoutModel: menuItem [
+	(#(models exit) includes: menuItem description) 
+		ifFalse: [ menuItem disable ].
 ]
 
 { #category : #apps }
@@ -85,23 +122,10 @@ MidasLauncher >> initializeWidgets [
 		label: 'Current model: --';
 		yourself.
 	menu := self newMenuBar
-		addGroup: [ :group |
-			{ #models -> #launchModelsApp .
-			  #metrics -> #launchDashboardApp .
-			  #entities -> #launchEntitiesApp .
-			  #query -> #launchQueryApp .
-			  #code -> #launchEditorApp .
-			  #views -> #launchSystemComplexityApp .
-			  #archi -> #nullLaunchApp .
-			  #critic -> #nullLaunchApp .
-			  #tags -> #nullLaunchApp .
-			  #tasks -> #nullLaunchApp .
-			  #history -> #launchHistoryApp .
-			  #exit -> #exit 
-			 }
-			do: [ :appDesc |
+		addGroup: [ :group | 
+			self defaultApps do: [ :appDesc | 
 				group addItem: [ :item || icon |
-					icon := (appDesc value = #nullLaunchApp) ifTrue: [ appDesc key asString , '-off' ] ifFalse: [ appDesc key ].
+					icon := self appIcon: appDesc.
 					self
 						newMenuItem: item
 						named: icon
@@ -109,7 +133,6 @@ MidasLauncher >> initializeWidgets [
 				]
 			]
 		]
-
 ]
 
 { #category : #initialization }
@@ -177,10 +200,14 @@ MidasLauncher >> launchTagsApp [
 MidasLauncher >> newMenuItem: menuItem named: aSymbol withAction: aBlock [
 	| defaultActionBlock |
 	defaultActionBlock := [ self inform: aSymbol ].
-	^ menuItem
+	menuItem
 		description: aSymbol;
 		icon: (iconTheme iconNamed: aSymbol);
-		action: (aBlock ifNil: [ defaultActionBlock ])
+		action: (aBlock ifNil: [ defaultActionBlock ]).
+
+	context mooseModel
+		ifNil: [ self disableWithoutModel: menuItem ].
+	^ menuItem
 
 ]
 
