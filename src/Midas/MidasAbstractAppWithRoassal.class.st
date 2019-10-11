@@ -8,6 +8,21 @@ Class {
 	#category : #'Midas-appGUI'
 }
 
+{ #category : #initialization }
+MidasAbstractAppWithRoassal >> initialize [
+	super initialize.
+	self refresh
+]
+
+{ #category : #refreshing }
+MidasAbstractAppWithRoassal >> refresh [
+	view := RTView new.
+	roassal := SpMorphPresenter new
+					morph: view canvas buildMorph;
+					yourself.
+	self roassalScript 
+]
+
 { #category : #accessing }
 MidasAbstractAppWithRoassal >> roassal [
 	^ roassal
@@ -16,6 +31,11 @@ MidasAbstractAppWithRoassal >> roassal [
 { #category : #accessing }
 MidasAbstractAppWithRoassal >> roassal: anObject [
 	roassal := anObject
+]
+
+{ #category : #refreshing }
+MidasAbstractAppWithRoassal >> roassalScript [
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

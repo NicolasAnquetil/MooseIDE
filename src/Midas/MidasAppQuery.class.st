@@ -106,7 +106,7 @@ MidasAppQuery >> refresh [
 
 { #category : #running }
 MidasAppQuery >> runQueryButtonAction [
-	^[ context interpretQuery: fldQuery getText  ]
+	^ [ context interpretQuery: fldQuery text ]
 ]
 
 { #category : #accessing }

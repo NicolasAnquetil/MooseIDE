@@ -80,6 +80,8 @@ TestLauncherApp >> testCloseQuery [
 { #category : #tests }
 TestLauncherApp >> testDisabledAppsWithoutModel [
 	| mockCtxt |
+	self skip.
+
 	mockCtxt := Mock new.
 	mockCtxt stub modelName willReturn: #whatever.
 	mockCtxt stub mooseModel willReturn: nil.

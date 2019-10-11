@@ -20,13 +20,15 @@ MidasAppHistory class >> defaultSpec [
 		add:
 			(SpBoxLayout newHorizontal
 				add: #btnPrev;
-				add: #btnNext)
+				add: #btnNext;
+				yourself)
 		withConstraints: [ :constraint | constraint height: self toolbarHeight ];
 		add:
 			(SpBoxLayout newHorizontal
 				add: #lblName withConstraints: [ :constraint | constraint width: 40 ];
 				add: #fldName;
-				add: #btnName withConstraints: [ :constraint | constraint width: 60 ])
+				add: #btnName withConstraints: [ :constraint | constraint width: 60 ];
+				yourself)
 		withConstraints: [ :constraint | constraint height: self buttonHeight ];
 		add: #roassal ;
 		yourself
@@ -47,31 +49,6 @@ MidasAppHistory >> btnPrev [
 	^ btnPrev
 ]
 
-{ #category : #displaying }
-MidasAppHistory >> drawChainOfEvent [
-	| viewElts shape |
-	view canvas extent: self viewExtent.
-	view @ RTDraggableView.
-	view @ RTZoomableView.
-	shape := RTCompositeShape new.
-	shape add: (RTLabel new text: #entryName).
-	shape add: (RTEllipse new
-						extent: self entryExtent ;
-						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ]).
-	shape add: (RTLabel new text: '').  "empty text below RTEllipse to turn around a bug in edge building"
-	shape vertical.
-	viewElts := shape elementsOn: context allEntries.
-	viewElts when: TRMouseClick do: [ :event | context userSelection: event element model ].
-	viewElts @ (RTPopup new text: self entryPopupBlock) .
-	view addAll: viewElts.
-	RTEdgeBuilder new
-		view: view;
-		elements: viewElts;
-		connectToAll: [ :e | e nextEntries ].
-	RTHorizontalTreeLayout new
-		on: viewElts.
-]
-
 { #category : #accessing }
 MidasAppHistory >> entryExtent [
 	^ 15 @ 15
@@ -86,6 +63,15 @@ MidasAppHistory >> entryPopupBlock [
 { #category : #accessing }
 MidasAppHistory >> fldName [
 	^fldName 
+]
+
+{ #category : #initialization }
+MidasAppHistory >> initialize [
+	super initialize.
+	view := RTView new.
+	SpMorphPresenter new
+		morph: view canvas buildMorph;
+	yourself
 ]
 
 { #category : #initialization }
@@ -120,6 +106,7 @@ MidasAppHistory >> initializeNextPreviousButtons [
 
 { #category : #initialization }
 MidasAppHistory >> initializePresenter [
+	super initializePresenter.
 	btnName action: [
 		context currentName: fldName text.
 		fldName text: ''.
@@ -129,19 +116,41 @@ MidasAppHistory >> initializePresenter [
 
 { #category : #initialization }
 MidasAppHistory >> initializeWidgets [
+	super initializeWidgets.
 	self initializeNextPreviousButtons.
 	self initializeNamingRow.
-	roassal := self instantiate: RoassalModel.
-	roassal
-		script: [ :aView :canvas | 
-			view := aView.
-			self drawChainOfEvent ]
+
 ]
 
 { #category : #displaying }
 MidasAppHistory >> refresh [
+	super refresh.
 	self updatePreviousNext.
-	roassal refresh
+]
+
+{ #category : #displaying }
+MidasAppHistory >> roassalScript [
+	| viewElts shape |
+	view canvas extent: self viewExtent.
+	view @ RTDraggableView.
+	view @ RTZoomableView.
+	shape := RTCompositeShape new.
+	shape add: (RTLabel new text: #entryName).
+	shape add: (RTEllipse new
+						extent: self entryExtent ;
+						color: [ :el | (context current = el) ifTrue: [Color red] ifFalse: [ Color veryLightGray ] ]).
+	shape add: (RTLabel new text: '').  "empty text below RTEllipse to turn around a bug in edge building"
+	shape vertical.
+	viewElts := shape elementsOn: self viewElements.
+	viewElts when: TRMouseClick do: [ :event | context userSelection: event element model ].
+	viewElts @ (RTPopup new text: self entryPopupBlock) .
+	view addAll: viewElts.
+	RTEdgeBuilder new
+		view: view;
+		elements: viewElts;
+		connectToAll: [ :e | e nextEntries ].
+	RTHorizontalTreeLayout new
+		on: viewElts.
 ]
 
 { #category : #notifications }
@@ -151,13 +160,18 @@ MidasAppHistory >> updateMidasFocus: focus [
 
 { #category : #notifications }
 MidasAppHistory >> updatePreviousNext [
-	btnPrev enabled: (context historyHasPrevious).
-	btnNext enabled: (context historyHasNext).
+	btnPrev enabled: (context notNil and: [context historyHasPrevious]).
+	btnNext enabled: (context notNil and: [context historyHasNext]).
 ]
 
 { #category : #accessing }
 MidasAppHistory >> view [
 	^ view
+]
+
+{ #category : #accessing }
+MidasAppHistory >> viewElements [
+	^context 	ifNil: [ #() ] ifNotNil: [ context allEntries ]
 ]
 
 { #category : #accessing }

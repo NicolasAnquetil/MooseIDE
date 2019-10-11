@@ -14,8 +14,8 @@ Class {
 { #category : #specs }
 MidasAppModels class >> defaultSpec [
 	^ SpBoxLayout newVertical
-		add: #mnuLoaders
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
+		"add: #mnuLoaders
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ] ;"
 		add: #lstModels;
 		yourself
 ]
@@ -57,7 +57,7 @@ MidasAppModels >> initializeWidgets [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-	mnuLoaders := self newMenuBar
+	"mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -71,7 +71,7 @@ MidasAppModels >> initializeWidgets [
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
 						action: [ self importStModel ] ] ].
-	mnuLoaders applyTo: self
+	mnuLoaders applyTo: self"
 ]
 
 { #category : #initialization }

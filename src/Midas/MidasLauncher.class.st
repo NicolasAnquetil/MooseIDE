@@ -7,7 +7,15 @@ Class {
 	#instVars : [
 		'iconTheme',
 		'menu',
-		'lblModelName'
+		'lblModelName',
+		'appModels',
+		'appDashboard',
+		'appEntities',
+		'appQuery',
+		'appCode',
+		'appView',
+		'appHistory',
+		'appExit'
 	],
 	#classInstVars : [
 		'iconTheme'
@@ -20,8 +28,19 @@ MidasLauncher class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #lblModelName
 			withConstraints: [ :constraints | constraints height: 20 ];
-		add: #menu;
+		add: (SpBoxLayout newHorizontal
+					add: #appModels ;
+					add: #appDashboard ;
+					add: #appEntities ;
+					add: #appQuery ;
+					add: #appCode ;
+					add: #appView ;
+					add: #appHistory ;
+					add: #appExit ;
+					yourself
+				) ;
 		yourself
+
 ]
 
 { #category : #specs }
@@ -101,7 +120,7 @@ MidasLauncher >> disableWithoutModel: menuItem [
 
 { #category : #initialization }
 MidasLauncher >> enableWithModel [
-	menu menuGroups first menuItems do: [ :item | item enable ]
+	"menu menuGroups first menuItems do: [ :item | item enable ]"
 ]
 
 { #category : #apps }
@@ -128,7 +147,7 @@ MidasLauncher >> initializeWidgets [
 	lblModelName := self newLabel
 		label: 'Current model: --';
 		yourself.
-	menu := self newMenuBar
+	"menu := self newMenuBar
 		addGroup: [ :group | 
 			self defaultApps do: [ :appDesc | 
 				group addItem: [ :item || icon |
@@ -139,13 +158,22 @@ MidasLauncher >> initializeWidgets [
 						withAction: [ self perform: appDesc value ]
 				]
 			]
-		]
+		]"
+	appModels   := self newButton: #models action: #launchModelsApp.
+	appDashboard:= self newButton: #metrics action: #launchDashboardApp.
+	appEntities := self newButton: #entities action: #launchEntitiesApp.
+	appQuery    := self newButton: #query action: #launchQueryApp.
+	appCode     := self newButton: #code action: #launchEditorApp.
+	appView     := self newButton: #views action: #launchSystemComplexityApp.
+	appHistory  := self newButton: #history action: #launchHistoryApp.
+	appExit     := self newButton: #exit action: #exit.
+
 ]
 
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 936 @ 120.
+	aWindowPresenter initialExtent: 840 @ 120.
 ]
 
 { #category : #apps }
@@ -206,6 +234,15 @@ MidasLauncher >> launchTagsApp [
 { #category : #accessing }
 MidasLauncher >> menu [
 	^menu
+]
+
+{ #category : #initialization }
+MidasLauncher >> newButton: nameSymbol action: actionSymbol [
+	^self newButton
+		icon: (iconTheme iconNamed: nameSymbol);
+		action: [ self perform: actionSymbol ];
+		yourself
+	
 ]
 
 { #category : #initialization }

@@ -33,34 +33,6 @@ MidasAppSystemComplexity >> boxShape [
 				ifFalse: [ Color black ] ]
 ]
 
-{ #category : #initialization }
-MidasAppSystemComplexity >> drawEntities [
-	| viewElts shape |
-	view @ RTDraggableView.
-	view @ RTZoomableView.
-	shape := self boxShape.
-	viewElts := shape elementsOn: self context roots.
-	view addAll: viewElts.
-	RTNest new
-		view: view ;
-		for: viewElts add: [ :group :model | 
-			group
-				addAll: (self boxShape elementsOn: (self context childrenFor: model)).
-			self setInteractions: group.
-			RTGridLayout on: group
-		].
-	self setInteractions: viewElts.
-	"	RTEdgeBuilder new
-		elements: es;
-		view: view;
-		connectToAll: [ :cls | cls directSubclasses ].
-	RTTreeLayout new on: es.
-	RTMetricNormalizer new
-		elements: es;
-		normalizeColorAsGray: [ :cls | cls numberOfLinesOfCode ]."
-	RTGridLayout new on: viewElts
-]
-
 { #category : #api }
 MidasAppSystemComplexity >> highlight: aCollection [
 	highlighted := aCollection.
@@ -78,16 +50,48 @@ MidasAppSystemComplexity >> initializeWidgets [
 	self canBeFrozen.
 	self focusCanBeHierarchical.
 
-	roassal := self instantiate: RoassalModel.
-	roassal
-		script: [ :aView :canvas | 
-			view := aView.
-			self drawEntities ]
 ]
 
-{ #category : #api }
-MidasAppSystemComplexity >> refresh [
-	roassal ifNotNil: [ roassal refresh ]
+{ #category : #accessing }
+MidasAppSystemComplexity >> innerElementsFor: outterElement [
+	^self context 
+		ifNil: [ #() ]
+		 ifNotNil: [self context childrenFor: outterElement]
+]
+
+{ #category : #accessing }
+MidasAppSystemComplexity >> outterElements [
+	^self context 
+		ifNil: [ #() ]
+		 ifNotNil: [self context roots]
+]
+
+{ #category : #initialization }
+MidasAppSystemComplexity >> roassalScript [
+	| viewElts shape |
+	view @ RTDraggableView.
+	view @ RTZoomableView.
+	shape := self boxShape.
+	viewElts := shape elementsOn: self outterElements.
+	view addAll: viewElts.
+	RTNest new
+		view: view ;
+		for: viewElts add: [ :group :model | 
+			group
+				addAll: (self boxShape elementsOn: (self innerElementsFor: model)).
+			self setInteractions: group.
+			RTGridLayout on: group
+		].
+	self setInteractions: viewElts.
+	"	RTEdgeBuilder new
+		elements: es;
+		view: view;
+		connectToAll: [ :cls | cls directSubclasses ].
+	RTTreeLayout new on: es.
+	RTMetricNormalizer new
+		elements: es;
+		normalizeColorAsGray: [ :cls | cls numberOfLinesOfCode ]."
+	RTGridLayout new on: viewElts
 ]
 
 { #category : #accessing }
