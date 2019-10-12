@@ -33,6 +33,12 @@ MidasAppSystemComplexity >> boxShape [
 				ifFalse: [ Color black ] ]
 ]
 
+{ #category : #notifications }
+MidasAppSystemComplexity >> displayFocus: newFocus [
+	highlighted := #().
+	self refresh
+]
+
 { #category : #api }
 MidasAppSystemComplexity >> highlight: aCollection [
 	highlighted := aCollection.
@@ -111,10 +117,4 @@ MidasAppSystemComplexity >> setInteractions: viewElts [
 { #category : #api }
 MidasAppSystemComplexity >> title [
 	^ 'MIDAS Visualizer' 
-]
-
-{ #category : #notifications }
-MidasAppSystemComplexity >> updateMidasFocus: newFocus [
-	highlighted := #().
-	self refresh
 ]

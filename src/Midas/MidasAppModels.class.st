@@ -14,8 +14,8 @@ Class {
 { #category : #specs }
 MidasAppModels class >> defaultSpec [
 	^ SpBoxLayout newVertical
-		"add: #mnuLoaders
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ] ;"
+		add: #mnuLoaders
+			withConstraints: [ :constraints | constraints height: self toolbarHeight*2 ] ;
 		add: #lstModels;
 		yourself
 ]
@@ -31,14 +31,49 @@ MidasAppModels >> context: aContext [
 	lstModels items: aContext allModels
 ]
 
+{ #category : #notifications }
+MidasAppModels >> displayModel: newModel [
+	self clearSelection 
+	
+]
+
 { #category : #import }
 MidasAppModels >> importMSEModel [
-	context mooseModel: (MVSMSELoader importModel ifNil:[^self]).
+	| model |
+	model := MooseModel new.
+	model importFromMSE.
+	model ifNil: [
+		model install.
+		self refresh
+	]
 ]
 
 { #category : #import }
 MidasAppModels >> importStModel [
 	context mooseModel: (MPImportSTCommand new execute ifNil:[^self])
+]
+
+{ #category : #initialization }
+MidasAppModels >> initializeMenuLoaders [
+	mnuLoaders := self newMenu
+		addGroup: [ :group | 
+			group
+				addItem: [ :item | 
+					item
+						"name: 'MSE import' ;"
+						description: 'Import model from MSE file';
+						icon: MooseIcons mooseImportMse;
+						action: [ self importMSEModel ] ] ;
+				addItem: [ :item | 
+					item
+						"name: 'ST import' ;"
+						description: 'Import Smalltalk';
+						icon: MooseIcons mooseImportSmalltalk;
+						action: [ self importStModel ]
+				]
+		] ;
+	applyTo: self ;
+	yourself.
 ]
 
 { #category : #initialization }
@@ -57,21 +92,7 @@ MidasAppModels >> initializeWidgets [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a name < b name ];
 		yourself.
-	"mnuLoaders := self newMenuBar
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
-					item
-						description: 'Import model from MSE file';
-						icon: MooseIcons mooseImportMse;
-						action: [ self importMSEModel ] ].
-			group
-				addItem: [ :item | 
-					item
-						description: 'Import Smalltalk';
-						icon: MooseIcons mooseImportSmalltalk;
-						action: [ self importStModel ] ] ].
-	mnuLoaders applyTo: self"
+	self initializeMenuLoaders.
 ]
 
 { #category : #initialization }
@@ -103,10 +124,4 @@ MidasAppModels >> selectedIndexes [
 { #category : #api }
 MidasAppModels >> title [
 	^'Moose models'
-]
-
-{ #category : #notifications }
-MidasAppModels >> updateModel: newModel [
-	self clearSelection 
-	
 ]

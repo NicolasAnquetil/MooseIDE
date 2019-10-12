@@ -94,7 +94,7 @@ TestLauncherApp >> testDisabledAppsWithoutModel [
 	self assert: (self appAt: 1) isEnabled.
 	self deny: (self appAt: 2) isEnabled.
 
-	launcherApp updateModel: mockCtxt.
+	launcherApp displayModel: mockCtxt.
 	self assert: (self appAt: 1) isEnabled.
 	self assert: (self appAt: 2) isEnabled.
 

@@ -51,8 +51,16 @@ MidasChildContext >> exit [
 
 { #category : #flatHierarchical }
 MidasChildContext >> focusBeFlat [
+	"unfortunately there are interaction between freeze and hierarchical.
+	 When we switch between flat and hierarchical, we want to update the display even if frozen"
+	| wasFrozen myFocus |
+	myFocus := self midasFocus.
+	wasFrozen := self isFrozen.
 	hierarchicalFocus := false.
-	self notifyMidasFocus: self midasFocus
+	frozen := false. "not using #unfreeze to control call to #notifyMidasFocus:"
+	self notifyMidasFocus: myFocus.
+	frozen := wasFrozen.
+	self notifyMidasFocus: parentContext midasFocus "possibly re-establishing selected entities"
 ]
 
 { #category : #flatHierarchical }
@@ -122,7 +130,7 @@ MidasChildContext >> notifyMidasFocus: newFocus [
 	frozen
 		ifTrue: [ self notifyMidasFocusFrozen: newFocus ]
 		ifFalse: [ (self acceptMidasFocusUpdate: newFocus)
-						ifTrue: [ app updateMidasFocus: (self formatMidasFocus: newFocus) ] ]
+						ifTrue: [ app displayFocus: (self formatMidasFocus: newFocus) ] ]
 ]
 
 { #category : #notifications }
@@ -135,7 +143,7 @@ MidasChildContext >> notifyNewModel: newMooseModel [
 	frozen
 		ifTrue: [ ^ self ].
 	(self acceptModelUpdate: newMooseModel)
-		ifTrue: [ app updateModel: (self formatNewModel: newMooseModel) ]
+		ifTrue: [ app displayModel: (self formatNewModel: newMooseModel) ]
 ]
 
 { #category : #accessing }

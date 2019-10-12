@@ -49,6 +49,21 @@ MidasAppDashboard >> dashboardMetric: anInt [
 						ifFalse: [ nil ] ] ]
 ]
 
+{ #category : #notifications }
+MidasAppDashboard >> displayFocus: newFocus [
+	metric1 update.
+	metric2 update.
+	metric3 update.
+
+]
+
+{ #category : #notifications }
+MidasAppDashboard >> displayModel: aMooseModel [
+	super displayModel: aMooseModel.
+	self displayFocus: aMooseModel allModelClasses.
+		
+]
+
 { #category : #initialization }
 MidasAppDashboard >> initializeMetricWidget: anInt [
 	^ (self instantiate: MidasMetricPresenter)
@@ -90,22 +105,7 @@ MidasAppDashboard >> title [
 	^'Dashboard ''' , context modelName , ''''
 ]
 
-{ #category : #notifications }
-MidasAppDashboard >> updateMidasFocus: newFocus [
-	metric1 update.
-	metric2 update.
-	metric3 update.
-
-]
-
-{ #category : #notifications }
-MidasAppDashboard >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	self updateMidasFocus: aMooseModel allModelClasses.
-		
-]
-
 { #category : #initialization }
 MidasAppDashboard >> windowExtent [
-	^ 400 @ 180
+	^ 350 @ 140
 ]

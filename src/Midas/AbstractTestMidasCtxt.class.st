@@ -11,8 +11,8 @@ Class {
 { #category : #running }
 AbstractTestMidasCtxt >> mockEmptyApp [
 	mockApp := Mock new.
-	mockApp stub updateModel: nil.
-	mockApp stub updateMidasFocus: nil.
+	mockApp stub displayModel: nil.
+	mockApp stub displayFocus: nil.
 	^ mockApp
 
 ]

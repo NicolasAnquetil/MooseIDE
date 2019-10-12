@@ -40,11 +40,11 @@ TestSystemComplexityApp >> testNbElementsFlat [
 	systCompApp context: mockCtxt.
 
 	mockCtxt stub roots willReturn: #( entity ).
-	systCompApp updateMidasFocus: #whatever.
+	systCompApp displayFocus: #whatever.
 	self assert: systCompApp roassalView elements size equals: 1.
 	
 	mockCtxt stub roots willReturn: #( entity1 entity2 entity3 ).
-	systCompApp updateMidasFocus: #whatever.
+	systCompApp displayFocus: #whatever.
 	self assert: systCompApp roassalView elements size equals: 3
 ]
 
@@ -56,7 +56,7 @@ TestSystemComplexityApp >> testNbElementsHierarchical [
 
 	mockCtxt stub roots willReturn: #( entity1 entity2 ).
 	(mockCtxt stub childrenFor: Any) willReturn: #( child1 child2 ).
-	systCompApp updateMidasFocus: #whatever.
+	systCompApp displayFocus: #whatever.
 	self assert: systCompApp roassalView elements size equals: 6
 ]
 

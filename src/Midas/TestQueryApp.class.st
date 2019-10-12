@@ -22,12 +22,12 @@ TestQueryApp >> testClearSelection [
 		self mockEntity: #property2 }.
 	queryApp context: mockCtxt.
 
-	queryApp updateMidasFocus: #whatever.
+	queryApp displayFocus: #whatever.
 
 	queryApp lstProperties clickAtIndex: 1.
 	self assert: queryApp selectedItems size equals: 1.
 
-	queryApp updateMidasFocus: #whatever.
+	queryApp displayFocus: #whatever.
 
 	self assert: queryApp selectedItems size equals: 0
 ]

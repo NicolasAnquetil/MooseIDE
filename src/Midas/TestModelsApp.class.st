@@ -14,7 +14,7 @@ TestModelsApp >> setUp [
 	modelsApp context allModels: models.
 
 	"Need to call #allmodels again."
-	modelsApp updateModel: models first
+	modelsApp displayModel: models first
 ]
 
 { #category : #tests }
@@ -26,7 +26,7 @@ TestModelsApp >> testClearSelection [
 	modelsApp lstModels clickAtIndex: 1.
 	self assert: modelsApp selectedIndexes size equals: 1.
 
-	modelsApp updateModel: #whatever.
+	modelsApp displayModel: #whatever.
 
 	self assert: modelsApp selectedIndexes size equals: 0
 ]

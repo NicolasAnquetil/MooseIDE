@@ -40,6 +40,12 @@ MidasAppQuery >> clearSelection [
 	lstProperties unselectAll
 ]
 
+{ #category : #notifications }
+MidasAppQuery >> displayFocus: focus [
+	self refresh.
+	self clearSelection
+]
+
 { #category : #accessing }
 MidasAppQuery >> filterQuery [
 	^ filterQuery
@@ -117,10 +123,4 @@ MidasAppQuery >> selectedItems [
 { #category : #initialization }
 MidasAppQuery >> title [
 	^'Navigate ''' , context modelName , ''''
-]
-
-{ #category : #notifications }
-MidasAppQuery >> updateMidasFocus: focus [
-	self refresh.
-	self clearSelection
 ]

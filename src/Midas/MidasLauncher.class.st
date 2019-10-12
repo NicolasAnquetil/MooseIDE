@@ -114,13 +114,40 @@ MidasLauncher >> defaultApps [
 
 { #category : #initialization }
 MidasLauncher >> disableWithoutModel: menuItem [
+1halt.
 	(#(models exit) includes: menuItem description) 
-		ifFalse: [ menuItem disable ].
+		ifFalse: [ menuItem enabled: false ].
+]
+
+{ #category : #notifications }
+MidasLauncher >> displayFocus: newFocus [
+	"nothing"
+]
+
+{ #category : #notifications }
+MidasLauncher >> displayModel: aMooseModel [
+	super displayModel: aMooseModel.
+	lblModelName label: 'Current model: ''' , context modelName , ''''.
+	self enableWithModel 
+]
+
+{ #category : #initialization }
+MidasLauncher >> enableButton: itemName [
+	^ (#(models exit) includes: itemName) or: [ context mooseModel notNil ].
 ]
 
 { #category : #initialization }
 MidasLauncher >> enableWithModel [
 	"menu menuGroups first menuItems do: [ :item | item enable ]"
+	appModels    enabled: (self enableButton: #models).
+	appDashboard enabled: (self enableButton: #metrics).
+	appEntities  enabled: (self enableButton: #entities).
+	appQuery     enabled: (self enableButton: #query).
+	appCode      enabled: (self enableButton: #code).
+	appView      enabled: (self enableButton: #views).
+	appHistory   enabled: (self enableButton: #history).
+	appExit      enabled: (self enableButton: #exit).
+
 ]
 
 { #category : #apps }
@@ -173,7 +200,7 @@ MidasLauncher >> initializeWidgets [
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 840 @ 120.
+	aWindowPresenter initialExtent: 670 @ 120.
 ]
 
 { #category : #apps }
@@ -241,6 +268,7 @@ MidasLauncher >> newButton: nameSymbol action: actionSymbol [
 	^self newButton
 		icon: (iconTheme iconNamed: nameSymbol);
 		action: [ self perform: actionSymbol ];
+		enabled: (self enableButton: nameSymbol)
 		yourself
 	
 ]
@@ -274,16 +302,4 @@ MidasLauncher >> openOnModel: aMooseModel [
 { #category : #api }
 MidasLauncher >> title [
 	^ 'MIDAS ''' , context modelName , ''''
-]
-
-{ #category : #notifications }
-MidasLauncher >> updateMidasFocus: newFocus [
-	"nothing"
-]
-
-{ #category : #notifications }
-MidasLauncher >> updateModel: aMooseModel [
-	super updateModel: aMooseModel.
-	lblModelName label: 'Current model: ''' , context modelName , ''''.
-	self enableWithModel 
 ]

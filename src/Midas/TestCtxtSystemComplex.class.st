@@ -17,7 +17,7 @@ TestCtxtSystemComplex >> setUp [
 { #category : #tests }
 TestCtxtSystemComplex >> testCheckResultAsTree [
 	| displayUpdated |
-	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+	(mockApp stub displayFocus: Any) will: [ displayUpdated := true].
 
 	displayUpdated := false.
 	systCompCtxt focusBeHierarchical.

@@ -30,6 +30,12 @@ MidasAppEntities >> clearSelection [
 	lstEntities unselectAll
 ]
 
+{ #category : #notifications }
+MidasAppEntities >> displayFocus: aCollection [
+	lstEntities roots: aCollection.
+	self clearSelection
+]
+
 { #category : #accessing }
 MidasAppEntities >> entities [
 	^context formatedMidasFocus
@@ -101,10 +107,4 @@ MidasAppEntities >> selectedPaths [
 { #category : #api }
 MidasAppEntities >> title [
 	^'Entities ''' , context modelName , ''''
-]
-
-{ #category : #notifications }
-MidasAppEntities >> updateMidasFocus: aCollection [
-	lstEntities roots: aCollection.
-	self clearSelection
 ]

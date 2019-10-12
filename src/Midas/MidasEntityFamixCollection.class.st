@@ -62,13 +62,27 @@ MidasEntityFamixCollection >> entitiesWithAncestors [
 ]
 
 { #category : #indexing }
+MidasEntityFamixCollection >> indexFor: searchedEntities in: aCollection [
+	"re-implementing OrderedCollection>>indexOf: because our collectin can be a MooseGroup
+	 and I am toolazy to go into that and add it"
+	| index |
+	index := 1.
+	aCollection do: [:elt |
+		elt = searchedEntities
+			ifTrue: [^ index].
+		index := index+1
+	].
+	^ 0
+]
+
+{ #category : #indexing }
 MidasEntityFamixCollection >> indicesFor: searchedEntities in: aCollection [
 	| found |
 	found := OrderedCollection new: searchedEntities size.
 	searchedEntities do: [ :searchedEntity || i |
-		i := aCollection indexOf: searchedEntity.
-		(i = 0)
-			ifFalse: [ found add: i ]
+		i := (self indexFor: searchedEntity in: aCollection).
+		(i > 0)
+			ifTrue: [ found add: i ]
 	].
 	^found
 ]

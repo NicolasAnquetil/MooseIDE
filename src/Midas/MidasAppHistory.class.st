@@ -49,6 +49,11 @@ MidasAppHistory >> btnPrev [
 	^ btnPrev
 ]
 
+{ #category : #notifications }
+MidasAppHistory >> displayFocus: focus [
+	"never called"
+]
+
 { #category : #accessing }
 MidasAppHistory >> entryExtent [
 	^ 15 @ 15
@@ -151,11 +156,6 @@ MidasAppHistory >> roassalScript [
 		connectToAll: [ :e | e nextEntries ].
 	RTHorizontalTreeLayout new
 		on: viewElts.
-]
-
-{ #category : #notifications }
-MidasAppHistory >> updateMidasFocus: focus [
-	"never called"
 ]
 
 { #category : #notifications }

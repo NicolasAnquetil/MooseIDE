@@ -17,7 +17,7 @@ TestCtxtEntities >> setUp [
 { #category : #tests }
 TestCtxtEntities >> testBypassFreeze [
 	| displayUpdated |
-	(mockApp stub updateMidasFocus: Any) will: [ :args | displayUpdated := args].
+	(mockApp stub displayFocus: Any) will: [ :args | displayUpdated := args].
 
 	entitiesCtxt freeze.
 	displayUpdated := #().
@@ -32,7 +32,7 @@ TestCtxtEntities >> testBypassFreeze [
 { #category : #tests }
 TestCtxtEntities >> testCheckResultAsTree [
 	| displayUpdated |
-	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+	(mockApp stub displayFocus: Any) will: [ displayUpdated := true].
 
 	displayUpdated := false.
 	entitiesCtxt focusBeHierarchical.
@@ -44,20 +44,77 @@ TestCtxtEntities >> testCheckResultAsTree [
 ]
 
 { #category : #tests }
-TestCtxtEntities >> testFrozen [
-	| displayUpdated |
-	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+TestCtxtEntities >> testFlattenWhenFrozen [
+	| displayed |
+	displayed := #().
+	(mockApp stub displayFocus: Any) will: [ :args | displayed := args].
+
+	entitiesCtxt focusBeHierarchical.
+	launcherCtxt midasFocus:
+		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
+
+	self assert: displayed size equals: 1.
+	self assert: displayed first equals: #ancestor1.
+
+	displayed := #().
+	entitiesCtxt freeze.
+
+	entitiesCtxt focusBeFlat.
+
+	self assert: displayed size equals: 2.
+	self assert: displayed first name equals: 'child1'.
+	self assert: displayed second name equals: 'child2'
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testFlattenWithSelection [
+	| selected |
+	selected := #().
+	(mockApp stub selectPaths: Any) will: [ :args | selected := args].
+
+	entitiesCtxt focusBeHierarchical.
+	launcherCtxt midasFocus:
+		(self midasEntityCollection: { #ancestor1 -> #child1}).
 
 	entitiesCtxt freeze.
-	displayUpdated := false.
+
+	entitiesCtxt userSelection: #(#(1 1)).
+	self assert: selected size equals: 1.
+	self assert: selected first equals: #(1 1).
+
+	selected := #().
+	entitiesCtxt focusBeFlat.
+
+	self assert: selected size equals: 1.
+	self assert: selected first equals: #(1).
+
+]
+
+{ #category : #tests }
+TestCtxtEntities >> testFrozen [
+	| displayed selected |
+	displayed := #().
+	selected  := #().
+	(mockApp stub displayFocus: Any) will: [ :args | displayed := args].
+	(mockApp stub selectPaths: Any)  will: [ :args | selected := args].
+
 	launcherCtxt midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
-	self deny: displayUpdated 
+	self assert: displayed size equals: 1.
+	self assert: selected size equals: 0.
+
+	entitiesCtxt freeze.
+
+	displayed := #().
+	launcherCtxt midasFocus: (MidasEntityFamix with: #anEntity ancestor: #anAncestor).
+	self assert: displayed size equals: 0.
+	self assert: selected size equals: 1.
+
 ]
 
 { #category : #tests }
 TestCtxtEntities >> testNotFrozen [
 	| displayUpdated |
-	(mockApp stub updateMidasFocus: Any) will: [ displayUpdated := true].
+	(mockApp stub displayFocus: Any) will: [ displayUpdated := true].
 
 	entitiesCtxt unfreeze.
 	displayUpdated := false.
@@ -68,6 +125,7 @@ TestCtxtEntities >> testNotFrozen [
 { #category : #tests }
 TestCtxtEntities >> testSelectionResultAsTree [
 	| selection |
+	selection := #().
 	(mockApp stub selectPaths: Any) will: [ :arg | selection := arg ].
 
 	entitiesCtxt focusBeHierarchical.
@@ -75,13 +133,16 @@ TestCtxtEntities >> testSelectionResultAsTree [
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
 	entitiesCtxt userSelection: #(#(1 2)).
-	self assert: selection equals: #(#(1 2)) asOrderedCollection.
+	self assert: selection size equals: 1.
+	self assert: selection first equals: #(1 2).
 
 	launcherCtxt midasFocus:
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
 	entitiesCtxt userSelection: #(#(1)).
-	self assert: selection equals: #(#(1 1) #(1 2)) asOrderedCollection
+	self assert: selection size equals: 2.
+	self assert: selection first equals: #(1 1).
+	self assert: selection second equals: #(1 2).
 ]
 
 { #category : #tests }
@@ -96,5 +157,6 @@ TestCtxtEntities >> testSelectionResultFlatten [
 
 	entitiesCtxt userSelection: #(#(2)).
 
-	self assert: selection equals: #(#(2)) asOrderedCollection
+	self assert: selection size equals: 1.
+	self assert: selection first equals: #(2)
 ]

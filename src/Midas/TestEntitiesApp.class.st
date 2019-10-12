@@ -58,14 +58,14 @@ TestEntitiesApp >> testClearSelection [
 		willReturn: #().
 	entitiesApp context: mockCtxt.
 
-	entitiesApp updateMidasFocus:
+	entitiesApp displayFocus:
 						{ self mockEntity: #entity1 .
 						  self mockEntity: #entity2 }.
 
 	entitiesApp lstEntities clickAtPath: #(1).
 	self assert: entitiesApp selectedPaths size equals: 1.
 
-	entitiesApp updateMidasFocus:
+	entitiesApp displayFocus:
 						{ self mockEntity: #entity1 .
 						  self mockEntity: #entity2 }.
 
@@ -89,7 +89,7 @@ TestEntitiesApp >> testSelectEntity [
 		willReturn: #().
 	entitiesApp context: mockCtxt.
 
-	entitiesApp updateMidasFocus:
+	entitiesApp displayFocus:
 						{ self mockEntity: #entity1 .
 						  self mockEntity: #entity2 .
 						  self mockEntity: #entity3 .

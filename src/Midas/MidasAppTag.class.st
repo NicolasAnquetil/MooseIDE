@@ -36,6 +36,16 @@ MidasAppTag class >> runMe [
 	self new openWithSpec
 ]
 
+{ #category : #notifications }
+MidasAppTag >> displayFocus: newFocus [
+	entities items: newFocus
+]
+
+{ #category : #notifications }
+MidasAppTag >> displayModel: aMooseModel [
+	self shouldNotImplement
+]
+
 { #category : #accessing }
 MidasAppTag >> entities [
 	^ entities
@@ -66,14 +76,4 @@ MidasAppTag >> tags [
 { #category : #api }
 MidasAppTag >> title [
 	^ 'MIDAS Tag'
-]
-
-{ #category : #notifications }
-MidasAppTag >> updateMidasFocus: newFocus [
-	entities items: newFocus
-]
-
-{ #category : #notifications }
-MidasAppTag >> updateModel: aMooseModel [
-	self shouldNotImplement
 ]

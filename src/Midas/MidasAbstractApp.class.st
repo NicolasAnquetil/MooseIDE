@@ -82,6 +82,13 @@ MidasAbstractApp >> disableBtnBypassFreeze [
 	btnBypassFreeze ifNotNil: [ btnBypassFreeze disable ]
 ]
 
+{ #category : #notifications }
+MidasAbstractApp >> displayModel: aMooseModel [
+	"updates the representation of the GUI when a new model is selected"
+	self updateTitle.
+	self displayFocus: aMooseModel
+]
+
 { #category : #freezeUnfreeze }
 MidasAbstractApp >> enableBtnBypassFreeze [
 	btnBypassFreeze ifNotNil: [ btnBypassFreeze enable ]
@@ -128,12 +135,6 @@ MidasAbstractApp >> midasFocus [
 { #category : #accessing }
 MidasAbstractApp >> mooseModel [
 	^ context mooseModel
-]
-
-{ #category : #notifications }
-MidasAbstractApp >> updateModel: aMooseModel [
-	self updateTitle.
-	self updateMidasFocus: aMooseModel
 ]
 
 { #category : #api }
