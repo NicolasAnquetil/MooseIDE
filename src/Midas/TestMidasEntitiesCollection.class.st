@@ -25,10 +25,10 @@ TestMidasEntitiesCollection >> testIsModel [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testNextGenerationYieldCollection [
-	entity1 stub someSelector willReturn: #( child11 child12 ).
-	entity2 stub someSelector willReturn: #( child21 child22 child23 ).
+	entity1 stub children willReturn: #( child11 child12 ).
+	entity2 stub children willReturn: #( child21 child22 child23 ).
 
-	md := md nextGenerationSelector: #someSelector.
+	md := md nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityFamixCollection.
 	self assert: md entities size equals: 5.
@@ -44,10 +44,10 @@ TestMidasEntitiesCollection >> testNextGenerationYieldCollection [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testNextGenerationYieldEmpty [
-	entity1 stub someSelector willReturn: #().
-	entity2 stub someSelector willReturn: #().
+	entity1 stub children willReturn: #().
+	entity2 stub children willReturn: #().
 
-	md := md nextGenerationSelector: #someSelector.
+	md := md nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityEmpty.
 	self assert: md ancestor equals: { entity1 . entity2 }
@@ -55,10 +55,10 @@ TestMidasEntitiesCollection >> testNextGenerationYieldEmpty [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testNextGenerationYieldSingle [
-	entity1 stub someSelector willReturn: #( child ).
-	entity2 stub someSelector willReturn: #().
+	entity1 stub children willReturn: #( child ).
+	entity2 stub children willReturn: #().
 
-	md := md nextGenerationSelector: #someSelector.
+	md := md nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityFamix.
 	self assert: md entities size equals: 1.

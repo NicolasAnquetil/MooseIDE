@@ -4,12 +4,12 @@ Class {
 	#category : #'Midas-appModel'
 }
 
-{ #category : #running }
-MidasContextQuery >> atScope: aSymbol [
-	self shouldNotImplement . "???"
-	^self midasFocus collectNextGeneration:
-		(MVSFilterManager new buildQueryBlockFrom: 'each atScope: ' , aSymbol)
-	
+{ #category : #private }
+MidasContextQuery >> compileStringToBlock: aStringQuery [
+	^ OpalCompiler new
+		source: ('[:each |' , aStringQuery , ']') ;
+		logged: false;
+		evaluate
 ]
 
 { #category : #running }
@@ -17,7 +17,7 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 	| aBlock |
 	aBlockAsString
 		ifEmpty: [ ^ self "notifyMidasFocus: history now" ].
-	aBlock := MVSFilterManager new buildQueryBlockFrom: aBlockAsString.
+	aBlock :=self compileStringToBlock: aBlockAsString.
 	self
 		midasFocus:
 			(app filterQuery

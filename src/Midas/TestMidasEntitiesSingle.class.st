@@ -33,10 +33,10 @@ TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 TestMidasEntitiesSingle >> testNextGenerationYieldEmpty [
 	| md entity |
 	entity := Mock new.
-	entity stub someSelector willReturn: #().
+	entity stub children willReturn: #().
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #someSelector.
+				nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityEmpty
 ]
@@ -45,10 +45,10 @@ TestMidasEntitiesSingle >> testNextGenerationYieldEmpty [
 TestMidasEntitiesSingle >> testNextGenerationYieldSingle [
 	| md entity |
 	entity := Mock new.
-	entity stub someSelector willReturn: #( child ).
+	entity stub children willReturn: #( child ).
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #someSelector.
+				nextGenerationSelector: #children.
 
 	self assert: md class equals: MidasEntityFamix.
 	self assert: md entities size equals: 1.

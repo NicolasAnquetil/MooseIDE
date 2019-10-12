@@ -124,6 +124,36 @@ TestCtxtQuery >> testPropertiesNamespace [
 ]
 
 { #category : #tests }
+TestCtxtQuery >> testRunCollectQuery [
+	| mockEntity |
+	mockEntity := Mock new.
+	mockEntity stub children willReturn: #(child1 child2).
+	launcherCtxt midasFocus: (MidasEntityFamix with: mockEntity ancestor: #ancestor).
+
+	mockApp stub filterQuery willReturn: false.
+
+	self assert: queryCtxt midasFocus size equals: 1.
+
+	queryCtxt interpretQuery: 'each children'.
+	self assert: queryCtxt midasFocus size equals: 2
+
+]
+
+{ #category : #tests }
+TestCtxtQuery >> testRunSelectQuery [
+	launcherCtxt midasFocus:
+		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
+
+	mockApp stub filterQuery willReturn: true.
+
+	self assert: queryCtxt midasFocus entities size equals: 2.
+
+	queryCtxt interpretQuery: 'each name endsWith: ''2'''.
+	self assert: queryCtxt midasFocus entities size equals: 1
+
+]
+
+{ #category : #tests }
 TestCtxtQuery >> testSelectAllModelClasses [
 	| prop |
 	prop := MidasEntityNavigateModel new
