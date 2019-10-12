@@ -114,7 +114,6 @@ MidasLauncher >> defaultApps [
 
 { #category : #initialization }
 MidasLauncher >> disableWithoutModel: menuItem [
-1halt.
 	(#(models exit) includes: menuItem description) 
 		ifFalse: [ menuItem enabled: false ].
 ]

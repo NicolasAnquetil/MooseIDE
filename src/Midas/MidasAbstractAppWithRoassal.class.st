@@ -20,7 +20,10 @@ MidasAbstractAppWithRoassal >> refresh [
 	roassal := SpMorphPresenter new
 					morph: view canvas buildMorph;
 					yourself.
-	self roassalScript 
+	self roassalScript.
+	self flag: 'big hack to force redisplaying of menuItems now unabled. No idea why and how it works'.
+	self needRebuild: false.
+	self buildWithSpec
 ]
 
 { #category : #accessing }
