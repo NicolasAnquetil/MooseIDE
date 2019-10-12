@@ -27,16 +27,44 @@ MidasContextModels >> allModels: aCollection [
 	app ifNotNil: [ app refresh ]
 ]
 
+{ #category : #import }
+MidasContextModels >> importMSEModel [
+	| model |
+	model := MooseModel new.
+	model importFromMSE.
+	model ifNotNil: [
+		model install.
+		self refreshModelList 
+	]
+]
+
+{ #category : #import }
+MidasContextModels >> importStModel [
+	| model |
+	model := MooseImportFromSmalltalkImageWizard new
+					open;
+					mooseModel.
+	model ifNotNil: [
+		model install.
+		self refreshModelList 
+	]
+]
+
 { #category : #initialization }
 MidasContextModels >> initialize [
 	super initialize.
-	allModels := MooseModel root allModels
+	self refreshModelList
 ]
 
 { #category : #accessing }
 MidasContextModels >> mooseModel: newMooseModel [
 	parentContext mooseModel: newMooseModel
 
+]
+
+{ #category : #initialization }
+MidasContextModels >> refreshModelList [
+	allModels := MooseModel root allModels
 ]
 
 { #category : #notifications }

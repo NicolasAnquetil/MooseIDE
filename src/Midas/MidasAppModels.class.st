@@ -37,22 +37,6 @@ MidasAppModels >> displayModel: newModel [
 	
 ]
 
-{ #category : #import }
-MidasAppModels >> importMSEModel [
-	| model |
-	model := MooseModel new.
-	model importFromMSE.
-	model ifNil: [
-		model install.
-		self refresh
-	]
-]
-
-{ #category : #import }
-MidasAppModels >> importStModel [
-	context mooseModel: (MPImportSTCommand new execute ifNil:[^self])
-]
-
 { #category : #initialization }
 MidasAppModels >> initializeMenuLoaders [
 	mnuLoaders := self newMenu
@@ -63,13 +47,13 @@ MidasAppModels >> initializeMenuLoaders [
 						"name: 'MSE import' ;"
 						description: 'Import model from MSE file';
 						icon: MooseIcons mooseImportMse;
-						action: [ self importMSEModel ] ] ;
+						action: [ context importMSEModel ] ] ;
 				addItem: [ :item | 
 					item
 						"name: 'ST import' ;"
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
-						action: [ self importStModel ]
+						action: [ context importStModel ]
 				]
 		] ;
 	applyTo: self ;
