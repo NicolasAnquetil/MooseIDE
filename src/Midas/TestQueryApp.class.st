@@ -33,6 +33,18 @@ TestQueryApp >> testClearSelection [
 ]
 
 { #category : #tests }
+TestQueryApp >> testMnuSelCol [
+
+	self assert: queryApp context queryIsFilter.
+
+	queryApp mnuSelcol selectIndex: 2.
+	self deny: queryApp context queryIsFilter.
+
+	queryApp mnuSelcol selectIndex: 1.
+	self assert: queryApp context queryIsFilter.
+]
+
+{ #category : #tests }
 TestQueryApp >> testWindowTitle [
 	self
 		assert: queryApp window title

@@ -1,6 +1,9 @@
 Class {
 	#name : #MidasContextQuery,
 	#superclass : #MidasChildContext,
+	#instVars : [
+		'queryIsfilter'
+	],
 	#category : #'Midas-appModel'
 }
 
@@ -12,6 +15,12 @@ MidasContextQuery >> compileStringToBlock: aStringQuery [
 		evaluate
 ]
 
+{ #category : #initialization }
+MidasContextQuery >> initialize [
+	super initialize.
+	queryIsfilter := true
+]
+
 { #category : #running }
 MidasContextQuery >> interpretQuery: aBlockAsString [
 	| aBlock |
@@ -20,7 +29,7 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 	aBlock :=self compileStringToBlock: aBlockAsString.
 	self
 		midasFocus:
-			(app filterQuery
+			(self queryIsFilter
 				ifTrue: [ self midasFocus selectNextGeneration: aBlock ]
 				ifFalse: [ self midasFocus collectNextGeneration: aBlock ])
 ]
@@ -58,6 +67,16 @@ MidasContextQuery >> navigationPropertiesForModel: aMooseModel [
 				name: sel ;
 				yourself
 		]
+]
+
+{ #category : #accessing }
+MidasContextQuery >> queryIsFilter [
+	^ queryIsfilter
+]
+
+{ #category : #accessing }
+MidasContextQuery >> queryIsFilter: aBoolean [
+	queryIsfilter := aBoolean 
 ]
 
 { #category : #notifications }

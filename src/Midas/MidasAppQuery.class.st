@@ -47,11 +47,6 @@ MidasAppQuery >> displayFocus: focus [
 ]
 
 { #category : #accessing }
-MidasAppQuery >> filterQuery [
-	^ filterQuery
-]
-
-{ #category : #accessing }
 MidasAppQuery >> fldQuery [
 	^ fldQuery
 ]
@@ -60,9 +55,11 @@ MidasAppQuery >> fldQuery [
 MidasAppQuery >> initializePresenter [ 
 	"-- Not using the 'freeze' checkbox --
 	 super initializePresenter."
+	
 	lstProperties whenSelectionChangedDo: [ :selection |
 		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
-	]
+	].
+	mnuSelcol whenSelectedItemChangedDo: [ :selected | context queryIsFilter: (selected = #filter) ]
 	
 
 ]

@@ -130,7 +130,7 @@ TestCtxtQuery >> testRunCollectQuery [
 	mockEntity stub children willReturn: #(child1 child2).
 	launcherCtxt midasFocus: (MidasEntityFamix with: mockEntity ancestor: #ancestor).
 
-	mockApp stub filterQuery willReturn: false.
+	queryCtxt queryIsFilter: false.
 
 	self assert: queryCtxt midasFocus size equals: 1.
 
@@ -144,7 +144,7 @@ TestCtxtQuery >> testRunSelectQuery [
 	launcherCtxt midasFocus:
 		(self midasEntityCollection: { #ancestor1 -> #child1 . #ancestor1 -> #child2}).
 
-	mockApp stub filterQuery willReturn: true.
+	queryCtxt queryIsFilter: true.
 
 	self assert: queryCtxt midasFocus entities size equals: 2.
 
