@@ -13,7 +13,10 @@ TestMidasEntitiesEmpty >> testIsModel [
 TestMidasEntitiesEmpty >> testNextGenerationSelector [
 	| md |
 	md := (MidasEntityEmpty ancestor: nil)
-				nextGenerationSelector: #whatever.
+				nextGenerationFromProperty:
+					(MidasFM3PropertyForModels new
+			 			selector: #whatever 
+						yourself).
 
 	self assert: md class equals: MidasEntityEmpty
 ]

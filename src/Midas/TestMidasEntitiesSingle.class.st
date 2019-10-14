@@ -17,7 +17,10 @@ TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 	entity stub children willReturn: #( child1 child2 ).
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #children.
+				nextGenerationFromProperty:
+					(MidasFM3PropertyForModels new
+			 			selector: #children 
+						yourself).
 
 	self assert: md class equals: MidasEntityFamixCollection.
 	self assert: md entities size equals: 2.
@@ -36,7 +39,10 @@ TestMidasEntitiesSingle >> testNextGenerationYieldEmpty [
 	entity stub children willReturn: #().
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #children.
+				nextGenerationFromProperty:
+					(MidasFM3PropertyForModels new
+			 			selector: #children 
+						yourself).
 
 	self assert: md class equals: MidasEntityEmpty
 ]
@@ -48,7 +54,10 @@ TestMidasEntitiesSingle >> testNextGenerationYieldSingle [
 	entity stub children willReturn: #( child ).
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
-				nextGenerationSelector: #children.
+				nextGenerationFromProperty:
+					(MidasFM3PropertyForModels new
+			 			selector: #children 
+						yourself).
 
 	self assert: md class equals: MidasEntityFamix.
 	self assert: md entities size equals: 1.

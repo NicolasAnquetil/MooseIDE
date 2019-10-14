@@ -156,7 +156,7 @@ TestCtxtQuery >> testRunSelectQuery [
 { #category : #tests }
 TestCtxtQuery >> testSelectAllModelClasses [
 	| prop |
-	prop := MidasEntityNavigateModel new
+	prop := MidasFM3PropertyForModels new
 			 		selector: #allModelClasses 
 					yourself.
 	queryCtxt userSelection: prop.
@@ -166,7 +166,7 @@ TestCtxtQuery >> testSelectAllModelClasses [
 { #category : #tests }
 TestCtxtQuery >> testSelectAllModelPackages [
 	| prop |
-	prop := MidasEntityNavigateModel new
+	prop := MidasFM3PropertyForModels new
 			 		selector: #allModelPackages
 					yourself.
 	queryCtxt userSelection: prop.
@@ -176,8 +176,9 @@ TestCtxtQuery >> testSelectAllModelPackages [
 { #category : #tests }
 TestCtxtQuery >> testSelectionOnCollectionFocus [
 	| selector |
-	selector := Mock new.
-	selector stub methodSelector willReturn: #attributes.
+	selector := MidasFM3PropertyForModels new
+						selector: #attributes ;
+						yourself.
 
 	launcherCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> self someClasses }).
 	queryCtxt userSelection: selector.

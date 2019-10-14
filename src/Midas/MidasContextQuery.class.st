@@ -62,7 +62,7 @@ MidasContextQuery >> navigationPropertiesForCollection: aCollectionOfEntities [
 { #category : #running }
 MidasContextQuery >> navigationPropertiesForModel: aMooseModel [
 	^ aMooseModel navigationSelectors collect: [ :sel |
-			MidasEntityNavigateModel new
+			MidasFM3PropertyForModels new
 				selector: sel ;
 				name: sel ;
 				yourself
@@ -83,8 +83,6 @@ MidasContextQuery >> queryIsFilter: aBoolean [
 MidasContextQuery >> userSelection: anObject [
 	| focus |
 	focus := self midasFocus.
-	(focus isModel)
-		ifTrue: [ ^ self midasFocus: (focus nextGenerationSelector: anObject methodSelector) ].
-	self midasFocus: (focus nextGenerationSelector: anObject methodSelector)
+	self midasFocus: (focus nextGenerationFromProperty: anObject)
 	
 ]

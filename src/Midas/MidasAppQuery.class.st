@@ -36,14 +36,15 @@ MidasAppQuery >> btnQuery [
 ]
 
 { #category : #refreshing }
-MidasAppQuery >> clearSelection [
-	lstProperties unselectAll
+MidasAppQuery >> clearUI [
+	lstProperties unselectAll.
+	fldQuery text: ''
 ]
 
 { #category : #notifications }
 MidasAppQuery >> displayFocus: focus [
 	self refresh.
-	self clearSelection
+	self clearUI
 ]
 
 { #category : #accessing }
@@ -59,9 +60,8 @@ MidasAppQuery >> initializePresenter [
 	lstProperties whenSelectionChangedDo: [ :selection |
 		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
 	].
-	mnuSelcol whenSelectedItemChangedDo: [ :selected | context queryIsFilter: (selected = #filter) ]
-	
-
+	mnuSelcol whenSelectedItemChangedDo: [ :selected | context queryIsFilter: (selected = #filter) ].
+	btnQuery action: self runQueryButtonAction
 ]
 
 { #category : #initialization }
@@ -84,7 +84,6 @@ MidasAppQuery >> initializeWidgetsQueryRow [
 	fldQuery := self newTextInput.
 	btnQuery := self newButton.
 	btnQuery label: 'run'.
-	btnQuery action: self runQueryButtonAction
 ]
 
 { #category : #accessing }

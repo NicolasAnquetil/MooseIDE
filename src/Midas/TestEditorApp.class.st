@@ -16,31 +16,23 @@ TestEditorApp >> setUp [
 
 { #category : #tests }
 TestEditorApp >> testFocusUpdateNoSource [
-	editorApp context midasFocus: self someClasses.
+	editorApp context midasFocus: (MidasEntityFamixCollection with: {#ancestor -> self someClasses}).
 	self
 		assert: editorApp window title
-		equals: 'MIDAS Source: ''All model classes'''.
-	self
-		assert: editorApp code text
-		equals: editorApp entityHasNoSource.
+		equals: 'MIDAS Source: ''2 entities'''.
+
 ]
 
 { #category : #tests }
 TestEditorApp >> testFocusUpdateWithSource [
 	| method |
 	method := self someMethods anyOne.
-	method sourceAnchor:
-		(FamixStSourceTextAnchor new
-			source: 'The source code of this method';
-			yourself).
 
-	editorApp context midasFocus: method.
+	editorApp context midasFocus: (MidasEntityFamix with: method ancestor: #anAncestor).
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''', method name , ''''.
-	self
-		assert: editorApp code text
-		equals: 'The source code of this method'.
+
 ]
 
 { #category : #tests }
@@ -48,11 +40,10 @@ TestEditorApp >> testModelUpdate [
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''First-lanModel'''.
-	launcherApp context mooseModel: models second.
+
+	launcherApp context mooseModel: (MidasEntityMooseModel with: models second).
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''Second-simpleModel'''.
-	self
-		assert: editorApp code text
-		equals: editorApp modelHasNoSource
+
 ]

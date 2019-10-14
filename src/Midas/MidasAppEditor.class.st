@@ -25,43 +25,15 @@ MidasAppEditor >> code [
 ]
 
 { #category : #notifications }
-MidasAppEditor >> displayFocus: newFocus [
+MidasAppEditor >> displayFocus: aText [
 	self updateTitle.
-	self flag: 'should test that the class or superclasses use FamixTWithSourceAnchor'.
-	code text:
-		(newFocus hasSourceAnchor
-			ifFalse: [ self entityHasNoSource ]
-			ifTrue: [
-				newFocus sourceText
-					ifNil: [ self entityHasEmptySource ]
-					ifNotNil: #yourself])
-]
-
-{ #category : #notifications }
-MidasAppEditor >> displayModel: aMooseModel [
-	super displayModel: aMooseModel.
-	code text: self modelHasNoSource
-]
-
-{ #category : #constants }
-MidasAppEditor >> entityHasEmptySource [
-	^ ' ** source for selection is empty **'
-]
-
-{ #category : #constants }
-MidasAppEditor >> entityHasNoSource [
-	^ ' ** no source for selection **'
+	code text: aText
 ]
 
 { #category : #initialization }
 MidasAppEditor >> initializeWidgets [
 	self canBeFrozen.
 	code := self newText
-]
-
-{ #category : #constants }
-MidasAppEditor >> modelHasNoSource [
-	^ ' ** no source on models **'
 ]
 
 { #category : #api }

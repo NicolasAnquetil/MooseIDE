@@ -14,6 +14,14 @@ TestQueryApp >> setUp [
 ]
 
 { #category : #tests }
+TestQueryApp >> testClearAppOnUpdate [
+	queryApp fldQuery text: 'some query'.
+	
+	queryApp displayFocus: (self midasEntityFamix: #anEntity).
+	self assert: queryApp fldQuery text isEmpty
+]
+
+{ #category : #tests }
 TestQueryApp >> testClearSelection [
 	| mockCtxt |
 	mockCtxt := Mock new.

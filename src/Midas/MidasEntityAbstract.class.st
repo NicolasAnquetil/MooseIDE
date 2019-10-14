@@ -105,8 +105,10 @@ MidasEntityAbstract >> isModel [
 ]
 
 { #category : #'instance creation' }
-MidasEntityAbstract >> nextGenerationSelector: aSelector [
-	^self collectNextGeneration: [ :entity | entity perform: aSelector ]
+MidasEntityAbstract >> nextGenerationFromProperty: aProperty [
+	^(aProperty isMultivalued)
+		ifTrue: [ self collectNextGeneration: [ :entity | entity perform: aProperty methodSelector ] ]
+		ifFalse: [ self collectNextGeneration: [ :entity | {entity perform: aProperty methodSelector} ] ]
 ]
 
 { #category : #indexing }
