@@ -14,7 +14,7 @@ TestMidasEntitiesSingle >> testIsModel [
 TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 	| md entity |
 	entity := Mock new.
-	entity stub children willReturn: #( child1 child2 ).
+	entity stub children willReturn: { self mockEntity: 'child1' . self mockEntity: 'child2' }.
 
 	md := (MidasEntityFamix with: entity ancestor: #anAncestor)
 				nextGenerationFromProperty:
@@ -24,8 +24,8 @@ TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 
 	self assert: md class equals: MidasEntityCollection.
 	self assert: md entities size equals: 2.
-	self assert: md entities first equals: #child1.
-	self assert: md entities second equals: #child2.
+	self assert: md entities first mockName equals: 'child1'.
+	self assert: md entities second mockName equals: 'child2'.
 	
 	self assert: md entitiesWithAncestors size equals: 1.
 	self assert: md entitiesWithAncestors first key equals: entity.

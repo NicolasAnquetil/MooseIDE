@@ -34,8 +34,8 @@ MidasContextQuery >> interpretQuery: aBlockAsString [
 	self
 		midasFocus:
 			(self queryIsFilter
-				ifTrue: [ self midasFocus selectNextGeneration: aBlock ]
-				ifFalse: [ self midasFocus collectNextGeneration: aBlock ])
+				ifTrue: [ self midasFocus nextGenerationFromSelect: aBlock ]
+				ifFalse: [ self midasFocus nextGenerationFromCollect: aBlock ])
 ]
 
 { #category : #running }

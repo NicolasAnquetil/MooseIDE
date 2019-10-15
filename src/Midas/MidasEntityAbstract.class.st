@@ -37,18 +37,6 @@ MidasEntityAbstract >> childrenFor: anAncestor [
 	self subclassResponsibility 
 ]
 
-{ #category : #'instance creation' }
-MidasEntityAbstract >> collectNextGeneration: aBlock [
-	"aBlock takes as argument a single entity of the receiving MidasEntity.
-	 This method produces a new MidasEntity from its execution keeping track of the ancestors,
-	 i.e. which old entity (current generation) resulted in which new entity (new generation)"
-	^self filterNextGeneration:
-		(self entitiesWithAncestors flatCollect: [ :assoc |
-			assoc value collect: [ :each | each -> (aBlock value: each) ]
-		])
-
-]
-
 { #category : #formatting }
 MidasEntityAbstract >> displayString [
 	self subclassResponsibility
@@ -62,26 +50,6 @@ MidasEntityAbstract >> entities [
 { #category : #accessing }
 MidasEntityAbstract >> entitiesWithAncestors [
 	self subclassResponsibility
-]
-
-{ #category : #private }
-MidasEntityAbstract >> filterNextGeneration: nextGeneration [
-	| filteredGeneration entity |
-	filteredGeneration := nextGeneration reject: [ :nextAssoc | nextAssoc value isEmpty ].
-
-	filteredGeneration ifEmpty: [ ^ MidasEntityEmpty ancestor: self entities ].
-	((filteredGeneration size > 1) or: [ filteredGeneration first value size > 1 ])
-		ifTrue: [ ^ MidasEntityCollection with: filteredGeneration ].
-	"only one entity, is it a MooseModel or a normal FamixEntity ?"
-	entity := filteredGeneration first value first.
-	^(entity class = MooseModel)
-		ifTrue: [ MidasEntityMooseModel with: entity ]
-		ifFalse: [ MidasEntityFamix
-							with: entity
-							ancestor: filteredGeneration first key
-					]
-
-	
 ]
 
 { #category : #testing }
@@ -105,10 +73,72 @@ MidasEntityAbstract >> isModel [
 ]
 
 { #category : #'instance creation' }
+MidasEntityAbstract >> nextGenerationFromCollect: aBlock [
+	"aBlock takes as argument a single entity of the receiving MidasEntity.
+	 This method produces a new MidasEntity from its execution keeping track of the ancestors,
+	 i.e. which old entity (current generation) resulted in which new entity (new generation)"
+	^self nextGenerationFromCollection:
+		(self entitiesWithAncestors flatCollect: [ :assoc |
+			assoc value collect: [ :each | each -> (aBlock value: each) ]
+		])
+
+]
+
+{ #category : #'instance creation' }
+MidasEntityAbstract >> nextGenerationFromCollection: nextGeneration [
+	"Creates a new generation from a collection of ancestor->{entities}
+	 Keeps track of the ancestor of each entity"
+
+	| filteredGeneration |
+	"only one entity, is it a MooseModel or a 'normal' FamixEntity ?"
+	filteredGeneration := nextGeneration reject: [ :nextAssoc | nextAssoc value isEmpty ].
+	
+	filteredGeneration
+		ifEmpty: [ ^ MidasEntityEmpty ancestor: self entities ].
+
+	( (filteredGeneration size > 1) or: [ filteredGeneration first value size > 1 ] )
+		ifTrue: [ ^ self nextGenerationIsCollection: filteredGeneration ].
+
+	^ self nextGenerationIsSingleEntity: filteredGeneration
+]
+
+{ #category : #'instance creation' }
 MidasEntityAbstract >> nextGenerationFromProperty: aProperty [
 	^(aProperty isMultivalued)
-		ifTrue: [ self collectNextGeneration: [ :entity | entity perform: aProperty methodSelector ] ]
-		ifFalse: [ self collectNextGeneration: [ :entity | {entity perform: aProperty methodSelector} ] ]
+		ifTrue: [ self nextGenerationFromCollect: [ :entity | entity perform: aProperty methodSelector ] ]
+		ifFalse: [ self nextGenerationFromCollect: [ :entity | {entity perform: aProperty methodSelector} ] ]
+]
+
+{ #category : #'instance creation' }
+MidasEntityAbstract >> nextGenerationFromSelect: aBlock [
+	"aBlock takes as argument a single entity of the receiving MidasEntity.
+	 This method produces a new MidasEntity from its execution keeping only the entities
+	 (and their ancestor) for which aBlock is true"
+	^self nextGenerationFromCollection:
+		(self entitiesWithAncestors collect: [ :assoc |
+			assoc key -> (assoc value select: [ :each | aBlock value: each ])
+		])
+
+]
+
+{ #category : #'instance creation' }
+MidasEntityAbstract >> nextGenerationIsCollection: nextGeneration [
+	"Collection of FamixEntities or of FamixAssociations?
+	 Assume all are similar si just test one"
+	
+	^(nextGeneration first value first isAssociation)
+		ifTrue:  [ MidasEntityFamixAssociation with: nextGeneration ]
+		ifFalse: [ MidasEntityCollection with: nextGeneration ]
+]
+
+{ #category : #'instance creation' }
+MidasEntityAbstract >> nextGenerationIsSingleEntity: filteredGeneration [
+	| entity |
+	entity := filteredGeneration first value first.	"only one entity, is it a MooseModel or a 'normal' FamixEntity ?"
+	^ entity class = MooseModel
+		ifTrue: [ MidasEntityMooseModel with: entity ]
+		ifFalse:
+			[ MidasEntityFamix with: entity ancestor: filteredGeneration first key ]
 ]
 
 { #category : #indexing }
@@ -129,18 +159,6 @@ MidasEntityAbstract >> selectEntitiesFromIndexes: indexes [
 { #category : #indexing }
 MidasEntityAbstract >> selectEntitiesFromPaths: indexes [
 	self subclassResponsibility
-]
-
-{ #category : #'instance creation' }
-MidasEntityAbstract >> selectNextGeneration: aBlock [
-	"aBlock takes as argument a single entity of the receiving MidasEntity.
-	 This method produces a new MidasEntity from its execution keeping only the entities
-	 (and their ancestor) for which aBlock is true"
-	^self filterNextGeneration:
-		(self entitiesWithAncestors collect: [ :assoc |
-			assoc key -> (assoc value select: [ :each | aBlock value: each ])
-		])
-
 ]
 
 { #category : #accessing }

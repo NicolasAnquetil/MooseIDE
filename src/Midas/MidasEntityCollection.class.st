@@ -131,7 +131,7 @@ MidasEntityCollection >> selectEntitiesFromIndexes: indexes [
 								assoc key -> (myIndexes collect: [ :i | assoc value at: i ]).
 							].
 
-	^ self filterNextGeneration: nextGeneration
+	^ self nextGenerationFromCollection: nextGeneration
 	
 ]
 
@@ -151,6 +151,6 @@ MidasEntityCollection >> selectEntitiesFromPaths: indexes [
 			].				
 		nextGeneration add: (currentEntity key -> descendants)
 	].
-	^ self filterNextGeneration: nextGeneration
+	^ self nextGenerationFromCollection: nextGeneration
 	
 ]

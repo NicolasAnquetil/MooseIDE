@@ -11,10 +11,10 @@ Class {
 
 { #category : #running }
 TestMidasEntitiesCollection >> setUp [
-	entity1 := Mock new.
-	entity2 := Mock new.
+	entity1 := self mockEntity: 'entity1'.
+	entity2 := self mockEntity: 'entity2'.
 
-	md := (MidasEntityCollection with: { #ancestor -> { entity1 . entity2 } } ).
+	md := MidasEntityCollection with: { #ancestor -> { entity1 . entity2 } } .
 
 ]
 
@@ -25,9 +25,8 @@ TestMidasEntitiesCollection >> testIsModel [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testNextGenerationYieldCollection [
-	entity1 stub children willReturn: #( child11 child12 ).
-	entity2 stub children willReturn: #( child21 child22 child23 ).
-
+	entity1 stub children willReturn: { self mockEntity: 'child11' . self mockEntity: 'child12' }.
+	entity2 stub children willReturn: { self mockEntity: 'child21' . self mockEntity: 'child22' . self mockEntity: 'child23' }.
 	md := md 	nextGenerationFromProperty:
 					(MidasFM3PropertyForModels new
 			 			selector: #children 
@@ -36,12 +35,12 @@ TestMidasEntitiesCollection >> testNextGenerationYieldCollection [
 
 	self assert: md class equals: MidasEntityCollection.
 	self assert: md entities size equals: 5.
-	self assert: md entities first equals: #child11.
-	self assert: md entities last  equals: #child23.
+	self assert: md entities first mockName equals: 'child11'.
+	self assert: md entities last mockName equals: 'child23'.
 
 	self assert: md entitiesWithAncestors size equals: 2.
 	self assert: md entitiesWithAncestors first  key equals: entity1.
-	self assert: md entitiesWithAncestors first  value size equals: 2.
+	self assert: md entitiesWithAncestors first value size equals: 2.
 	self assert: md entitiesWithAncestors second key equals: entity2.
 	self assert: md entitiesWithAncestors second value size equals: 3.
 ]
@@ -122,20 +121,24 @@ TestMidasEntitiesCollection >> testSameModel [
 TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
 	md := MidasEntityCollection
 				with: {
-					entity1 -> #( child11 child12 ) .
-					entity2 -> #( child21 child22 child23 ) }.
+					entity1 -> { self mockEntity: 'child11' . self mockEntity: 'child12' } .
+					entity2 -> { self mockEntity: 'child21' . self mockEntity: 'child22' . self mockEntity: 'child23' } }.
 
 	self assert: (md selectEntitiesFromIndexes: #(0)) class equals: MidasEntityEmpty.
 
 	self assert: (md selectEntitiesFromIndexes: #(1)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesFromIndexes: #(1)) entities equals: #( child11 ).
+	self assert: (md selectEntitiesFromIndexes: #(1)) entities size equals: 1.
+	self assert: (md selectEntitiesFromIndexes: #(1)) entities first mockName equals: 'child11'.
 
 	self assert: (md selectEntitiesFromIndexes: #(4)) class equals: MidasEntityFamix.
-	self assert: (md selectEntitiesFromIndexes: #(4)) entities equals: #( child22 ).
+	self assert: (md selectEntitiesFromIndexes: #(4)) entities size equals: 1.
+	self assert: (md selectEntitiesFromIndexes: #(4)) entities first mockName equals: 'child22'.
 
 	self assert: (md selectEntitiesFromIndexes: #(2 5)) class equals: MidasEntityCollection.
 	self assert: (md selectEntitiesFromIndexes: #(2 5)) entitiesWithAncestors size equals: 2.
-	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities equals: #( #child12 child23 ).
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities size equals: 2.
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities first mockName equals: 'child12'.
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities second mockName equals: 'child23'.	
 
 ]
 
@@ -143,23 +146,34 @@ TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
 TestMidasEntitiesCollection >> testSelectEntitiesFromPaths [
 	md := MidasEntityCollection
 				with: {
-					entity1 -> #( child11 child12 ) .
-					entity2 -> #( child21 child22 child23 ) }.
+					entity1 -> { self mockEntity: 'child11' . self mockEntity: 'child12'}  .
+					entity2 -> { self mockEntity: 'child21' . self mockEntity: 'child22' . self mockEntity: 'child23' } }.
 
-	self assert: (md selectEntitiesFromPaths: #( (1 1) )) entities equals: #( child11 ).
+	self assert: (md selectEntitiesFromPaths: #( (1 1) )) entities size equals: 1.
+	self assert: (md selectEntitiesFromPaths: #( (1 1) )) entities first mockName equals: 'child11'.
 
-	self assert: (md selectEntitiesFromPaths: #( (2 2) )) entities equals: #( child22 ).
+	self assert: (md selectEntitiesFromPaths: #( (2 1) )) entities size equals: 1.
+	self assert: (md selectEntitiesFromPaths: #( (2 1) )) entities first mockName equals: 'child21'.
 
 	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entitiesWithAncestors size equals: 2.
-	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entities
-			equals: #( #child12 child23 ) asOrderedCollection.
+	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entities size equals: 2.
+	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entities first mockName equals: 'child12'.
+	self assert: (md selectEntitiesFromPaths: #( (1 2) (2 3) )) entities second mockName equals: 'child23'.
 
 	self assert: (md selectEntitiesFromPaths: #( (1) )) entitiesWithAncestors size equals: 1.
-	self assert: (md selectEntitiesFromPaths: #( (1) )) entities
-			equals: #( child11 child12 ) asOrderedCollection.
+	self assert: (md selectEntitiesFromPaths: #( (1) )) entities size equals: 2.
+	self assert: (md selectEntitiesFromPaths: #( (1) )) entities first mockName
+			equals: 'child11'.
+	self assert: (md selectEntitiesFromPaths: #( (1) )) entities second mockName
+			equals: 'child12'.
 
 	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entitiesWithAncestors size equals: 2.
-	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities
-			equals: #( child11 child12 child23 ) asOrderedCollection.
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities size equals: 3.
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities first mockName
+			equals: 'child11'.
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities second mockName
+			equals: 'child12'.
+	self assert: (md selectEntitiesFromPaths: #( (1) (2 3) )) entities third mockName
+			equals: 'child23'.
 
 ]

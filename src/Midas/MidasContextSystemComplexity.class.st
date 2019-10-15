@@ -15,8 +15,8 @@ MidasContextSystemComplexity >> userSelection: selection [
 	wasFrozen := self isFrozen.
 	self freeze.
 	nextGen := (self midasFocus entities includes: selection)
-		ifTrue: [ self midasFocus selectNextGeneration: [ :entity | entity = selection ] ]
-		ifFalse: [ self midasFocus filterNextGeneration: {(#unknown -> selection)} ].
+		ifTrue: [ self midasFocus nextGenerationFromSelect: [ :entity | entity = selection ] ]
+		ifFalse: [ self midasFocus nextGenerationFromCollection: {(#unknown -> selection)} ].
 	self midasFocus: nextGen.
 	wasFrozen ifFalse: [ self unfreeze ]
 ]
