@@ -71,7 +71,7 @@ MidasEntityAbstract >> filterNextGeneration: nextGeneration [
 
 	filteredGeneration ifEmpty: [ ^ MidasEntityEmpty ancestor: self entities ].
 	((filteredGeneration size > 1) or: [ filteredGeneration first value size > 1 ])
-		ifTrue: [ ^ MidasEntityFamixCollection with: filteredGeneration ].
+		ifTrue: [ ^ MidasEntityCollection with: filteredGeneration ].
 	"only one entity, is it a MooseModel or a normal FamixEntity ?"
 	entity := filteredGeneration first value first.
 	^(entity class = MooseModel)

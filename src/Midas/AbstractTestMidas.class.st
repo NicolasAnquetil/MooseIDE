@@ -3867,7 +3867,7 @@ AbstractTestMidas >> midasEntityCollection: aCollectionOfAssociations [
 	(aCollectionOfAssociations groupedBy: #key)
 		keysAndValuesDo: [ :key :value |
 			entities add: (key -> (value collect: [ :assoc | self mockEntity: assoc value ])) ].
-	^MidasEntityFamixCollection with: entities
+	^MidasEntityCollection with: entities
 ]
 
 { #category : #accessing }

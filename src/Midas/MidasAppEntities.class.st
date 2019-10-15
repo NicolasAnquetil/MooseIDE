@@ -60,7 +60,7 @@ MidasAppEntities >> initializeWidgets [
 	lstEntities
 		beMultipleSelection ;
 		addColumn: (SpStringTableColumn new
-							evaluated: #name;
+							evaluated: #midasDisplayString ;
 							yourself) ;
 		children: [ :each | self context childrenFor: each ]
 

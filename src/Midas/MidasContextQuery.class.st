@@ -1,3 +1,7 @@
+"
+Context for AppQuery
+Can run a textual query as a block and can get the properties applicable to a focus
+"
 Class {
 	#name : #MidasContextQuery,
 	#superclass : #MidasChildContext,

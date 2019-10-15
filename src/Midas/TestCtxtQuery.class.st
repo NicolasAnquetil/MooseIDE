@@ -71,7 +71,7 @@ TestCtxtQuery >> testPropertiesClass [
 { #category : #tests }
 TestCtxtQuery >> testPropertiesHeterogeneous [
 	launcherCtxt midasFocus:
-		(MidasEntityFamixCollection with: {
+		(MidasEntityCollection with: {
 			#ancestor1 -> { self someMethods anyOne } .
 			#ancestor2 -> { self someClasses anyOne } }).
 	self
@@ -94,7 +94,7 @@ FAMIX.NamedEntity.receivingInvocations"
 { #category : #tests }
 TestCtxtQuery >> testPropertiesHomogeneous [
 	launcherCtxt midasFocus:
-		(MidasEntityFamixCollection with: { #anAncestor -> self someMethods }).
+		(MidasEntityCollection with: { #anAncestor -> self someMethods }).
 	self
 		assert: queryCtxt navigationProperties size
 		equals: 23 "same as for a single method: #testMethodProperties"
@@ -180,7 +180,7 @@ TestCtxtQuery >> testSelectionOnCollectionFocus [
 						selector: #attributes ;
 						yourself.
 
-	launcherCtxt midasFocus: (MidasEntityFamixCollection with: { #anAncestor -> self someClasses }).
+	launcherCtxt midasFocus: (MidasEntityCollection with: { #anAncestor -> self someClasses }).
 	queryCtxt userSelection: selector.
 	self
 		assert: queryCtxt navigationProperties size

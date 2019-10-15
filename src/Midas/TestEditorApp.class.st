@@ -16,7 +16,7 @@ TestEditorApp >> setUp [
 
 { #category : #tests }
 TestEditorApp >> testFocusUpdateNoSource [
-	editorApp context midasFocus: (MidasEntityFamixCollection with: {#ancestor -> self someClasses}).
+	editorApp context midasFocus: (MidasEntityCollection with: {#ancestor -> self someClasses}).
 	self
 		assert: editorApp window title
 		equals: 'MIDAS Source: ''2 entities'''.

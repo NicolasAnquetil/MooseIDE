@@ -14,7 +14,7 @@ TestMidasEntitiesCollection >> setUp [
 	entity1 := Mock new.
 	entity2 := Mock new.
 
-	md := (MidasEntityFamixCollection with: { #ancestor -> { entity1 . entity2 } } ).
+	md := (MidasEntityCollection with: { #ancestor -> { entity1 . entity2 } } ).
 
 ]
 
@@ -34,7 +34,7 @@ TestMidasEntitiesCollection >> testNextGenerationYieldCollection [
 						yourself).
 
 
-	self assert: md class equals: MidasEntityFamixCollection.
+	self assert: md class equals: MidasEntityCollection.
 	self assert: md entities size equals: 5.
 	self assert: md entities first equals: #child11.
 	self assert: md entities last  equals: #child23.
@@ -82,12 +82,12 @@ TestMidasEntitiesCollection >> testNextGenerationYieldSingle [
 { #category : #tests }
 TestMidasEntitiesCollection >> testPathsForFound [
 	| search |
-	md := MidasEntityFamixCollection
+	md := MidasEntityCollection
 				with: {
 					#entity1 -> #( child11 child12 ) .
 					#entity2 -> #( child21 child22 child23 ) }.
 
-	search := MidasEntityFamixCollection
+	search := MidasEntityCollection
 				with: {
 					#entity1 -> #( child11 ) .
 					#entity2 -> #( child22 ) }.
@@ -99,12 +99,12 @@ TestMidasEntitiesCollection >> testPathsForFound [
 { #category : #tests }
 TestMidasEntitiesCollection >> testPathsForNotFound [
 	| search |
-	md := MidasEntityFamixCollection
+	md := MidasEntityCollection
 				with: {
 					#entity1 -> #( child11 child12 ) .
 					#entity2 -> #( child21 child22 child23 ) }.
 
-	search := MidasEntityFamixCollection
+	search := MidasEntityCollection
 				with: {
 					#entity3 -> #( child31 ) .
 					#entity2 -> #( child25 ) }.
@@ -120,7 +120,7 @@ TestMidasEntitiesCollection >> testSameModel [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
-	md := MidasEntityFamixCollection
+	md := MidasEntityCollection
 				with: {
 					entity1 -> #( child11 child12 ) .
 					entity2 -> #( child21 child22 child23 ) }.
@@ -133,7 +133,7 @@ TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
 	self assert: (md selectEntitiesFromIndexes: #(4)) class equals: MidasEntityFamix.
 	self assert: (md selectEntitiesFromIndexes: #(4)) entities equals: #( child22 ).
 
-	self assert: (md selectEntitiesFromIndexes: #(2 5)) class equals: MidasEntityFamixCollection.
+	self assert: (md selectEntitiesFromIndexes: #(2 5)) class equals: MidasEntityCollection.
 	self assert: (md selectEntitiesFromIndexes: #(2 5)) entitiesWithAncestors size equals: 2.
 	self assert: (md selectEntitiesFromIndexes: #(2 5)) entities equals: #( #child12 child23 ).
 
@@ -141,7 +141,7 @@ TestMidasEntitiesCollection >> testSelectEntitiesFromIndexes [
 
 { #category : #tests }
 TestMidasEntitiesCollection >> testSelectEntitiesFromPaths [
-	md := MidasEntityFamixCollection
+	md := MidasEntityCollection
 				with: {
 					entity1 -> #( child11 child12 ) .
 					entity2 -> #( child21 child22 child23 ) }.

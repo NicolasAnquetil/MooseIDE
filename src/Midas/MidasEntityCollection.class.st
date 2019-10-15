@@ -3,7 +3,7 @@ I am a MidasEntity containing alist of Famix entities
 
 "
 Class {
-	#name : #MidasEntityFamixCollection,
+	#name : #MidasEntityCollection,
 	#superclass : #MidasEntityAbstract,
 	#instVars : [
 		'name',
@@ -13,14 +13,14 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MidasEntityFamixCollection class >> with: aCollection [
+MidasEntityCollection class >> with: aCollection [
 	| nbEntities |
 	nbEntities := aCollection inject: 0 into: [ :sum :each | sum + each value size ].
 	^self with: aCollection named: (nbEntities asString , ' entities')
 ]
 
 { #category : #'as yet unclassified' }
-MidasEntityFamixCollection class >> with: aCollection named: aString [
+MidasEntityCollection class >> with: aCollection named: aString [
 	^self new
 		entities: aCollection ;
 		name: aString ;
@@ -29,12 +29,12 @@ MidasEntityFamixCollection class >> with: aCollection named: aString [
 ]
 
 { #category : #formatting }
-MidasEntityFamixCollection >> ancestors [
+MidasEntityCollection >> ancestors [
 	^ entities collect: #key
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> childrenFor: anAncestor [
+MidasEntityCollection >> childrenFor: anAncestor [
 	^entities
 		detect: [ :assoc | assoc key = anAncestor ]
 		ifFound: [ :assoc | assoc value ]
@@ -42,27 +42,27 @@ MidasEntityFamixCollection >> childrenFor: anAncestor [
 ]
 
 { #category : #formatting }
-MidasEntityFamixCollection >> displayString [
+MidasEntityCollection >> displayString [
 	^ self name
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> entities [
+MidasEntityCollection >> entities [
 	^ entities flatCollect: #value
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> entities: aCollection [
+MidasEntityCollection >> entities: aCollection [
 	entities := aCollection 
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> entitiesWithAncestors [
+MidasEntityCollection >> entitiesWithAncestors [
 	^ entities
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> indexFor: searchedEntities in: aCollection [
+MidasEntityCollection >> indexFor: searchedEntities in: aCollection [
 	"re-implementing OrderedCollection>>indexOf: because our collectin can be a MooseGroup
 	 and I am toolazy to go into that and add it"
 	| index |
@@ -76,7 +76,7 @@ MidasEntityFamixCollection >> indexFor: searchedEntities in: aCollection [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> indicesFor: searchedEntities in: aCollection [
+MidasEntityCollection >> indicesFor: searchedEntities in: aCollection [
 	| found |
 	found := OrderedCollection new: searchedEntities size.
 	searchedEntities do: [ :searchedEntity || i |
@@ -88,22 +88,22 @@ MidasEntityFamixCollection >> indicesFor: searchedEntities in: aCollection [
 ]
 
 { #category : #testing }
-MidasEntityFamixCollection >> isCollection [
+MidasEntityCollection >> isCollection [
 	^ true
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> name [
+MidasEntityCollection >> name [
 	^ name
 ]
 
 { #category : #accessing }
-MidasEntityFamixCollection >> name: aString [
+MidasEntityCollection >> name: aString [
 	name := aString
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> pathsFor: searchedEntities [
+MidasEntityCollection >> pathsFor: searchedEntities [
 	| paths i searched |
 	paths := OrderedCollection new: searchedEntities size.
 	searched := searchedEntities entitiesWithAncestors.
@@ -121,7 +121,7 @@ MidasEntityFamixCollection >> pathsFor: searchedEntities [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> selectEntitiesFromIndexes: indexes [
+MidasEntityCollection >> selectEntitiesFromIndexes: indexes [
 	| nextGeneration nbEntities |
 	nbEntities := 0.
 	nextGeneration := entities collect: [ :assoc || myIndexes |
@@ -136,7 +136,7 @@ MidasEntityFamixCollection >> selectEntitiesFromIndexes: indexes [
 ]
 
 { #category : #indexing }
-MidasEntityFamixCollection >> selectEntitiesFromPaths: indexes [
+MidasEntityCollection >> selectEntitiesFromPaths: indexes [
 	| nextGeneration ancestorsIndexes |
 	ancestorsIndexes := indexes groupedBy: #first.
 	nextGeneration := OrderedCollection new: entities size.

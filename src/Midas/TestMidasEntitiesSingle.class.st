@@ -22,7 +22,7 @@ TestMidasEntitiesSingle >> testNextGenerationYieldCollection [
 			 			selector: #children 
 						yourself).
 
-	self assert: md class equals: MidasEntityFamixCollection.
+	self assert: md class equals: MidasEntityCollection.
 	self assert: md entities size equals: 2.
 	self assert: md entities first equals: #child1.
 	self assert: md entities second equals: #child2.

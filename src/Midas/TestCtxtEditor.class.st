@@ -20,7 +20,7 @@ TestCtxtEditor >> testFocusUpdateNoSource [
 	displayed := #().
 	(mockApp stub displayFocus: Any) will: [:args | displayed := args].
 
-	editorCtxt midasFocus: (MidasEntityFamixCollection with: {#ancestor -> self someClasses}).
+	editorCtxt midasFocus: (MidasEntityCollection with: {#ancestor -> self someClasses}).
 
 	self
 		assert: displayed
