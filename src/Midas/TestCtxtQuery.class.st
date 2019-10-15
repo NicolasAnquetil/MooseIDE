@@ -127,7 +127,7 @@ TestCtxtQuery >> testPropertiesNamespace [
 TestCtxtQuery >> testRunCollectQuery [
 	| mockEntity |
 	mockEntity := Mock new.
-	mockEntity stub children willReturn: #(child1 child2).
+	mockEntity stub children willReturn: {self mockEntity: 'child1' . self mockEntity: 'child2'}.
 	launcherCtxt midasFocus: (MidasEntityFamix with: mockEntity ancestor: #ancestor).
 
 	queryCtxt queryIsFilter: false.
@@ -148,7 +148,7 @@ TestCtxtQuery >> testRunSelectQuery [
 
 	self assert: queryCtxt midasFocus entities size equals: 2.
 
-	queryCtxt interpretQuery: 'each name endsWith: ''2'''.
+	queryCtxt interpretQuery: 'each mockName endsWith: ''2'''.
 	self assert: queryCtxt midasFocus entities size equals: 1
 
 ]

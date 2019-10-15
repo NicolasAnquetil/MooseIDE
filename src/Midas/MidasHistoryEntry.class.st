@@ -87,9 +87,9 @@ MidasHistoryEntry >> summaryDescription [
 			"all entries, except the first, start with a new line"
 			size = 0 ifFalse: [ stream cr ].
 			"if summary too long, put elipsis, otherwise add the entity name"
-			size := size + entity name size.
+			size := size + entity midasDisplayString size.
 			(size < 100)
-				ifTrue: [ stream nextPutAll: entity name ]
+				ifTrue: [ stream nextPutAll: entity midasDisplayString ]
 				ifFalse: [
 					stream nextPutAll: '...'.
 					^ stream contents

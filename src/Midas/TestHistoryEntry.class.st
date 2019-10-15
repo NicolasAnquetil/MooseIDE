@@ -9,14 +9,14 @@ TestHistoryEntry >> testDescription [
 	| entry |
 	entry := MidasHistoryEntry
 					with: (self midasEntityCollection:
-								 { #ancestor1 -> 'first' . 
-									#ancestor1 -> 'second' .
-									#ancestor2 -> 'third'} ).
+								 { #ancestor1 -> #child11 . 
+									#ancestor1 -> #child12 .
+									#ancestor2 -> #child21} ).
 	self
 		assert: entry summaryDescription
-		equals: 'first
-second
-third'
+		equals: 'child11
+child12
+child21'
 ]
 
 { #category : #tests }
@@ -25,7 +25,7 @@ TestHistoryEntry >> testDescriptionMooseModel [
 	model := (MidasHistoryEntry with: (self midasEntityModel: 'test model')).
 	self
 		assert:  model summaryDescription
-		equals: 'test model'
+		equals: 'MooseModel:test model'
 ]
 
 { #category : #tests }

@@ -3887,8 +3887,9 @@ AbstractTestMidas >> midasEntityModel: aString [
 { #category : #accessing }
 AbstractTestMidas >> mockEntity: anObject [
 	| mockEntity |
-	mockEntity := Mock new.
-	mockEntity stub name willReturn: (anObject asString).
+	mockEntity := Mock named: (anObject asString).
+	mockEntity stub isAssociation willReturn: false.
+	mockEntity stub midasDisplayString willReturn: (anObject asString).
 	^mockEntity
 	
 ]

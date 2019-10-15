@@ -62,8 +62,8 @@ TestCtxtEntities >> testFlattenWhenFrozen [
 	entitiesCtxt focusBeFlat.
 
 	self assert: displayed size equals: 2.
-	self assert: displayed first name equals: 'child1'.
-	self assert: displayed second name equals: 'child2'
+	self assert: displayed first mockName equals: 'child1'.
+	self assert: displayed second mockName equals: 'child2'
 ]
 
 { #category : #tests }
