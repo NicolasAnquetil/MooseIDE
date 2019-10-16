@@ -9,13 +9,7 @@ Class {
 		'menu',
 		'lblModelName',
 		'appModels',
-		'appDashboard',
-		'appEntities',
-		'appQuery',
-		'appCode',
-		'appView',
-		'appHistory',
-		'appExit'
+		'appDashboard'
 	],
 	#classInstVars : [
 		'iconTheme'
@@ -28,19 +22,8 @@ MidasLauncher class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #lblModelName
 			withConstraints: [ :constraints | constraints height: 20 ];
-		add: (SpBoxLayout newHorizontal
-					add: #appModels ;
-					add: #appDashboard ;
-					add: #appEntities ;
-					add: #appQuery ;
-					add: #appCode ;
-					add: #appView ;
-					add: #appHistory ;
-					add: #appExit ;
-					yourself
-				) ;
+		add: #menu;
 		yourself
-
 ]
 
 { #category : #specs }
@@ -137,15 +120,9 @@ MidasLauncher >> enableButton: itemName [
 
 { #category : #initialization }
 MidasLauncher >> enableWithModel [
-	"menu menuGroups first menuItems do: [ :item | item enable ]"
-	appModels    enabled: (self enableButton: #models).
-	appDashboard enabled: (self enableButton: #metrics).
-	appEntities  enabled: (self enableButton: #entities).
-	appQuery     enabled: (self enableButton: #query).
-	appCode      enabled: (self enableButton: #code).
-	appView      enabled: (self enableButton: #views).
-	appHistory   enabled: (self enableButton: #history).
-	appExit      enabled: (self enableButton: #exit).
+	menu menuGroups first menuItems do: [ :item | item enable ].
+	self needRebuild: false.
+	self buildWithSpec
 
 ]
 
@@ -173,7 +150,7 @@ MidasLauncher >> initializeWidgets [
 	lblModelName := self newLabel
 		label: 'Current model: --';
 		yourself.
-	"menu := self newMenuBar
+	menu := self newMenuBar
 		addGroup: [ :group | 
 			self defaultApps do: [ :appDesc | 
 				group addItem: [ :item || icon |
@@ -184,22 +161,22 @@ MidasLauncher >> initializeWidgets [
 						withAction: [ self perform: appDesc value ]
 				]
 			]
-		]"
-	appModels   := self newButton: #models action: #launchModelsApp.
+		]
+"	appModels   := self newButton: #models action: #launchModelsApp.
 	appDashboard:= self newButton: #metrics action: #launchDashboardApp.
 	appEntities := self newButton: #entities action: #launchEntitiesApp.
 	appQuery    := self newButton: #query action: #launchQueryApp.
 	appCode     := self newButton: #code action: #launchEditorApp.
 	appView     := self newButton: #views action: #launchSystemComplexityApp.
 	appHistory  := self newButton: #history action: #launchHistoryApp.
-	appExit     := self newButton: #exit action: #exit.
+	appExit     := self newButton: #exit action: #exit."
 
 ]
 
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 670 @ 120.
+	aWindowPresenter initialExtent: 936 @ 120.
 ]
 
 { #category : #apps }

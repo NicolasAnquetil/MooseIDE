@@ -15,7 +15,7 @@ Class {
 MidasAppModels class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #mnuLoaders
-			withConstraints: [ :constraints | constraints height: self toolbarHeight*2 ] ;
+			withConstraints: [ :constraints | constraints height: self toolbarHeight ] ;
 		add: #lstModels;
 		yourself
 ]
@@ -39,7 +39,7 @@ MidasAppModels >> displayModel: newModel [
 
 { #category : #initialization }
 MidasAppModels >> initializeMenuLoaders [
-	mnuLoaders := self newMenu
+	mnuLoaders := self newMenuBar
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 

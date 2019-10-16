@@ -13,6 +13,15 @@ Class {
 	#category : #'Midas-appGUI'
 }
 
+{ #category : #'as yet unclassified' }
+MidasAbstractApp class >> standAlone [
+	| emptyContext |
+	emptyContext := Mock new.
+	self new
+		context: emptyContext ;
+		openWithSpec
+]
+
 { #category : #freezeUnfreeze }
 MidasAbstractApp >> btnBypassFreeze [
 	^btnBypassFreeze

@@ -147,7 +147,8 @@ MidasAppHistory >> roassalScript [
 	shape add: (RTLabel new text: '').  "empty text below RTEllipse to turn around a bug in edge building"
 	shape vertical.
 	viewElts := shape elementsOn: self viewElements.
-	viewElts when: TRMouseClick do: [ :event | context userSelection: event element model ].
+	viewElts when: TRMouseLeftClick do: [ :event | context userSelection: event element model ].
+	"viewElts when: TRMouseRightClick do: [ :event | TRUtil instance widgetFactory menuForAssociations: self roassalContextMenu on: view ]."
 	viewElts @ (RTPopup new text: self entryPopupBlock) .
 	view addAll: viewElts.
 	RTEdgeBuilder new
