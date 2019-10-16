@@ -66,3 +66,54 @@ TestHistoryEntry >> testNamed [
 		equals: 'entryBlah'.
 
 ]
+
+{ #category : #tests }
+TestHistoryEntry >> testRemoveCurrentLeaf [
+	| history |
+	history := MidasHistory new.
+	history addEntry: #root.
+	history addEntry: #leaf.
+	self assert: history currentEntry value equals: #leaf.
+	self assert: history allEntries size equals: 2.
+	
+	history removeEntry: history currentEntry.
+	self assert: history currentEntry value equals: #root.
+	self assert: history allEntries size equals: 1.
+
+]
+
+{ #category : #tests }
+TestHistoryEntry >> testRemoveCurrentRoot [
+	| history root |
+	history := MidasHistory new.
+	history addEntry: #root.
+	root := history currentEntry.
+	history addEntry: #leaf.
+
+	self assert: history currentEntry value equals: #leaf.
+	self assert: history allEntries size equals: 2.
+	
+	history removeEntry: root.
+	self assert: history currentEntry value equals: #root.
+	self assert: history allEntries size equals: 1.
+
+]
+
+{ #category : #tests }
+TestHistoryEntry >> testRemoveCurrentSibling [
+	| history root |
+	history := MidasHistory new.
+	history addEntry: #root.
+	root := history currentEntry.
+	history addEntry: #leaf1.
+	history currentEntry: root.
+	history addEntry: #leaf2.
+
+	self assert: history currentEntry value equals: #leaf2.
+	self assert: history allEntries size equals: 3.
+	
+	history removeEntry: history currentEntry.
+	self assert: history currentEntry value equals: #root.
+	self assert: history allEntries size equals: 2.
+
+]

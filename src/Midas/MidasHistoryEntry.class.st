@@ -48,6 +48,15 @@ MidasHistoryEntry >> hasPrevious [
 	^parent notNil
 ]
 
+{ #category : #'as yet unclassified' }
+MidasHistoryEntry >> isDescendantOf: anEntry [ 
+	(self = anEntry)
+		ifTrue: [ ^true ].
+	parent
+		ifNil: [ ^false ].
+	^parent isDescendantOf: anEntry
+]
+
 { #category : #accessing }
 MidasHistoryEntry >> next [
 	self hasNext ifFalse: [ ^ nil ].
@@ -76,6 +85,21 @@ MidasHistoryEntry >> parentEntry: anEntry [
 MidasHistoryEntry >> prev [
 	self hasPrevious ifFalse: [ ^ nil ].
 	^parent
+]
+
+{ #category : #removing }
+MidasHistoryEntry >> removeChild: anEntry [
+	children remove: anEntry.
+	anEntry removeChildren
+]
+
+{ #category : #removing }
+MidasHistoryEntry >> removeChildren [
+	children 
+		ifNotNil: [
+			children do: [ :child | child removeChildren ].
+			children removeAll
+		]
 ]
 
 { #category : #accessing }

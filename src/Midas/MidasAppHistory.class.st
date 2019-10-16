@@ -9,7 +9,8 @@ Class {
 		'btnNext',
 		'lblName',
 		'fldName',
-		'btnName'
+		'btnName',
+		'mnuBar'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -107,6 +108,32 @@ MidasAppHistory >> initializeNextPreviousButtons [
 		icon: (self iconNamed: #smallRedoIcon);
 		action: [ context next ].
 
+"menuBar version :
+
+	mnuBar := self newMenuBar
+		addGroup: [ :group | 
+			group
+				addItem: [ :item | 
+					item
+						description: 'Back' ;
+						icon: (self iconNamed: #smallUndoIcon) ;
+						action: [ context prev ] ] ;
+				addItem: [ :item |
+					item
+						description: 'Back' ;
+						icon: (self iconNamed: #smallRedoIcon) ;
+						action: [ context next ] ]
+				] ;
+		addGroup:  [ :group | 
+			group
+				addItem: [ :item | 
+					item
+						description: 'Forget branch' ;
+						icon: (self iconNamed: #delete) ;
+						action: [ context deleteBranch ] ]
+				] ;
+		yourself
+"
 ]
 
 { #category : #initialization }
@@ -134,6 +161,13 @@ MidasAppHistory >> refresh [
 ]
 
 { #category : #displaying }
+MidasAppHistory >> roassalContextMenu [
+	^ { 
+		'Forget branch' -> [ :entry | context forgetBranchAfter: entry ]
+	}
+]
+
+{ #category : #displaying }
 MidasAppHistory >> roassalScript [
 	| viewElts shape |
 	view canvas extent: self viewExtent.
@@ -148,7 +182,7 @@ MidasAppHistory >> roassalScript [
 	shape vertical.
 	viewElts := shape elementsOn: self viewElements.
 	viewElts when: TRMouseLeftClick do: [ :event | context userSelection: event element model ].
-	"viewElts when: TRMouseRightClick do: [ :event | TRUtil instance widgetFactory menuForAssociations: self roassalContextMenu on: view ]."
+	viewElts when: TRMouseRightClick do: [ :event | TRUtil instance widgetFactory menuForAssociations: self roassalContextMenu on: view ].
 	viewElts @ (RTPopup new text: self entryPopupBlock) .
 	view addAll: viewElts.
 	RTEdgeBuilder new

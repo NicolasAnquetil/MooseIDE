@@ -47,11 +47,14 @@ MidasContextHistory >> currentName: aString [
 ]
 
 { #category : #history }
-MidasContextHistory >> gotoEntry [
-	paused := true.
-	self midasFocus: history currentEntry value.
-	paused := false.
-	app refresh
+MidasContextHistory >> forgetBranchAfter: anEntry [
+	| current |
+	current := history currentEntry.
+	history removeEntry: anEntry.
+	(current = history current)
+		ifTrue: [ app refresh ]
+		ifFalse: [ self gotoEntry: history currentEntry ].
+
 ]
 
 { #category : #history }

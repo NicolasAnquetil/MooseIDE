@@ -118,6 +118,22 @@ MidasHistory >> previousEntry [
 ]
 
 { #category : #accessing }
+MidasHistory >> removeEntry: anEntry [
+	| parent |
+	(anEntry = self firstEntry)
+		ifTrue: ["cannot remove first entry"
+			self currentEntry: anEntry.
+			anEntry removeChildren.
+			^self
+		].
+
+	parent := anEntry prev.
+	(self currentEntry isDescendantOf: anEntry)
+		ifTrue: [ self currentEntry: parent ].
+	parent removeChild: anEntry
+]
+
+{ #category : #accessing }
 MidasHistory >> size [
 	^self allEntries size
 ]
