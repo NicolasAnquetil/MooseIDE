@@ -8,7 +8,8 @@ Class {
 		'context',
 		'chkFreeze',
 		'chkHierarchicalFocus',
-		'btnBypassFreeze'
+		'btnBypassFreeze',
+		'initialPosition'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -120,8 +121,19 @@ MidasAbstractApp >> iconNamed: aSymbol [
 	ifFalse: [ Smalltalk ui icons iconNamed: aSymbol ]
 ]
 
+{ #category : #accessing }
+MidasAbstractApp >> initialPosition [
+	^initialPosition
+]
+
+{ #category : #accessing }
+MidasAbstractApp >> initialPosition: aPoint [
+	initialPosition := aPoint
+]
+
 { #category : #initialization }
 MidasAbstractApp >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialPosition: self initialPosition.
 	aWindowPresenter title: self title.
 	aWindowPresenter
 		whenClosedDo: [

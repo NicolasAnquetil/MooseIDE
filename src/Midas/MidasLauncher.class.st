@@ -9,7 +9,8 @@ Class {
 		'menu',
 		'lblModelName',
 		'appModels',
-		'appDashboard'
+		'appDashboard',
+		'myWindow'
 	],
 	#classInstVars : [
 		'iconTheme'
@@ -132,6 +133,11 @@ MidasLauncher >> exit [
 ]
 
 { #category : #initialization }
+MidasLauncher >> initialPosition [
+	^ 10@10
+]
+
+{ #category : #initialization }
 MidasLauncher >> initialize [
 	"must set iconTheme before super>>initialize"
 
@@ -176,7 +182,10 @@ MidasLauncher >> initializeWidgets [
 { #category : #initialization }
 MidasLauncher >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
+	aWindowPresenter initialPosition: 10 @ 10.
 	aWindowPresenter initialExtent: 936 @ 120.
+
+	myWindow := aWindowPresenter window.
 ]
 
 { #category : #apps }
@@ -184,6 +193,7 @@ MidasLauncher >> launch: appPresenterClass withContext: contextClass [
 	| app |
 	app := self instantiate: appPresenterClass.
 	app context: (context spawn: contextClass).
+	app initialPosition: (self positionfor: appPresenterClass).
 	app openWithSpec.
 	^app
 ]
@@ -275,7 +285,18 @@ MidasLauncher >> openOnModel: aMooseModel [
 	self context initializeMooseModel: aMooseModel.
 ]
 
+{ #category : #apps }
+MidasLauncher >> positionfor: appPresenterClass [
+	^(self windowPosition origin x + 10) @ (self windowPosition corner y + 10)
+
+]
+
 { #category : #api }
 MidasLauncher >> title [
 	^ 'MIDAS ''' , context modelName , ''''
+]
+
+{ #category : #accessing }
+MidasLauncher >> windowPosition [
+	^myWindow bounds
 ]
