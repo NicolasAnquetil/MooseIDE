@@ -39,6 +39,63 @@ TestCtxtHistory >> testEntriesCount [
 ]
 
 { #category : #tests }
+TestCtxtHistory >> testForgetHistoryBranch [
+	| branch |
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value isModel.
+
+	historyCtxt midasFocus: (self midasEntityFamix: #child1 ).
+	self assert: historyCtxt allEntries size equals: 2.
+	branch := historyCtxt current.
+	self assert: branch value singleEntity mockName equals: 'child1'.
+
+	historyCtxt midasFocus: (self midasEntityFamix: #child2 ).
+	self assert: historyCtxt allEntries size equals: 3.
+	self assert: historyCtxt current value singleEntity mockName equals: 'child2'.
+
+	historyCtxt forgetHistoryAfter: branch.
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value isModel.
+
+]
+
+{ #category : #tests }
+TestCtxtHistory >> testForgetHistoryLeaf [
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value isModel.
+
+	historyCtxt midasFocus: (self midasEntityFamix: #child ).
+	self assert: historyCtxt allEntries size equals: 2.
+	self assert: historyCtxt current value singleEntity mockName equals: 'child'.
+
+	historyCtxt forgetHistoryAfter: historyCtxt current.
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value isModel.
+
+]
+
+{ #category : #tests }
+TestCtxtHistory >> testForgetHistoryRoot [
+	| root |
+	root := historyCtxt current.
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value isModel.
+
+	historyCtxt midasFocus: (self midasEntityFamix: #child1 ).
+	self assert: historyCtxt allEntries size equals: 2.
+	self assert: historyCtxt current value singleEntity mockName equals: 'child1'.
+
+	historyCtxt midasFocus: (self midasEntityFamix: #child2 ).
+	self assert: historyCtxt allEntries size equals: 3.
+	self assert: historyCtxt current value singleEntity  mockName equals: 'child2'.
+
+	historyCtxt forgetHistoryAfter: root.
+	self assert: historyCtxt allEntries size equals: 1.
+	self assert: historyCtxt current value ancestor isNil.
+
+]
+
+{ #category : #tests }
 TestCtxtHistory >> testPreviousAndNext [
 	| focusBefore focusAfter |
 	focusBefore := historyCtxt midasFocus.

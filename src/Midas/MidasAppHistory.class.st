@@ -163,7 +163,7 @@ MidasAppHistory >> refresh [
 { #category : #displaying }
 MidasAppHistory >> roassalContextMenu [
 	^ { 
-		'Forget branch' -> [ :entry | context forgetBranchAfter: entry ]
+		'Forget branch' -> [ :entry | context forgetHistoryAfter: entry ]
 	}
 ]
 
@@ -182,7 +182,7 @@ MidasAppHistory >> roassalScript [
 	shape vertical.
 	viewElts := shape elementsOn: self viewElements.
 	viewElts when: TRMouseLeftClick do: [ :event | context userSelection: event element model ].
-	viewElts when: TRMouseRightClick do: [ :event | TRUtil instance widgetFactory menuForAssociations: self roassalContextMenu on: view ].
+	viewElts when: TRMouseRightClick do: [ :event | TRUtil instance widgetFactory menuForAssociations: self roassalContextMenu on: event element model ].
 	viewElts @ (RTPopup new text: self entryPopupBlock) .
 	view addAll: viewElts.
 	RTEdgeBuilder new
