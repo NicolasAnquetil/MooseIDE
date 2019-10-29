@@ -23,7 +23,7 @@ TestModelsApp >> testClearSelection [
 	mockCtxt := Mock new.
 	modelsApp context: mockCtxt.
 
-	modelsApp lstModels clickAtIndex: 1.
+	modelsApp lstModels selectPropertyAtIndex: 1.
 	self assert: modelsApp selectedIndexes size equals: 1.
 
 	modelsApp displayModel: #whatever.
@@ -46,9 +46,9 @@ TestModelsApp >> testUpdateModelOnClick [
 	(mockCtxt stub userSelection: Any) will: [:arg | userSelection := arg].
 	modelsApp context: mockCtxt.
 
-	modelsApp lstModels clickAtIndex: 1.
+	modelsApp lstModels selectPropertyAtIndex: 1.
 	self assert: userSelection equals: 1.
-	modelsApp lstModels clickAtIndex: 2.
+	modelsApp lstModels selectPropertyAtIndex: 2.
 	self assert: userSelection equals: 2
 
 ]

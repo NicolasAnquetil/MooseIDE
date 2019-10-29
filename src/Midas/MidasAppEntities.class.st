@@ -6,7 +6,7 @@ Class {
 	#superclass : #MidasAbstractApp,
 	#instVars : [
 		'mnuSelcol',
-		'lstEntities'
+		'listPresenter'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -21,19 +21,23 @@ MidasAppEntities class >> defaultSpec [
 				add: #chkHierarchicalFocus ;
 				yourself)
 		withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #lstEntities;
+		add: #listPresenter;
 		yourself
 ]
 
-{ #category : #api }
+{ #category : #delegated }
+MidasAppEntities >> childrenFor: anEntity [
+	^ context childrenFor: anEntity
+]
+
+{ #category : #delegated }
 MidasAppEntities >> clearSelection [
-	lstEntities unselectAll
+	listPresenter clearSelection
 ]
 
 { #category : #notifications }
 MidasAppEntities >> displayFocus: aCollection [
-	lstEntities roots: aCollection.
-	self clearSelection
+	listPresenter displayFocus: aCollection
 ]
 
 { #category : #accessing }
@@ -42,28 +46,11 @@ MidasAppEntities >> entities [
 ]
 
 { #category : #initialization }
-MidasAppEntities >> initializePresenter [
-	super initializePresenter.
-	lstEntities
-		whenSelectionChangedDo: [ :selection |
-			context userSelection: selection selectedPaths
-		].
-
-]
-
-{ #category : #initialization }
 MidasAppEntities >> initializeWidgets [
 	self canBeFrozen.
 	self focusCanBeHierarchical.
 
-	lstEntities 	:= self newTreeTable.
-	lstEntities
-		beMultipleSelection ;
-		addColumn: (SpStringTableColumn new
-							evaluated: #midasDisplayString ;
-							yourself) ;
-		children: [ :each | self context childrenFor: each ]
-
+	listPresenter := self instantiate: MidasPresenterEntities
 ]
 
 { #category : #initialization }
@@ -74,19 +61,9 @@ MidasAppEntities >> initializeWindow: aWindowPresenter [
 			context exit ]
 ]
 
-{ #category : #menu }
-MidasAppEntities >> listMenu [
-	^ self newMenu
-		addItem: [ :anItem | 
-			anItem
-				name: 'Inspect';
-				icon: (self iconNamed: #smallInspectIt);
-				action: [ lstEntities entities selectedItem inspect ] ]
-]
-
-{ #category : #accessing }
+{ #category : #delegated }
 MidasAppEntities >> lstEntities [
-	^ lstEntities
+	^ listPresenter lstEntities
 ]
 
 { #category : #accessing }
@@ -94,17 +71,22 @@ MidasAppEntities >> mnuSelcol [
 	^ mnuSelcol
 ]
 
-{ #category : #notifications }
+{ #category : #delegated }
 MidasAppEntities >> selectPaths: paths [
-	lstEntities selectPaths: paths 
+	listPresenter selectPaths: paths 
 ]
 
-{ #category : #accessing }
+{ #category : #delegated }
 MidasAppEntities >> selectedPaths [
-	^lstEntities selection selectedPaths
+	^listPresenter selectedPaths
 ]
 
 { #category : #api }
 MidasAppEntities >> title [
 	^'Entities ''' , context modelName , ''''
+]
+
+{ #category : #delegated }
+MidasAppEntities >> userSelection: aSelection [
+	^context userSelection: aSelection
 ]

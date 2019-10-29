@@ -15,10 +15,10 @@ TestQueryApp >> setUp [
 
 { #category : #tests }
 TestQueryApp >> testClearAppOnUpdate [
-	queryApp fldQuery text: 'some query'.
+	queryApp fldQuery: 'some query'.
 	
 	queryApp displayFocus: (self midasEntityFamix: #anEntity).
-	self assert: queryApp fldQuery text isEmpty
+	self assert: queryApp fldQuery isEmpty
 ]
 
 { #category : #tests }
@@ -32,7 +32,7 @@ TestQueryApp >> testClearSelection [
 
 	queryApp displayFocus: #whatever.
 
-	queryApp lstProperties clickAtIndex: 1.
+	queryApp selectPropertyAtIndex: 1.
 	self assert: queryApp selectedItems size equals: 1.
 
 	queryApp displayFocus: #whatever.
@@ -45,10 +45,10 @@ TestQueryApp >> testMnuSelCol [
 
 	self assert: queryApp context queryIsFilter.
 
-	queryApp mnuSelcol selectIndex: 2.
+	queryApp mnuSelcolSelect: 2.
 	self deny: queryApp context queryIsFilter.
 
-	queryApp mnuSelcol selectIndex: 1.
+	queryApp mnuSelcolSelect: 1.
 	self assert: queryApp context queryIsFilter.
 ]
 

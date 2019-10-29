@@ -49,8 +49,9 @@ MidasContextQuery >> navigationProperties [
 
 { #category : #running }
 MidasContextQuery >> navigationPropertiesForClass: aClass [
-	^ (self mooseModel metamodel descriptionOf: aClass) allAttributes
-			select: [:p | p opposite isNotNil]
+	^(Pragma allNamed: #navigation: from: aClass to: MooseEntity) select: [  ]
+"	^ (self mooseModel metamodel descriptionOf: aClass) allAttributes
+			select: [:p | p opposite isNotNil]"
 ]
 
 { #category : #running }

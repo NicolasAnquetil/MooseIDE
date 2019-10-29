@@ -2,12 +2,7 @@ Class {
 	#name : #MidasAppQuery,
 	#superclass : #MidasAbstractApp,
 	#instVars : [
-		'mnuSelcol',
-		'filterQuery',
-		'fldQuery',
-		'btnQuery',
-		'lstProperties',
-		'lblProperties'
+		'queryPresenter'
 	],
 	#category : #'Midas-appGUI'
 }
@@ -15,108 +10,66 @@ Class {
 { #category : #specs }
 MidasAppQuery class >> defaultSpec [
 	^ SpBoxLayout newVertical
-		add:
-			(SpBoxLayout newHorizontal
-				add: #mnuSelcol
-					withConstraints: [ :constraints | constraints width: 80 ];
-				add: ' each where:'
-					withConstraints: [ :constraints | constraints width: 75 ];
-				add: #fldQuery;
-				add: #btnQuery
-					withConstraints: [ :constraints | constraints width: 30 ])
-			withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #lblProperties withConstraints: [ :constraints | constraints height: self toolbarHeight ];
-		add: #lstProperties ;
+		add: #queryPresenter
 		yourself
-]
-
-{ #category : #accessing }
-MidasAppQuery >> btnQuery [
-	^ btnQuery
-]
-
-{ #category : #refreshing }
-MidasAppQuery >> clearUI [
-	lstProperties unselectAll.
-	fldQuery text: ''
 ]
 
 { #category : #notifications }
 MidasAppQuery >> displayFocus: focus [
-	self refresh.
-	self clearUI
+	queryPresenter displayFocus: focus
 ]
 
-{ #category : #accessing }
+{ #category : #delegated }
 MidasAppQuery >> fldQuery [
-	^ fldQuery
+	^queryPresenter fldQuery text
 ]
 
-{ #category : #initialization }
-MidasAppQuery >> initializePresenter [ 
-	"-- Not using the 'freeze' checkbox --
-	 super initializePresenter."
-	
-	lstProperties whenSelectionChangedDo: [ :selection |
-		selection selectedItem ifNotNil: [ :item | context userSelection: item ]
-	].
-	mnuSelcol whenSelectedItemChangedDo: [ :selected | context queryIsFilter: (selected = #filter) ].
-	btnQuery action: self runQueryButtonAction
+{ #category : #delegated }
+MidasAppQuery >> fldQuery: aString [
+	queryPresenter fldQuery text: aString
 ]
 
 { #category : #initialization }
 MidasAppQuery >> initializeWidgets [
-	self initializeWidgetsQueryRow.
-	lblProperties := self newLabel label: 'Available properties:'.
-	lstProperties := self newList.
-	lstProperties
-		display: #name;
-		sortingBlock: #name ascending
+	queryPresenter := self instantiate: MidasPresenterQuery 
 ]
 
-{ #category : #initialization }
-MidasAppQuery >> initializeWidgetsQueryRow [
-	mnuSelcol := self newDropList.
-	mnuSelcol
-		items: #(#filter #navigate);
-		display: [ :i | i asString ].
-	filterQuery := true.	"by default will be on #filter"
-	fldQuery := self newTextInput.
-	btnQuery := self newButton.
-	btnQuery label: 'run'.
+{ #category : #delegated }
+MidasAppQuery >> interpretQuery: aString [
+	^context interpretQuery: aString
 ]
 
 { #category : #accessing }
-MidasAppQuery >> lblProperties [
-	^lblProperties
+MidasAppQuery >> mnuSelcolSelect: anInt [
+	^queryPresenter mnuSelcolSelect: anInt
 ]
 
-{ #category : #accessing }
-MidasAppQuery >> lstProperties [
-	^ lstProperties
+{ #category : #delegated }
+MidasAppQuery >> navigationProperties [
+	^context navigationProperties
 ]
 
-{ #category : #accessing }
-MidasAppQuery >> mnuSelcol [
-	^ mnuSelcol
+{ #category : #delegated }
+MidasAppQuery >> queryIsFilter: aBoolean [
+	^context queryIsFilter: aBoolean
 ]
 
-{ #category : #refreshing }
-MidasAppQuery >> refresh [
-	lstProperties items: context navigationProperties 
-]
-
-{ #category : #running }
-MidasAppQuery >> runQueryButtonAction [
-	^ [ context interpretQuery: fldQuery text ]
+{ #category : #delegated }
+MidasAppQuery >> selectPropertyAtIndex: anInt [
+	queryPresenter selectPropertyAtIndex: anInt
 ]
 
 { #category : #accessing }
 MidasAppQuery >> selectedItems [
-	^ lstProperties selectedItems
+	^queryPresenter selectedItems
 ]
 
 { #category : #initialization }
 MidasAppQuery >> title [
 	^'Navigate ''' , context modelName , ''''
+]
+
+{ #category : #delegated }
+MidasAppQuery >> userSelection: aSelection [
+	^context userSelection: aSelection
 ]
