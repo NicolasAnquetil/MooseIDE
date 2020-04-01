@@ -1,6 +1,6 @@
 Extension { #name : #MooseEntity }
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseEntity >> addTag: aTag [
 	(self allTags includes: aTag)
 	ifTrue: [ ^ self ].
@@ -8,19 +8,19 @@ MooseEntity >> addTag: aTag [
 	aTag unsafeAddEntity: self
 ]
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseEntity >> allTags [
 	^self privateState propertyAt: #allTags ifAbsentPut: [ OrderedCollection new: 2 ]
 ]
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseEntity >> allTags: aCollection [
 	self allTags do: [ :t | t unsafeRemoveEntity: self ].
 	self privateState propertyAt: #allTags put: [ OrderedCollection new: aCollection size ].
 	aCollection do: [ :t | self addTag: t ]
 ]
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseEntity >> removeTag: aTag [
 	(self allTags includes: aTag)
 	ifFalse: [ ^ self ].

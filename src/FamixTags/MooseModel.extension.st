@@ -1,16 +1,16 @@
 Extension { #name : #MooseModel }
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseModel >> allTags [
 	^self privateState attributeAt: #allTags  ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseModel >> resetTags [
 	self privateState attributeAt: #allTags put: OrderedCollection new
 ]
 
-{ #category : #'*Midas' }
+{ #category : #'*FamixTags' }
 MooseModel >> tagNamed: aString [
 	|tags|
 	tags := self allTags.

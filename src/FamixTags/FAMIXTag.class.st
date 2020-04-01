@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'allTags'
 	],
-	#category : #Midas
+	#category : #FamixTags
 }
 
 { #category : #'instance creation' }
